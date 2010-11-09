@@ -15,7 +15,7 @@ if test "${?}" = 1
 fi
 
 echo "1) Pull updates from master repository"
-git pull origin/master
+git pull origin master
 
 echo "2) Remove all .cxx, .h, .py, .tcl, files from local repository"
 find . -name mwclient -prune -type f -o "(" -name \*.cxx -o -name \*.h -o -name \*.tcl -o -name \*.java -o -name \*.py ")" -exec rm -f {} \;
