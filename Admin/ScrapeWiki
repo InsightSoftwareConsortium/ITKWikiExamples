@@ -1,0 +1,84 @@
+#!/usr/bin/python
+#imports
+import mwclient
+import re
+import os, sys
+
+# Get the title of the section ==FileName.xyz==
+# and everything between the <source*> </source> tag
+def GetCode(S):
+    reg = re.compile(r"==([\w ]*?\.[\w ]*?)==.*?<source.*?>(.*?)</source>.*?", re.DOTALL)
+    return [(x.strip('\n'), y.strip('\n')) for (x,y) in reg.findall(S)]
+
+# Connect to the wiki
+site = mwclient.Site('itk.org', '/Wiki/')
+
+# Create a dict to hold code name and page name
+codeToPage = dict()
+
+# Get list of all pages
+for page in site.pages:
+        # Look for find pages that start with ITK/Examples/
+	to_find = "ITK/Examples/"
+	start = page.name.find(to_find)
+
+	# If the page doesn't start with ITK/Examples, skip it
+	if start < 0:
+		continue
+	
+	# Get the part of the page name that comes after ITK/Examples/
+	# e.g. if the page name is ITK/Examples/GeometricObjecs/Line, 
+	# ExamplePath will be GeometriObjects/Line
+	ExamplePath = page.name[start+len(to_find):]
+	print "ExamplePath: " + ExamplePath
+
+	# Continuing the above example, the below splits GeometricObjects/Line
+	# into PathName = GeometricObjects/
+	# ExampleName = Line
+	PathSplit = os.path.split(ExamplePath)
+	PathName = PathSplit[0]
+	ExampleName = PathSplit[1] #not used
+
+	# Get the content of the page
+	content = page.edit()
+
+	# Get all of the file names and file content on the page
+	CodeChunks = GetCode(content)
+
+	if CodeChunks:
+		for code in CodeChunks:
+			# Extract the Level 2 heading (e.g. ==Line.cxx==) into FileName and the content in the first <source ...> tag below the heading into FileContent
+			FileName = code[0]
+			FileContent = code[1]
+                        if FileName == "CMakeLists.txt":
+                            continue
+                        if FileName ==" CMakeLists.txt ":
+                            continue
+                        if FileName == " CmakeLists.txt":
+                            continue
+                        if FileName == "CmakeLists.txt":
+                            continue
+
+
+                        # Check if the path exists, if not, create it
+                        if not os.path.exists(PathName):
+                            if PathName != "":
+                                print "Creating" + PathName
+                                os.makedirs(PathName)
+	                # Write the source code file
+			OutputFile = "./" + PathName + "/" + FileName
+			print "OutputFile: " + OutputFile
+			MyFile = open(OutputFile, 'w')
+			MyFile.write(FileContent)
+      			MyFile.write("\n")
+			MyFile.close()
+                        codeToPage[FileName] = ExamplePath
+# Generate an html page that links each example code file to its Wiki Example page
+indexFile = open('./ExampleCodeToWikiPage.html', 'w')
+indexFile.write("Navigate to the page that contains the source code of an example<br>");
+indexFile.write("\n");
+sortedByCode = sorted(codeToPage.items())
+for item in sortedByCode:
+    indexFile.write("<A HREF=http://itk.org/Wiki/ITK/Examples/" + re.sub(" ", "_", item[1]) + ">" + item[0] + "</A>")
+    indexFile.write("<br>\n")
+indexFile.close()
