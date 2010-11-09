@@ -35,4 +35,4 @@ git rm `git status | grep deleted: | cut -d":" -f2,2`
 git commit -m "SYNC: Files deleted (or moved) from wiki."
 
 echo "7) Push the changes"
-git push git@gitorious.org:itkwikiexamples/wikiexamples.git
+git push git@gitorious.org:itkwikiexamples/itkwikiexamples.git
