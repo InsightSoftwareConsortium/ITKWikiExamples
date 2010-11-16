@@ -10,6 +10,7 @@
 #include "vtkImageActor.h"
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
+#include "vtkCamera.h"
 
 int main(int argc, char * argv[])
 {
@@ -17,7 +18,7 @@ int main(int argc, char * argv[])
   if( argc < 2 )
     {
 	  std::cerr << "Usage: " << std::endl;
-	  std::cerr << argv[0] << "inputImageFile" << std::endl;
+	  std::cerr << argv[0] << " inputImageFile" << std::endl;
 	  return EXIT_FAILURE;
     }
 
@@ -25,12 +26,10 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
-
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
-
+  typedef itk::Image< unsigned char, 2 >                        UnsignedCharImageType;
+  typedef itk::ImageFileReader< UnsignedCharImageType >         readerType;
   typedef itk::MeanImageFilter<
-		  UnsignedCharImageType, UnsignedCharImageType >  filterType;
+		  UnsignedCharImageType, UnsignedCharImageType > filterType;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
@@ -39,7 +38,6 @@ int main(int argc, char * argv[])
   // Create and setup a mean filter
   filterType::Pointer meanFilter = filterType::New();
   meanFilter->SetInput( reader->GetOutput() );
-  meanFilter->Update();
 
   // Visualize the original image
   typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
@@ -81,6 +79,9 @@ int main(int argc, char * argv[])
 
   leftRenderer->AddActor(originalActor);
   rightRenderer->AddActor(filteredActor);
+
+  leftRenderer->ResetCamera();
+  rightRenderer->SetActiveCamera(leftRenderer->GetActiveCamera());
 
   vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();

@@ -30,8 +30,11 @@ template <class TInputImage>
 ImageToVTKImageFilter<TInputImage>
 ::ImageToVTKImageFilter()
 {
-  m_Importer = vtkImageImport::New();
+  bool flipAxes[3] = { false, true, false };
 
+  m_Importer = vtkImageImport::New();
+  m_Flipper = FlipFilterType::New();
+  m_Flipper->SetFlipAxes(flipAxes);
   m_Exporter = ExporterFilterType::New();
 
   m_Importer->SetUpdateInformationCallback(m_Exporter->GetUpdateInformationCallback());
@@ -71,7 +74,8 @@ void
 ImageToVTKImageFilter<TInputImage>
 ::SetInput( const InputImageType * inputImage )
 {
-  m_Exporter->SetInput( inputImage );
+  m_Flipper->SetInput( inputImage );
+  m_Exporter->SetInput( m_Flipper->GetOutput() );
 }
 
 /**

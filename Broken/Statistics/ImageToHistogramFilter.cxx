@@ -3,6 +3,8 @@
 #include "itkRGBPixel.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
+#include <fstream>
+
 typedef itk::RGBPixel<unsigned char> RGBPixelType;
 typedef itk::Image< RGBPixelType, 2> RGBImageType;
 
@@ -17,8 +19,6 @@ int main(int, char *[])
 
   typedef itk::Statistics::ImageToHistogramFilter< RGBImageType >         HistogramFilterType;
   typedef HistogramFilterType::HistogramMeasurementVectorType             HistogramMeasurementVectorType;
-  typedef HistogramFilterType::InputHistogramMeasurementVectorObjectType  InputHistogramMeasurementVectorObjectType;
-  typedef HistogramFilterType::InputBooleanObjectType                     InputBooleanObjectType;
   typedef HistogramFilterType::HistogramSizeType                          HistogramSizeType;
   typedef HistogramFilterType::HistogramType                              HistogramType;
 
@@ -29,22 +29,34 @@ int main(int, char *[])
   HistogramSizeType histogramSize( MeasurementVectorSize );
 
   histogramSize[0] = 256;  // number of bins for the Red   channel
-  histogramSize[1] =   1;  // number of bins for the Green channel
-  histogramSize[2] =   1;  // number of bins for the Blue  channel
+  histogramSize[1] = 256;  // number of bins for the Green channel
+  histogramSize[2] = 256;  // number of bins for the Blue  channel
 
   // Compute the bounds of the histrogram automatically
   filter->SetHistogramSize(histogramSize);
-  filter->SetMarginalScale(10); // What is this?
+  filter->SetMarginalScale(10); // Required (could this be set in the filter?)
   filter->Update();
 
   const HistogramType * histogram = filter->GetOutput();
 
-  std::cout << "Histogram of the red component" << std::endl;
-  for(unsigned int i = 0; i < histogramSize[0]; i++)
+  HistogramType::ConstIterator histogramItr = histogram->Begin();
+
+  std::string filename = "/home/doriad/histogram.txt";
+  std::ofstream fout(filename.c_str());
+
+  while( histogramItr != histogram->End() )
     {
-    std::cout << histogram->GetFrequency(i, 0) << " "; // Red channel
+    //std::cout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
+    fout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
+    ++histogramItr;
     }
-  std::cout << std::endl;
+  fout.close();
+  
+  HistogramType::MeasurementVectorType mv(3);
+  mv[0] = 255;
+  mv[1] = 0;
+  mv[2] = 0;
+  std::cout << "Frequency = " << histogram->GetFrequency(histogram->GetIndex(mv)) << std::endl;
   return EXIT_SUCCESS;
 }
 
@@ -52,16 +64,15 @@ void CreateImage(RGBImageType::Pointer image)
 {
   // Create a black image with a red square and a green square.
   // This should produce a histogram with very strong spikes.
-  RGBImageType::RegionType region;
   RGBImageType::SizeType   size;
+  size[0] = 3;
+  size[1] = 3;
+
   RGBImageType::IndexType  start;
-
-  size[0] = 127;
-  size[1] = 127;
-
   start[0] = 0;
   start[1] = 0;
 
+  RGBImageType::RegionType region;
   region.SetIndex(start);
   region.SetSize(size);
 
@@ -71,34 +82,28 @@ void CreateImage(RGBImageType::Pointer image)
   itk::ImageRegionIteratorWithIndex< RGBImageType > iterator( image, image->GetLargestPossibleRegion() );
   iterator.GoToBegin();
 
-  RGBPixelType pixel;
-  RGBImageType::IndexType index;
+  RGBPixelType redPixel;
+  redPixel.SetRed(255);
+  redPixel.SetGreen(0);
+  redPixel.SetBlue(0);
 
-  while(!iterator.IsAtEnd())
+  RGBPixelType blackPixel;
+  blackPixel.SetRed(0);
+  blackPixel.SetGreen(0);
+  blackPixel.SetBlue(0);
+
+  itk::ImageRegionIterator<RGBImageType> imageIterator(image,region);
+
+  while(!imageIterator.IsAtEnd())
     {
-    index = iterator.GetIndex();
-    if(index[0] < 70 && index[0] > 50 && index[1] > 50 && index[1] < 70)
-      {
-      pixel.SetRed(255);
-      pixel.SetGreen(0);
-      pixel.SetBlue(0);
-      iterator.Set(pixel);
-      }
-    else if(index[0] < 110 && index[0] > 100 && index[1] > 100 && index[1] < 110)
-      {
-      pixel.SetRed(0);
-      pixel.SetGreen(255);
-      pixel.SetBlue(0);
-      iterator.Set(pixel);
-      }
-    else
-      {
-      pixel.SetRed(0);
-      pixel.SetGreen(0);
-      pixel.SetBlue(0);
-      iterator.Set(pixel);
-      }
-
-    ++iterator;
+    imageIterator.Set(blackPixel);
+    ++imageIterator;
     }
+
+  RGBImageType::IndexType index;
+  index[0] = 0; index[1] = 0;
+  image->SetPixel(index, redPixel);
+
+  index[0] = 1; index[1] = 0;
+  image->SetPixel(index, redPixel);  
 }

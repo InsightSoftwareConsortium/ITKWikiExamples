@@ -19,9 +19,9 @@
 #define __itkImageToVTKImageFilter_h
 
 #include "itkVTKImageExport.h"
+#include "itkFlipImageFilter.h"
 #include "vtkImageImport.h"
 #include "vtkImageData.h"
-#include <vector>
 
 namespace itk
 {
@@ -56,9 +56,13 @@ public:
 
   /** Some typedefs. */
   typedef TInputImage InputImageType;
-  typedef typename    InputImageType::ConstPointer    InputImagePointer;
-  typedef VTKImageExport< InputImageType>            ExporterFilterType;
-  typedef typename ExporterFilterType::Pointer        ExporterFilterPointer;
+  typedef typename InputImageType::ConstPointer  InputImagePointer;
+
+  typedef VTKImageExport< InputImageType>        ExporterFilterType;
+  typedef typename ExporterFilterType::Pointer   ExporterFilterPointer;
+
+  typedef FlipImageFilter< InputImageType>       FlipFilterType;
+  typedef typename FlipFilterType::Pointer       FlipFilterPointer;
 
   /** Get the output in the form of a vtkImage.
       This call is delegated to the internal vtkImageImporter filter  */
@@ -80,36 +84,6 @@ public:
   /** This call delegate the update to the importer */
   void Update();
 
-   const std::vector<double>& getvtest() const
-     {
-  return m_vtest;
-     }
-
-   int testsize()
-     {
-  return m_vtest.size();
-     }
-
-   std::vector<double> addvector(const std::vector<double>& v) {
-          for (unsigned int i=0; i<v.size(); i++)
-          m_vtest.push_back(v[i]);
-          return m_vtest;
-      }
-
-   const std::vector<double>& addtest(double toto)
-          {
-       m_vtest.push_back(toto);
-               return m_vtest;
-            }
-   std::vector<double> tralala()
-     {
-  std::vector<double> w;
-      for (double i=0; i<10; i++)
-            w.push_back(i);
-      return w;
-
-     }
-
 protected:
   ImageToVTKImageFilter();
   virtual ~ImageToVTKImageFilter();
@@ -119,8 +93,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   ExporterFilterPointer       m_Exporter;
-  vtkImageImport            * m_Importer;
-   std::vector<double> m_vtest;
+  FlipFilterPointer           m_Flipper;
+  vtkImageImport *            m_Importer;
 };
 
 } // end namespace itk

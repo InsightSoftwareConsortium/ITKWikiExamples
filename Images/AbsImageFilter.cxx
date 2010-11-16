@@ -11,11 +11,12 @@
 #include "vtkImageActor.h"
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
+#include "vtkCamera.h"
 
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 typedef itk::Image<float, 2>  FloatImageType;
 
-void CreateImage(FloatImageType::Pointer image);
+static void CreateImage(FloatImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -93,8 +94,10 @@ int main(int, char *[])
   // Add the sphere to the left and the cube to the right
   leftRenderer->AddActor(actor);
   rightRenderer->AddActor(absActor);
-
+  leftRenderer->GetActiveCamera()->SetViewUp(0,-1,0);
   leftRenderer->ResetCamera();
+
+  rightRenderer->GetActiveCamera()->SetViewUp(0,-1,0);
   rightRenderer->ResetCamera();
 
   renderWindow->Render();
@@ -133,5 +136,4 @@ void CreateImage(FloatImageType::Pointer image)
     imageIterator.Set(imageIterator.GetIndex()[0] - imageIterator.GetIndex()[1]);
     ++imageIterator;
     }
-  
 }
