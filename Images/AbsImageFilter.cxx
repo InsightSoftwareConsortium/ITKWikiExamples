@@ -136,4 +136,5 @@ void CreateImage(FloatImageType::Pointer image)
     imageIterator.Set(imageIterator.GetIndex()[0] - imageIterator.GetIndex()[1]);
     ++imageIterator;
     }
+  
 }

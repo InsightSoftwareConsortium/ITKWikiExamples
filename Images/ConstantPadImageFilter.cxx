@@ -4,7 +4,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "itkImageToVTKImageFilter.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -15,7 +15,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -23,7 +23,7 @@ int main(int, char *[])
   CreateImage(image);
 
   typedef itk::ConstantPadImageFilter <ImageType, ImageType>
-          ConstantPadImageFilterType;
+    ConstantPadImageFilterType;
 
   ImageType::SizeType lowerExtendRegion;
   lowerExtendRegion[0] = 20;
@@ -36,7 +36,7 @@ int main(int, char *[])
   ImageType::PixelType constantPixel = 100;
 
   ConstantPadImageFilterType::Pointer padFilter
-          = ConstantPadImageFilterType::New();
+    = ConstantPadImageFilterType::New();
   padFilter->SetInput(image);
   //padFilter->SetPadBound(outputRegion); // Calls SetPadLowerBound(region) and SetPadUpperBound(region)
   padFilter->SetPadLowerBound(lowerExtendRegion);

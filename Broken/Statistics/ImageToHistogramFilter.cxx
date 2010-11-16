@@ -28,29 +28,28 @@ int main(int, char *[])
 
   HistogramSizeType histogramSize( MeasurementVectorSize );
 
-  histogramSize[0] = 256;  // number of bins for the Red   channel
-  histogramSize[1] = 256;  // number of bins for the Green channel
-  histogramSize[2] = 256;  // number of bins for the Blue  channel
+  histogramSize[0] = 4;  // number of bins for the Red   channel
+  histogramSize[1] = 4;  // number of bins for the Green channel
+  histogramSize[2] = 4;  // number of bins for the Blue  channel
 
-  // Compute the bounds of the histrogram automatically
   filter->SetHistogramSize(histogramSize);
   filter->SetMarginalScale(10); // Required (could this be set in the filter?)
   filter->Update();
 
   const HistogramType * histogram = filter->GetOutput();
 
-  HistogramType::ConstIterator histogramItr = histogram->Begin();
+  HistogramType::ConstIterator histogramIterator = histogram->Begin();
 
-  std::string filename = "/home/doriad/histogram.txt";
-  std::ofstream fout(filename.c_str());
+  //std::string filename = "/home/doriad/histogram.txt";
+  //std::ofstream fout(filename.c_str());
 
-  while( histogramItr != histogram->End() )
+  while( histogramIterator  != histogram->End() )
     {
-    //std::cout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
-    fout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
-    ++histogramItr;
+    std::cout << "Index = " << histogramIterator.GetMeasurementVector() << "Frequency = " << histogramIterator.GetFrequency() << std::endl;
+    //fout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
+    ++histogramIterator ;
     }
-  fout.close();
+  //fout.close();
   
   HistogramType::MeasurementVectorType mv(3);
   mv[0] = 255;

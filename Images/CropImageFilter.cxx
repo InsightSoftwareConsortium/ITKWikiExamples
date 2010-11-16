@@ -14,7 +14,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -124,14 +124,14 @@ void CreateImage(ImageType::Pointer image)
   // Make a rectangle, centered at (100,150) with sides 160 & 240
   // This provides a 20 x 30 border around the square for the crop filter to remove
   for(unsigned int r = 20; r < 180; r++)
-  {
-    for(unsigned int c = 30; c < 270; c++)
     {
+    for(unsigned int c = 30; c < 270; c++)
+      {
       ImageType::IndexType pixelIndex;
       pixelIndex[0] = r;
       pixelIndex[1] = c;
       
       image->SetPixel(pixelIndex, 200);
+      }
     }
-  }
 }

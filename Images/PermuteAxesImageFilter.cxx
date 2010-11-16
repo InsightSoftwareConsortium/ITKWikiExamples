@@ -3,7 +3,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkPermuteAxesImageFilter.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "itkImageToVTKImageFilter.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -14,7 +14,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -22,14 +22,14 @@ int main(int, char *[])
   CreateImage(image);
 
   typedef itk::PermuteAxesImageFilter <ImageType>
-          PermuteAxesImageFilterType;
+    PermuteAxesImageFilterType;
 
   itk::FixedArray<unsigned int, 2> order;
   order[0] = 1;
   order[1] = 0;
           
   PermuteAxesImageFilterType::Pointer permuteAxesFilter
-          = PermuteAxesImageFilterType::New();
+    = PermuteAxesImageFilterType::New();
   permuteAxesFilter->SetInput(image);
   permuteAxesFilter->SetOrder(order);
   permuteAxesFilter->Update();
@@ -118,14 +118,14 @@ void CreateImage(ImageType::Pointer image)
 
   // Make a square
   for(unsigned int r = 20; r < 80; r++)
-  {
-      for(unsigned int c = 20; c < 30; c++)
+    {
+    for(unsigned int c = 20; c < 30; c++)
       {
-          ImageType::IndexType pixelIndex;
-          pixelIndex[0] = r;
-          pixelIndex[1] = c;
+      ImageType::IndexType pixelIndex;
+      pixelIndex[0] = r;
+      pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 200);
+      image->SetPixel(pixelIndex, 200);
       }
-  }
+    }
 }

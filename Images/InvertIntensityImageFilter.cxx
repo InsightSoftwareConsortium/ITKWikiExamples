@@ -1,9 +1,9 @@
 #include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkInvertIntensityImageFilter.h"
-#include <itkImageFileReader.h>
+#include "itkImageFileReader.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "itkImageToVTKImageFilter.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -14,7 +14,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -22,10 +22,10 @@ int main(int, char *[])
   CreateImage(image);
 
   typedef itk::InvertIntensityImageFilter <ImageType>
-          InvertIntensityImageFilterType;
+    InvertIntensityImageFilterType;
 
   InvertIntensityImageFilterType::Pointer invertIntensityFilter
-          = InvertIntensityImageFilterType::New();
+    = InvertIntensityImageFilterType::New();
   invertIntensityFilter->SetInput(image);
   invertIntensityFilter->SetMaximum(50);
   invertIntensityFilter->Update();

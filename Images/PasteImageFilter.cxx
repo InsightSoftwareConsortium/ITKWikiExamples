@@ -2,7 +2,7 @@
 #include "itkImageFileWriter.h"
 #include "itkPasteImageFilter.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "itkImageToVTKImageFilter.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -13,8 +13,8 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage1(ImageType::Pointer image);
-void CreateImage2(ImageType::Pointer image);
+static void CreateImage1(ImageType::Pointer image);
+static void CreateImage2(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -25,7 +25,7 @@ int main(int, char *[])
   CreateImage2(image2);
 
   typedef itk::PasteImageFilter <ImageType, ImageType >
-          PasteImageFilterType;
+    PasteImageFilterType;
 
   // The SetDestinationIndex() method prescribes where in the first input to start pasting data from the second input.
   // The SetSourceRegion method prescribes the section of the second image to paste into the first.
@@ -35,7 +35,7 @@ int main(int, char *[])
   destinationIndex[1] = 110;
   
   PasteImageFilterType::Pointer pasteFilter
-          = PasteImageFilterType::New ();
+    = PasteImageFilterType::New ();
   pasteFilter->SetInput(0, image1);
   pasteFilter->SetInput(1, image2);
   pasteFilter->SetSourceRegion(image2->GetLargestPossibleRegion());
@@ -144,16 +144,16 @@ void CreateImage1(ImageType::Pointer image)
 
   // Make a square
   for(unsigned int r = 20; r < 80; r++)
-  {
-      for(unsigned int c = 20; c < 80; c++)
+    {
+    for(unsigned int c = 20; c < 80; c++)
       {
-          ImageType::IndexType pixelIndex;
-          pixelIndex[0] = r;
-          pixelIndex[1] = c;
+      ImageType::IndexType pixelIndex;
+      pixelIndex[0] = r;
+      pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 255);
+      image->SetPixel(pixelIndex, 255);
       }
-  }
+    }
 }
 
 
@@ -179,14 +179,14 @@ void CreateImage2(ImageType::Pointer image)
 
   // Make another square
   for(unsigned int r = 0; r < NumRows; r++)
-  {
-      for(unsigned int c = 0; c < NumCols; c++)
+    {
+    for(unsigned int c = 0; c < NumCols; c++)
       {
-          ImageType::IndexType pixelIndex;
-          pixelIndex[0] = r;
-          pixelIndex[1] = c;
+      ImageType::IndexType pixelIndex;
+      pixelIndex[0] = r;
+      pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 200);
+      image->SetPixel(pixelIndex, 200);
       }
-  }
+    }
 }

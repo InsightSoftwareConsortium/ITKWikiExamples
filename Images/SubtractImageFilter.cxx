@@ -3,7 +3,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSubtractImageFilter.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "itkImageToVTKImageFilter.h"
 
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
@@ -14,8 +14,8 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage1(ImageType::Pointer image);
-void CreateImage2(ImageType::Pointer image);
+static void CreateImage1(ImageType::Pointer image);
+static void CreateImage2(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -26,10 +26,10 @@ int main(int, char *[])
   CreateImage2(image2);
 
   typedef itk::SubtractImageFilter <ImageType, ImageType >
-          SubtractImageFilterType;
+    SubtractImageFilterType;
 
   SubtractImageFilterType::Pointer subtractFilter
-          = SubtractImageFilterType::New ();
+    = SubtractImageFilterType::New ();
   subtractFilter->SetInput1(image1);
   subtractFilter->SetInput2(image2);
   subtractFilter->Update();
@@ -136,16 +136,16 @@ void CreateImage1(ImageType::Pointer image)
 
   // Make a square
   for(unsigned int r = 20; r < 80; r++)
-  {
-      for(unsigned int c = 20; c < 80; c++)
+    {
+    for(unsigned int c = 20; c < 80; c++)
       {
-          ImageType::IndexType pixelIndex;
-          pixelIndex[0] = r;
-          pixelIndex[1] = c;
+      ImageType::IndexType pixelIndex;
+      pixelIndex[0] = r;
+      pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 15);
+      image->SetPixel(pixelIndex, 15);
       }
-  }
+    }
 }
 
 
@@ -171,14 +171,14 @@ void CreateImage2(ImageType::Pointer image)
 
   // Make another square
   for(unsigned int r = 40; r < 100; r++)
-  {
-      for(unsigned int c = 40; c < 100; c++)
+    {
+    for(unsigned int c = 40; c < 100; c++)
       {
-          ImageType::IndexType pixelIndex;
-          pixelIndex[0] = r;
-          pixelIndex[1] = c;
+      ImageType::IndexType pixelIndex;
+      pixelIndex[0] = r;
+      pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 15);
+      image->SetPixel(pixelIndex, 15);
       }
-  }
+    }
 }

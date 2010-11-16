@@ -1,11 +1,10 @@
-#include <itkImage.h>
-#include <itkContinuousIndex.h>
-#include <itkLinearInterpolateImageFunction.h>
+#include "itkImage.h"
+#include "itkContinuousIndex.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 typedef itk::Image<unsigned char, 1>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
-
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char*[])
 {
