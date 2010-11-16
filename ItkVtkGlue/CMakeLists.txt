@@ -15,5 +15,3 @@ set(ItkVtkGlue_SRCS
 )
 add_library(ItkVtkGlue ${ItkVtkGlue_SRCS})
 target_link_libraries(ItkVtkGlue ITKBasicFilters ITKCommon ITKIO ITKNumerics vtkIO vtkHybrid)
-
-
