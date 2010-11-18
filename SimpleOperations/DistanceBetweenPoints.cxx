@@ -18,5 +18,5 @@ int main(int, char *[])
   double dist = p0.EuclideanDistanceTo(p1);
   std::cout << "Dist: " << dist << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }

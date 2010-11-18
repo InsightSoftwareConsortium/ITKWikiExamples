@@ -48,7 +48,7 @@ int main(int argc, char*argv[])
 
   
   while(!iterator.IsAtEnd())
-  {
+    {
     // Set the current pixel to white
     iterator.SetCenterPixel(255);
 
@@ -65,7 +65,7 @@ int main(int argc, char*argv[])
         }
       }
     ++iterator;
-  }
+    }
 
   // Visualize
   typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;

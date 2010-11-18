@@ -44,13 +44,13 @@ int main(int argc, char*argv[])
   //itk::ImageRegionConstIterator<ImageType> imageIterator(image,image->GetLargestPossibleRegion());
 
   while(!imageIterator.IsAtEnd())
-  {
+    {
     // Get the value of the current pixel
     unsigned char val = imageIterator.Get();
     std::cout << (int)val << std::endl;
 
     ++imageIterator;
-  }
+    }
 
   // Visualize
   typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;

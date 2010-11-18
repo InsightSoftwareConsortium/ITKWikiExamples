@@ -43,7 +43,7 @@ int main(int argc, char*argv[])
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
 
   while(!imageIterator.IsAtEnd())
-  {
+    {
     // Get the value of the current pixel
     //unsigned char val = imageIterator.Get();
     //std::cout << (int)val << std::endl;
@@ -52,7 +52,7 @@ int main(int argc, char*argv[])
     imageIterator.Set(255);
     
     ++imageIterator;
-  }
+    }
 
   // Visualize
   typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;

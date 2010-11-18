@@ -48,7 +48,7 @@ int main(int argc, char*argv[])
 
   
   while(!iterator.IsAtEnd())
-  {
+    {
     for(unsigned int i = 0; i < 9; i++)
       {
       ImageType::IndexType index = iterator.GetIndex(i);
@@ -59,7 +59,7 @@ int main(int argc, char*argv[])
 
       }
     ++iterator;
-  }
+    }
 
   // Visualize
   typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
