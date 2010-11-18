@@ -1,4 +1,4 @@
-PROJECT (Images)
+PROJECT (EdgesAndGradients)
 
 IF(NOT ITKWikiExamples_BINARY_DIR)
 FIND_PACKAGE(ITK REQUIRED)
@@ -18,7 +18,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
 endforeach(SOURCE_FILE)
 
 # Testing
-SET(KIT Images)
+SET(KIT EdgesAndGradients)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
 )
