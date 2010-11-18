@@ -19,7 +19,6 @@
 #define __itkImageToVTKImageFilter_h
 
 #include "itkVTKImageExport.h"
-#include "itkFlipImageFilter.h"
 #include "vtkImageImport.h"
 #include "vtkImageData.h"
 
@@ -61,9 +60,6 @@ public:
   typedef VTKImageExport< InputImageType>        ExporterFilterType;
   typedef typename ExporterFilterType::Pointer   ExporterFilterPointer;
 
-  typedef FlipImageFilter< InputImageType>       FlipFilterType;
-  typedef typename FlipFilterType::Pointer       FlipFilterPointer;
-
   /** Get the output in the form of a vtkImage.
       This call is delegated to the internal vtkImageImporter filter  */
   vtkImageData *  GetOutput() const;
@@ -93,7 +89,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   ExporterFilterPointer       m_Exporter;
-  FlipFilterPointer           m_Flipper;
   vtkImageImport *            m_Importer;
 };
 

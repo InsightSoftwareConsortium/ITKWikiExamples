@@ -1,44 +1,60 @@
 #include "itkImage.h"
-#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkBilateralImageFilter.h"
+#include "itkAbsImageFilter.h"
 
 #include "QuickView.h"
 
-int main(int argc, char * argv[])
+typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+typedef itk::Image<float, 2>  FloatImageType;
+
+static void CreateImage(FloatImageType::Pointer image);
+
+int main(int, char *[])
 {
-  // Verify command line arguments
-  if( argc < 2 )
-    {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputImageFile" << std::endl;
-    return EXIT_FAILURE;
-    }
+  FloatImageType::Pointer image = FloatImageType::New();
+  CreateImage(image);
 
-  // Parse command line arguments
-  std::string inputFilename = argv[1];
+  // Take the absolute value of the image
+  typedef itk::AbsImageFilter <FloatImageType, FloatImageType>
+          AbsImageFilterType;
 
-  // Setup types
-  typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
-
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
-
-  typedef itk::BilateralImageFilter<
-    UnsignedCharImageType, UnsignedCharImageType >  filterType;
-
-  // Create and setup a reader
-  readerType::Pointer reader = readerType::New();
-  reader->SetFileName( inputFilename.c_str() );
-
-  // Create and setup a derivative filter
-  filterType::Pointer bilateralFilter = filterType::New();
-  bilateralFilter->SetInput( reader->GetOutput() );
+  AbsImageFilterType::Pointer absFilter
+          = AbsImageFilterType::New ();
+  absFilter->SetInput(image);
 
   QuickView viewer;
-  viewer.AddImage(reader->GetOutput());
-  viewer.AddImage(bilateralFilter->GetOutput());
+  viewer.AddImage<FloatImageType>(image);
+  viewer.AddImage<FloatImageType>(absFilter->GetOutput());
   viewer.Visualize();
 
   return EXIT_SUCCESS;
+}
+
+void CreateImage(FloatImageType::Pointer image)
+{
+  // Create an image with negative values
+  FloatImageType::RegionType region;
+  FloatImageType::IndexType start;
+  start[0] = 0;
+  start[1] = 0;
+
+  FloatImageType::SizeType size;
+  size[0] = 200;
+  size[1] = 300;
+
+  region.SetSize(size);
+  region.SetIndex(start);
+
+  image->SetRegions(region);
+  image->Allocate();
+
+  itk::ImageRegionIterator<FloatImageType> imageIterator(image,region);
+
+  while(!imageIterator.IsAtEnd())
+    {
+    imageIterator.Set(imageIterator.GetIndex()[0] - imageIterator.GetIndex()[1]);
+    ++imageIterator;
+    }
+  
 }

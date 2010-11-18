@@ -14,5 +14,4 @@ public:
 private:
   std::vector<itk::Image<unsigned char, 2>::Pointer > Images;
 };
-
 #endif
