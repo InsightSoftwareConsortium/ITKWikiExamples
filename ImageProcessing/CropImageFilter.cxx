@@ -30,12 +30,15 @@ int main(int, char *[])
   // The SetBoundaryCropSize( cropSize ) method specifies the size of the boundary to 
   // be cropped at both the uppper & lower ends of the image
   // eg. cropSize/2 pixels will be removed at both upper & lower extents
-  ImageType::SizeType cropSize = {10,15};
+
+  ImageType::SizeType cropSize = {10,14};
   cropFilter->SetBoundaryCropSize(cropSize);
-  // Doxygen shows these as protected attributes. Should they be available to a user
-  // The Test for CropImageFilter shows the below usage. Is it correct ?
-  //cropFilter->SetUpperBoundaryCropSize(cropSize);
-  //cropFilter->SetLowerBoundaryCropSize(cropSize);
+
+  // The below three lines are equivalent to the above two lines:
+  //ImageType::SizeType halfCropSize = {5,7};
+  //cropFilter->SetUpperBoundaryCropSize(halfCropSize);
+  //cropFilter->SetLowerBoundaryCropSize(halfCropSize);
+
   cropFilter->Update();
 
   // Visualize first image
