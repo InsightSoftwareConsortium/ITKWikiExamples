@@ -7,11 +7,13 @@
 
 class QuickView
 {
+
 public:
-  void AddImage(itk::Image<unsigned char, 2>::Pointer  image);
+  template<class TImage> void AddImage(TImage *, bool FlipVertical=true);
   void Visualize();
 
 private:
   std::vector<itk::Image<unsigned char, 2>::Pointer > Images;
 };
+
 #endif
