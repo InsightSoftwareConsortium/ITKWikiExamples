@@ -21,7 +21,7 @@
 #include "vtkSmartPointer.h"
 #include "vtkVertexGlyphFilter.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Vector< double, 2 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
@@ -112,7 +112,7 @@ int main()
 
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionsObject =
-                                        MembershipFunctionVectorObjectType::New();
+    MembershipFunctionVectorObjectType::New();
   classifier->SetMembershipFunctions( membershipFunctionsObject );
 
   MembershipFunctionVectorType &  membershipFunctionsVector = membershipFunctionsObject->Get();

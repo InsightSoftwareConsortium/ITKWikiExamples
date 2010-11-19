@@ -1,7 +1,7 @@
 #include "itkListSample.h"
 #include "itkVector.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Vector< float, 3 > MeasurementVectorType ;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;

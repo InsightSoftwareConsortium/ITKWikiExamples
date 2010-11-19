@@ -4,7 +4,7 @@
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkNormalVariateGenerator.h"
 
-int main()
+int main(int, char *[])
 {
   unsigned int numberOfClasses = 2;
   typedef itk::Vector< double, 2 > MeasurementVectorType;
@@ -74,7 +74,7 @@ int main()
     }
 
   typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
-                           SampleType > EstimatorType;
+    SampleType > EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( sample );
@@ -105,5 +105,5 @@ int main()
     std::cout << "         " << estimator->GetProportions()[i] << std::endl;
     }
     
-  return 0;
+  return EXIT_SUCCESS;
 }

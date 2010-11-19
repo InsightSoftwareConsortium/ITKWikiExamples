@@ -2,7 +2,7 @@
 #include "itkMembershipSample.h"
 #include "itkVector.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Vector< float, 3 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
@@ -52,10 +52,10 @@ int main()
 
 
   MembershipSampleType::ClassSampleType::ConstPointer classSample =
-                                  membershipSample->GetClassSample( 0 );
+    membershipSample->GetClassSample( 0 );
 
   MembershipSampleType::ClassSampleType::ConstIterator c_iter =
-                                                    classSample->Begin();
+    classSample->Begin();
 
   while ( c_iter != classSample->End() )
     {

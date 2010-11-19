@@ -3,7 +3,7 @@
 #include "itkRandomImageSource.h"
 #include "itkScalarToArrayCastImageFilter.h"
 
-int main()
+int main(int, char *[])
 {
 
   typedef itk::Image<float,2> FloatImage2DType;
