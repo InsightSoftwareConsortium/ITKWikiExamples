@@ -17,9 +17,9 @@ int main(int argc, char * argv[])
   // Verify command line arguments
   if( argc < 2 )
     {
-	  std::cerr << "Usage: " << std::endl;
-	  std::cerr << argv[0] << " inputImageFile" << std::endl;
-	  return EXIT_FAILURE;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " inputImageFile" << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Parse command line arguments

@@ -5,7 +5,6 @@
 
 int main(int, char *[])
 {
-
   typedef itk::Image<float,2> FloatImage2DType;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
