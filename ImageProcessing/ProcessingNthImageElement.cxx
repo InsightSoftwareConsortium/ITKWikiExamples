@@ -20,7 +20,7 @@ int main(int, char *[])
   adaptor->SelectNthElement(0);
   adaptor->SetImage(image);
 
-  typedef itk::BinomialBlurImageFilter<itk::Image<float,2>, itk::Image<float,2> >  BlurFilterType;
+  typedef itk::BinomialBlurImageFilter<ImageAdaptorType, itk::Image<float,2> >  BlurFilterType;
   BlurFilterType::Pointer blurFilter = BlurFilterType::New();
   blurFilter->SetInput(adaptor);
   blurFilter->Update();
