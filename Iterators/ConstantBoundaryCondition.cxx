@@ -14,7 +14,7 @@
 #include "vtkRenderer.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char*[])
 {
@@ -41,7 +41,7 @@ int main(int, char*[])
   itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType> iterator(radius, image,region);
 
   while(!iterator.IsAtEnd())
-  {
+    {
     for(unsigned int i = 0; i < 9; i++)
       {
       ImageType::IndexType index = iterator.GetIndex(i);
@@ -51,7 +51,7 @@ int main(int, char*[])
 
       }
     ++iterator;
-  }
+    }
 
   // Visualize
   typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
@@ -112,9 +112,9 @@ void CreateImage(ImageType::Pointer image)
 
   // Set all pixels to white
   while(!imageIterator.IsAtEnd())
-  {
+    {
     imageIterator.Set(255);
     ++imageIterator;
-  }
+    }
 
 }

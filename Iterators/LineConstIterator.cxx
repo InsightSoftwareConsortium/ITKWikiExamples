@@ -5,7 +5,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char*[])
 {
@@ -47,8 +47,8 @@ void CreateImage(ImageType::Pointer image)
   itk::ImageRegionIterator<ImageType> imageIterator(image,image->GetLargestPossibleRegion());
 
   while(!imageIterator.IsAtEnd())
-  {
+    {
     imageIterator.Set(255);
     ++imageIterator;
-  }
+    }
 }

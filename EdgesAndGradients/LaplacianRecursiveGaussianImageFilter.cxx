@@ -4,14 +4,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 int main(int argc, char * argv[])
 {
@@ -19,7 +12,7 @@ int main(int argc, char * argv[])
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputImageFile" << std::endl;
+    std::cerr << argv[0] << " inputImageFile" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -33,7 +26,7 @@ int main(int argc, char * argv[])
   typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
 
   typedef itk::LaplacianRecursiveGaussianImageFilter<
-		  UnsignedCharImageType, FloatImageType >  filterType;
+    UnsignedCharImageType, FloatImageType >  filterType;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
@@ -42,69 +35,11 @@ int main(int argc, char * argv[])
   // Create and setup a derivative filter
   filterType::Pointer laplacianFilter = filterType::New();
   laplacianFilter->SetInput( reader->GetOutput() );
-  laplacianFilter->Update();
 
-  // To visualize the derivative, we must rescale the values
-  // to a reasonable range
-  typedef itk::RescaleIntensityImageFilter<
-		  FloatImageType, UnsignedCharImageType > rescaleFilterType;
-
-  rescaleFilterType::Pointer rescaler = rescaleFilterType::New();
-  rescaler->SetOutputMinimum(0);
-  rescaler->SetOutputMaximum(255);
-  rescaler->SetInput( laplacianFilter->GetOutput() );
-  rescaler->Update();
-
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(reader->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
-
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
-  ConnectorType::Pointer laplacianConnector = ConnectorType::New();
-  laplacianConnector->SetInput(rescaler->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> laplacianActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  laplacianActor->SetInput(laplacianConnector->GetOutput());
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600,300);
-
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(laplacianActor);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  renderWindowInteractor->SetInteractorStyle(style);
-
-  renderWindowInteractor->SetRenderWindow(renderWindow);
-  renderWindowInteractor->Initialize();
-
-  renderWindowInteractor->Start();
+  QuickView viewer;
+  viewer.AddImage<UnsignedCharImageType>(reader->GetOutput());
+  viewer.AddImage<FloatImageType>(laplacianFilter->GetOutput());
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
