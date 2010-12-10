@@ -21,8 +21,12 @@ endforeach(SOURCE_FILE)
 SET(KIT EdgesAndGradients)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  LaplacianRecursiveGaussianImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestLaplacianRecursiveGaussianImageFilter ${DATA}/Yinyang.png)
