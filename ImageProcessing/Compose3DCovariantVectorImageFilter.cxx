@@ -5,7 +5,7 @@
 typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
 typedef itk::Image<float, 2> ScalarImageType;
 
-void CreateImage(ScalarImageType::Pointer image);
+static void CreateImage(ScalarImageType::Pointer image);
 
 int main(int, char *[])
 {

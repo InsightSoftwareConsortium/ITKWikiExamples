@@ -6,8 +6,8 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage1(ImageType* image);
-void CreateImage2(ImageType* image);
+static void CreateImage1(ImageType* image);
+static void CreateImage2(ImageType* image);
 
 int main(int, char*[])
 {
@@ -18,10 +18,10 @@ int main(int, char*[])
   CreateImage2(image2);
 
   typedef itk::MinimumImageFilter <ImageType>
-          MinimumImageFilterType;
+    MinimumImageFilterType;
 
   MinimumImageFilterType::Pointer minimumImageFilter
-          = MinimumImageFilterType::New ();
+    = MinimumImageFilterType::New ();
   minimumImageFilter->SetInput(0, image1);
   minimumImageFilter->SetInput(1, image2);
   minimumImageFilter->Update();

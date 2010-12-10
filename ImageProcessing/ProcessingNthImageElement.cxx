@@ -5,7 +5,7 @@
 
 typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
 
-void CreateImage(VectorImageType::Pointer image);
+static void CreateImage(VectorImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -13,7 +13,7 @@ int main(int, char *[])
   CreateImage(image);
 
   typedef itk::NthElementImageAdaptor<VectorImageType,
-                              float> ImageAdaptorType;
+    float> ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 

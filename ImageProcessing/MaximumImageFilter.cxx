@@ -6,8 +6,8 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage1(ImageType* image);
-void CreateImage2(ImageType* image);
+static void CreateImage1(ImageType* image);
+static void CreateImage2(ImageType* image);
 
 int main(int, char*[])
 {

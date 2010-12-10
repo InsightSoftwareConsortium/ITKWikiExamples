@@ -5,7 +5,7 @@ typedef itk::Image<float, 2> ScalarImageType;
 typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
 
 
-void CreateImage(VectorImageType::Pointer image);
+static void CreateImage(VectorImageType::Pointer image);
 
 class VectorPixelAccessor
 {
