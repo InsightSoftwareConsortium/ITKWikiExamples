@@ -21,8 +21,12 @@ endforeach(SOURCE_FILE)
 SET(KIT Smoothing)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  BilateralImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-BilateralImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBilateralImageFilter ${DATA}/Gourds.png 4 10)
