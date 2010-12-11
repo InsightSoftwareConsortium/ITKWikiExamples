@@ -1,112 +1,74 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkComplexToRealImageFilter.h"
-#include "itkComplexToImaginaryImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkCastImageFilter.h"
+#include "itkImageFileWriter.h"
+#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 
-#include <itksys/SystemTools.hxx>
-#include "vnl/vnl_sample.h"
-#include <math.h>
 
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
-
-int main(int argc, char*argv[])
+int main( int argc, char * argv [] )
 {
-  if(argc < 2)
+  if( argc < 4 )
     {
-    std::cerr << "Required: filename" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputScalarImage  inputMaskImage";
+    std::cerr << " outputFilteredImage" << std::endl;
+    }
+
+  typedef float  InputPixelType;
+  const unsigned int Dimension = 2;
+
+  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+
+  typedef itk::ImageFileReader< InputImageType >    InputReaderType;
+
+  InputReaderType::Pointer inputReader1 = InputReaderType::New();
+  InputReaderType::Pointer inputReader2 = InputReaderType::New();
+
+  inputReader1->SetFileName( argv[1] );
+  inputReader2->SetFileName( argv[2] );
+
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter<
+                                  InputPixelType, Dimension >  FFTFilterType;
+
+  FFTFilterType::Pointer fftFilter1 = FFTFilterType::New();
+  FFTFilterType::Pointer fftFilter2 = FFTFilterType::New();
+
+  fftFilter1->SetInput( inputReader1->GetOutput() );
+  fftFilter2->SetInput( inputReader2->GetOutput() );
+
+  typedef FFTFilterType::OutputImageType    SpectralImageType;
+
+  typedef itk::MultiplyImageFilter< SpectralImageType,
+                                    SpectralImageType,
+                                    SpectralImageType >  MultiplyFilterType;
+
+  MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
+
+  multiplyFilter->SetInput1( fftFilter1->GetOutput() );
+  multiplyFilter->SetInput2( fftFilter2->GetOutput() );
+
+  typedef itk::VnlFFTComplexConjugateToRealImageFilter<
+    InputPixelType, Dimension >  IFFTFilterType;
+
+  IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
+
+  fftInverseFilter->SetInput( multiplyFilter->GetOutput() );
+
+  typedef itk::ImageFileWriter< InputImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[3] );
+  writer->SetInput( fftInverseFilter->GetOutput() );
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error writing the real image: " << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-    
-  typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
-  typedef itk::Image<float, 2> FloatImageType;
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
-
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType::PixelType, 2> FFTType;
-  FFTType::Pointer fftFilter = FFTType::New();
-  fftFilter->SetInput(reader->GetOutput());
-  fftFilter->Update();
-
-  typedef itk::ComplexToRealImageFilter<FFTType::OutputImageType, UnsignedCharImageType> RealFilterType;
-  RealFilterType::Pointer realFilter = RealFilterType::New();
-  realFilter->SetInput(fftFilter->GetOutput());
-  realFilter->Update();
-
-  typedef itk::RescaleIntensityImageFilter<UnsignedCharImageType, UnsignedCharImageType> RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetInput(realFilter->GetOutput());
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  rescaleFilter->Update();
-  
-  // Visualize original image
-  typedef itk::CastImageFilter< FloatImageType, UnsignedCharImageType > CastFilterType;
-  CastFilterType::Pointer inputCastFilter = CastFilterType::New();
-  inputCastFilter->SetInput(reader->GetOutput());
-  
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(inputCastFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
-
-  // Visualize FFT
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
-  ConnectorType::Pointer fftConnector = ConnectorType::New();
-  fftConnector->SetInput(rescaleFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> fftActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  fftActor->SetInput(fftConnector->GetOutput());
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600,300);
-
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(fftActor);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  renderWindowInteractor->SetInteractorStyle(style);
-
-  renderWindowInteractor->SetRenderWindow(renderWindow);
-  renderWindowInteractor->Initialize();
-
-  renderWindowInteractor->Start();
-  
   return EXIT_SUCCESS;
 }
