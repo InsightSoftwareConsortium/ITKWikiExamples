@@ -1,13 +1,22 @@
+cmake_minimum_required(VERSION 2.6)
 PROJECT (ItkVtkGlue)
 
 IF(NOT ITKWikiExamples_BINARY_DIR)
 FIND_PACKAGE(ITK REQUIRED)
+INCLUDE(${ITK_USE_FILE})
 FIND_PACKAGE(VTK REQUIRED)
-IF(NOT VTK_USE_RENDERING)
-  MESSAGE(FATAL_ERROR "Example ${PROJECT_NAME} requires VTK_USE_RENDERING.")
-ENDIF(NOT VTK_USE_RENDERING)
 INCLUDE(${VTK_USE_FILE})
+SET(LIBRARY_OUTPUT_PATH ${ItkVtkGlue_BINARY_DIR})
 ENDIF(NOT ITKWikiExamples_BINARY_DIR)
+include(GenerateItkVtkGlueConfig.cmake)
+
+#-----------------------------------------------------------------------------
+# Configure ItkVtkGlueConfig.cmake for the build tree.
+configure_file(${ItkVtkGlue_SOURCE_DIR}/ItkVtkGlueConfig.cmake.in
+               ${ItkVtkGlue_BINARY_DIR}/ItkVtkGlueConfig.cmake @ONLY IMMEDIATE)
+# Copy the UseItkVtk.cmake file to the binary tree
+configure_file(${ItkVtkGlue_SOURCE_DIR}/UseItkVtkGlue.cmake.in
+               ${ItkVtkGlue_BINARY_DIR}/UseItkVtkGlue.cmake @ONLY IMMEDIATE)
 
 #
 # Build all .cxx files in the directory

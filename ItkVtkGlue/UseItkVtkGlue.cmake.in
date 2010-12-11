@@ -1,0 +1,19 @@
+#
+# This file sets up include directories, link directories, and
+# compiler settings for a project to use ItkVtkGlue.  It should not be
+# included directly, but rather through the ItkVtkGlue_USE_FILE setting
+# obtained from ItkVtkGlue.cmake.
+#
+
+find_package(VTK REQUIRED)
+include(${VTK_USE_FILE})
+
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+# Add include directories needed to use ItkVtkGlue.
+include_directories(@ItkVtkGlue_INCLUDE_DIRS_CONFIG@)
+
+# Add link directories needed to use ItkVtkGlue.
+link_directories(@ItkVtkGlue_LIBRARY_DIRS_CONFIG@)
+
