@@ -22,6 +22,8 @@ SET(KIT EdgesAndGradients)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   DerivativeImageFilter
+  GradientMagnitudeImageFilter
+  GradientMagnitudeRecursiveGaussianImageFilter
   LaplacianRecursiveGaussianImageFilter
   RecursiveGaussianImageFilter
 )
@@ -32,6 +34,12 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-DerivativeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDerivativeImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-GradientMagnitudeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestGradientMagnitudeImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-GradientMagnitudeRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestGradientMagnitudeRecursiveGaussianImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLaplacianRecursiveGaussianImageFilter ${DATA}/Yinyang.png)
