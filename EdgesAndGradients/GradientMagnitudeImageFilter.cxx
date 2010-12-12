@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputImageFile" << std::endl;
+    std::cerr << argv[0] << " inputImageFile" << std::endl;
     return EXIT_FAILURE;
     }
 
