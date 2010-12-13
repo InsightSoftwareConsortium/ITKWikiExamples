@@ -22,6 +22,7 @@ SET(KIT Smoothing)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   BilateralImageFilter
+  BinomialBlurImageFilter
   DiscreteGaussianImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
@@ -31,6 +32,9 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-BilateralImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBilateralImageFilter ${DATA}/Gourds.png 4 10)
+
+ADD_TEST(${KIT}-BinomialBlurImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinomialBlurImageFilter ${DATA}/Gourds.png 5)
 
 ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
