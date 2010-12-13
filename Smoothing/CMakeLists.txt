@@ -24,6 +24,7 @@ SET(NEEDS_ARGS
   BilateralImageFilter
   BinomialBlurImageFilter
   DiscreteGaussianImageFilter
+  MedianImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -38,3 +39,6 @@ ADD_TEST(${KIT}-BinomialBlurImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
+
+ADD_TEST(${KIT}-MedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestMedianImageFilter ${DATA}/Gourds.png 3)
