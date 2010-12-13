@@ -9,17 +9,19 @@
 #include "vtkImageActor.h"
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
-
+#include "itkRGBPixel.h"
 int main(int argc, char **argv)
 {
-  if(argc < 2)
+  if( argc < 2 )
     {
-    std::cerr << "Required: filename" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " inputImageFile" << std::endl;
     return EXIT_FAILURE;
     }
-  typedef itk::Image<unsigned short, 2> ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+
+  typedef itk::Image<itk::RGBPixel<unsigned char>, 2> ImageType;
+  typedef itk::ImageFileReader<ImageType>             ReaderType;
+  typedef itk::ImageToVTKImageFilter<ImageType>       ConnectorType;
 
   ReaderType::Pointer reader = ReaderType::New();
   ConnectorType::Pointer connector = ConnectorType::New();
