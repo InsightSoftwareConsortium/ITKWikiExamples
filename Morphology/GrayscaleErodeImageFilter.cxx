@@ -1,24 +1,16 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkGrayscaleErodeImageFilter.h"
-#include "itkBinaryThresholdImageFilter.h"
-#include <itkImageFileReader.h>
-#include <itkBinaryBallStructuringElement.h>
+#include "itkImageFileReader.h"
+#include "itkBinaryBallStructuringElement.h"
 
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 int main(int argc, char *argv[])
 {
   if(argc < 2)
     {
-    std::cerr << "Required: filename" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " InputImageFile [radius]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -26,81 +18,32 @@ int main(int argc, char *argv[])
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
+
+  unsigned int radius = 2;
+  if (argc > 2)
+    {
+    radius = atoi(argv[2]);
+    }
 
   typedef itk::BinaryBallStructuringElement<
-                            ImageType::PixelType,
-                            2>                  StructuringElementType;
+    ImageType::PixelType,
+    2>                  StructuringElementType;
   StructuringElementType structuringElement;
-  structuringElement.SetRadius(3);
+  structuringElement.SetRadius(radius);
   structuringElement.CreateStructuringElement();
 
   typedef itk::GrayscaleErodeImageFilter <ImageType, ImageType, StructuringElementType>
-          GrayscaleErodeImageFilterType;
+    GrayscaleErodeImageFilterType;
 
   GrayscaleErodeImageFilterType::Pointer erodeFilter
-          = GrayscaleErodeImageFilterType::New();
+    = GrayscaleErodeImageFilterType::New();
   erodeFilter->SetInput(reader->GetOutput());
   erodeFilter->SetKernel(structuringElement);
-  erodeFilter->Update();
 
-  // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(reader->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
-
-  // Visualize eroded image
-  ConnectorType::Pointer erodedConnector = ConnectorType::New();
-  erodedConnector->SetInput(erodeFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> erodedActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  erodedActor->SetInput(erodedConnector->GetOutput());
-
-  // Visualize
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600, 300);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-  leftRenderer->SetBackground(.6, .5, .4);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-  rightRenderer->SetBackground(.4, .5, .6);
-
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(erodedActor);
-
-  leftRenderer->ResetCamera();
-  rightRenderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
+  QuickView viewer;
+  viewer.AddImage(reader->GetOutput());
+  viewer.AddImage(erodeFilter->GetOutput());
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
