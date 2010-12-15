@@ -22,8 +22,28 @@ endforeach(SOURCE_FILE)
 SET(KIT Morphology)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  BinaryDilateImageFilter
+  BinaryErodeImageFilter
+  FlatStructuringElement
+  GrayscaleDilateImageFilter
+  GrayscaleErodeImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-BinaryDilateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinaryDilateImageFilter ${DATA}/Yinyang.png 2)
+
+ADD_TEST(${KIT}-BinaryErodeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinaryErodeImageFilter ${DATA}/Yinyang.png 2)
+
+ADD_TEST(${KIT}-FlatStructuringElement ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestFlatStructuringElement ${DATA}/Yinyang.png 2)
+
+ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestGrayscaleDilateImageFilter ${DATA}/Gourds.png 2)
+
+ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestGrayscaleErodeImageFilter ${DATA}/Gourds.png 2)
