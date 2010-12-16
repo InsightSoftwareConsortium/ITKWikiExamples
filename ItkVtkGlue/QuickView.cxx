@@ -15,6 +15,9 @@
 #include "itkImageToVTKImageFilter.h"
 #include <algorithm>
 
+typedef itk::Image<itk::RGBPixel<unsigned char>, 2>   UnsignedCharRGBImageType;
+typedef itk::Image<itk::RGBPixel<float>, 2>   FloatRGBImageType;
+
 typedef itk::Image<unsigned char, 2>   UnsignedCharImageType;
 typedef itk::Image<char, 2>            CharImageType;
 typedef itk::Image<unsigned short, 2>  UnsignedShortImageType;
@@ -70,6 +73,26 @@ void QuickView::AddImage(TImage *image, bool FlipVertical)
   this->AddImage(rescaler->GetOutput(), FlipVertical);
 }
 
+template< >
+void QuickView::AddRGBImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType *image, bool FlipVertical)
+{
+  if (FlipVertical)
+    {
+    typedef itk::FlipImageFilter< UnsignedCharRGBImageType> FlipFilterType;
+    FlipFilterType::Pointer flipper = FlipFilterType::New();
+    bool flipAxes[3] = { false, true, false };
+    flipper = FlipFilterType::New();
+    flipper->SetFlipAxes(flipAxes);
+    flipper->SetInput(image);
+    flipper->Update();
+    this->RGBImages.push_back(flipper->GetOutput());
+    }
+  else
+    {
+    this->RGBImages.push_back(image);
+    }
+}
+
 void QuickView::Visualize()
 {
   // Setup the render window
@@ -83,22 +106,51 @@ void QuickView::Visualize()
   interactor->SetRenderWindow(renderWindow);
 
   // Render all of the images
-  double step = 1./(static_cast<double>(this->Images.size()));
+  double step = 1./(static_cast<double>(this->Images.size()+this->RGBImages.size()));
   std::vector<double*> viewports;
 
   typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> > ConnectorType;
+  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> > RGBConnectorType;
   std::vector<ConnectorType::Pointer> connectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
+  std::vector<RGBConnectorType::Pointer> RGBconnectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
 
   double background[6] = {.4, .5, .6, .6, .5, .4};
 
   vtkSmartPointer<vtkCamera> camera = 
     vtkSmartPointer<vtkCamera>::New();
+
   for(unsigned int i = 0; i < this->Images.size(); i++)
     {
     ConnectorType::Pointer connector = ConnectorType::New();
     connectors.push_back(connector);
     connector->SetInput(this->Images[i]);
   
+    // (xmin, ymin, xmax, ymax)
+    double viewport[4] = {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
+    viewports.push_back(viewport);
+    vtkSmartPointer<vtkImageActor> actor =
+      vtkSmartPointer<vtkImageActor>::New();
+    actor->SetInput(connector->GetOutput());
+
+    // Setup renderer
+    vtkSmartPointer<vtkRenderer> renderer =
+      vtkSmartPointer<vtkRenderer>::New();
+    renderWindow->AddRenderer(renderer);
+    renderer->SetViewport(viewports[i]);
+    renderer->SetBackground(background);
+    renderer->SetActiveCamera(camera);
+    std::rotate(background, background + 1, background + 6);
+
+    renderer->AddActor(actor);
+    renderer->ResetCamera();
+    }
+
+  for(unsigned int i = 0; i < this->RGBImages.size(); i++)
+    {
+    RGBConnectorType::Pointer connector = RGBConnectorType::New();
+    RGBconnectors.push_back(connector);
+    connector->SetInput(this->RGBImages[i]);
+
     // (xmin, ymin, xmax, ymax)
     double viewport[4] = {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
     viewports.push_back(viewport);
