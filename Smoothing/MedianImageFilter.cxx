@@ -1,6 +1,9 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkMedianImageFilter.h"
+#include "itksys/SystemTools.hxx"
+
+#include <sstream>
 
 #include "QuickView.h"
 
@@ -39,8 +42,16 @@ int main(int argc, char * argv[])
   medianFilter->SetInput( reader->GetOutput() );
 
   QuickView viewer;
-  viewer.AddImage<UnsignedCharImageType>(reader->GetOutput());  
-  viewer.AddImage<UnsignedCharImageType>(medianFilter->GetOutput());  
+  viewer.AddImage<UnsignedCharImageType>(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(inputFilename));  
+
+  std::stringstream desc;
+  desc << "MedianImageFilter, radius = " << radius;
+  viewer.AddImage<UnsignedCharImageType>(
+    medianFilter->GetOutput(),
+    true,
+    desc.str());  
   viewer.Visualize();
 
   return EXIT_SUCCESS;

@@ -1,6 +1,7 @@
 #include "QuickView.h"
 
 #include "itkImage.h"
+#include "itkRGBPixel.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkFlipImageFilter.h"
 
@@ -8,9 +9,12 @@
 #include "vtkRenderWindowInteractor.h"
 #include "vtkSmartPointer.h"
 #include "vtkImageActor.h"
+#include "vtkActor2D.h"
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 #include "vtkCamera.h"
+#include "vtkTextProperty.h"
+#include "vtkTextMapper.h"
 
 #include "itkImageToVTKImageFilter.h"
 #include <algorithm>
@@ -29,18 +33,21 @@ typedef itk::Image<long, 2>            LongImageType;
 typedef itk::Image<float, 2>           FloatImageType;
 typedef itk::Image<double, 2>          DoubleImageType;
 
-template void QuickView::AddImage<CharImageType>(CharImageType *image, bool FlipVertical);
-template void QuickView::AddImage<UnsignedShortImageType>(UnsignedShortImageType *image, bool FlipVertical);
-template void QuickView::AddImage<ShortImageType>(ShortImageType *image, bool FlipVertical);
-template void QuickView::AddImage<UnsignedIntImageType>(UnsignedIntImageType *image, bool FlipVertical);
-template void QuickView::AddImage<IntImageType>(IntImageType *image, bool FlipVertical);
-template void QuickView::AddImage<UnsignedLongImageType>(UnsignedLongImageType *image, bool FlipVertical);
-template void QuickView::AddImage<LongImageType>(LongImageType *image, bool FlipVertical);
-template void QuickView::AddImage<FloatImageType>(FloatImageType *image, bool FlipVertical);
-template void QuickView::AddImage<DoubleImageType>(DoubleImageType *image, bool FlipVertical);
+template void QuickView::AddImage<CharImageType>(CharImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<UnsignedShortImageType>(UnsignedShortImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<ShortImageType>(ShortImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<UnsignedIntImageType>(UnsignedIntImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<IntImageType>(IntImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<UnsignedLongImageType>(UnsignedLongImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<LongImageType>(LongImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<FloatImageType>(FloatImageType *image, bool FlipVertical, std::string Description);
+template void QuickView::AddImage<DoubleImageType>(DoubleImageType *image, bool FlipVertical, std::string Description);
 
 template< >
-void QuickView::AddImage<UnsignedCharImageType>(UnsignedCharImageType *image, bool FlipVertical)
+void QuickView::AddImage<UnsignedCharImageType>(
+  UnsignedCharImageType *image,
+  bool FlipVertical,
+  std::string Description)
 {
   if (FlipVertical)
     {
@@ -51,16 +58,21 @@ void QuickView::AddImage<UnsignedCharImageType>(UnsignedCharImageType *image, bo
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
     flipper->Update();
-    this->Images.push_back(flipper->GetOutput());
+    ImageInfo myImage(flipper->GetOutput(), Description);
+    this->Images.push_back(myImage);
     }
   else
     {
-    this->Images.push_back(image);
+    ImageInfo myImage(image, Description);
+    this->Images.push_back(myImage);
     }
 }
 
 template<class TImage>
-void QuickView::AddImage(TImage *image, bool FlipVertical)
+void QuickView::AddImage(
+  TImage *image,
+  bool FlipVertical,
+  std::string Description)
 {
   typedef itk::RescaleIntensityImageFilter<TImage, UnsignedCharImageType > rescaleFilterType;
 
@@ -70,11 +82,14 @@ void QuickView::AddImage(TImage *image, bool FlipVertical)
   rescaler->SetInput(image);
   rescaler->Update();
   
-  this->AddImage(rescaler->GetOutput(), FlipVertical);
+  this->AddImage(rescaler->GetOutput(), FlipVertical, Description);
 }
 
 template< >
-void QuickView::AddRGBImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType *image, bool FlipVertical)
+void QuickView::AddRGBImage<UnsignedCharRGBImageType>(
+  UnsignedCharRGBImageType *image,
+  bool FlipVertical,
+  std::string Description)
 {
   if (FlipVertical)
     {
@@ -85,20 +100,23 @@ void QuickView::AddRGBImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType *
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
     flipper->Update();
-    this->RGBImages.push_back(flipper->GetOutput());
+    RGBImageInfo myImage(flipper->GetOutput());
+    this->RGBImages.push_back(myImage);
     }
   else
     {
-    this->RGBImages.push_back(image);
+    RGBImageInfo myImage(image);
+    this->RGBImages.push_back(myImage);
     }
 }
 
 void QuickView::Visualize()
 {
-  // Setup the render window
+  unsigned int rendererSize = 300;
+
+  // Setup the render window and interactor
   vtkSmartPointer<vtkRenderWindow> renderWindow =
     vtkSmartPointer<vtkRenderWindow>::New();
-  unsigned int rendererSize = 300;
   renderWindow->SetSize(rendererSize * this->Images.size(), rendererSize);
 
   vtkSmartPointer<vtkRenderWindowInteractor> interactor =
@@ -109,10 +127,13 @@ void QuickView::Visualize()
   double step = 1./(static_cast<double>(this->Images.size()+this->RGBImages.size()));
   std::vector<double*> viewports;
 
-  typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> > ConnectorType;
-  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> > RGBConnectorType;
+  typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >
+    ConnectorType;
+  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> >
+    RGBConnectorType;
   std::vector<ConnectorType::Pointer> connectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
-  std::vector<RGBConnectorType::Pointer> RGBconnectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
+  std::vector<RGBConnectorType::Pointer>
+    RGBconnectors; // Force the connectors to persist after each iteration of the loop
 
   double background[6] = {.4, .5, .6, .6, .5, .4};
 
@@ -123,7 +144,7 @@ void QuickView::Visualize()
     {
     ConnectorType::Pointer connector = ConnectorType::New();
     connectors.push_back(connector);
-    connector->SetInput(this->Images[i]);
+    connector->SetInput(this->Images[i].m_Image);
   
     // (xmin, ymin, xmax, ymax)
     double viewport[4] = {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
@@ -141,18 +162,40 @@ void QuickView::Visualize()
     renderer->SetActiveCamera(camera);
     std::rotate(background, background + 1, background + 6);
 
+    if (this->Images[i].m_Description != "")
+      {
+      vtkSmartPointer<vtkTextProperty> textProperty =
+        vtkSmartPointer<vtkTextProperty>::New();
+      textProperty->SetFontSize(10);
+      textProperty->SetFontFamilyToCourier();
+      textProperty->SetJustificationToCentered();
+
+      vtkSmartPointer<vtkTextMapper> textMapper =
+        vtkSmartPointer<vtkTextMapper>::New();
+      textMapper->SetTextProperty(textProperty);
+      textMapper->SetInput(this->Images[i].m_Description.c_str());
+      
+      vtkSmartPointer<vtkActor2D> textActor =
+        vtkSmartPointer<vtkActor2D>::New();
+      textActor->SetMapper(textMapper);
+      textActor->SetPosition(rendererSize/2, 16);
+      renderer->AddActor(textActor);
+      }
+
     renderer->AddActor(actor);
     renderer->ResetCamera();
     }
 
-  for(unsigned int i = 0; i < this->RGBImages.size(); i++)
+  unsigned int j = 0;
+  for(unsigned int i = this->Images.size(); i < this->RGBImages.size(); i++, j++)
     {
     RGBConnectorType::Pointer connector = RGBConnectorType::New();
     RGBconnectors.push_back(connector);
-    connector->SetInput(this->RGBImages[i]);
+    connector->SetInput(this->RGBImages[j].m_Image);
 
     // (xmin, ymin, xmax, ymax)
-    double viewport[4] = {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
+    double viewport[4] =
+      {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
     viewports.push_back(viewport);
     vtkSmartPointer<vtkImageActor> actor =
       vtkSmartPointer<vtkImageActor>::New();
@@ -162,10 +205,30 @@ void QuickView::Visualize()
     vtkSmartPointer<vtkRenderer> renderer =
       vtkSmartPointer<vtkRenderer>::New();
     renderWindow->AddRenderer(renderer);
-    renderer->SetViewport(viewports[i]);
+    renderer->SetViewport(viewports[j]);
     renderer->SetBackground(background);
     renderer->SetActiveCamera(camera);
     std::rotate(background, background + 1, background + 6);
+
+    if (this->RGBImages[j].m_Description != "")
+      {
+      vtkSmartPointer<vtkTextProperty> textProperty =
+        vtkSmartPointer<vtkTextProperty>::New();
+      textProperty->SetFontSize(10);
+      textProperty->SetFontFamilyToCourier();
+      textProperty->SetJustificationToCentered();
+
+      vtkSmartPointer<vtkTextMapper> textMapper =
+        vtkSmartPointer<vtkTextMapper>::New();
+      textMapper->SetTextProperty(textProperty);
+      textMapper->SetInput(this->RGBImages[j].m_Description.c_str());
+      
+      vtkSmartPointer<vtkActor2D> textActor =
+        vtkSmartPointer<vtkActor2D>::New();
+      textActor->SetMapper(textMapper);
+      textActor->SetPosition(rendererSize/2, 16);
+      renderer->AddActor(textActor);
+      }
 
     renderer->AddActor(actor);
     renderer->ResetCamera();
