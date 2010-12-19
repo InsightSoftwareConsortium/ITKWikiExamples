@@ -21,8 +21,16 @@ endforeach(SOURCE_FILE)
 SET(KIT ImageProcessing)
 SET(KIT_LIBS ITKReview ItkVtkGlue)
 SET(NEEDS_ARGS
+  BinaryThresholdImageFilter
+  MinimumMaximumImageCalculator
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinaryThresholdImageFilter ${DATA}/cthead1.png 100 255)
+
+ADD_TEST(${KIT}-MinimumMaximumImageCalculator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestMinimumMaximumImageCalculator ${DATA}/cthead1.png)

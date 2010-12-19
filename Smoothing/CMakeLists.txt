@@ -23,6 +23,7 @@ SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   BilateralImageFilter
   BinomialBlurImageFilter
+  CurvatureFlowImageFilter
   DiscreteGaussianImageFilter
   MeanImageFilter
   MedianImageFilter
@@ -37,6 +38,9 @@ ADD_TEST(${KIT}-BilateralImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-BinomialBlurImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBinomialBlurImageFilter ${DATA}/Gourds.png 5)
+
+ADD_TEST(${KIT}-CurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestCurvatureFlowImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
