@@ -14,7 +14,7 @@ def GetCode(S):
     return [(x.strip('\n'), y.strip('\n')) for (x,y) in reg.findall(S)]
 
 def GetImage(S):
-  reg = re.compile("<div class=\"floatright\">\[\[File:(.*)\]\]<\/div>",re.DOTALL)
+  reg = re.compile("<div class=\"float.*\">\[\[File:(.*)\]\]<\/div>",re.DOTALL)
   return [(x.strip('\n')) for x in reg.findall(S)]
 
 # Connect to the wikix2
@@ -64,7 +64,7 @@ for page in site.pages:
       else:
         print imageName + ' exists but is not referenced in the Wiki Example'
         print 'http://itk.org/Wiki/index.php?title=ITK/Examples/' + ExamplePath + '&action=edit'
-        imageRef = '<div class="floatright">[[File:' + imageName + ']]</div>'
+        imageRef = '<div class="floatcenter">[[File:' + imageName + ']]</div>'
         print imageRef        
         foundPagesWithoutImages = True
 if foundPagesWithoutImages:
