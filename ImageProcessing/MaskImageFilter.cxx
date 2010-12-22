@@ -1,26 +1,18 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkMaskImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
 
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer mask);
+void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask);
 
 int main(int argc, char *argv[])
 {
   if(argc < 2)
     {
-    std::cerr << "Required: filename" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " filename" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -36,98 +28,33 @@ int main(int argc, char *argv[])
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
   maskFilter->SetInput1(reader->GetOutput());
   maskFilter->SetInput2(mask);
-  maskFilter->Update();;
+  mask->Print(std::cout);
+  QuickView viewer;
+  viewer.AddImage(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(argv[1]));  
 
-  // Visualize original image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(reader->GetOutput());
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
+  std::stringstream desc;
+  desc << "Mask";
+  viewer.AddImage(
+    mask.GetPointer(),
+    true,
+    desc.str());  
 
-  // Visualize mask image
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetInput(mask);
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  
-  ConnectorType::Pointer maskConnector = ConnectorType::New();
-  maskConnector->SetInput(rescaleFilter->GetOutput());
+  std::stringstream desc2;
+  desc2 << "MaskFilter";
+  viewer.AddImage(
+    maskFilter->GetOutput(),
+    true,
+    desc2.str());  
 
-  vtkSmartPointer<vtkImageActor> maskActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  maskActor->SetInput(maskConnector->GetOutput());
-
-  // Visualize masked image
-  ConnectorType::Pointer maskedConnector = ConnectorType::New();
-  maskedConnector->SetInput(maskFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> maskedActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  maskedActor->SetInput(maskedConnector->GetOutput());
-
-  
-  // There will be one render window
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(900, 300);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.33, 1.0};
-  double centerViewport[4] = {0.33, 0.0, 0.66, 1.0};
-  double rightViewport[4] = {0.66, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-  leftRenderer->SetBackground(.6, .5, .4);
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> centerRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(centerRenderer);
-  centerRenderer->SetViewport(centerViewport);
-  centerRenderer->SetBackground(.6, .5, .4);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-  rightRenderer->SetBackground(.4, .5, .6);
-
-  // Add the sphere to the left and the cube to the right
-  leftRenderer->AddActor(originalActor);
-  centerRenderer->AddActor(maskActor);
-  rightRenderer->AddActor(maskedActor);
-
-  leftRenderer->ResetCamera();
-  centerRenderer->ResetCamera();
-  rightRenderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
 
 
-void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer mask)
+void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
 {
   ImageType::RegionType region = image->GetLargestPossibleRegion();
   
@@ -147,7 +74,7 @@ void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer mask)
         }
       else
         {
-        imageIterator.Set(1);
+        imageIterator.Set(255);
         }
 
     ++imageIterator;
