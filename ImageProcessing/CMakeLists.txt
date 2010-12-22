@@ -22,10 +22,12 @@ SET(KIT ImageProcessing)
 SET(KIT_LIBS ITKReview ItkVtkGlue)
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
+  ConvolutionImageFilter
   MaskImageFilter
   MinimumMaximumImageCalculator
   NormalizeImageFilter
   RescaleIntensityImageFilter
+  ThresholdImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -34,6 +36,9 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBinaryThresholdImageFilter ${DATA}/cthead1.png 100 255)
+
+ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestConvolutionImageFilter ${DATA}/cthead1.png 10)
 
 ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
@@ -46,3 +51,6 @@ ADD_TEST(${KIT}-MinimumMaximumImageCalculator ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cx
 
 ADD_TEST(${KIT}-RescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRescaleIntensityImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-ThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestThresholdImageFilter ${DATA}/cthead1.png 100 150)
