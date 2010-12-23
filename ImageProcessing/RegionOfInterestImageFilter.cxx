@@ -1,114 +1,75 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkRegionOfInterestImageFilter.h"
+#include "itkRGBPixel.h"
 
-#include "itkImageToVTKImageFilter.h"
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 #include <iostream>
 #include <string>
 
 int main(int argc, char *argv[])
 {
-	if(argc < 2)
-	{
-		std::cerr << "Required: filename" << std::endl;
-		return EXIT_FAILURE;
-	}
+  if(argc < 2)
+    {
+    std::cerr << "Usage: ";
+    std::cerr << argv[0] << " inputImageFile [start] [size]" << std::endl;
+    return EXIT_FAILURE;
+    }
 
-	std::string filename = argv[1];
+  std::string filename = argv[1];
 
-	typedef itk::Image<unsigned char, 2> ImageType;
-	typedef itk::ImageFileReader<ImageType> ReaderType;
-	typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  typedef itk::Image<itk::RGBPixel<unsigned char>, 2> ImageType;
+  typedef itk::ImageFileReader<ImageType>             ReaderType;
 
-	ReaderType::Pointer reader = ReaderType::New();
-	ConnectorType::Pointer originalConnector = ConnectorType::New();
-	ConnectorType::Pointer extractedConnector = ConnectorType::New();
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(filename.c_str());
+  reader->Update();
 
-	reader->SetFileName(filename.c_str());
-	reader->Update();
+  ImageType::SizeType inSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-	ImageType::SizeType inSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  typedef itk::RegionOfInterestImageFilter< ImageType, ImageType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
 
-	originalConnector->SetInput(reader->GetOutput());
+  ImageType::IndexType start;
+  start[0] = inSize[0]/4;
+  start[1] = inSize[1]/4;
 
-	vtkSmartPointer<vtkImageActor> originalActor =
-		vtkSmartPointer<vtkImageActor>::New();
-	originalActor->SetInput(originalConnector->GetOutput());
+  ImageType::SizeType size;
+  size[0] = inSize[0]/4;
+  size[1] = inSize[1]/4;
 
-	typedef itk::RegionOfInterestImageFilter< ImageType, ImageType > FilterType;
-	FilterType::Pointer filter = FilterType::New();
+  if (argc > 2)
+    {
+    start.Fill(atoi(argv[2]));
+    }
+  if (argc > 3)
+    {
+    size.Fill(atoi(argv[3]));
+    }
 
-	ImageType::IndexType start;
-	start[0] = inSize[0]/4;
-	start[1] = inSize[1]/4;
 
-	ImageType::SizeType size;
-	size[0] = inSize[0]/4;
-	size[1] = inSize[1]/4;
+  ImageType::RegionType desiredRegion;
+  desiredRegion.SetSize(size);
+  desiredRegion.SetIndex(start);
 
-	ImageType::RegionType desiredRegion;
-	desiredRegion.SetSize(size);
-	desiredRegion.SetIndex(start);
+  filter->SetRegionOfInterest(desiredRegion);
+  filter->SetInput(reader->GetOutput());
 
-	filter->SetRegionOfInterest(desiredRegion);
-	filter->SetInput(reader->GetOutput());
+  QuickView viewer;
+  viewer.AddRGBImage(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(argv[1]));  
 
-	extractedConnector->SetInput(filter->GetOutput());
+  std::stringstream desc;
+  desc << "RegionOfInterestImageFilter\nstart = " << start
+       << " size = " << size;
+  viewer.AddRGBImage(
+    filter->GetOutput(),
+    true,
+    desc.str());  
 
-	vtkSmartPointer<vtkImageActor> extractedActor =
-		vtkSmartPointer<vtkImageActor>::New();
-	extractedActor->SetInput(extractedConnector->GetOutput());
+  viewer.Visualize();
 
-	// There will be one render window
-	vtkSmartPointer<vtkRenderWindow> renderWindow =
-		vtkSmartPointer<vtkRenderWindow>::New();
-	renderWindow->SetSize(600, 300);
-
-	vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	interactor->SetRenderWindow(renderWindow);
-
-	// Define viewport ranges
-	// (xmin, ymin, xmax, ymax)
-	double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-	double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-	// Setup both renderers
-	vtkSmartPointer<vtkRenderer> leftRenderer =
-		vtkSmartPointer<vtkRenderer>::New();
-	renderWindow->AddRenderer(leftRenderer);
-	leftRenderer->SetViewport(leftViewport);
-	leftRenderer->SetBackground(.6, .5, .4);
-
-	vtkSmartPointer<vtkRenderer> rightRenderer =
-		vtkSmartPointer<vtkRenderer>::New();
-	renderWindow->AddRenderer(rightRenderer);
-	rightRenderer->SetViewport(rightViewport);
-	rightRenderer->SetBackground(.4, .5, .6);
-
-	// Add the sphere to the left and the cube to the right
-	leftRenderer->AddActor(originalActor);
-	rightRenderer->AddActor(extractedActor);
-
-	leftRenderer->ResetCamera();
-	rightRenderer->ResetCamera();
-
-	renderWindow->Render();
-
-	vtkSmartPointer<vtkInteractorStyleImage> style =
-		vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-	interactor->SetInteractorStyle(style);
-
-	interactor->Start();
-
-	return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

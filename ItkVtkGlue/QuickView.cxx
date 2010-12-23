@@ -113,18 +113,18 @@ void QuickView::AddRGBImage<UnsignedCharRGBImageType>(
 void QuickView::Visualize()
 {
   unsigned int rendererSize = 300;
-
+  unsigned int numberOfImages = this->Images.size() + this->RGBImages.size();
   // Setup the render window and interactor
   vtkSmartPointer<vtkRenderWindow> renderWindow =
     vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(rendererSize * this->Images.size(), rendererSize);
+  renderWindow->SetSize(rendererSize * numberOfImages, rendererSize);
 
   vtkSmartPointer<vtkRenderWindowInteractor> interactor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();
   interactor->SetRenderWindow(renderWindow);
 
   // Render all of the images
-  double step = 1./(static_cast<double>(this->Images.size()+this->RGBImages.size()));
+  double step = 1./(static_cast<double>(numberOfImages));
   std::vector<double*> viewports;
 
   typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >
@@ -137,7 +137,7 @@ void QuickView::Visualize()
 
   double background[6] = {.4, .5, .6, .6, .5, .4};
 
-  vtkSmartPointer<vtkCamera> camera = 
+  vtkSmartPointer<vtkCamera> sharedCamera = 
     vtkSmartPointer<vtkCamera>::New();
 
   for(unsigned int i = 0; i < this->Images.size(); i++)
@@ -147,7 +147,8 @@ void QuickView::Visualize()
     connector->SetInput(this->Images[i].m_Image);
   
     // (xmin, ymin, xmax, ymax)
-    double viewport[4] = {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
+    double viewport[4] =
+      {static_cast<double>(i)*step, 0.0, static_cast<double>(i+1)*step, 1.0};
     viewports.push_back(viewport);
     vtkSmartPointer<vtkImageActor> actor =
       vtkSmartPointer<vtkImageActor>::New();
@@ -159,7 +160,16 @@ void QuickView::Visualize()
     renderWindow->AddRenderer(renderer);
     renderer->SetViewport(viewports[i]);
     renderer->SetBackground(background);
-    renderer->SetActiveCamera(camera);
+    if (m_ShareCamera)
+      {
+      renderer->SetActiveCamera(sharedCamera);
+      }
+    else
+      {
+      vtkSmartPointer<vtkCamera> aCamera = 
+        vtkSmartPointer<vtkCamera>::New();
+      renderer->SetActiveCamera(aCamera);
+      }
     std::rotate(background, background + 1, background + 6);
 
     if (this->Images[i].m_Description != "")
@@ -207,7 +217,16 @@ void QuickView::Visualize()
     renderWindow->AddRenderer(renderer);
     renderer->SetViewport(viewports[j]);
     renderer->SetBackground(background);
-    renderer->SetActiveCamera(camera);
+    if (m_ShareCamera)
+      {
+      renderer->SetActiveCamera(sharedCamera);
+      }
+    else
+      {
+      vtkSmartPointer<vtkCamera> aCamera = 
+        vtkSmartPointer<vtkCamera>::New();
+      renderer->SetActiveCamera(aCamera);
+      }
     std::rotate(background, background + 1, background + 6);
 
     if (this->RGBImages[j].m_Description != "")

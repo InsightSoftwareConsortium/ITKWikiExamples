@@ -39,6 +39,7 @@ class QuickView
 {
 
 public:
+  QuickView() {m_ShareCamera = true;}
   template<class TImage> void AddImage(
     TImage *,
     bool FlipVertical=true,
@@ -48,10 +49,12 @@ public:
     bool FlipVertical=true,
     std::string Description="");
   void Visualize();
-
+  void ShareCameraOff() {m_ShareCamera = false;}
+  void ShareCameraOn()  {m_ShareCamera = true;}
 private:
   std::vector<ImageInfo>    Images;
   std::vector<RGBImageInfo> RGBImages;
+  bool                      m_ShareCamera;
 };
 
 #endif
