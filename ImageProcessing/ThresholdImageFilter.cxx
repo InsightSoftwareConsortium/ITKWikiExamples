@@ -1,100 +1,57 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkThresholdImageFilter.h"
-#include <itkImageFileReader.h>
+#include "itkImageFileReader.h"
 
-#include <itkImageToVTKImageFilter.h>
+#include "QuickView.h"
 
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
-
-typedef itk::Image<unsigned char, 2>  ImageType;
 
 int main(int argc, char *argv[])
 {
   if(argc < 2)
     {
-    std::cerr << "Required: filename" << std::endl;
+    std::cerr << "Usage: ";
+    std::cerr << argv[0] << " inputImageFile [lowerThreshold] [upperThreshold]" << std::endl;
     return EXIT_FAILURE;
     }
 
+  int lowerThreshold = 10;
+  int upperThreshold = 30;
+  if (argc > 2)
+    {
+    lowerThreshold = atoi(argv[2]);
+    }
+  if (argc > 3)
+    {
+    upperThreshold = atoi(argv[3]);
+    }
+
+  typedef itk::Image<unsigned char, 2>    ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
+
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
 
   typedef itk::ThresholdImageFilter <ImageType>
-          ThresholdImageFilterType;
+    ThresholdImageFilterType;
 
   ThresholdImageFilterType::Pointer thresholdFilter
-          = ThresholdImageFilterType::New();
+    = ThresholdImageFilterType::New();
   thresholdFilter->SetInput(reader->GetOutput());
-  thresholdFilter->ThresholdBelow(100);
+  thresholdFilter->ThresholdOutside(lowerThreshold, upperThreshold);
   thresholdFilter->SetOutsideValue(0);
-  thresholdFilter->Update();
 
-  // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(reader->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
-
-  // Visualize padded image
-  ConnectorType::Pointer thresholdedConnector = ConnectorType::New();
-  thresholdedConnector->SetInput(thresholdFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> thresholdedActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  thresholdedActor->SetInput(thresholdedConnector->GetOutput());
-
-  // There will be one render window
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600, 300);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-  leftRenderer->SetBackground(.6, .5, .4);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-  rightRenderer->SetBackground(.4, .5, .6);
-
-  // Add the sphere to the left and the cube to the right
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(thresholdedActor);
-
-  leftRenderer->ResetCamera();
-  rightRenderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
+  QuickView viewer;
+  viewer.AddImage<ImageType>(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(argv[1]));  
+  std::stringstream desc;
+  desc << "Threshold\nlower = " << lowerThreshold
+       << " upper = " << upperThreshold;
+  viewer.AddImage<ImageType>(
+    thresholdFilter->GetOutput(),
+    true,
+    desc.str());
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
