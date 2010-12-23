@@ -26,7 +26,9 @@ SET(NEEDS_ARGS
   MaskImageFilter
   MinimumMaximumImageCalculator
   NormalizeImageFilter
+  RegionOfInterestImageFilter
   RescaleIntensityImageFilter
+  SigmoidImageFilter
   ThresholdImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
@@ -49,8 +51,14 @@ ADD_TEST(${KIT}-NormalizeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 ADD_TEST(${KIT}-MinimumMaximumImageCalculator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMinimumMaximumImageCalculator ${DATA}/cthead1.png)
 
+ADD_TEST(${KIT}-RegionOfInterestImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRegionOfInterestImageFilter ${DATA}/Gourds.png 100 200)
+
 ADD_TEST(${KIT}-RescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRescaleIntensityImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestSigmoidImageFilter ${DATA}/cthead1.png 10 150)
 
 ADD_TEST(${KIT}-ThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestThresholdImageFilter ${DATA}/cthead1.png 100 150)
