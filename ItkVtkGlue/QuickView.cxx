@@ -100,12 +100,12 @@ void QuickView::AddRGBImage<UnsignedCharRGBImageType>(
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
     flipper->Update();
-    RGBImageInfo myImage(flipper->GetOutput());
+    RGBImageInfo myImage(flipper->GetOutput(), Description);
     this->RGBImages.push_back(myImage);
     }
   else
     {
-    RGBImageInfo myImage(image);
+    RGBImageInfo myImage(image, Description);
     this->RGBImages.push_back(myImage);
     }
 }
