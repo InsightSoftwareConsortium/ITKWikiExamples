@@ -45,10 +45,10 @@ int main(int, char*[])
     for(unsigned int i = 0; i < 9; i++)
       {
       ImageType::IndexType index = iterator.GetIndex(i);
-      std::cout << index[0] << " " << index[1] << std::endl;
 
-      std::cout << "Pixel: " << i << " = " << (int)iterator.GetPixel(i) << std::endl;
-
+      std::cout << "Index: " << index
+                << " Pixel: " << i << " = "
+                << (int)iterator.GetPixel(i) << std::endl;
       }
     ++iterator;
     }
@@ -116,5 +116,4 @@ void CreateImage(ImageType::Pointer image)
     imageIterator.Set(255);
     ++imageIterator;
     }
-
 }
