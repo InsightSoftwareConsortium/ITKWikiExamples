@@ -27,6 +27,7 @@ SET(NEEDS_ARGS
   DiscreteGaussianImageFilter
   MeanImageFilter
   MedianImageFilter
+  SmoothingRecursiveGaussianImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -50,3 +51,6 @@ ADD_TEST(${KIT}-MeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-MedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMedianImageFilter ${DATA}/Gourds.png 3)
+
+ADD_TEST(${KIT}-SmoothingRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestSmoothingRecursiveGaussianImageFilter ${DATA}/Gourds.png 3)
