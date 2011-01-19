@@ -36,8 +36,8 @@ int main(int, char *[])
   
   PasteImageFilterType::Pointer pasteFilter
     = PasteImageFilterType::New ();
-  pasteFilter->SetInput(0, image1);
-  pasteFilter->SetInput(1, image2);
+  pasteFilter->SetSourceImage(image1);
+  pasteFilter->SetDestinationImage(image2);
   pasteFilter->SetSourceRegion(image2->GetLargestPossibleRegion());
   pasteFilter->SetDestinationIndex(destinationIndex);
   pasteFilter->Update();
