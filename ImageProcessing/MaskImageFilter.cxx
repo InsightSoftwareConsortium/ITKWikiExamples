@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
   
   typedef itk::MaskImageFilter< ImageType, ImageType > MaskFilterType;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
-  maskFilter->SetInput1(reader->GetOutput());
-  maskFilter->SetInput2(mask);
+  maskFilter->SetInput(reader->GetOutput());
+  maskFilter->SetMaskImage(mask);
   mask->Print(std::cout);
   QuickView viewer;
   viewer.AddImage(
