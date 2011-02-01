@@ -1,5 +1,4 @@
 #include "itkImage.h"
-#include "itkSimpleFilterWatcher.h"
 #include "itkBinaryNotImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageFileWriter.h"
