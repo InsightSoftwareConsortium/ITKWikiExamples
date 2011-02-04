@@ -64,6 +64,7 @@ void CreateImage(ImageType::Pointer image)
 
   image->SetRegions(region);
   image->Allocate();
+  image->FillBuffer(0);
 
   // Make a square
   for(unsigned int r = 5; r < 10; r++)
