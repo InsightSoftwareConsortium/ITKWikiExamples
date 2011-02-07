@@ -5,34 +5,51 @@
 
 #include <iostream>
 
+void Vector();
+void Line();
+
 int main(int argc, char *argv[])
 {
-  // Get the points on a Bresenham line between (2,2) and (5,5)
-  itk::Point<float,2> p0;
-  p0[0] = 2;
-  p0[1] = 2;
+  Vector();
+  Line();
   
-  itk::Point<float,2> p1;
-  p1[0] = 5;
-  p1[1] = 5;
-  
-  float dist = p0.EuclideanDistanceTo(p1);
-  
+  return EXIT_SUCCESS;
+}
+
+void Vector()
+{
+
   itk::BresenhamLine<2> line;
 
   itk::Vector<float, 2> v;
   v[0] = 1;
   v[1] = 1;
-  std::vector< itk::Offset<2> > offsets = line.BuildLine(v, dist);
+  std::vector< itk::Offset<2> > offsets = line.BuildLine(v, 4);
 
-  itk::Index<2> p0index;
-  p0index[0] = p0[0];
-  p0index[1] = p0[1];
-  
   for(unsigned int i = 0; i < offsets.size(); i++)
     {
-    std::cout << p0index + offsets[i] << std::endl;
+    std::cout << offsets[i] << std::endl;
     }
 
-  return EXIT_SUCCESS;
+}
+
+void Line()
+{
+
+  itk::BresenhamLine<2> line;
+  itk::Index<2> pixel0;
+  pixel0[0] = 0;
+  pixel0[1] = 0;
+  
+  itk::Index<2> pixel1;
+  pixel1[0] = 5;
+  pixel1[1] = 5;
+  
+  std::vector< itk::Index<2> > pixels = line.BuildLine(pixel0, pixel1);
+
+  for(unsigned int i = 0; i < pixels.size(); i++)
+    {
+    std::cout << pixels[i] << std::endl;
+    }
+
 }
