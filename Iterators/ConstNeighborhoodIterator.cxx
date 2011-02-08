@@ -2,15 +2,6 @@
 #include "itkImageFileReader.h"
 #include "itkConstNeighborhoodIterator.h"
 
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
-
 int main(int argc, char*argv[])
 {
   if(argc < 2)
@@ -61,37 +52,6 @@ int main(int argc, char*argv[])
     ++iterator;
     }
 
-  // Visualize
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  ConnectorType::Pointer connector = ConnectorType::New();
-  connector->SetInput(image);
-
-  vtkSmartPointer<vtkImageActor> actor =
-    vtkSmartPointer<vtkImageActor>::New();
-  actor->SetInput(connector->GetOutput());
-
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  vtkSmartPointer<vtkRenderer> renderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(renderer);
-
-  renderer->AddActor(actor);
-  renderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
 
   return EXIT_SUCCESS;
 }
