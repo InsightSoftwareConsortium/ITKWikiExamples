@@ -20,7 +20,7 @@ int main(int, char *[])
   p2[0] = pixel2[0];
   p2[1] = pixel2[1];
 
-  double distance = p0.EuclideanDistanceTo(p1);
+  double distance = p2.EuclideanDistanceTo(p1);
   std::cout << "Distance: " << distance << std::endl;
 
   return EXIT_SUCCESS;
