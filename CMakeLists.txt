@@ -36,14 +36,40 @@ IF(NOT EXECUTABLE_OUTPUT_PATH)
 ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 
+if(WIN32)
+  # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
+  # build full shared libraries only with the GNU toolchain.
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    # CMake adds --enable-all-exports on Cygwin (since Cygwin is
+    # supposed to be UNIX-like), but we need to add it explicitly for
+    # a native windows build with the MinGW tools.
+    if(MINGW)
+      set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    endif(MINGW)
+  else(CMAKE_COMPILER_IS_GNUCXX)
+   if(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "SHARED")
+   else(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+   endif(BUILD_SHARED_LIBS)
+   set(BUILD_SHARED_LIBS OFF)
+  endif(CMAKE_COMPILER_IS_GNUCXX)
+endif(WIN32)
+
 INCLUDE_DIRECTORIES(ItkVtkGlue)
 ADD_SUBDIRECTORY(ItkVtkGlue)
+ADD_SUBDIRECTORY(DICOM)
 ADD_SUBDIRECTORY(EdgesAndGradients)
 ADD_SUBDIRECTORY(IO)
 ADD_SUBDIRECTORY(ImageProcessing)
 ADD_SUBDIRECTORY(Images)
 ADD_SUBDIRECTORY(Iterators)
 ADD_SUBDIRECTORY(Morphology)
+ADD_SUBDIRECTORY(Registration)
 ADD_SUBDIRECTORY(SimpleOperations)
 ADD_SUBDIRECTORY(Smoothing)
 ADD_SUBDIRECTORY(SpectralAnalysis)
