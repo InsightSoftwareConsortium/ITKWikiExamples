@@ -17,8 +17,8 @@ typedef  unsigned char           PixelType;
 
 typedef itk::Image< PixelType, Dimension >  ImageType;
 
-void CreateEllipseImage(ImageType::Pointer image);
-void CreateSphereImage(ImageType::Pointer image);
+static void CreateEllipseImage(ImageType::Pointer image);
+static void CreateSphereImage(ImageType::Pointer image);
 
 int main(int, char *[] )
 {
