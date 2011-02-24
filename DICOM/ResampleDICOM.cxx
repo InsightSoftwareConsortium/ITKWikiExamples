@@ -221,7 +221,7 @@ int main( int argc, char* argv[] )
     itk::EncapsulateMetaData<std::string>(*dict,"0020|000e", seriesUID);
     itk::EncapsulateMetaData<std::string>(*dict,"0020|0052", frameOfReferenceUID);
 
-#if ITK_VERSION_MAJOR
+#if ITK_VERSION_MAJOR >= 4
     gdcm::UIDGenerator sopuid;
     std::string sopInstanceUID = sopuid.Generate();
 #else
