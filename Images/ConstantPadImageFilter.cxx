@@ -1,72 +1,70 @@
 #include "itkImage.h"
+#include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-#include "QuickView.h"
-
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-static void CreateImage(ImageType::Pointer image);
+void CreateImage(ImageType::Pointer image);
+void WriteImage(ImageType::Pointer image, std::string filename);
 
 int main(int, char *[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
+  WriteImage(image, "input.png");
 
+  
   typedef itk::ConstantPadImageFilter <ImageType, ImageType>
-    ConstantPadImageFilterType;
+          ConstantPadImageFilterType;
 
   ImageType::SizeType lowerExtendRegion;
-  lowerExtendRegion[0] = 20;
-  lowerExtendRegion[1] = 30;
+  lowerExtendRegion[0] = 10;
+  lowerExtendRegion[1] = 10;
 
   ImageType::SizeType upperExtendRegion;
   upperExtendRegion[0] = 50;
-  upperExtendRegion[1] = 40;
+  upperExtendRegion[1] = 50;
 
   ImageType::PixelType constantPixel = 100;
 
   ConstantPadImageFilterType::Pointer padFilter
-    = ConstantPadImageFilterType::New();
+          = ConstantPadImageFilterType::New();
   padFilter->SetInput(image);
+  //padFilter->SetPadBound(outputRegion); // Calls SetPadLowerBound(region) and SetPadUpperBound(region)
   padFilter->SetPadLowerBound(lowerExtendRegion);
   padFilter->SetPadUpperBound(upperExtendRegion);
   padFilter->SetConstant(constantPixel);
+  padFilter->Update();
 
-  QuickView viewer;
-  viewer.AddImage<ImageType>(image);
-  viewer.AddImage<ImageType>(padFilter->GetOutput());
-  viewer.Visualize();
-
+  WriteImage(padFilter->GetOutput(), "output.png");
+  
   return EXIT_SUCCESS;
 }
 
 void CreateImage(ImageType::Pointer image)
 {
   // Create an image
-  ImageType::RegionType region;
   ImageType::IndexType start;
-  start[0] = 0;
-  start[1] = 0;
+  start.Fill(0);
 
   ImageType::SizeType size;
-  unsigned int NumRows = 200;
-  unsigned int NumCols = 300;
-  size[0] = NumRows;
-  size[1] = NumCols;
+  size.Fill(100);
 
-  region.SetSize(size);
-  region.SetIndex(start);
+  ImageType::RegionType region(start, size);
 
   image->SetRegions(region);
   image->Allocate();
+  image->FillBuffer(0);
 
-  // Make the whole image white
-  itk::ImageRegionIterator<ImageType> iterator(image,image->GetLargestPossibleRegion());
+}
 
-  while(!iterator.IsAtEnd())
-    {
-    iterator.Set(255);
-    ++iterator;
-    }
+void WriteImage(ImageType::Pointer image, std::string filename)
+{
+  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(filename);
+  writer->SetInput(image);
+  writer->Update();
 }
