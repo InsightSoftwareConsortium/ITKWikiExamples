@@ -24,6 +24,7 @@ SET(NEEDS_ARGS
   DisplayAnImage
   ImageFileReader
   ReadUnknownImageType
+  ImageToVTKImageFilter
 )
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
@@ -39,3 +40,6 @@ ADD_TEST(${KIT}-ImageFileReader ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ReadUnknownImageType ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestReadUnknownImageType ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-ImageToVTKImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestImageToVTKImageFilter ${DATA}/Gourds.png)

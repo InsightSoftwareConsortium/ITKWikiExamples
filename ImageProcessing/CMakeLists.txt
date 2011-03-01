@@ -30,6 +30,7 @@ SET(NEEDS_ARGS
   RescaleIntensityImageFilter
   SigmoidImageFilter
   ThresholdImageFilter
+  CastImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -62,3 +63,7 @@ ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestThresholdImageFilter ${DATA}/cthead1.png 100 150)
+
+ADD_TEST(${KIT}-CastImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestCastImageFilter ${DATA}/Gourds.png)
+
