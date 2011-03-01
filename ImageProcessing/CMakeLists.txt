@@ -14,12 +14,12 @@ foreach(SOURCE_FILE ${ALL_FILES})
   STRING(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
   STRING(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ "" EXAMPLE ${TMP})
   ADD_EXECUTABLE(${EXAMPLE} ${EXAMPLE}.cxx)
-  TARGET_LINK_LIBRARIES(${EXAMPLE} ITKReview ItkVtkGlue)
+  TARGET_LINK_LIBRARIES(${EXAMPLE} ${ITK_LIBRARIES} ITKReview ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
 # Testing
 SET(KIT ImageProcessing)
-SET(KIT_LIBS ITKReview ItkVtkGlue)
+SET(KIT_LIBS ${ITK_LIBRARIES} ItkVtkGlue ITKReview)
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
   ConvolutionImageFilter
