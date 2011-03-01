@@ -8,6 +8,11 @@ INCLUDE(${VTK_USE_FILE})
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
+if(NOT ITK_USE_REVIEW)
+  message(FATAL_ERROR "Examples require building ITK with Review turned on")
+endif()
+
+
 ENABLE_TESTING()
 INCLUDE(CTest)
 CONFIGURE_FILE(${ITKWikiExamples_SOURCE_DIR}/CMake//CTestCustom.ctest.in
