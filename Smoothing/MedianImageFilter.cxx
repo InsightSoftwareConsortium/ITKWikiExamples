@@ -18,12 +18,6 @@ int main(int argc, char * argv[])
     std::cerr << argv[0] << " InputImageFile [radius]" << std::endl;
     return EXIT_FAILURE;
     }
-  unsigned int radius = 2;
-  if (argc > 2)
-    {
-    radius = atoi(argv[2]);
-    }
-
   std::string inputFilename = argv[1];
 
   // Setup types
@@ -38,8 +32,13 @@ int main(int argc, char * argv[])
 
   // Create and setup a median filter
   FilterType::Pointer medianFilter = FilterType::New();
-  FilterType::SizeType kernelRadius;
-  kernelRadius.Fill(radius);
+  FilterType::InputSizeType radius;
+  radius.Fill(2);
+  if (argc > 2)
+    {
+    radius.Fill(atoi(argv[2]));
+    }
+
   medianFilter->SetRadius(radius);
   medianFilter->SetInput( reader->GetOutput() );
 

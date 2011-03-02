@@ -1,3 +1,11 @@
+#if ( ITK_VERSION_MAJOR < 4  )//This only works with ITKv4
+int main(int argc, char *argv[])
+{
+  return 0;
+}
+
+#else
+
 #include "itkBresenhamLine.h"
 #include "itkVector.h"
 #include "itkOffset.h"
@@ -5,18 +13,18 @@
 
 #include <iostream>
 
-void Vector();
-void Line();
+static void Vector(void);
+static void Line(void);
 
 int main(int argc, char *argv[])
 {
   Vector();
   Line();
-  
+
   return EXIT_SUCCESS;
 }
 
-void Vector()
+void Vector(void)
 {
 
   itk::BresenhamLine<2> line;
@@ -33,18 +41,18 @@ void Vector()
 
 }
 
-void Line()
+void Line(void)
 {
 
   itk::BresenhamLine<2> line;
   itk::Index<2> pixel0;
   pixel0[0] = 0;
   pixel0[1] = 0;
-  
+
   itk::Index<2> pixel1;
   pixel1[0] = 5;
   pixel1[1] = 5;
-  
+
   std::vector< itk::Index<2> > pixels = line.BuildLine(pixel0, pixel1);
 
   for(unsigned int i = 0; i < pixels.size(); i++)
@@ -53,3 +61,4 @@ void Line()
     }
 
 }
+#endif

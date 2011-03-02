@@ -2,6 +2,7 @@
 #include "itkBinaryErodeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkFlatStructuringElement.h"
 
 #include "QuickView.h"
 
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  
+
   typedef itk::FlatStructuringElement<2> StructuringElementType;
   StructuringElementType::RadiusType elementRadius;
   elementRadius.Fill(3);

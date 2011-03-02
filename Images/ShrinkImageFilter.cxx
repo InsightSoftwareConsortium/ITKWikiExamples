@@ -5,7 +5,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
@@ -13,7 +13,7 @@ int main(int, char *[])
   CreateImage(image);
 
   std::cout << "Original size: " << image->GetLargestPossibleRegion().GetSize() << std::endl;
-  
+
   typedef itk::ShrinkImageFilter <ImageType, ImageType>
           ShrinkImageFilterType;
 

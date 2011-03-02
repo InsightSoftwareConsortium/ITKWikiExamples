@@ -2,7 +2,7 @@
 #include "itkImageFileReader.h"
 
 template<typename TImageType>
-void ReadFile(std::string filename, typename TImageType::Pointer image);
+static void ReadFile(std::string filename, typename TImageType::Pointer image);
 
 int main(int argc, char *argv[])
 {
