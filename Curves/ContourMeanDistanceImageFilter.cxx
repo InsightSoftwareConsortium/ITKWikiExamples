@@ -19,8 +19,8 @@
 
 typedef itk::Image<unsigned char, 2> ImageType;
 
-void CreateImage1(ImageType::Pointer);
-void CreateImage2(ImageType::Pointer);
+static void CreateImage1(ImageType::Pointer);
+static void CreateImage2(ImageType::Pointer);
 
 int main(int argc, char*argv[])
 {

@@ -6,7 +6,7 @@
 
 typedef itk::Image<unsigned char, 2> ImageType;
 
-void CreateImage(ImageType::Pointer image, unsigned char color);
+static void CreateImage(ImageType::Pointer image, unsigned char color);
 
 int main(int argc, char *argv[])
 {

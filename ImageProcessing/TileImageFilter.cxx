@@ -30,8 +30,8 @@ int main(int argc, char *argv[] )
 
   itk::FixedArray< unsigned int, OutputImageDimension > layout;
 
-  layout[0] = 1;
-  layout[1] = 1;
+  layout[0] = 2;
+  layout[1] = 2;
   layout[2] = 0;
 
   tiler->SetLayout( layout );

@@ -6,8 +6,8 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer image);
-void WriteImage(ImageType::Pointer image, std::string filename);
+static void CreateImage(ImageType::Pointer image);
+static void WriteImage(ImageType::Pointer image, std::string filename);
 
 int main(int, char *[])
 {
@@ -15,9 +15,9 @@ int main(int, char *[])
   CreateImage(image);
   WriteImage(image, "input.png");
 
-  
+
   typedef itk::ConstantPadImageFilter <ImageType, ImageType>
-          ConstantPadImageFilterType;
+    ConstantPadImageFilterType;
 
   ImageType::SizeType lowerExtendRegion;
   lowerExtendRegion[0] = 10;
@@ -30,7 +30,7 @@ int main(int, char *[])
   ImageType::PixelType constantPixel = 100;
 
   ConstantPadImageFilterType::Pointer padFilter
-          = ConstantPadImageFilterType::New();
+    = ConstantPadImageFilterType::New();
   padFilter->SetInput(image);
   //padFilter->SetPadBound(outputRegion); // Calls SetPadLowerBound(region) and SetPadUpperBound(region)
   padFilter->SetPadLowerBound(lowerExtendRegion);
@@ -39,7 +39,7 @@ int main(int, char *[])
   padFilter->Update();
 
   WriteImage(padFilter->GetOutput(), "output.png");
-  
+
   return EXIT_SUCCESS;
 }
 

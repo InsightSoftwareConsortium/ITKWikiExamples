@@ -1,3 +1,10 @@
+#if ( ITK_VERSION_MAJOR < 4  ) //These are all defaults in ITKv4
+//  Not supported in ITKv3.
+int main(int argc, char *argv[])
+{
+  return 0;
+}
+#else
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkMaskImageFilter.h"
@@ -81,3 +88,4 @@ void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
   }
 
 }
+#endif
