@@ -89,4 +89,3 @@ void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
 
 }
 #endif
-

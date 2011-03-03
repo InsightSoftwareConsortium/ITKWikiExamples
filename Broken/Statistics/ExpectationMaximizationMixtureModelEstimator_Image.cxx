@@ -13,8 +13,8 @@
 typedef itk::CovariantVector<unsigned char, 3> PixelType;
 typedef itk::Image<PixelType, 2>  ImageType;
 
-void ControlledImage(ImageType::Pointer image);
-void RandomImage(ImageType::Pointer image);
+static void ControlledImage(ImageType::Pointer image);
+static void RandomImage(ImageType::Pointer image);
 
 int main(int argc, char*argv[])
 {

@@ -14,7 +14,7 @@
 
 typedef itk::Image< PixelType, Dimension >  ImageType;
 
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main( int argc, char *argv[])
 {

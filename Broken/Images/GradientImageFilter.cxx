@@ -19,7 +19,7 @@
 #include "vtkGlyph3DMapper.h"
 #include "vtkArrowSource.h"
 
-void VectorImageToVTKImage(itk::Image<itk::CovariantVector<float, 2>, 2>::Pointer vectorImage, vtkImageData* VTKImage);
+static void VectorImageToVTKImage(itk::Image<itk::CovariantVector<float, 2>, 2>::Pointer vectorImage, vtkImageData* VTKImage);
 
 int main(int argc, char * argv[])
 {
