@@ -7,7 +7,7 @@
 echo "Synchronizing the wikiexamples repository with the wiki."
 HOST=www.itk.org
 echo "0) Can we access the wiki?"
-ping -c 1 $HOST &> /dev/null
+ping -n 1 $HOST &> /dev/null
 if test "${?}" = 1
   then
   echo "$HOST is not accessible. Try again later"
@@ -35,4 +35,4 @@ git rm `git status | grep deleted: | cut -d":" -f2,2`
 git commit -m "SYNC: Files deleted (or moved) from wiki."
 
 echo "7) Push the changes"
-git push git@gitorious.org:itkwikiexamples/itkwikiexamples.git
+

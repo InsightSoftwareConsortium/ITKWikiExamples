@@ -5,8 +5,8 @@
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 typedef itk::Image<float, 2>  FloatImageType;
 
-void CreateImage1(UnsignedCharImageType::Pointer image);
-void CreateImage2(UnsignedCharImageType::Pointer image);
+static void CreateImage1(UnsignedCharImageType::Pointer image);
+static void CreateImage2(UnsignedCharImageType::Pointer image);
 
 int main(int, char *[])
 {
