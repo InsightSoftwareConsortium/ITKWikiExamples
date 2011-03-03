@@ -13,7 +13,7 @@
 
 typedef itk::Image< unsigned char, 2 >  ImageType;
 
-void ApplyThresholding(ImageType::Pointer image);
+static void ApplyThresholding(ImageType::Pointer image);
 
 int main(int argc, char *argv[])
 {

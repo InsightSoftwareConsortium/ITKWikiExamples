@@ -4,7 +4,7 @@
 
 typedef itk::Image<int, 2>  ImageType;
 
-void CreateImage(ImageType::Pointer);
+static void CreateImage(ImageType::Pointer);
 
 int main(int argc, char*argv[])
 {

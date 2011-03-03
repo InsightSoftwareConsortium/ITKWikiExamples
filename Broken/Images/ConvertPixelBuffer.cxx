@@ -15,7 +15,7 @@
 typedef itk::Image<unsigned char, 2>  ScalarImageType;
 typedef itk::Image<itk::Vector<unsigned char, 3>, 2>  ColorImageType;
 
-void CreateImage(ColorImageType::Pointer image);
+static void CreateImage(ColorImageType::Pointer image);
 
 int main(int, char *[])
 {
