@@ -21,7 +21,6 @@ endforeach(SOURCE_FILE)
 SET(KIT IO)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
-  DisplayAnImage
   ImageFileReader
   ReadUnknownImageType
   ImageToVTKImageFilter
@@ -31,9 +30,6 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
-
-ADD_TEST(${KIT}-DisplayAnImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestDisplayAnImage ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-ImageFileReader ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestImageFileReader ${DATA}/Yinyang.png)

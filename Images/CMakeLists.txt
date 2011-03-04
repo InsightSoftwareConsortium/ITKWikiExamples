@@ -21,8 +21,12 @@ endforeach(SOURCE_FILE)
 SET(KIT Images)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  NormalizedCorrelationImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestNormalizedCorrelationImageFilter ${DATA}/Gourds.png)
