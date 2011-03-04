@@ -14,12 +14,12 @@ foreach(SOURCE_FILE ${ALL_FILES})
   STRING(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
   STRING(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ "" EXAMPLE ${TMP})
   ADD_EXECUTABLE(${EXAMPLE} ${EXAMPLE}.cxx)
-  TARGET_LINK_LIBRARIES(${EXAMPLE} ITKReview ItkVtkGlue)
+  TARGET_LINK_LIBRARIES(${EXAMPLE} ${ITK_LIBRARIES} ITKReview ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
 # Testing
 SET(KIT ImageProcessing)
-SET(KIT_LIBS ITKReview ItkVtkGlue)
+SET(KIT_LIBS ${ITK_LIBRARIES} ItkVtkGlue ITKReview)
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
   ConvolutionImageFilter
@@ -30,6 +30,8 @@ SET(NEEDS_ARGS
   RescaleIntensityImageFilter
   SigmoidImageFilter
   ThresholdImageFilter
+  TileImageFilter
+  CastImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -62,3 +64,10 @@ ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestThresholdImageFilter ${DATA}/cthead1.png 100 150)
+
+ADD_TEST(${KIT}-CastImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestCastImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-TileImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestTileImageFilter ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/Gourds.png)
+

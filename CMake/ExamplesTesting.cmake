@@ -14,6 +14,14 @@ foreach(SOURCE_FILE ${ALL_FILES})
     ADD_TEST(${KIT}-${EXAMPLE} ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests Test${EXAMPLE})
   endif(SKIP_ADD EQUAL -1)
 endforeach(SOURCE_FILE)
+
+if(${VTK_MAJOR_VERSION} GREATER 4 AND ${VTK_MINOR_VERSION} GREATER 5 )
+  ## Version is OK if greater than 5.5
+else()
+  MESSAGE(FATAL_ERROR "Need VTK version 5.5 or greater to include the necessary vtkTestingObjectFactory.cmake")
+endif()
+
+
 SET(VTK_BINARY_DIR ${ITKWikiExamples_BINARY_DIR})
 SET(VTK_DATA_ROOT ${ITKWikiExamples_SOURCE_DIR}/Testing)
 INCLUDE(${VTK_SOURCE_DIR}/Rendering/vtkTestingObjectFactory.cmake)

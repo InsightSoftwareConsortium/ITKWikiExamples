@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-void LongFunction();
+static void LongFunction();
 
 int main(int, char *[])
 {
