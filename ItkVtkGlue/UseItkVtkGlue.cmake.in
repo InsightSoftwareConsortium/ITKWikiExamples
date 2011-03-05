@@ -5,10 +5,11 @@
 # obtained from ItkVtkGlue.cmake.
 #
 
-find_package(VTK REQUIRED)
+# The hints point the find_package to the proper VTK and ITK
+find_package(VTK REQUIRED HINTS @VTK_DIR@)
 include(${VTK_USE_FILE})
 
-find_package(ITK REQUIRED)
+find_package(ITK REQUIRED HINTS @ITK_DIR@)
 include(${ITK_USE_FILE})
 
 # Add include directories needed to use ItkVtkGlue.
@@ -17,3 +18,5 @@ include_directories(@ItkVtkGlue_INCLUDE_DIRS_CONFIG@)
 # Add link directories needed to use ItkVtkGlue.
 link_directories(@ItkVtkGlue_LIBRARY_DIRS_CONFIG@)
 
+# Define VTK_LIBRARIES since VTK does not define it
+set(VTK_LIBRARIES vtkHybrid)
