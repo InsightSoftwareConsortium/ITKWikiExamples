@@ -122,7 +122,6 @@ int main(int argc, char *argv[])
   bestPatchExtractFilter->Update();
 
   QuickView viewer;
-  viewer.ShareCameraOff();
   viewer.AddImage(reader->GetOutput());
   viewer.AddImage(extractFilter->GetOutput());
   viewer.AddImage(correlationFilter->GetOutput());

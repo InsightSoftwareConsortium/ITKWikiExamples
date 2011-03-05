@@ -18,8 +18,8 @@ int main(int, char *[])
   {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS; // Since the goal of the example is to catch the exception, we declare this a success.
   }
 
-  return EXIT_SUCCESS;
+  return EXIT_FAILURE; // Since the goal of the example is to catch the exception, the example fails if it is not caught.
 }
