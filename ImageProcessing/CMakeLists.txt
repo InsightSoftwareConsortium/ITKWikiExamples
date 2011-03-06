@@ -23,6 +23,7 @@ SET(KIT_LIBS ${ITK_LIBRARIES} ItkVtkGlue ITKReview)
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
   ConvolutionImageFilter
+  LaplacianImageFilter
   MaskImageFilter
   MinimumMaximumImageCalculator
   NormalizeImageFilter
@@ -46,6 +47,9 @@ ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-LaplacianImageFilterImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestLaplacianImageFilter ${DATA}/cthead1.png)
 
 ADD_TEST(${KIT}-NormalizeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNormalizeImageFilter ${DATA}/cthead1.png)
