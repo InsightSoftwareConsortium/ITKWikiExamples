@@ -21,8 +21,32 @@ endforeach(SOURCE_FILE)
 SET(KIT Iterators)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  ConstNeighborhoodIterator
+  ImageRegionConstIterator
+  ImageRegionConstIteratorWithIndex
+  ImageRegionIterator
+  ImageRegionIteratorWithIndex
+  NeighborhoodIterator
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-ConstNeighborhoodIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestConstNeighborhoodIterator ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-ImageRegionConstIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestImageRegionConstIterator ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-ImageRegionConstIteratorWithIndex ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestImageRegionConstIteratorWithIndex ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-ImageRegionIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestImageRegionIterator ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-ImageRegionIteratorWithIndex ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestImageRegionIteratorWithIndex ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-NeighborhoodIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestNeighborhoodIterator ${DATA}/cthead1.png)
