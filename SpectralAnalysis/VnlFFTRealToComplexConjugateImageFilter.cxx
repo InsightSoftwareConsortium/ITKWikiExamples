@@ -1,5 +1,4 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
@@ -26,7 +25,6 @@ int main(int argc, char*argv[])
     }
 
   // Define some types
-  typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
   typedef itk::Image<float, 2> FloatImageType;
 
   // Read the image
@@ -37,17 +35,18 @@ int main(int argc, char*argv[])
 
   // Compute the smallest power of two that is bigger than the image
   unsigned int powerOfTwo = 0;
-  for(unsigned int i = 0; i < 10; i++)
+  for(unsigned int i = 0; i < 20; i++)
     {
-    if(pow(2, i) > reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] &&
-       pow(2, i) > reader->GetOutput()->GetLargestPossibleRegion().GetSize()[1])
+    if(pow(2, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] &&
+       pow(2, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[1])
       {
       powerOfTwo = i;
       break;
       }
     }
 
-  // Create an image bigger than the input image and that has dimensions which are powers of two
+  // Create an image bigger than the input image and that has
+  // dimensions which are powers of two
   itk::Index<2> start;
   start.Fill(0);
 
@@ -55,11 +54,12 @@ int main(int argc, char*argv[])
   size.Fill(pow(2,powerOfTwo));
 
   itk::ImageRegion<2> region(start, size);
-  
+
   FloatImageType::Pointer image = FloatImageType::New();
   image->SetRegions(region);
   image->Allocate();
-  
+  image->FillBuffer(0);
+
   // The image dimensions must be powers of two
   typedef itk::PasteImageFilter <FloatImageType, FloatImageType >
     PasteImageFilterType;
@@ -77,54 +77,34 @@ int main(int argc, char*argv[])
   image->Graft(pasteFilter->GetOutput());
   
   // Compute the FFT
-  
   typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType::PixelType, 2> FFTType;
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
-  fftFilter->Update();
   
   // Extract the real part
   typedef itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType> RealFilterType;
   RealFilterType::Pointer realFilter = RealFilterType::New();
   realFilter->SetInput(fftFilter->GetOutput());
-  realFilter->Update();
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
-  RescaleFilterType::Pointer realRescaleFilter = RescaleFilterType::New();
-  realRescaleFilter->SetInput(realFilter->GetOutput());
-  realRescaleFilter->SetOutputMinimum(0);
-  realRescaleFilter->SetOutputMaximum(255);
-  realRescaleFilter->Update();
-
-  // Extract the real part
+  // Extract the complex part
   typedef itk::ComplexToImaginaryImageFilter<FFTType::OutputImageType, FloatImageType> ImaginaryFilterType;
   ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
   imaginaryFilter->SetInput(fftFilter->GetOutput());
-  imaginaryFilter->Update();
-
-  RescaleFilterType::Pointer imaginaryRescaleFilter = RescaleFilterType::New();
-  imaginaryRescaleFilter->SetInput(imaginaryFilter->GetOutput());
-  imaginaryRescaleFilter->SetOutputMinimum(0);
-  imaginaryRescaleFilter->SetOutputMaximum(255);
-  imaginaryRescaleFilter->Update();
 
   // Compute the magnitude
   typedef itk::ComplexToModulusImageFilter<FFTType::OutputImageType, FloatImageType> ModulusFilterType;
   ModulusFilterType::Pointer modulusFilter = ModulusFilterType::New();
   modulusFilter->SetInput(fftFilter->GetOutput());
-  modulusFilter->Update();
-
-  RescaleFilterType::Pointer magnitudeRescaleFilter = RescaleFilterType::New();
-  magnitudeRescaleFilter->SetInput(modulusFilter->GetOutput());
-  magnitudeRescaleFilter->SetOutputMinimum(0);
-  magnitudeRescaleFilter->SetOutputMaximum(255);
-  magnitudeRescaleFilter->Update();
 
   QuickView viewer;
-  viewer.AddImage(image.GetPointer());
-  viewer.AddImage(realRescaleFilter->GetOutput());
-  viewer.AddImage(imaginaryRescaleFilter->GetOutput());
-  viewer.AddImage(magnitudeRescaleFilter->GetOutput());
+  viewer.AddImage(image.GetPointer(), true,
+    itksys::SystemTools::GetFilenameName(argv[1]));
+  viewer.AddImage(realFilter->GetOutput(), true,
+    "Real");
+  viewer.AddImage(imaginaryFilter->GetOutput(), true,
+    "Imaginary");
+  viewer.AddImage(modulusFilter->GetOutput(), true,
+    "Magnitude");
   viewer.Visualize();
 
   return EXIT_SUCCESS;

@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
 
   // We use floats internally
   typedef   float                                    InternalPixelType;
-  typedef itk::Image< float, 2> InternalImageType;
+  typedef itk::Image< float, Dimension> InternalImageType;
 
   // Normalize the images
   typedef itk::NormalizeImageFilter<ImageType, InternalImageType> NormalizeFilterType;
