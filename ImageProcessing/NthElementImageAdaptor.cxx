@@ -44,16 +44,13 @@ void CreateImage(VectorImageType::Pointer image)
   image->SetRegions(region);
   image->Allocate();
 
+  // Create a pixel and fill it with (1,2,3), and set every pixel of the image to this pixel.
+
   itk::ImageRegionIterator<VectorImageType> imageIterator(image,image->GetLargestPossibleRegion());
-  itk::CovariantVector<float, 3> vec;
-  vec[0] = 1;
-  vec[1] = 2;
-  vec[2] = 3;
+  itk::CovariantVector<float, 3> vectorPixel;
+  vectorPixel[0] = 1;
+  vectorPixel[1] = 2;
+  vectorPixel[2] = 3;
 
-  while(!imageIterator.IsAtEnd())
-    {
-    imageIterator.Set(vec);
-
-    ++imageIterator;
-    }
+  image->FillBuffer(vectorPixel);
 }
