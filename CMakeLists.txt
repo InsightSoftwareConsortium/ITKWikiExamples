@@ -8,9 +8,6 @@ INCLUDE(${VTK_USE_FILE})
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE(${ITK_USE_FILE})
 
-if(NOT ITK_USE_REVIEW)
-  message(FATAL_ERROR "Examples require building ITK with Review turned on")
-endif()
 
 
 ENABLE_TESTING()
@@ -64,6 +61,13 @@ if(WIN32)
    set(BUILD_SHARED_LIBS OFF)
   endif(CMAKE_COMPILER_IS_GNUCXX)
 endif(WIN32)
+
+if (ITK_VERSION_MAJOR STRLESS 4)
+  set(ITK_LIBRARIES ${ITK_LIBRARIES};ITKReview)
+  if(NOT ITK_USE_REVIEW)
+    message(FATAL_ERROR "Examples require building ITK with Review turned on")
+  endif()
+endif ()
 
 INCLUDE_DIRECTORIES(ItkVtkGlue)
 ADD_SUBDIRECTORY(ItkVtkGlue)
