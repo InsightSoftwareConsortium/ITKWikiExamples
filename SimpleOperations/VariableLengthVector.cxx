@@ -1,6 +1,5 @@
 #include <itkVariableLengthVector.h>
 #include <itkVector.h>
-#include <QtCore/qtextstream.h>
 
 void VectorToVariableLengthVector();
 void VariableLengthVectorToVector();
