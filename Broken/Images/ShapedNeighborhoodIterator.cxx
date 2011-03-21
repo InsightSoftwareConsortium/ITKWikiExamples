@@ -3,7 +3,13 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+// Notice that char type pixel values will not appear 
+// properly on the command prompt therefore for the 
+// demonstration purposes it is best to use the int 
+// type, however in real applications iterators have 
+// no problems with char type images.
+//typedef itk::Image<unsigned char, 2>  ImageType;
+typedef itk::Image<unsigned int, 2>  ImageType;
 
 void CreateImage(ImageType::Pointer image);
 
@@ -45,10 +51,18 @@ int main(int, char*[])
 
     for(iterator.GoToBegin(); !iterator.IsAtEnd(); ++iterator) // Crashes here!
       {
+      // The method for accessing pixel values using neighborhood
+      // iterators is GetPixel(offset).
+      std::cout << "top: " << iterator.GetPixel(top) << std::endl;
+      std::cout << "bottom: " << iterator.GetPixel(bottom) << std::endl;
+      std::cout << "left: " << iterator.GetPixel(left) << std::endl;
+      std::cout << "right: " << iterator.GetPixel(right) << std::endl;
+      /*
       std::cout << "top: " << iterator[top] << std::endl;
       std::cout << "bottom: " << iterator[bottom] << std::endl;
       std::cout << "left: " << iterator[left] << std::endl;
       std::cout << "right: " << iterator[right] << std::endl;
+      */
       }
     }
 
