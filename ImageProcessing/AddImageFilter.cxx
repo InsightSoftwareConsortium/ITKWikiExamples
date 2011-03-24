@@ -1,5 +1,4 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkAddImageFilter.h"
 
