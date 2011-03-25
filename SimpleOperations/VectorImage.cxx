@@ -2,19 +2,16 @@
 
 int main(int, char *[])
 {
+  // Create an image
   typedef itk::VectorImage<float, 2>  ImageType;
 
-  ImageType::RegionType region;
   ImageType::IndexType start;
-  start[0] = 0;
-  start[1] = 0;
+  start.Fill(0);
 
   ImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 3;
+  size.Fill(2);
 
-  region.SetSize(	size);
-  region.SetIndex(start);
+  ImageType::RegionType region(start,size);
 
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
@@ -29,5 +26,15 @@ int main(int, char *[])
 
   std::cout << "pixel (1,1) = " << pixelValue << std::endl;
 
+  typedef itk::VariableLengthVector<double> VariableVectorType;
+  VariableVectorType variableLengthVector;
+  variableLengthVector.SetSize(2);
+  variableLengthVector[0] = 1.1;
+  variableLengthVector[1] = 2.2;
+
+  image->SetPixel(pixelIndex, variableLengthVector);
+
+  std::cout << "pixel (1,1) = " << pixelValue << std::endl;
+  
   return EXIT_SUCCESS;
 }
