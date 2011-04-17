@@ -51,8 +51,7 @@ int main(int argc, char*argv[])
   movingFFTShiftFilter->Update();
   
   // Compute the FFT of the input
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<
-                                PixelType, Dimension >  FFTFilterType;
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter< FloatImageType >  FFTFilterType;
   FFTFilterType::Pointer fixedFFTFilter = FFTFilterType::New();
   fixedFFTFilter->SetInput( fixedFFTShiftFilter->GetOutput() );
   fixedFFTFilter->Update();
@@ -92,8 +91,7 @@ int main(int argc, char*argv[])
   multiplyFilter->SetInput2( conjugateFilter->GetOutput() );
 
   // IFFT
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter<
-        PixelType, Dimension >  IFFTFilterType;
+  typedef itk::VnlFFTComplexConjugateToRealImageFilter< SpectralImageType >  IFFTFilterType;
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
   fftInverseFilter->SetInput( multiplyFilter->GetOutput() );
 

@@ -77,7 +77,7 @@ int main(int argc, char*argv[])
   image->Graft(pasteFilter->GetOutput());
   
   // Compute the FFT
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType::PixelType, 2> FFTType;
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType> FFTType;
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
   
