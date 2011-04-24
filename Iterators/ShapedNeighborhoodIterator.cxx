@@ -5,9 +5,9 @@
 //#include "itkFlatStructuringElement.h"
 #include "itkBinaryBallStructuringElement.h"
 
-typedef itk::Image<unsigned int, 2>  ImageType;
+typedef itk::Image<int, 2>  ImageType;
  
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
  
 int main(int, char*[])
 {
