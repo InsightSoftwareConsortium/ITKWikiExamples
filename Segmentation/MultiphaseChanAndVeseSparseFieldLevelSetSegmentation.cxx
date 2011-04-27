@@ -7,8 +7,6 @@
 #include "itkImage.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 
-using namespace itk;
-
 int main(int argc, char**argv)
 {
   if( argc < 10 )
