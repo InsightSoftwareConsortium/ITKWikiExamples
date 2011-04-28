@@ -9,6 +9,7 @@ template< class TImage>
 class ImageFilter:public ImageToImageFilter< TImage, TImage >
 {
 public:
+
   /** Standard class typedefs. */
   typedef ImageFilter             Self;
   typedef ImageToImageFilter< TImage, TImage > Superclass;
@@ -20,12 +21,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFilter, ImageToImageFilter);
 
+  itkSetMacro( Variable, double );
+  itkGetMacro( Variable, double);
+
 protected:
   ImageFilter(){}
   ~ImageFilter(){}
 
   /** Does the real work. */
   virtual void GenerateData();
+
+  double m_Variable;
 
 private:
   ImageFilter(const Self &); //purposely not implemented
