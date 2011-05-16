@@ -16,8 +16,8 @@
 int main(int argc, char*argv[])
 {
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
-  typedef itk::Image< PixelType, Dimension >  FloatImageType;
+  typedef  float                                  PixelType;
+  typedef itk::Image< PixelType, Dimension >      FloatImageType;
   typedef itk::Image< unsigned char, Dimension >  UnsignedCharImageType;
 
   if( argc < 3 )
@@ -77,15 +77,15 @@ int main(int argc, char*argv[])
   MultiplyConstantFilterType::Pointer flipSignFilter = MultiplyConstantFilterType::New();
   flipSignFilter->SetConstant(-1);
   flipSignFilter->SetInput(imaginaryFilter->GetOutput());
-  typedef itk::RealAndImaginaryToComplexImageFilter<PixelType,PixelType,PixelType,2> RealImagToComplexFilterType;
-  RealImagToComplexFilterType::Pointer conjugateFilter = RealImagToComplexFilterType::New();
+  typedef itk::RealAndImaginaryToComplexImageFilter<FloatImageType> RealImageToComplexFilterType;
+  RealImageToComplexFilterType::Pointer conjugateFilter = RealImageToComplexFilterType::New();
   conjugateFilter->SetInput1(realFilter->GetOutput());
   conjugateFilter->SetInput2(flipSignFilter->GetOutput());
 
   // The conjugate product of the spectrum
   typedef itk::MultiplyImageFilter< SpectralImageType,
-                                  SpectralImageType,
-                                  SpectralImageType >  MultiplyFilterType;
+    SpectralImageType,
+    SpectralImageType >  MultiplyFilterType;
   MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1( fixedFFTFilter->GetOutput() );
   multiplyFilter->SetInput2( conjugateFilter->GetOutput() );
@@ -110,10 +110,10 @@ int main(int argc, char*argv[])
   writer->Update();
 
   typedef itk::MinimumMaximumImageCalculator <UnsignedCharImageType>
-          ImageCalculatorFilterType;
+    ImageCalculatorFilterType;
 
   ImageCalculatorFilterType::Pointer imageCalculatorFilter
-          = ImageCalculatorFilterType::New ();
+    = ImageCalculatorFilterType::New ();
   imageCalculatorFilter->SetImage(rescaler->GetOutput());
   imageCalculatorFilter->Compute();
   

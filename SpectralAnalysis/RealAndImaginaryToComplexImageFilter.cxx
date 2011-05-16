@@ -11,13 +11,14 @@ int main( int argc, char *argv[] )
   ImageType::Pointer realImage = ImageType::New();
   ImageType::Pointer imaginaryImage = ImageType::New();
     
-  typedef itk::RealAndImaginaryToComplexImageFilter<unsigned char,unsigned char, float, 2 > RealAndImaginaryToComplexImageFilterType;
+  typedef itk::RealAndImaginaryToComplexImageFilter<ImageType,ImageType,ComplexImageType> RealAndImaginaryToComplexImageFilterType;
   RealAndImaginaryToComplexImageFilterType::Pointer realAndImaginaryToComplexImageFilter = RealAndImaginaryToComplexImageFilterType::New();
   realAndImaginaryToComplexImageFilter->SetInput1(realImage);
   realAndImaginaryToComplexImageFilter->SetInput2(imaginaryImage);
   realAndImaginaryToComplexImageFilter->Update();
 
   ComplexImageType* output = realAndImaginaryToComplexImageFilter->GetOutput();
-  
+  output->Print(std::cout);
+
   return EXIT_SUCCESS;
 }

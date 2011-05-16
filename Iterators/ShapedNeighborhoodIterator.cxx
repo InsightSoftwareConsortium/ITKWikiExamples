@@ -1,11 +1,12 @@
 #include "itkImage.h"
 #include "itkShapedNeighborhoodIterator.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-//#include "itkFlatStructuringElement.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkBinaryCrossStructuringElement.h"
 
-typedef itk::Image<int, 2>  ImageType;
+typedef itk::Image<int, 2>       ImageType;
+typedef ImageType::PixelType     PixelType;
  
 static void CreateImage(ImageType::Pointer image);
  
@@ -13,23 +14,51 @@ int main(int, char*[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
-  ImageType::SizeType radius;
-  radius.Fill(1);
    
-  //typedef itk::FlatStructuringElement<2> StructuringElementType;
-  typedef itk::BinaryBallStructuringElement<int, 2> StructuringElementType;
+  typedef itk::BinaryBallStructuringElement<PixelType, 2>
+    StructuringElementType;
   StructuringElementType::RadiusType elementRadius;
-  elementRadius.Fill(3);
+  elementRadius.Fill(2);
   
   StructuringElementType structuringElement;
   structuringElement.SetRadius(elementRadius);
   structuringElement.CreateStructuringElement();
-  
+
   typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
-  IteratorType iterator(structuringElement.GetRadius(), image, image->GetLargestPossibleRegion());
+  IteratorType siterator(structuringElement.GetRadius(),
+                         image,
+                         image->GetLargestPossibleRegion());
   
-  iterator.SetNeighborhood(structuringElement);
+  siterator.CreateActiveListFromNeighborhood(structuringElement);
+  siterator.NeedToUseBoundaryConditionOff();
+
+  IteratorType::IndexType location;
+  location[0] = 4;
+  location[1] = 5;
+  siterator.SetLocation(location);
+  IteratorType::Iterator i;
+  for (i = siterator.Begin(); !i.IsAtEnd(); ++i)
+    {
+    i.Set(1);
+    }
   
+  // Now show the results
+  typedef itk::ImageRegionConstIterator<ImageType> ImageIteratorType;
+  ImageIteratorType imit(image, image->GetLargestPossibleRegion());
+  imit.GoToBegin();
+  unsigned int col = 0;
+  while( !imit.IsAtEnd() )
+    {
+    PixelType value = imit.Get();
+    ++imit;
+    ++col;
+    std::cout << value << " ";
+    if ((col % 10) == 0)
+      {
+      std::cout << std::endl;
+      }
+    }
+
   return EXIT_SUCCESS;
 }
  
@@ -46,5 +75,4 @@ void CreateImage(ImageType::Pointer image)
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
- 
 }
