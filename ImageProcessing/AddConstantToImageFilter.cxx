@@ -1,5 +1,5 @@
 #include "itkImage.h"
-#include "itkAddConstantToImageFilter.h"
+#include "itkAddImageFilter.h"
 #include "itkImageFileWriter.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
@@ -10,16 +10,16 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::AddConstantToImageFilter <ImageType, unsigned char, ImageType> AddConstantToImageFilterType;
-  AddConstantToImageFilterType::Pointer addConstantToImageFilter = AddConstantToImageFilterType::New();
-  addConstantToImageFilter->SetInput(image);
-  addConstantToImageFilter->SetConstant(2);
-  addConstantToImageFilter->Update();
+  typedef itk::AddImageFilter <ImageType, ImageType, ImageType> AddImageFilterType;
+  AddImageFilterType::Pointer addImageFilter = AddImageFilterType::New();
+  addImageFilter->SetInput(image);
+  addImageFilter->SetConstant2(2);
+  addImageFilter->Update();
 
   typedef  itk::ImageFileWriter< ImageType  > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
-  writer->SetInput(addConstantToImageFilter->GetOutput());
+  writer->SetInput(addImageFilter->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

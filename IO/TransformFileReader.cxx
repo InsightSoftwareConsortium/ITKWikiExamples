@@ -7,7 +7,7 @@ int main(int, char *[])
   TransformType::Pointer transform = TransformType::New();
 
   itk::TransformFileReader::Pointer reader = itk::TransformFileReader::New();
-  reader->SetFileName("test.meta");
+  reader->SetFileName("test.tfm");
   reader->Update();
 
   return EXIT_SUCCESS;

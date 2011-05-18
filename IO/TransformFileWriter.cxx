@@ -8,7 +8,7 @@ int main(int, char *[])
 
   itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
   writer->SetInput(transform);
-  writer->SetFileName("test.meta");
+  writer->SetFileName("test.tfm");
   writer->Update();
 
   return EXIT_SUCCESS;

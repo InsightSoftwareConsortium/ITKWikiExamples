@@ -1,5 +1,5 @@
 #include "itkImage.h"
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
@@ -25,7 +25,7 @@ int main( int argc, char *argv[])
 
   OutputImage(image);
 
-  typedef itk::MultiplyByConstantImageFilter<ImageType, unsigned char, ImageType> MultiplyByConstantImageFilterType;
+  typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> MultiplyByConstantImageFilterType;
   MultiplyByConstantImageFilterType::Pointer multiplyByConstantImageFilter = MultiplyByConstantImageFilterType::New();
   multiplyByConstantImageFilter->SetInput(image);
   multiplyByConstantImageFilter->SetConstant(3);
