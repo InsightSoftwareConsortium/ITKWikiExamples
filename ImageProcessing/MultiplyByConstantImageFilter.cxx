@@ -4,7 +4,7 @@
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
-void OutputImage(ImageType::Pointer image);
+static void OutputImage(ImageType::Pointer image);
 
 int main( int argc, char *argv[])
 {
@@ -25,13 +25,13 @@ int main( int argc, char *argv[])
 
   OutputImage(image);
 
-  typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> MultiplyByConstantImageFilterType;
-  MultiplyByConstantImageFilterType::Pointer multiplyByConstantImageFilter = MultiplyByConstantImageFilterType::New();
-  multiplyByConstantImageFilter->SetInput(image);
-  multiplyByConstantImageFilter->SetConstant(3);
-  multiplyByConstantImageFilter->Update();
+  typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> MultiplyImageFilterType;
+  MultiplyImageFilterType::Pointer multiplyImageFilter = MultiplyImageFilterType::New();
+  multiplyImageFilter->SetInput(image);
+  multiplyImageFilter->SetConstant2(3);
+  multiplyImageFilter->Update();
 
-  OutputImage(multiplyByConstantImageFilter->GetOutput());
+  OutputImage(multiplyImageFilter->GetOutput());
   
   return EXIT_SUCCESS;
 }
@@ -48,5 +48,4 @@ void OutputImage(ImageType::Pointer image)
 
     ++imageIterator;
     }
-
 }

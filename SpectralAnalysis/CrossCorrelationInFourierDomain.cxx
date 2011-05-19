@@ -7,11 +7,14 @@
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 #include "itkRealAndImaginaryToComplexImageFilter.h"
-#include "itkMultiplyByConstantImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkFFTShiftImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
+
+#if ITK_VERSION_MAJOR < 4
+#include "itkMultiplyByConstantImageFilter.h"
+#endif
 
 int main(int argc, char*argv[])
 {
@@ -73,9 +76,18 @@ int main(int argc, char*argv[])
   imaginaryFilter->SetInput(movingFFTFilter->GetOutput());
 
   // Flip the sign of the imaginary and combine with the real part again
+#if ITK_VERSION_MAJOR < 4
   typedef itk::MultiplyByConstantImageFilter<FloatImageType,PixelType,FloatImageType> MultiplyConstantFilterType;
+#else
+  typedef itk::MultiplyImageFilter<FloatImageType,FloatImageType,FloatImageType> MultiplyConstantFilterType;
+#endif
+
   MultiplyConstantFilterType::Pointer flipSignFilter = MultiplyConstantFilterType::New();
+#if ITK_VERSION_MAJOR < 4
   flipSignFilter->SetConstant(-1);
+#else
+  flipSignFilter->SetConstant2(-1);
+#endif
   flipSignFilter->SetInput(imaginaryFilter->GetOutput());
   typedef itk::RealAndImaginaryToComplexImageFilter<FloatImageType> RealImageToComplexFilterType;
   RealImageToComplexFilterType::Pointer conjugateFilter = RealImageToComplexFilterType::New();
