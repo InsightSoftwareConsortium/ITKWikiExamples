@@ -1,5 +1,5 @@
 #include "itkImage.h"
-#include "itkImageToVectorImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkVectorImage.h"
 
 typedef itk::VectorImage<unsigned char, 2>  VectorImageType;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   ScalarImageType::Pointer image2 = ScalarImageType::New();
   CreateImage(image2);
   
-  typedef itk::ImageToVectorImageFilter<ScalarImageType> ImageToVectorImageFilterType;
+  typedef itk::ComposeImageFilter<ScalarImageType> ImageToVectorImageFilterType;
   ImageToVectorImageFilterType::Pointer imageToVectorImageFilter = ImageToVectorImageFilterType::New();
   imageToVectorImageFilter->SetNthInput(0, image0);
   imageToVectorImageFilter->SetNthInput(1, image1);

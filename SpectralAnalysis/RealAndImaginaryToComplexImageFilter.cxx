@@ -1,5 +1,5 @@
 #include "itkImage.h"
-#include "itkRealAndImaginaryToComplexImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 #include <complex>
 
@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
   ImageType::Pointer realImage = ImageType::New();
   ImageType::Pointer imaginaryImage = ImageType::New();
     
-  typedef itk::RealAndImaginaryToComplexImageFilter<ImageType,ImageType,ComplexImageType> RealAndImaginaryToComplexImageFilterType;
+  typedef itk::ComposeImageFilter<ImageType,ComplexImageType> RealAndImaginaryToComplexImageFilterType;
   RealAndImaginaryToComplexImageFilterType::Pointer realAndImaginaryToComplexImageFilter = RealAndImaginaryToComplexImageFilterType::New();
   realAndImaginaryToComplexImageFilter->SetInput1(realImage);
   realAndImaginaryToComplexImageFilter->SetInput2(imaginaryImage);
