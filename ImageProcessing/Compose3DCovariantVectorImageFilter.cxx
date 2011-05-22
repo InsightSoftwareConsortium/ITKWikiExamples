@@ -1,6 +1,10 @@
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIterator.h"
+#if ITK_VERSION_MAJOR < 4
+#include "itkCompose3DCovariantVectorImageFilter.h"
+#else
 #include "itkComposeImageFilter.h"
+#endif
 
 typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
 typedef itk::Image<float, 2> ScalarImageType;
@@ -12,9 +16,13 @@ int main(int, char *[])
   ScalarImageType::Pointer image = ScalarImageType::New();
   CreateImage(image);
 
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::Compose3DCovariantVectorImageFilter<ScalarImageType,
+                              VectorImageType> ComposeCovariantVectorImageFilterType;
+#else
   typedef itk::ComposeImageFilter<ScalarImageType,
                               VectorImageType> ComposeCovariantVectorImageFilterType;
-
+#endif
   ComposeCovariantVectorImageFilterType::Pointer composeFilter = ComposeCovariantVectorImageFilterType::New();
 
   composeFilter->SetInput1(image);

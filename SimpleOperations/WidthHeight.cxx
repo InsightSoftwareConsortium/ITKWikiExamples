@@ -1,15 +1,21 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
-  // Create a vector image
-  typedef itk::Image<float, 2>  ImageType;
+  // Verify command line arguments
+  if( argc < 2 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " inputImageFile" << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  typedef itk::Image<float, 2>            ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName("test.png");
+  reader->SetFileName( argv[1] );
   reader->Update();
 
   std::cout << reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] << " "
