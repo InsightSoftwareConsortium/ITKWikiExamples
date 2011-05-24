@@ -22,6 +22,7 @@ SET(KIT Images)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   NormalizedCorrelationImageFilter
+  VectorRescaleIntensityImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -30,3 +31,6 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNormalizedCorrelationImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-VectorRescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestVectorRescaleIntensityImageFilter ${DATA}/Gourds.png ${TEMP}/Gourds_rescaled.png)
