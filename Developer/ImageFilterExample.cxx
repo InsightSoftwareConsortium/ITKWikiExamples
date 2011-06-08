@@ -1,30 +1,30 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
-#include "ImageFilter.h"
-
+ 
+#include "itkOilPaintingImageFilter.h"
+ 
 int main(int, char*[])
 {
-  // Setup types
   typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::ImageFilter<ImageType>  FilterType;
-
+  typedef itk::OilPaintingImageFilter<ImageType>  FilterType;
+ 
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName("Test.jpg");
+  reader->SetFileName("LenaGrayscale.jpg");
   reader->Update();
-  
-  // Create and the filter
+ 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
+  filter->SetNumberOfBins(50);
+  filter->SetRadius(2);
   filter->Update();
-
+ 
   typedef  itk::ImageFileWriter< ImageType  > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("TestOutput.jpg");
+  writer->SetFileName("LenaOil.jpg");
   writer->SetInput(filter->GetOutput());
   writer->Update();
-
+ 
   return EXIT_SUCCESS;
 }
