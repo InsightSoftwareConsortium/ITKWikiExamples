@@ -55,8 +55,8 @@ int main(int, char*[])
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
     {
     components.push_back( ComponentType::New() );
-    (components[i])->SetSample( sample );
-    (components[i])->SetParameters( initialParameters[i] );
+    components[i]->SetSample( sample );
+    components[i]->SetParameters( initialParameters[i] );
     }
 
   typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
@@ -75,7 +75,7 @@ int main(int, char*[])
   for(unsigned int i = 0; i < numberOfClasses; i++)
     {
     estimator->AddComponent( (ComponentType::Superclass*)
-                             (components[i]).GetPointer() );
+                             components[i].GetPointer() );
     }
 
   estimator->Update();
@@ -84,7 +84,7 @@ int main(int, char*[])
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
-    std::cout << "         " << (components[i])->GetFullParameters()
+    std::cout << "         " << components[i]->GetFullParameters()
               << std::endl;
     std::cout << "    Proportion: ";
     std::cout << "         " << estimator->GetProportions()[i] << std::endl;
