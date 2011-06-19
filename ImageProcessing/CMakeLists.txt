@@ -22,6 +22,7 @@ SET(KIT ImageProcessing)
 SET(KIT_LIBS ${ITK_LIBRARIES} ItkVtkGlue)
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
+  CastImageFilter
   ConvolutionImageFilter
   LaplacianImageFilter
   MaskImageFilter
@@ -32,7 +33,8 @@ SET(NEEDS_ARGS
   SigmoidImageFilter
   ThresholdImageFilter
   TileImageFilter_SideBySide
-  CastImageFilter
+  TileImageFilter_CreateVolume
+  Upsampling
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -73,5 +75,10 @@ ADD_TEST(${KIT}-CastImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestCastImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-TileImageFilter_SideBySide ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestTileImageFilter_SideBySide ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/Gourds.png)
+  TestTileImageFilter_SideBySide ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/TileImageFilter_SideBySide.png)
 
+ADD_TEST(${KIT}-TileImageFilter_CreateVolume ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestTileImageFilter_CreateVolume ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/TileImageFilter_CreateVolume.mha)
+
+ADD_TEST(${KIT}-Upsampling ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestUpsampling ${DATA}/cthead1.png ${TEMP}/Upsampling.png 512 512)

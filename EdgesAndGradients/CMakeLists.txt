@@ -24,6 +24,7 @@ SET(NEEDS_ARGS
   DerivativeImageFilter
   GradientMagnitudeImageFilter
   GradientMagnitudeRecursiveGaussianImageFilter
+  GradientRecursiveGaussianImageFilter
   LaplacianRecursiveGaussianImageFilter
   RecursiveGaussianImageFilter
 )
@@ -40,6 +41,9 @@ ADD_TEST(${KIT}-GradientMagnitudeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cxx
 
 ADD_TEST(${KIT}-GradientMagnitudeRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestGradientMagnitudeRecursiveGaussianImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-GradientRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestGradientRecursiveGaussianImageFilter ${DATA}/Gourds.png ${TEMP}/GradientRecursiveGaussianImageFilter.mha)
 
 ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLaplacianRecursiveGaussianImageFilter ${DATA}/Yinyang.png)
