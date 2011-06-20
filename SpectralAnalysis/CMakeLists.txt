@@ -22,6 +22,7 @@ SET(KIT SpectralAnalysis)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   VnlFFTRealToComplexConjugateImageFilter
+  CrossCorrelationInFourierDomain
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -30,3 +31,6 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-VnlFFTRealToComplexConjugateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVnlFFTRealToComplexConjugateImageFilter ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-CrossCorrelationInFourierDomain ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestCrossCorrelationInFourierDomain ${DATA}/cthead1.png ${DATA}/cthead1.png)
