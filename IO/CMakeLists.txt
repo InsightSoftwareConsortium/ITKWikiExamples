@@ -22,8 +22,9 @@ SET(KIT IO)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
   ImageFileReader
-  ReadUnknownImageType
   ImageToVTKImageFilter
+  ReadUnknownImageType
+  ReadVectorImage
   VolumeFromSlices
 )
 
@@ -37,6 +38,9 @@ ADD_TEST(${KIT}-ImageFileReader ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ReadUnknownImageType ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestReadUnknownImageType ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-ReadVectorImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestReadVectorImage ${DATA}/GourdsVector.mha)
 
 ADD_TEST(${KIT}-ImageToVTKImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestImageToVTKImageFilter ${DATA}/Gourds.png)
