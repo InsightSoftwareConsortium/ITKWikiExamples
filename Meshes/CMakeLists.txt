@@ -33,4 +33,4 @@ ADD_TEST(${KIT}-QuadEdgeMeshNormalFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTest
   TestQuadEdgeMeshNormalFilter ${DATA}/sphere.vtk 1)
 
 ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestQuadEdgeMeshParameterizationFilter ${DATA}/sphere.vtk 1 1 ${TEMP}/QuadEdgeMeshParameterizationFilter.vtk)
+  TestQuadEdgeMeshParameterizationFilter ${DATA}/disk.vtk 1 1 ${TEMP}/QuadEdgeMeshParameterizationFilter.vtk)
