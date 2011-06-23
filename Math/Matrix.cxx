@@ -3,16 +3,16 @@
 
 #include <iostream>
 
-void Construct();
-void ConstructRunTimeDims();
-void Multiply();
-void Inverse();
+static void Construct();
+static void ConstructRunTimeDims();
+static void Multiply();
+static void Inverse();
 
-int main()
+int main(int, char *[])
 {
   Construct();
   Multiply();
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 void Construct()

@@ -1,7 +1,7 @@
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
-#include "itkBinaryImageToShapeLabelMapFilter.h"
+#include "itkBinaryImageToLabelMapFilter.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 void CreateImage(ImageType::Pointer image);
@@ -11,20 +11,25 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::BinaryImageToShapeLabelMapFilter<ImageType> BinaryImageToShapeLabelMapFilterType;
-  BinaryImageToShapeLabelMapFilterType::Pointer binaryImageToShapeLabelMapFilter = BinaryImageToShapeLabelMapFilterType::New();
-  binaryImageToShapeLabelMapFilter->SetInput(image);
-  binaryImageToShapeLabelMapFilter->Update();
+  typedef itk::BinaryImageToLabelMapFilter<ImageType> BinaryImageToLabelMapFilterType;
+  BinaryImageToLabelMapFilterType::Pointer binaryImageToLabelMapFilter = BinaryImageToLabelMapFilterType::New();
+  binaryImageToLabelMapFilter->SetInput(image);
+  binaryImageToLabelMapFilter->Update();
 
-  // The output of this filter is an itk::ShapeLabelMap, which contains itk::ShapeLabelObject's
-  std::cout << "There are " << binaryImageToShapeLabelMapFilter->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
+  // The output of this filter is an itk::LabelMap, which contains itk::LabelObject's
+  std::cout << "There are " << binaryImageToLabelMapFilter->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
 
-  // Loop over all of the blobs
-  for(unsigned int i = 0; i < binaryImageToShapeLabelMapFilter->GetOutput()->GetNumberOfLabelObjects(); i++)
+  // Loop over each region
+  for(unsigned int i = 0; i < binaryImageToLabelMapFilter->GetOutput()->GetNumberOfLabelObjects(); i++)
     {
-    BinaryImageToShapeLabelMapFilterType::OutputImageType::LabelObjectType* labelObject = binaryImageToShapeLabelMapFilter->GetOutput()->GetNthLabelObject(i);
-    // Output the bounding box (an example of one possible property) of the ith region
-    std::cout << "Object " << i << " has bounding box " << labelObject->GetBoundingBox() << std::endl;
+    // Get the ith region
+    BinaryImageToLabelMapFilterType::OutputImageType::LabelObjectType* labelObject = binaryImageToLabelMapFilter->GetOutput()->GetNthLabelObject(i);
+
+    // Output the pixels composing the region
+    for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
+      {
+      std::cout << "Object " << i << " contains pixel " << labelObject->GetIndex(pixelId) << std::endl;
+      }
     }
 
   return EXIT_SUCCESS;
