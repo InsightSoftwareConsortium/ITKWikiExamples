@@ -1,5 +1,6 @@
 #include "itkPoint.h"
 #include "itkPointSet.h"
+#include "itkBoundingBox.h"
 
 int main(int, char*[])
 {
@@ -23,9 +24,13 @@ int main(int, char*[])
   points->InsertElement(1, p1);
   points->InsertElement(2, p2);
   
-  const PointSetType::BoundingBoxType* boundingBox = pointSet->GetBoundingBox();
+  typedef itk::BoundingBox<unsigned long, Dimension, PixelType> BoundingBoxType;
+  BoundingBoxType::Pointer boundingBox = BoundingBoxType::New();
+  boundingBox->SetPoints(points);
+  boundingBox->ComputeBoundingBox();
   std::cout << "bounds: " << boundingBox->GetBounds() << std::endl;
   std::cout << "center: " << boundingBox->GetCenter() << std::endl;
+  std::cout << "diagonal length squared: " << boundingBox->GetDiagonalLength2() << std::endl;
   
   return EXIT_SUCCESS;
 }

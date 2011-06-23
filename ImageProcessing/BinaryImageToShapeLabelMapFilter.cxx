@@ -4,30 +4,35 @@
 #include "itkBinaryImageToShapeLabelMapFilter.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
-static void CreateImage(ImageType::Pointer image);
+void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
- 
-  typedef itk::BinaryImageToShapeLabelMapFilter<ImageType> LabelMapFilterType;
-  LabelMapFilterType::Pointer labelMapFilter = LabelMapFilterType::New();
-  labelMapFilter->SetInput(image);
-  labelMapFilter->Update();
-  LabelMapFilterType::OutputImageType * labelMap = labelMapFilter->GetOutput();
-   
-  std::cout << "There are " << labelMap->GetNumberOfLabelObjects() << " objects." << std::endl;
-  for(unsigned int i = 0; i < labelMap->GetNumberOfLabelObjects(); i++)
+
+  typedef itk::BinaryImageToShapeLabelMapFilter<ImageType> BinaryImageToShapeLabelMapFilterType;
+  BinaryImageToShapeLabelMapFilterType::Pointer binaryImageToShapeLabelMapFilter = BinaryImageToShapeLabelMapFilterType::New();
+  binaryImageToShapeLabelMapFilter->SetInput(image);
+  binaryImageToShapeLabelMapFilter->Update();
+
+  // The output of this filter is an itk::ShapeLabelMap, which contains itk::ShapeLabelObject's
+  std::cout << "There are " << binaryImageToShapeLabelMapFilter->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
+
+  // Loop over all of the blobs
+  for(unsigned int i = 0; i < binaryImageToShapeLabelMapFilter->GetOutput()->GetNumberOfLabelObjects(); i++)
     {
-    std::cout << "Object " << i << " has bounding box " << labelMap->GetNthLabelObject(i)->GetBoundingBox() << std::endl;
+    BinaryImageToShapeLabelMapFilterType::OutputImageType::LabelObjectType* labelObject = binaryImageToShapeLabelMapFilter->GetOutput()->GetNthLabelObject(i);
+    // Output the bounding box (an example of one possible property) of the ith region
+    std::cout << "Object " << i << " has bounding box " << labelObject->GetBoundingBox() << std::endl;
     }
- 
+
   return EXIT_SUCCESS;
 }
 
 void CreateImage(ImageType::Pointer image)
 {
+  // Create a black image with a white square
   ImageType::IndexType start;
   start.Fill(0);
 
@@ -44,7 +49,7 @@ void CreateImage(ImageType::Pointer image)
 
   // Make a square
   while(!imageIterator.IsAtEnd())
-  {
+    {
     if((imageIterator.GetIndex()[0] > 5 && imageIterator.GetIndex()[0] < 10) &&
       (imageIterator.GetIndex()[1] > 5 && imageIterator.GetIndex()[1] < 10) )
         {
@@ -56,6 +61,11 @@ void CreateImage(ImageType::Pointer image)
         }
 
     ++imageIterator;
-  }
+    }
 
+  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName("image.png");
+  writer->SetInput(image);
+  writer->Update();
 }

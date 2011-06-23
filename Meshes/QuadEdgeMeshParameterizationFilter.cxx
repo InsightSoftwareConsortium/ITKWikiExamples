@@ -66,16 +66,16 @@ int main( int argc, char* argv[] )
   switch( border )  // choose border type
     {
     case 0: // square shaped domain
-        border_transform->SetTransformType( BorderTransformType::SQUARE_BORDER_TRANSFORM );
-        break;
+      border_transform->SetTransformType( BorderTransformType::SQUARE_BORDER_TRANSFORM );
+      break;
     case 1: // disk shaped domain
-        border_transform->SetTransformType( BorderTransformType::DISK_BORDER_TRANSFORM );
-        break;
+      border_transform->SetTransformType( BorderTransformType::DISK_BORDER_TRANSFORM );
+      break;
     default: // handle .... user ....
-        std::cerr << "2nd argument must be " << std::endl;
-        std::cerr << "0 for SQUARE BORDER TRANSFORM or "
-          << "1 for DISK BORDER TRANSFORM" << std::endl;
-        return EXIT_FAILURE;
+      std::cerr << "2nd argument must be " << std::endl;
+      std::cerr << "0 for SQUARE BORDER TRANSFORM or "
+                << "1 for DISK BORDER TRANSFORM" << std::endl;
+      return EXIT_FAILURE;
     }
   std::cout << "Transform type is: " << border_transform->GetTransformType( );
   std::cout << std::endl;

@@ -6,8 +6,15 @@
 #include <string>
 #include <iostream>
 
-int main( int argc, char ** argv )
+int main( int argc, char *argv[] )
 {
+  if (argc < 2)
+    {
+    std::cout << "Usage: " << argv[0]
+              << " Input(.vtk)" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::string InputFilename = argv[1];
   std::cout << "Input file: " << InputFilename << std::endl;
   
