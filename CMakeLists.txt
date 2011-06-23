@@ -63,7 +63,6 @@ if(WIN32)
 endif(WIN32)
 
 if (ITK_VERSION_MAJOR STRLESS 4)
-  set(ITK_LIBRARIES ${ITK_LIBRARIES};ITKReview)
   if(NOT ITK_USE_REVIEW)
     message(FATAL_ERROR "Examples require building ITK with Review turned on")
   endif()
