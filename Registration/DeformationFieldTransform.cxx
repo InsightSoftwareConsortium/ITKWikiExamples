@@ -10,8 +10,8 @@ const     unsigned int   Dimension = 2;
 typedef   unsigned char  PixelType;
 typedef   itk::Image< PixelType, Dimension > ImageType;
 
-void CreateFixedImage(ImageType::Pointer image);
-void CreateMovingImage(ImageType::Pointer image);
+static void CreateFixedImage(ImageType::Pointer image);
+static void CreateMovingImage(ImageType::Pointer image);
   
 int main(int argc, char * argv[])
 {
