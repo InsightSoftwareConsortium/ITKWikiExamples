@@ -5,7 +5,7 @@
 typedef itk::VectorImage<unsigned char, 2>  VectorImageType;
 typedef itk::Image<unsigned char, 2>  ScalarImageType;
 
-void CreateImage(ScalarImageType::Pointer image);
+static void CreateImage(ScalarImageType::Pointer image);
 
 int main(int argc, char *argv[])
 {
@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
   
   typedef itk::ComposeImageFilter<ScalarImageType> ImageToVectorImageFilterType;
   ImageToVectorImageFilterType::Pointer imageToVectorImageFilter = ImageToVectorImageFilterType::New();
-  imageToVectorImageFilter->SetNthInput(0, image0);
-  imageToVectorImageFilter->SetNthInput(1, image1);
-  imageToVectorImageFilter->SetNthInput(2, image2);
+  imageToVectorImageFilter->SetInput(0, image0);
+  imageToVectorImageFilter->SetInput(1, image1);
+  imageToVectorImageFilter->SetInput(2, image2);
   imageToVectorImageFilter->Update();
   
   VectorImageType::Pointer vectorImage = imageToVectorImageFilter->GetOutput();
