@@ -27,7 +27,10 @@ SET(NEEDS_ARGS
   DiscreteGaussianImageFilter
   MeanImageFilter
   MedianImageFilter
+  MinMaxCurvatureFlowImageFilter
+  RGBMedianImageFilter
   SmoothingRecursiveGaussianImageFilter
+  VectorGradientAnisotropicDiffusionImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -46,11 +49,20 @@ ADD_TEST(${KIT}-CurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTest
 ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
 
+ADD_TEST(${KIT}-MinMaxCurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png 10)
+
 ADD_TEST(${KIT}-MeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMeanImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-MedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMedianImageFilter ${DATA}/Gourds.png 3)
 
+ADD_TEST(${KIT}-RGBMedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRGBMedianImageFilter ${DATA}/Gourds.png 2)
+
 ADD_TEST(${KIT}-SmoothingRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestSmoothingRecursiveGaussianImageFilter ${DATA}/Gourds.png 3)
+
+ADD_TEST(${KIT}-VectorGradientAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestVectorGradientAnisotropicDiffusionImageFilter ${DATA}/Gourds.png ${TEMP}/GourdsAD.mhd)
