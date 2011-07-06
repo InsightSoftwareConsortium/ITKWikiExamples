@@ -6,7 +6,7 @@
 typedef itk::VectorImage<float, 2> VectorImageType;
 typedef itk::Image<float, 2> ScalarImageType;
 
-void CreateImage(VectorImageType::Pointer image);
+static void CreateImage(VectorImageType::Pointer image);
 
 int main(int, char *[])
 {
