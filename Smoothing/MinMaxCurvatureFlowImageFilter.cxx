@@ -5,6 +5,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#include "QuickView.h"
+
 int main( int argc, char *argv[])
 {
   if( argc < 2 )
@@ -22,22 +24,49 @@ int main( int argc, char *argv[])
     std::stringstream ss(argv[2]);
     ss >> iterations;
     }
+  std::string inputFilename = argv[1];
 
-  typedef   float           InternalPixelType;
+  typedef   float           PixelType;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  ImageType;
 
-  typedef  itk::ImageFileReader< ImageType > ReaderType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+  typedef  itk::ImageFileReader< ImageType >  ReaderType;
+  typedef itk::MinMaxCurvatureFlowImageFilter< ImageType, ImageType >
+                                              MinMaxCurvatureFlowImageFilterType;
+  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
-  reader->Update();
+  reader->SetFileName( inputFilename );
 
-  typedef itk::MinMaxCurvatureFlowImageFilter< ImageType, ImageType > MinMaxCurvatureFlowImageFilterType;
   MinMaxCurvatureFlowImageFilterType::Pointer minMaxCurvatureFlowImageFilter = MinMaxCurvatureFlowImageFilterType::New();
   minMaxCurvatureFlowImageFilter->SetInput( reader->GetOutput() );
   minMaxCurvatureFlowImageFilter->SetNumberOfIterations( iterations );
   minMaxCurvatureFlowImageFilter->SetTimeStep( 0.125 );
-  minMaxCurvatureFlowImageFilter->Update();
+
+  SubtractType::Pointer diff = SubtractType::New();
+  diff->SetInput1(reader->GetOutput());
+  diff->SetInput2(minMaxCurvatureFlowImageFilter->GetOutput());
+
+  QuickView viewer;
+  viewer.AddImage(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(inputFilename));  
+
+  std::stringstream desc;
+  desc << "MinMaxCurvatureFlow, iterations = " << iterations;
+  viewer.AddImage(
+    minMaxCurvatureFlowImageFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  std::stringstream desc2;
+  desc2 << "Original - Median";
+  viewer.AddImage(
+    diff->GetOutput(),
+    true,
+    desc2.str());  
+
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
