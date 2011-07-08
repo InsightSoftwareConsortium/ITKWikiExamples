@@ -7,7 +7,7 @@
 #include "itkRGBPixel.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
-void CreateImage(ImageType::Pointer image);
+static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
