@@ -17,7 +17,7 @@ namespace itk
 /** \class myRGBPixel
  * \brief Extends RGBPixel with operator <=
  *
- * This class overrides the <= operator to use Luminance as a sorting value.
+ * This class overrides the <= and < operators to use Luminance as a sorting value.
  */
 template< typename TComponent = unsigned short >
 class myRGBPixel : public RGBPixel<TComponent>
@@ -30,6 +30,17 @@ public:
   bool operator<=(const Self & r) const
   {
     if (this->GetLuminance() <= r.GetLuminance())
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
+  }
+  bool operator<(const Self & r) const
+  {
+    if (this->GetLuminance() < r.GetLuminance())
       {
       return true;
       }
@@ -60,7 +71,6 @@ int main(int argc, char * argv[])
 
   typedef itk::ImageFileReader<ImageType>                     ReaderType;
   typedef itk::MedianImageFilter<ImageType, ImageType >       FilterType;
-  typedef itk::SubtractImageFilter<RGBImageType>              SubtractType;
   typedef itk::CastImageFilter<ImageType, RGBImageType>       CastType;
 
   // Create and setup a reader
@@ -86,10 +96,6 @@ int main(int argc, char * argv[])
   CastType::Pointer castMedian = CastType::New();
   castMedian->SetInput(medianFilter->GetOutput());
 
-  SubtractType::Pointer diff = SubtractType::New();
-  diff->SetInput1(castMedian->GetOutput());
-  diff->SetInput2(castReader->GetOutput());
-
   QuickView viewer;
   viewer.AddRGBImage(
     castReader->GetOutput(),
@@ -102,13 +108,6 @@ int main(int argc, char * argv[])
     castMedian->GetOutput(),
     true,
     desc.str());  
-
-  std::stringstream desc2;
-  desc2 << "Original - Median";
-  viewer.AddRGBImage(
-    diff->GetOutput(),
-    true,
-    desc2.str());  
 
   viewer.Visualize();
 

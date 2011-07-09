@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
   typedef itk::VectorResampleImageFilter< VectorImageType, VectorImageType > VectorResampleFilterType;
   VectorResampleFilterType::Pointer vectorResampleFilter = VectorResampleFilterType::New();
   vectorResampleFilter->SetInput(image);
+  vectorResampleFilter->SetSize(image->GetLargestPossibleRegion().GetSize());
   vectorResampleFilter->SetTransform(transform);
   vectorResampleFilter->Update();
 
