@@ -4,7 +4,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkUnaryFunctorImageFilter.h"
-
+ 
 int main( int argc, char * argv[] )
 {
   // Verify arguments
@@ -28,7 +28,7 @@ int main( int argc, char * argv[] )
   std::stringstream ss(argv[4]);
   ss >> maxKernelWidth;
   }
-  
+ 
   typedef itk::Image< float, 2 >             ImageType;
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   typedef itk::ImageRegionIterator< ImageType > IteratorType;
@@ -37,23 +37,23 @@ int main( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
   reader->Update();
-
+ 
   /*
   // This manually creates the output and computes the values at each pixel
   const ImageType * inputImage = reader->GetOutput();
  
   ImageType::RegionType region = inputImage->GetBufferedRegion();
-  
+ 
   ImageType::Pointer output = ImageType::New();
  
   output->SetRegions( region );
   output->SetOrigin(  inputImage->GetOrigin()  );
   output->SetSpacing( inputImage->GetSpacing() );
   output->Allocate();
-  
+ 
   ConstIteratorType it( inputImage, region );
   IteratorType out( output, region );
-  
+ 
   it.GoToBegin();
   out.GoToBegin();
  
@@ -68,22 +68,24 @@ int main( int argc, char * argv[] )
   typedef itk::GaussianBlurImageFunction< ImageType > GaussianBlurImageFunctionType;
   // SetFunctor seems to need an actual object (not a pointer), but we can't create one like this:
   //GaussianBlurImageFunctionType gaussianFunction;
-  
+ 
   GaussianBlurImageFunctionType::Pointer gaussianFunction = GaussianBlurImageFunctionType::New();
   //gaussianFunction->SetInputImage( reader->GetOutput() ); // Do we need to do this since we are going to do unaryFunctor->SetInput?
-  GaussianBlurImageFunctionType::ErrorArrayType setError;
-  setError.Fill( 0.01 );
-  gaussianFunction->SetMaximumError( setError );
-  gaussianFunction->SetSigma( sigma );
-  gaussianFunction->SetMaximumKernelWidth( maxKernelWidth );
-    
+
+ 
   typedef itk::UnaryFunctorImageFilter<ImageType,ImageType,
                                   GaussianBlurImageFunctionType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
-  filter->SetFunctor(*gaussianFunction);
-  filter->Update();
+  
+  GaussianBlurImageFunctionType::ErrorArrayType setError;
+  setError.Fill( 0.01 );
+  filter->GetFunctor().SetMaximumError( setError );
+  filter->GetFunctor().SetSigma( sigma );
+  filter->GetFunctor().SetMaximumKernelWidth( maxKernelWidth );
 
+  filter->Update();
+ 
   typedef itk::ImageFileWriter < ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFileName);

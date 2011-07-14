@@ -2,7 +2,7 @@
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-
+ 
 // Notice that char type pixel values will not appear 
 // properly on the command prompt therefore for the 
 // demonstration purposes it is best to use the int 
@@ -10,90 +10,64 @@
 // no problems with char type images.
 //typedef itk::Image<unsigned char, 2>  ImageType;
 typedef itk::Image<unsigned int, 2>  ImageType;
-
+ 
 void CreateImage(ImageType::Pointer image);
-
+ 
 int main(int, char*[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
-  ImageType::SizeType radius;
-  radius[0] = 1;
-  radius[1] = 1;
-
+ 
   typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
-
-  IteratorType::OffsetType top = {{0,-1}};
-  IteratorType::OffsetType bottom = {{0,1}};
-  IteratorType::OffsetType left = {{-1,0}};
-  IteratorType::OffsetType right = {{1,0}};
-  IteratorType::OffsetType center = {{0,0}};
-
+  IteratorType iterator(image->GetLargestPossibleRegion().GetSize(), image, image->GetLargestPossibleRegion());
+  std::cout << "By default there are " << iterator.GetActiveIndexListSize() << " active indices." << std::endl;
   
-
-  typedef itk::NeighborhoodAlgorithm
-    ::ImageBoundaryFacesCalculator< ImageType > FaceCalculatorType;
-
-  FaceCalculatorType faceCalculator;
-  FaceCalculatorType::FaceListType faceList;
-  faceList = faceCalculator(image, image->GetLargestPossibleRegion(),
-                            radius);
-  FaceCalculatorType::FaceListType::iterator faceListIterator;
-
-  for ( faceListIterator=faceList.begin(); faceListIterator != faceList.end(); ++faceListIterator)
+  IteratorType::OffsetType top = {{0,-1}};
+  iterator.ActivateOffset(top);
+  IteratorType::OffsetType bottom = {{0,1}};
+  iterator.ActivateOffset(bottom);
+  
+  std::cout << "Now there are " << iterator.GetActiveIndexListSize() << " active indices." << std::endl;
+  
+  IteratorType::IndexListType indexList = iterator.GetActiveIndexList();
+  IteratorType::IndexListType::const_iterator listIterator = indexList.begin();
+  while (listIterator != indexList.end())
     {
-    IteratorType iterator(radius, image, *faceListIterator);
-    iterator.ActivateOffset(top);
-    iterator.ActivateOffset(bottom);
-    iterator.ActivateOffset(left);
-    iterator.ActivateOffset(right);
-    iterator.ActivateOffset(center);
+    std::cout << *listIterator << " ";
+    ++listIterator;
+    }
+  std::cout << std::endl;
+  
+  for(iterator.GoToBegin(); !iterator.IsAtEnd(); ++iterator)
+    {
+    std::cout << "New position: " << iterator.GetIndex() << std::endl;
+    IteratorType::ConstIterator ci = iterator.Begin();
 
-    for(iterator.GoToBegin(); !iterator.IsAtEnd(); ++iterator) // Crashes here!
+    while (! ci.IsAtEnd())
       {
-      // The method for accessing pixel values using neighborhood
-      // iterators is GetPixel(offset).
-      std::cout << "top: " << iterator.GetPixel(top) << std::endl;
-      std::cout << "bottom: " << iterator.GetPixel(bottom) << std::endl;
-      std::cout << "left: " << iterator.GetPixel(left) << std::endl;
-      std::cout << "right: " << iterator.GetPixel(right) << std::endl;
-      /*
-      std::cout << "top: " << iterator[top] << std::endl;
-      std::cout << "bottom: " << iterator[bottom] << std::endl;
-      std::cout << "left: " << iterator[left] << std::endl;
-      std::cout << "right: " << iterator[right] << std::endl;
-      */
+      std::cout << ci.GetNeighborhoodIndex() << " -> "
+		<< ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+      ci++;
       }
     }
-
+    
+  std::cout << std::endl;
+    
   return EXIT_SUCCESS;
 }
-
+ 
 void CreateImage(ImageType::Pointer image)
 {
-  // Create an image with 2 connected components
-  ImageType::RegionType region;
   ImageType::IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
+  start.Fill(0);
+ 
   ImageType::SizeType size;
-  size[0] = 100;
-  size[1] = 200;
-
-  region.SetSize(size);
-  region.SetIndex(start);
+  size.Fill(10);
+  
+  ImageType::RegionType region(start,size);
 
   image->SetRegions(region);
   image->Allocate();
-
-  itk::ImageRegionIterator<ImageType> imageIterator(image,region);
-
-  while(!imageIterator.IsAtEnd())
-    {
-    imageIterator.Set(0);
-
-    ++imageIterator;
-    }
-
+  image->FillBuffer(0);
+ 
 }
