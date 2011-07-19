@@ -19,7 +19,10 @@ int main(int, char*[])
   CreateImage(image);
  
   typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
-  IteratorType iterator(image->GetLargestPossibleRegion().GetSize(), image, image->GetLargestPossibleRegion());
+
+  itk::Size<2> radius;
+  radius.Fill(1);
+  IteratorType iterator(radius, image, image->GetLargestPossibleRegion());
   std::cout << "By default there are " << iterator.GetActiveIndexListSize() << " active indices." << std::endl;
   
   IteratorType::OffsetType top = {{0,-1}};
@@ -38,15 +41,20 @@ int main(int, char*[])
     }
   std::cout << std::endl;
   
+  // Note that ZeroFluxNeumannBoundaryCondition is used by default so even
+  // pixels outside of the image will have valid values (equivalent to their neighbors just inside the image)
   for(iterator.GoToBegin(); !iterator.IsAtEnd(); ++iterator)
     {
-    std::cout << "New position: " << iterator.GetIndex() << std::endl;
+    std::cout << "New position: " << std::endl;
     IteratorType::ConstIterator ci = iterator.Begin();
 
     while (! ci.IsAtEnd())
       {
-      std::cout << ci.GetNeighborhoodIndex() << " -> "
-		<< ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+      std::cout << "Centered at " << iterator.GetIndex() << std::endl;
+      std::cout << "Neighborhood index " << ci.GetNeighborhoodIndex()
+		<< " is offset " << ci.GetNeighborhoodOffset()
+		<< " and has value " << ci.Get()
+		<< " The real index is " << iterator.GetIndex() + ci.GetNeighborhoodOffset() << std::endl;
       ci++;
       }
     }
