@@ -4,9 +4,9 @@
 #include <iostream>
 
 static void Construct();
-static void ConstructRunTimeDims();
+//static void ConstructRunTimeDims();
 static void Multiply();
-static void Inverse();
+//static void Inverse();
 
 int main(int, char *[])
 {
@@ -32,9 +32,9 @@ void Construct()
   std::cout << "M: " << M << std::endl;
 }
 
+/*
 void ConstructRunTimeDims()
 {
-  /*
   int matrixSize = 3;
   typedef itk::Matrix<double, matrixSize, matrixSize> MatrixType;
   MatrixType M;
@@ -49,8 +49,8 @@ void ConstructRunTimeDims()
   M(2,2) = 9.0;
 
   std::cout << "M: " << M << std::endl;
-  */
 }
+*/
 
 void Multiply()
 {
@@ -79,7 +79,9 @@ void Multiply()
   std::cout << "MV: " << M*V << std::endl;
 }
 
+/*
 void Inverse()
 {
 
 }
+*/

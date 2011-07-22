@@ -6,6 +6,7 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkScalarToRGBColormapImageFilter.h"
+#include "itkConnectedComponentImageFilter.h"
 
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 

@@ -31,7 +31,7 @@ int main(int, char *[])
   // be cropped at both the uppper & lower ends of the image
   // eg. cropSize/2 pixels will be removed at both upper & lower extents
 
-  ImageType::SizeType cropSize = {10,14};
+  ImageType::SizeType cropSize = {{10,14}};
   cropFilter->SetBoundaryCropSize(cropSize);
 
   // The below three lines are equivalent to the above two lines:
