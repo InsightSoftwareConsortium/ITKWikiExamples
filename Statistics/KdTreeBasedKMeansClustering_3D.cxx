@@ -4,7 +4,11 @@
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
+#if ITK_VERSION_MAJOR < 4
 #include "itkMinimumDecisionRule2.h"
+#else
+#include "itkMinimumDecisionRule.h"
+#endif
 #include "itkEuclideanDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSampleClassifierFilter.h"
@@ -92,7 +96,11 @@ int main(int, char *[])
     MembershipFunctionType;
   typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
 
+#if ITK_VERSION_MAJOR < 4
   typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+#else
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+#endif
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;

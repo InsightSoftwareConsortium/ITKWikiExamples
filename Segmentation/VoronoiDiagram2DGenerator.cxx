@@ -86,10 +86,9 @@ int main(int, char* [] )
   int j = 0;
   for(allVerts = voronoiDiagram->VertexBegin(); allVerts != voronoiDiagram->VertexEnd(); ++allVerts)
     {
-    voronoiDiagram->SetPoint(j, *allVerts);
     std::cout << "Vertices No." << j;
     j++;
-    std::cout << ": At (" << (*allVerts)[0] << "," << (*allVerts)[1] << ")" << std::endl;
+    std::cout << ": At (" << (allVerts.Value())[0] << "," << (allVerts.Value())[1] << ")" << std::endl;
     }
 
   // Write the resulting mesh
