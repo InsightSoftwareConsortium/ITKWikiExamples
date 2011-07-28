@@ -11,6 +11,8 @@
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 
+#include "QuickView.h"
+
 const    unsigned int    ImageDimension = 2;
 typedef  float           PixelType;
 
@@ -85,7 +87,6 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImage);
 
   ImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-
   registration->SetFixedImageRegion( fixedRegion );
 
   //  Here we define the parameters of the BSplineDeformableTransform grid.  We
@@ -96,6 +97,7 @@ int main( int argc, char *argv[] )
   //  the grid size to be $8 \times 8$ and place the grid origin such that
   //  grid node (1,1) coincides with the first pixel in the fixed image.
 
+#if ITK_VERSION_MAJOR < 4
   typedef TransformType::RegionType RegionType;
   RegionType bsplineRegion;
   RegionType::SizeType   gridSizeOnImage;
@@ -131,6 +133,22 @@ int main( int argc, char *argv[] )
   transform->SetGridOrigin( gridOrigin );
   transform->SetGridRegion( bsplineRegion );
   transform->SetGridDirection( gridDirection );
+#else
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
+  for( unsigned int i=0; i < ImageDimension; i++ )
+    {
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+    }
+  unsigned int numberOfGridNodesInOneDimension = 5;
+  meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
+  transform->SetTransformDomainOrigin( fixedImage->GetOrigin() );
+  transform->SetTransformDomainPhysicalDimensions( fixedPhysicalDimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( fixedImage->GetDirection() );
+#endif
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -155,7 +173,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetGradientConvergenceTolerance( 0.05 );
   optimizer->SetLineSearchAccuracy( 0.9 );
-  optimizer->SetDefaultStepLength( 1.5 );
+  optimizer->SetDefaultStepLength( .5 );
   optimizer->TraceOn();
   optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
 
@@ -227,6 +245,19 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
+
+  QuickView viewer;
+  viewer.AddImage(
+    fixedImage.GetPointer(),true,
+    "Fixed Image");  
+  viewer.AddImage(
+    movingImage.GetPointer(),true,
+    "Moving Image");  
+  viewer.AddImage(
+    resample->GetOutput(),true,
+    "Resampled Moving Image");  
+
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
