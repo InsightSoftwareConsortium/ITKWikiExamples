@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     itk::TranslationTransform<double,2>::New();
   itk::TranslationTransform<double,2>::OutputVectorType translation;
   translation[0] = 10;
-  translation[0] = 20;
+  translation[1] = 20;
   transform->Translate(translation);
 
   typedef itk::VectorResampleImageFilter< VectorImageType, VectorImageType > VectorResampleFilterType;
