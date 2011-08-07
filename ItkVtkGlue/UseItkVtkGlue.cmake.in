@@ -18,5 +18,7 @@ include_directories(@ItkVtkGlue_INCLUDE_DIRS_CONFIG@)
 # Add link directories needed to use ItkVtkGlue.
 link_directories(@ItkVtkGlue_LIBRARY_DIRS_CONFIG@)
 
-# Define VTK_LIBRARIES since VTK does not define it
-set(VTK_LIBRARIES vtkHybrid)
+# Define VTK_LIBRARIES if VTK does not define it
+if(NOT VTK_LIBRARIES)
+  set(VTK_LIBRARIES vtkHybrid vtkVolumeRendering)
+endif()

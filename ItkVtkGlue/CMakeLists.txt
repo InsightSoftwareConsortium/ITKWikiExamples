@@ -23,5 +23,10 @@ configure_file(${ItkVtkGlue_SOURCE_DIR}/UseItkVtkGlue.cmake.in
 set(ItkVtkGlue_SRCS
   QuickView.cxx
 )
+
+if(NOT VTK_LIBRARIES)
+  set(VTK_LIBRARIES vtkIO;vtkHybrid;vtkVolumeRendering)
+endif()
+
 add_library(ItkVtkGlue ${ItkVtkGlue_SRCS})
-target_link_libraries(ItkVtkGlue ${ITK_LIBRARIES} vtkIO vtkHybrid)
+target_link_libraries(ItkVtkGlue ${ITK_LIBRARIES} ${VTK_LIBRARIES})
