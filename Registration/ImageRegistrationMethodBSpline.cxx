@@ -4,7 +4,11 @@
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkEllipseSpatialObject.h"
 
+#if ITK_VERSION_MAJOR < 4
 #include "itkBSplineDeformableTransform.h"
+#else
+#include "itkBSplineTransform.h"
+#endif
 #include "itkLBFGSOptimizer.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
@@ -28,11 +32,17 @@ int main( int argc, char *argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
+#if ITK_VERSION_MAJOR < 4
   typedef itk::BSplineDeformableTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
-
+#else
+  typedef itk::BSplineDeformableTransform<
+                            CoordinateRepType,
+                            SpaceDimension,
+                            SplineOrder >     TransformType;
+#endif
   typedef itk::LBFGSOptimizer       OptimizerType;
 
 
@@ -67,20 +77,6 @@ int main( int argc, char *argv[] )
 
   ImageType::Pointer movingImage = ImageType::New();
   CreateEllipseImage(movingImage);
-
-  // Write the images
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
-/*
-  WriterType::Pointer      fixedWriter =  WriterType::New();
-  fixedWriter->SetFileName("fixed.png");
-  fixedWriter->SetInput( fixedImage);
-  fixedWriter->Update();
-
-  WriterType::Pointer      movingWriter =  WriterType::New();
-  movingWriter->SetFileName("moving.png");
-  movingWriter->SetInput( movingImage);
-  movingWriter->Update();
-*/
 
   // Setup the registration
   registration->SetFixedImage(  fixedImage   );
