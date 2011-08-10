@@ -38,7 +38,7 @@ int main( int argc, char *argv[] )
                             SpaceDimension,
                             SplineOrder >     TransformType;
 #else
-  typedef itk::BSplineDeformableTransform<
+  typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
