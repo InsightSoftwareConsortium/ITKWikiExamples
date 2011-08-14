@@ -3,7 +3,12 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkDeformationFieldSource.h"
+#if ITK_VERSION_MAJOR < 4
 #include "itkDeformationFieldTransform.h"
+#else
+#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkDisplacementFieldTransform.h"
+#endif
 #include "itkResampleImageFilter.h"
 
 const     unsigned int   Dimension = 2;
@@ -15,8 +20,11 @@ static void CreateMovingImage(ImageType::Pointer image);
   
 int main(int argc, char * argv[])
 {
-  typedef   float          VectorComponentType;
-
+#if ITK_VERSION_MAJOR < 4
+  typedef   float           VectorComponentType;
+#else
+  typedef   double          VectorComponentType;
+#endif
   typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
   typedef   itk::Image< VectorType,  Dimension >   DeformationFieldType;
 
@@ -85,11 +93,19 @@ int main(int argc, char * argv[])
   writer->Update();
   }
   
-  typedef itk::DeformationFieldTransform<float, 2>  DeformationFieldTransformType;
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::DeformationFieldTransform<VectorComponentType, 2>  DeformationFieldTransformType;
+#else
+  typedef itk::DisplacementFieldTransform<VectorComponentType, 2>  DeformationFieldTransformType;
+#endif
   DeformationFieldTransformType::Pointer deformationFieldTransform = DeformationFieldTransformType::New();
+
+#if ITK_VERSION_MAJOR < 4
   deformationFieldTransform->SetDeformationField( deformationFieldSource->GetOutput() );
-  
-  typedef itk::ResampleImageFilter<ImageType, ImageType, float >    ResampleFilterType;
+#else
+  deformationFieldTransform->SetDisplacementField( deformationFieldSource->GetOutput() );
+#endif  
+  typedef itk::ResampleImageFilter<ImageType, ImageType, VectorComponentType >    ResampleFilterType;
   ResampleFilterType::Pointer resampleFilter = ResampleFilterType::New();
   resampleFilter->SetInput( movingImage );
   resampleFilter->SetTransform( deformationFieldTransform );
