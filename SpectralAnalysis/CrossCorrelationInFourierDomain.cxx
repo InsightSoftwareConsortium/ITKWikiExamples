@@ -2,8 +2,13 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#if ITK_VERSION_MAJOR < 4
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#else
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
+#endif
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 #include "itkMultiplyImageFilter.h"
@@ -56,7 +61,11 @@ int main(int argc, char*argv[])
   movingFFTShiftFilter->Update();
   
   // Compute the FFT of the input
+#if ITK_VERSION_MAJOR < 4
   typedef itk::VnlFFTRealToComplexConjugateImageFilter< FloatImageType >  FFTFilterType;
+#else
+  typedef itk::VnlForwardFFTImageFilter< FloatImageType >  FFTFilterType;
+#endif
   FFTFilterType::Pointer fixedFFTFilter = FFTFilterType::New();
   fixedFFTFilter->SetInput( fixedFFTShiftFilter->GetOutput() );
   fixedFFTFilter->Update();
@@ -109,7 +118,11 @@ int main(int argc, char*argv[])
   multiplyFilter->SetInput2( conjugateFilter->GetOutput() );
 
   // IFFT
+#if ITK_VERSION_MAJOR < 4
   typedef itk::VnlFFTComplexConjugateToRealImageFilter< SpectralImageType >  IFFTFilterType;
+#else
+  typedef itk::VnlInverseFFTImageFilter< SpectralImageType >  IFFTFilterType;
+#endif
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
   fftInverseFilter->SetInput( multiplyFilter->GetOutput() );
 

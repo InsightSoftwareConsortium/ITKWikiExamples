@@ -1,10 +1,13 @@
 #include "itkImage.h"
+#if ITK_VERSION_MAJOR < 4
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#else
+#include "itkVnlForwardFFTImageFilter.h"
+#endif
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 #include "itkComplexToModulusImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkCastImageFilter.h"
 #include "itkPasteImageFilter.h"
 
 #include <itksys/SystemTools.hxx>
@@ -77,7 +80,11 @@ int main(int argc, char*argv[])
   image->Graft(pasteFilter->GetOutput());
   
   // Compute the FFT
+#if ITK_VERSION_MAJOR < 4
   typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType> FFTType;
+#else
+  typedef itk::VnlForwardFFTImageFilter<FloatImageType> FFTType;
+#endif
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
   

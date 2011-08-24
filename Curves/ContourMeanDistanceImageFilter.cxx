@@ -1,19 +1,10 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#include "itkComplexToRealImageFilter.h"
-#include "itkComplexToImaginaryImageFilter.h"
-#include "itkComplexToModulusImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkCastImageFilter.h"
-#include "itkPasteImageFilter.h"
 #include "itkContourMeanDistanceImageFilter.h"
 
 #include <itksys/SystemTools.hxx>
 #include "vnl/vnl_sample.h"
 #include <math.h>
-
-#include <itkImageToVTKImageFilter.h>
 
 #include "QuickView.h"
 
