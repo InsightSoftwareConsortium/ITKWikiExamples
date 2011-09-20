@@ -25,6 +25,7 @@ SET(NEEDS_ARGS
   CastImageFilter
   ConvolutionImageFilter
   LaplacianImageFilter
+  LaplacianSharpeningImageFilter
   MaskImageFilter
   MinimumMaximumImageCalculator
   NormalizeImageFilter
@@ -50,8 +51,11 @@ ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-LaplacianImageFilterImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-LaplacianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLaplacianImageFilter ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-LaplacianSharpeningImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestLaplacianSharpeningImageFilter ${DATA}/Gourds.png ${TEMP}/LaplacianSharpening.png)
 
 ADD_TEST(${KIT}-NormalizeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNormalizeImageFilter ${DATA}/cthead1.png)
