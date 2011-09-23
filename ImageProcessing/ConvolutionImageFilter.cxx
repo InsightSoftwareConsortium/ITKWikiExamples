@@ -7,7 +7,7 @@
 
 typedef itk::Image<float, 2> ImageType;
 
-void CreateKernel(ImageType::Pointer kernel, unsigned int width);
+static void CreateKernel(ImageType::Pointer kernel, unsigned int width);
 
 int main(int argc, char * argv[])
 {
@@ -39,8 +39,11 @@ int main(int argc, char * argv[])
   // Convolve image with kernel.
   FilterType::Pointer convolutionFilter = FilterType::New();
   convolutionFilter->SetInput(reader->GetOutput());
+#if ITK_VERSION_MAJOR >= 4
+  convolutionFilter->SetImageKernel(kernel);
+#else
   convolutionFilter->SetImageKernelInput(kernel);
-
+#endif
   QuickView viewer;
   viewer.AddImage<ImageType>(
     reader->GetOutput(),true,
