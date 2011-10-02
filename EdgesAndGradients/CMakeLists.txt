@@ -27,6 +27,7 @@ SET(NEEDS_ARGS
   GradientRecursiveGaussianImageFilter
   LaplacianRecursiveGaussianImageFilter
   RecursiveGaussianImageFilter
+  SobelEdgeDetectionImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -50,3 +51,6 @@ ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/
 
 ADD_TEST(${KIT}-RecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRecursiveGaussianImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-SobelEdgeDetectionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestSobelEdgeDetectionImageFilter ${DATA}/Gourds.png)
