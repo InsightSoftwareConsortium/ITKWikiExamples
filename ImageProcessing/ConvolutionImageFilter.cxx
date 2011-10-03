@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
   FilterType::Pointer convolutionFilter = FilterType::New();
   convolutionFilter->SetInput(reader->GetOutput());
 #if ITK_VERSION_MAJOR >= 4
-  convolutionFilter->SetImageKernel(kernel);
+  convolutionFilter->SetKernelImage(kernel);
 #else
   convolutionFilter->SetImageKernelInput(kernel);
 #endif
@@ -78,7 +78,7 @@ void CreateKernel(ImageType::Pointer kernel, unsigned int width)
   
   itk::ImageRegionIterator<ImageType> imageIterator(kernel, region);
 
-  while(!imageIterator.IsAtEnd())
+   while(!imageIterator.IsAtEnd())
     {
     //imageIterator.Set(255);
     imageIterator.Set(1);

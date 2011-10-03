@@ -37,7 +37,9 @@ int main(int argc, char *argv[])
   FilterType::Pointer filter = FilterType::New();
   filter->SetExtractionRegion(desiredRegion);
   filter->SetInput(image);
+#if ITK_VERSION_MAJOR >= 4
   filter->SetDirectionCollapseToIdentity(); // This is required.
+#endif
   filter->Update();
   
   ImageType::Pointer output = filter->GetOutput();

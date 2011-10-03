@@ -1,42 +1,62 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
 #include "itkSobelEdgeDetectionImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
+#include "itkImageFileReader.h"
+
+#include "itksys/SystemTools.hxx"
+
+#include "QuickView.h"
 
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+typedef itk::Image<float, 2>          FloatImageType;
 
-static void CreateImage(UnsignedCharImageType::Pointer);
+typedef FloatImageType ImageType;
+static void CreateImage(ImageType::Pointer);
 
 int main(int argc, char *argv[])
 {
-  UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
-  CreateImage(image);
+  ImageType::Pointer image = ImageType::New();
+  if (argc < 2)
+    {
+    CreateImage(image);
+    }
+  else
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName (argv[1]);
+    reader->Update();
+    image = reader->GetOutput();
+    }
 
-  typedef itk::SobelEdgeDetectionImageFilter <UnsignedCharImageType, FloatImageType>
+  typedef itk::SobelEdgeDetectionImageFilter <ImageType, FloatImageType>
           SobelEdgeDetectionImageFilterType;
   SobelEdgeDetectionImageFilterType::Pointer sobelFilter
           = SobelEdgeDetectionImageFilterType::New();
   sobelFilter->SetInput(image);
-  sobelFilter->Update();
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetInput(sobelFilter->GetOutput());
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  rescaleFilter->Update();
+  QuickView viewer;
+  if (argc > 1)
+    {
+    viewer.AddImage<ImageType>(
+      image,
+      true,
+      itksys::SystemTools::GetFilenameName(argv[1]));  
+    }
+  else
+    {
+    viewer.AddImage<ImageType>(image);
+    }
+  viewer.AddImage<FloatImageType>(
+    sobelFilter->GetOutput(),
+    true,
+    "SobelEdgeDetectionImageFilter");
 
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("output.png");
-  writer->SetInput(rescaleFilter->GetOutput());
-  writer->Update();
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
 
-void CreateImage(UnsignedCharImageType::Pointer image)
+void CreateImage(ImageType::Pointer image)
 {
   itk::Index<2> start;
   start.Fill(0);
