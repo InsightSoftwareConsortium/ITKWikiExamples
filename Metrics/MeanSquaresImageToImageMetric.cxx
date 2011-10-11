@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
  metric->SetFixedImage( fixedImage );
  metric->SetMovingImage( movingImage );
  metric->SetFixedImageRegion( fixedImage->GetLargestPossibleRegion() );
- metric->SetInterpolator( interpolator.GetPointer() );
  metric->SetTransform( transform );
  metric->SetInterpolator( interpolator );
 
