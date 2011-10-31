@@ -1,13 +1,13 @@
-#include "itkRigid2DTransform.h"
 #include "itkTransformFileReader.h"
+#include "itkTransformFactoryBase.h"
 
 int main(int, char *[])
 {
-  typedef itk::Rigid2DTransform< float > TransformType;
-  TransformType::Pointer transform = TransformType::New();
+  // Register default transforms
+  itk::TransformFactoryBase::RegisterDefaultTransforms();
 
   itk::TransformFileReader::Pointer reader = itk::TransformFileReader::New();
-  reader->SetFileName("test.tfm");
+  reader->SetFileName("test.txt");
   reader->Update();
 
   return EXIT_SUCCESS;
