@@ -8,12 +8,12 @@ int main( int argc, char *argv[])
 {
   // Verify arguments
   if( argc < 3 )
-  {
+    {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage" << std::endl;
     return 1;
-  }
+    }
   
   // Parse arguments
   std::string inputFileName = argv[1];
