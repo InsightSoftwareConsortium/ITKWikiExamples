@@ -23,18 +23,15 @@ int main(int argc, char * argv[])
   typedef itk::VectorImage< float,  2 >    VectorImageType;
   typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
 
+  // Create and setup a reader
   typedef itk::ImageFileReader< VectorImageType >  ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( inputFilename );
+
   typedef itk::ImageFileWriter< UnsignedCharImageType >  WriterType;
 
   typedef itk::VectorMagnitudeImageFilter<
     VectorImageType, UnsignedCharImageType >  VectorMagnitudeFilterType;
-
-  // Create and setup a reader
-  ReaderType::Pointer reader =
-    ReaderType::New();
-  reader->SetFileName( inputFilename );
-
-  // Create and setup a gradient filter
   VectorMagnitudeFilterType::Pointer magnitudeFilter =
     VectorMagnitudeFilterType::New();
   magnitudeFilter->SetInput( reader->GetOutput() );
