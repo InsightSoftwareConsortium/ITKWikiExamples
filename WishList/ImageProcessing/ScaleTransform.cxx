@@ -22,7 +22,8 @@ int main(int argc, char *argv[])
   inputWriter->SetInput(image);
   inputWriter->Update();
 
-  //typedef itk::ScaleTransform<float, 2> TransformType; // This does not work with 'float'
+  // typedef itk::ScaleTransform<float, 2> TransformType; // If you want to use float here, you must use:
+  // typedef itk::ResampleImageFilter<ImageType, ImageType, float> ResampleImageFilterType; later.
   typedef itk::ScaleTransform<double, 2> TransformType;
   TransformType::Pointer scaleTransform = TransformType::New();
   itk::FixedArray<float, 2> scale;
@@ -30,27 +31,19 @@ int main(int argc, char *argv[])
   scale[1] = 1.5;
   scaleTransform->SetScale(scale);
 
-  itk::Size<2> newSize;
-  newSize[0] = scale[0] * image->GetLargestPossibleRegion().GetSize()[0];
-  newSize[1] = scale[1] * image->GetLargestPossibleRegion().GetSize()[1];
-  
   itk::Point<float,2> center;
   center[0] = image->GetLargestPossibleRegion().GetSize()[0]/2;
   center[1] = image->GetLargestPossibleRegion().GetSize()[1]/2;
-  
+
   scaleTransform->SetCenter(center);
-  
-  std::cout << "Resampling... " << std::endl;
+
   typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleImageFilterType;
   ResampleImageFilterType::Pointer resampleFilter = ResampleImageFilterType::New();
   resampleFilter->SetTransform(scaleTransform);
   resampleFilter->SetInput(image);
-  resampleFilter->SetSize(newSize);
+  resampleFilter->SetSize(image->GetLargestPossibleRegion().GetSize());
   resampleFilter->Update();
 
-  std::cout << "output size: " << resampleFilter->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-  
-  std::cout << "Writing output... " << std::endl;
   WriterType::Pointer outputWriter = WriterType::New();
   outputWriter->SetFileName("output.png");
   outputWriter->SetInput(resampleFilter->GetOutput());
@@ -83,5 +76,17 @@ void CreateImage(ImageType::Pointer image)
 
       image->SetPixel(pixelIndex, 255);
       }
+    }
+
+  itk::ImageRegionIterator<ImageType> imageIterator(image, image->GetLargestPossibleRegion());
+
+  while(!imageIterator.IsAtEnd())
+    {
+    if(imageIterator.GetIndex()[0] == 0 || imageIterator.GetIndex()[0] == image->GetLargestPossibleRegion().GetSize()[0] - 1 ||
+       imageIterator.GetIndex()[1] == 0 || imageIterator.GetIndex()[1] == image->GetLargestPossibleRegion().GetSize()[1] - 1)
+      {
+      imageIterator.Set(255);
+      }
+    ++imageIterator;
     }
 }
