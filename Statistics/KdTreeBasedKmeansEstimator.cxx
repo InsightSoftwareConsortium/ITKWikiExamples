@@ -11,7 +11,7 @@
 #include "itkNormalVariateGenerator.h"
 
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Vector< double, 3 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;

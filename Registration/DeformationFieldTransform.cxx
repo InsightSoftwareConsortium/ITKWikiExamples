@@ -2,12 +2,13 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkDeformationFieldSource.h"
 #if ITK_VERSION_MAJOR < 4
 #include "itkDeformationFieldTransform.h"
+#include "itkDeformationFieldSource.h"
 #else
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkDisplacementFieldTransform.h"
+#include "itkLandmarkDisplacementFieldSource.h"
 #endif
 #include "itkResampleImageFilter.h"
 
@@ -34,7 +35,11 @@ int main(int argc, char * argv[])
   ImageType::Pointer movingImage = ImageType::New();
   CreateMovingImage(movingImage);
   
+#if ITK_VERSION_MAJOR < 4
   typedef itk::DeformationFieldSource<DeformationFieldType>  DeformationFieldSourceType;
+#else
+  typedef itk::LandmarkDisplacementFieldSource<DeformationFieldType>  DeformationFieldSourceType;
+#endif
   DeformationFieldSourceType::Pointer deformationFieldSource = DeformationFieldSourceType::New();
   deformationFieldSource->SetOutputSpacing( fixedImage->GetSpacing() );
   deformationFieldSource->SetOutputOrigin(  fixedImage->GetOrigin() );

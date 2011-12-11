@@ -3,7 +3,7 @@
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkEuclideanDistanceMetric.h"
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Vector< float, 2 > MeasurementVectorType;
 
