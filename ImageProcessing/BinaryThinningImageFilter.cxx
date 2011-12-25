@@ -1,5 +1,6 @@
 #include "itkBinaryThinningImageFilter.h"
 #include "itkImage.h"
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
@@ -8,12 +9,24 @@ typedef itk::Image<unsigned char, 2>  ImageType;
 static void WriteImage(const ImageType::Pointer image, const std::string& fileName);
 static void CreateImage(ImageType::Pointer image);
 
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
   ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
-  WriteImage(image, "input.png");
-  
+  if( argc == 2)
+    {
+    typedef itk::ImageFileReader<ImageType> ImageReader;
+    ImageReader::Pointer reader = ImageReader::New();
+    std::string fileName = argv[1];
+    reader->SetFileName(fileName);
+    reader->Update();
+    image = reader->GetOutput();
+    }
+  else
+    {
+    CreateImage(image);
+    WriteImage(image, "input.png");
+    }
+
   typedef itk::BinaryThinningImageFilter <ImageType, ImageType> BinaryThinningImageFilterType;
   BinaryThinningImageFilterType::Pointer binaryThinningImageFilter = BinaryThinningImageFilterType::New();
   binaryThinningImageFilter->SetInput(image);
