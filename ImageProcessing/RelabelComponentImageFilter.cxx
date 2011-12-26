@@ -1,30 +1,60 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+#include "itkCustomColormapFunction.h"
+#include "itkScalarToRGBColormapImageFilter.h"
+#include "itkRGBPixel.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+
 #include "itkRelabelComponentImageFilter.h"
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+typedef itk::RGBPixel<unsigned char> RGBPixelType;
+typedef itk::Image<RGBPixelType, 2>  RGBImageType;
+typedef itk::Image<unsigned char, 2> ImageType;
+typedef itk::Function::CustomColormapFunction<
+  ImageType::PixelType, RGBImageType::PixelType> ColormapType;
 
-static void CreateImage(ImageType::Pointer image);
+static void CreateImage(
+  ImageType::Pointer image);
+static void CreateRandomColormap(\
+  unsigned int size, ColormapType::Pointer colormap);
 
 int main(int, char *[])
 {
   ImageType::Pointer image = ImageType::New();
+
   CreateImage(image);
   
-  itk::RelabelComponentImageFilter<ImageType, ImageType>::Pointer relabelFilter =
-    itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
+  typedef itk::RelabelComponentImageFilter<ImageType, ImageType> FilterType;
+  FilterType::Pointer relabelFilter =
+    FilterType::New();
   relabelFilter->SetInput(image);
 
+  typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> ColormapFilterType;
+  ColormapFilterType::Pointer colormapFilter1 =
+    ColormapFilterType::New();
+
+  ColormapType::Pointer largeColormap
+    = ColormapType::New();
+  CreateRandomColormap(255, largeColormap);
+
+  colormapFilter1->SetInput (image);
+  colormapFilter1->SetColormap(largeColormap);
+
+  ColormapFilterType::Pointer colormapFilter2 =
+   ColormapFilterType::New();
+  colormapFilter2->SetInput (relabelFilter->GetOutput());
+  colormapFilter2->SetColormap(largeColormap);
+
   QuickView viewer;
-  viewer.AddImage(
-    image.GetPointer(),
+  viewer.AddRGBImage(
+    colormapFilter1->GetOutput(),
     true,
     "Original");
 
-  viewer.AddImage(
-    relabelFilter->GetOutput(),
+  viewer.AddRGBImage(
+    colormapFilter2->GetOutput(),
     true,
     "Relabeled");
 
@@ -60,14 +90,14 @@ void CreateImage(ImageType::Pointer image)
       imageIterator.GetIndex()[1] > 100 &&
       imageIterator.GetIndex()[1] < 150)
       {
-      imageIterator.Set(100);
+      imageIterator.Set(200);
       }
     else if(imageIterator.GetIndex()[0] > 50 &&
       imageIterator.GetIndex()[0] < 70 &&
       imageIterator.GetIndex()[1] > 50 &&
       imageIterator.GetIndex()[1] < 70)
       {
-      imageIterator.Set(200);
+      imageIterator.Set(100);
       }
     else
       {
@@ -76,4 +106,27 @@ void CreateImage(ImageType::Pointer image)
 
     ++imageIterator;
   }
+}
+
+void CreateRandomColormap(unsigned int size, ColormapType::Pointer colormap)
+{
+  ColormapType::ChannelType redChannel;
+  ColormapType::ChannelType greenChannel;
+  ColormapType::ChannelType blueChannel;
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer random =
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+
+  random->SetSeed ( 8775070 );
+  for (unsigned int i = 0; i < size; ++i)
+    {
+    redChannel.push_back(static_cast<ColormapType::RealType>
+                         (random->GetUniformVariate(.3, 1.0)));
+    greenChannel.push_back(static_cast<ColormapType::RealType>
+                           (random->GetUniformVariate(.3, 1.0)));
+    blueChannel.push_back(static_cast<ColormapType::RealType>
+                          (random->GetUniformVariate(.3, 1.0)));
+    }
+  colormap->SetRedChannel(redChannel);
+  colormap->SetGreenChannel(greenChannel);
+  colormap->SetBlueChannel(blueChannel);
 }
