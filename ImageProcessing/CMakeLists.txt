@@ -29,6 +29,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ${ITK_LIBRARIES} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT ImageProcessing)
 SET(KIT_LIBS ${ITK_LIBRARIES} ItkVtkGlue)
@@ -98,3 +99,4 @@ ADD_TEST(${KIT}-TileImageFilter_CreateVolume ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cxx
 
 ADD_TEST(${KIT}-Upsampling ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestUpsampling ${DATA}/cthead1.png ${TEMP}/Upsampling.png 512 512)
+endif()

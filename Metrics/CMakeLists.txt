@@ -17,6 +17,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Metrics)
 SET(KIT_LIBS ItkVtkGlue)
@@ -34,3 +35,4 @@ SET(NEEDS_ARGS
 ADD_TEST(${KIT}-MeanSquaresImageToImageMetric ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMeanSquaresImageToImageMetric ${DATA}/Gourds.png ${DATA}/Gourds.png )
 
+endif()

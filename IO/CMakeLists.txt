@@ -22,6 +22,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT IO)
 SET(KIT_LIBS ItkVtkGlue)
@@ -52,4 +53,4 @@ ADD_TEST(${KIT}-ImageToVTKImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-VolumeFromSlices ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVolumeFromSlices ${DATA}/VHF%03d.png 1 10 ${TEMP}/VHF.mhd)
-
+endif()

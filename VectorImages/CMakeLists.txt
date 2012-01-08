@@ -23,6 +23,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT VectorImages)
 SET(KIT_LIBS ItkVtkGlue)
@@ -37,4 +38,5 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 if(NOT ITK_VERSION VERSION_LESS "4.0")
 ADD_TEST(${KIT}-VectorMagnitudeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorMagnitudeImageFilter ${DATA}/GourdsVector.mha ${TEMP}/GourdsVectorMag.png)
+endif()
 endif()
