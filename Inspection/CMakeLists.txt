@@ -17,6 +17,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue ${ITK_LIBRARIES})
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Inspection)
 SET(KIT_LIBS ItkVtkGlue ${ITK_LIBRARIES})
@@ -30,3 +31,4 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-CheckImagePixelValue ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestCheckImagePixelValue ${DATA}/Gourds.png 100 100)
+endif()

@@ -17,6 +17,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT PointSet)
 SET(KIT_LIBS ItkVtkGlue)
@@ -34,3 +35,4 @@ ADD_TEST(${KIT}-ReadPointSet ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-WritePointSet ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestWritePointSet ${TEMP}/WritePointSet.vtk)
+endif()

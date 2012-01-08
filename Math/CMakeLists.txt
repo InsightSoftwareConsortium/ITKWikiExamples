@@ -17,6 +17,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Math)
 SET(KIT_LIBS ItkVtkGlue)
@@ -26,3 +27,4 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+endif()

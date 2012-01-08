@@ -22,6 +22,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Iterators)
 SET(KIT_LIBS ItkVtkGlue)
@@ -55,3 +56,4 @@ ADD_TEST(${KIT}-ImageRegionIteratorWithIndex ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cxx
 
 ADD_TEST(${KIT}-NeighborhoodIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNeighborhoodIterator ${DATA}/cthead1.png)
+endif()

@@ -18,6 +18,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Morphology)
 SET(KIT_LIBS ItkVtkGlue)
@@ -47,3 +48,4 @@ ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTe
 
 ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestGrayscaleErodeImageFilter ${DATA}/Gourds.png 2)
+endif()

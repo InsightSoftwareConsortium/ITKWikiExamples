@@ -22,6 +22,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Meshes)
 SET(KIT_LIBS ItkVtkGlue)
@@ -39,3 +40,4 @@ ADD_TEST(${KIT}-QuadEdgeMeshNormalFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTest
 
 ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestQuadEdgeMeshParameterizationFilter ${DATA}/disk.vtk 1 1 ${TEMP}/QuadEdgeMeshParameterizationFilter.vtk)
+endif()

@@ -22,6 +22,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Segmentation)
 SET(KIT_LIBS ItkVtkGlue)
@@ -35,3 +36,4 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-WatershedImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestWatershedImageFilter .005 .5)
+endif()

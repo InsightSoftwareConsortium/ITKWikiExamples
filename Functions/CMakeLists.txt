@@ -17,6 +17,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Functions)
 SET(KIT_LIBS ItkVtkGlue)
@@ -30,3 +31,4 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-GaussianBlurImageFunction ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestGaussianBlurImageFunction ${DATA}/Gourds.png ${TEMP}/GourdsGaussianBlur.mha 4 5)
+endif()

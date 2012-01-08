@@ -22,6 +22,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   TARGET_LINK_LIBRARIES(${EXAMPLE} ItkVtkGlue)
 endforeach(SOURCE_FILE)
 
+if(BUILD_TESTING)
 # Testing
 SET(KIT Smoothing)
 SET(KIT_LIBS ItkVtkGlue)
@@ -71,3 +72,4 @@ ADD_TEST(${KIT}-SmoothingRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/
 
 ADD_TEST(${KIT}-VectorGradientAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorGradientAnisotropicDiffusionImageFilter ${DATA}/Gourds.png ${TEMP}/GourdsAD.mhd)
+endif()
