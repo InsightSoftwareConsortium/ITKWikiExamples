@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
   typedef BI2SLMType::LabelObjectType LabelObjectType;
 
   typedef itk::MergeLabelMapFilter<LabelMapType> MergerType;
-  typename MergerType::Pointer merger = MergerType::New();
+  MergerType::Pointer merger = MergerType::New();
 
   int noObjects = 4;
 
