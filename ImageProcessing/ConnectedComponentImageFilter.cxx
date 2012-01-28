@@ -3,14 +3,7 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-#include "itkImageToVTKImageFilter.h"
-
-#include "vtkImageViewer.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
  
 typedef itk::Image<unsigned char, 2>  ImageType;
 
@@ -35,65 +28,11 @@ int main( int argc, char *argv[])
   rescaleFilter->SetOutputMaximum(255);
   rescaleFilter->SetInput(labelFilter->GetOutput());
 
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  
-  originalConnector->SetInput(image);
+  QuickView viewer;
+  viewer.AddImage<ImageType>( image, false );  
+  viewer.AddImage<ImageType>( rescaleFilter->GetOutput(), false );  
+  viewer.Visualize();
 
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  originalActor->SetInput(originalConnector->GetOutput());
-
-  ConnectorType::Pointer labelConnector = ConnectorType::New();
-  labelConnector->SetInput(rescaleFilter->GetOutput());
-  
-  vtkSmartPointer<vtkImageActor> labelActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  labelActor->SetInput(labelConnector->GetOutput());
-
-  // There will be one render window
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600, 300);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-  leftRenderer->SetBackground(.6, .5, .4);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-  rightRenderer->SetBackground(.4, .5, .6);
-
-  // Add the sphere to the left and the cube to the right
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(labelActor);
-
-  leftRenderer->ResetCamera();
-  rightRenderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
-  
   return EXIT_SUCCESS;
 }
 
