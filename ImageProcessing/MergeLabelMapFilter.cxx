@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 
   typedef itk::MergeLabelMapFilter<LabelMapType> MergerType;
   MergerType::Pointer merger = MergerType::New();
+  merger->SetMethod(MergerType::PACK);
 
   int noObjects = 4;
 
