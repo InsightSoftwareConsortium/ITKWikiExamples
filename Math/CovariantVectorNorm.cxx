@@ -10,14 +10,34 @@ int main(int, char*[])
 
   std::cout << "v: " << v << std::endl;
 
-  // Non-inplace norm
-  VectorType vnorm = v.GetNorm();
-  std::cout << "v: " << v << std::endl;
+  // norm
+  VectorType::RealValueType vnorm = v.GetNorm();
   std::cout << "vnorm: " << vnorm << std::endl;
 
-  // Inplace norm
+  VectorType::RealValueType vnorm2 = v.GetSquaredNorm();
+  std::cout << "vnorm2: " << vnorm2 << std::endl;
+
+  VectorType u = v;
+
+  // normalization
   v.Normalize();
   std::cout << "v: " << v << std::endl;
+
+  // another way to normalize
+  if( vnorm != 0. )
+    {
+    for( unsigned int i = 0; i < u.GetNumberOfComponents(); i++ )
+      {
+      u[i] /= vnorm;
+      }
+    }
+
+  std::cout << "u: " << u << std::endl;
+
+  if( ( u - v ).GetNorm() != 0. )
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
