@@ -100,7 +100,7 @@ int main(int, char *[])
 
     typedef itk::ImageFileWriter<InternalImageType> WriterType;
     WriterType::Pointer writer=WriterType::New();
-    char buf[10];
+    char buf[64];
 
     for ( unsigned int d = 0; d < centerIndex; d++ )
     {
@@ -111,16 +111,19 @@ int main(int, char *[])
         calcTextureFeatureImage(offset, image, inertia, correlation, energy);
         
         writer->SetInput(inertia);
-        writer->SetFileName("Inertia"+std::string(itoa(d,buf,10))+".mha");
+	snprintf(buf, 100, "Inertia%u.mha", d);
+        writer->SetFileName(buf);
         writer->Update();
         writer->SetInput(correlation);
-        writer->SetFileName("Correlation"+std::string(itoa(d,buf,10))+".mha");
+	snprintf(buf, 100, "Correlation%u.mha", d);
+        writer->SetFileName(buf);
         writer->Update();
         writer->SetInput(energy);
-        writer->SetFileName("Energy"+std::string(itoa(d,buf,10))+".mha");
+	snprintf(buf, 100, "Energy%u.mha", d);
+        writer->SetFileName(buf);
         writer->Update();
         std::cout<<'\n';
     }
-    
+
     return EXIT_SUCCESS;
 }
