@@ -1,3 +1,5 @@
+#include "itkConfigure.h"
+
 #if ( ITK_VERSION_MAJOR < 4  ) //These are all defaults in ITKv4
 //  Not supported in ITKv3.
 int main(int argc, char *argv[])
