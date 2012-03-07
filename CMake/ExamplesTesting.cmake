@@ -15,7 +15,7 @@ foreach(SOURCE_FILE ${ALL_FILES})
   endif(SKIP_ADD EQUAL -1)
 endforeach(SOURCE_FILE)
 
-if(${VTK_MAJOR_VERSION} GREATER 4 AND ${VTK_MINOR_VERSION} GREATER 5 )
+if(${VTK_MAJOR_VERSION} GREATER 4 )
   ## Version is OK if greater than 5.5
 else()
   MESSAGE(FATAL_ERROR "Need VTK version 5.5 or greater to include the necessary vtkTestingObjectFactory.cmake")
