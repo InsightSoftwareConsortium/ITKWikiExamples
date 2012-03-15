@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     typedef itk::Image<unsigned char, 3> VisualizingImageType;
     typedef itk::ImageFileReader< VisualizingImageType >  ReaderType;
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName( argv[1] ); //http://www.cg.informatik.uni-siegen.de/People/Zukic/data/Downloads/DzZ_rot45.zip
+    reader->SetFileName( argv[1] );
     reader->Update();
     VisualizingImageType::Pointer image=reader->GetOutput();
 
