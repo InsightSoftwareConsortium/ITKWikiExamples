@@ -24,7 +24,7 @@ endif()
 
 SET(VTK_BINARY_DIR ${ITKWikiExamples_BINARY_DIR})
 SET(VTK_DATA_ROOT ${ITKWikiExamples_SOURCE_DIR}/Testing)
-INCLUDE(${VTK_SOURCE_DIR}/Rendering/vtkTestingObjectFactory.cmake)
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/vtkTestingObjectFactory.cmake)
 ADD_EXECUTABLE(${KIT}CxxTests ${KIT}CxxTests.cxx
                ${MyTests})
 TARGET_LINK_LIBRARIES(${KIT}CxxTests ${KIT_LIBS})
