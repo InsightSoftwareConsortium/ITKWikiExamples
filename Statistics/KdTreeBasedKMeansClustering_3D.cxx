@@ -14,6 +14,7 @@
 #include "itkSampleClassifierFilter.h"
 #include "itkNormalVariateGenerator.h"
 
+#include "vtkVersion.h"
 #include "vtkActor.h"
 #include "vtkInteractorStyleTrackballCamera.h"
 #include "vtkPolyData.h"

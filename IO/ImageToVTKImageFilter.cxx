@@ -3,6 +3,7 @@
 
 #include <itkImageToVTKImageFilter.h>
 
+#include "vtkVersion.h"
 #include "vtkImageViewer.h"
 #include "vtkImageMapper3D.h"
 #include "vtkRenderWindowInteractor.h"

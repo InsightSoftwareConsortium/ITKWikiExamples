@@ -7,6 +7,7 @@
 
 #include <itkImageToVTKImageFilter.h>
 
+#include "vtkVersion.h"
 #include "vtkImageViewer.h"
 #include "vtkRenderWindowInteractor.h"
 #include "vtkSmartPointer.h"

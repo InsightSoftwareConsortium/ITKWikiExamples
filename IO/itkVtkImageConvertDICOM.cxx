@@ -1,6 +1,7 @@
 #include <itkImageFileReader.h>
 #include "itkImageToVTKImageFilter.h"
 
+#include "vtkVersion.h"
 #include <vtkSmartPointer.h>
 #include <vtkGPUVolumeRayCastMapper.h>
 #include <vtkColorTransferFunction.h>

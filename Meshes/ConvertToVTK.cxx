@@ -5,6 +5,7 @@
 #include "itkQuadrilateralCell.h"
 
 // VTK
+#include "vtkVersion.h"
 #include <vtkCellArray.h>
 #include <vtkSmartPointer.h>
 #include <vtkUnstructuredGrid.h>
