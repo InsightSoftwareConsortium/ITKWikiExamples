@@ -1,6 +1,6 @@
 #include "itkVTKPolyDataReader.h"
 
-#include "itkImage.h"
+#include "itkMesh.h"
 #include "itkPointSet.h"
 
 #include <string>

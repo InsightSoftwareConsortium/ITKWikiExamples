@@ -30,11 +30,12 @@ int main(int, char *[])
   
   std::cout << "There are " << contourExtractor2DImageFilter->GetNumberOfOutputs() << " contours" << std::endl;
  
-  ContourExtractor2DImageFilterType::VertexListType::ConstIterator vertexIterator = contourExtractor2DImageFilter->GetOutput()->GetVertexList()->Begin();
-  
+ 
   for(unsigned int i = 0; i < contourExtractor2DImageFilter->GetNumberOfOutputs(); ++i)
     {
     std::cout << "Contour " << i << ": " << std::endl;
+    ContourExtractor2DImageFilterType::VertexListType::ConstIterator vertexIterator = 
+      contourExtractor2DImageFilter->GetOutput(i)->GetVertexList()->Begin();
     while(vertexIterator != contourExtractor2DImageFilter->GetOutput(i)->GetVertexList()->End())
       {
       std::cout << vertexIterator->Value() << std::endl;
