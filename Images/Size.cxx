@@ -3,6 +3,7 @@
 int main(int, char *[])
 {
   itk::Size<2> size;
+  // You will often get this type from an image type. That is, ImageType::SizeType rather than itk::Size<2> explicitly.
 
   // Method 1 - set both components (size[0] and size[1]) to the same value (in this case, 0).
   size.Fill(0);
