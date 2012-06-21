@@ -1,8 +1,6 @@
-#include "itkImage.h"
-#include "itkBinaryErodeImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkBinaryBallStructuringElement.h"
 #include "itkFlatStructuringElement.h"
+#include "itkBinaryErodeImageFilter.h"
 
 #include "QuickView.h"
 
