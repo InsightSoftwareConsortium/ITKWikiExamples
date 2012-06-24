@@ -53,8 +53,12 @@ int main(int, char *[])
   mv[0] = pixel[0];
   mv[1] = pixel[1];
   mv[2] = pixel[2];
-  std::cout << "index: " << histogram->GetIndex(mv) << std::endl;
-  std::cout << "id: " << histogram->GetInstanceIdentifier(histogram->GetIndex(mv)) << std::endl;
+
+  ImageToHistogramFilterType::HistogramType::IndexType index;
+  histogram->GetIndex(mv, index);
+
+  std::cout << "index: " << index << std::endl;
+  std::cout << "id: " << histogram->GetInstanceIdentifier(index) << std::endl;
   
   unsigned int totalBins = 1;
   for(unsigned int i = 0; i < size.GetNumberOfElements(); ++i)

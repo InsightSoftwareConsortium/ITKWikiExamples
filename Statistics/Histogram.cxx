@@ -50,7 +50,8 @@ int main(int, char *[])
   mv[1] = 5.6;
   mv[2] = 3.6;
 
-  HistogramType::IndexType resultingIndex = histogram->GetIndex(mv);
+  HistogramType::IndexType resultingIndex;
+  histogram->GetIndex(mv, resultingIndex);
   
   std::cout << "Index of the measurement vector " << mv
             << " is " << resultingIndex << std::endl;
