@@ -12,7 +12,7 @@
 
 typedef itk::Image<float, 2> FloatImageType;
 
-void CreateImage(FloatImageType* const image);
+static void CreateImage(FloatImageType* const image);
 
 int main(int argc, char*argv[])
 {
