@@ -17,8 +17,8 @@ typedef itk::Image<float, 2> FloatImageType;
 
 static void CreateImage(ImageType::Pointer image, const itk::Index<2>& cornerOfSquare);
 
-static template <typename TImage>
-void WriteImage(TImage* const image, const std::string& filename);
+template <typename TImage>
+static void WriteImage(TImage* const image, const std::string& filename);
 
 int main(int argc, char *argv[])
 {
