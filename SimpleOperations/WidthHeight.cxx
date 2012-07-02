@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
   indexOutside[1] = 150;
   std::cout << reader->GetOutput()->GetLargestPossibleRegion().IsInside(indexOutside) << std::endl;
 
-  // This means that the [0] component of the index is referencing the left to right (x) value
-  // and the [1] component of Index is referencing the top to bottom (y) value
+  // This means that the [0] component of the index is referencing the left to right (column) index
+  // and the [1] component of Index is referencing the top to bottom (row) index
 
   return EXIT_SUCCESS;
 }

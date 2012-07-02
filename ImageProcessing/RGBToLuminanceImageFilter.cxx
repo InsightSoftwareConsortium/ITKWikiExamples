@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
 
   QuickView viewer;
   viewer.AddRGBImage(image.GetPointer());
-  //viewer.AddRGBImage(image.GetPointer());
   viewer.AddImage(luminanceFilter->GetOutput());
   viewer.Visualize();
 
