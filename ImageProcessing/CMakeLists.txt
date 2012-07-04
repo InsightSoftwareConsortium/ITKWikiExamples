@@ -45,6 +45,7 @@ SET(NEEDS_ARGS
   NormalizeImageFilter
   RegionOfInterestImageFilter
   RescaleIntensityImageFilter
+  RGBToLuminanceImageFilter
   SigmoidImageFilter
   ThresholdImageFilter
   TileImageFilter_SideBySide
@@ -85,6 +86,9 @@ ADD_TEST(${KIT}-RegionOfInterestImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxT
 
 ADD_TEST(${KIT}-RescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRescaleIntensityImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-RGBToLuminanceImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRGBToLuminanceImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestSigmoidImageFilter ${DATA}/cthead1.png 10 150)
