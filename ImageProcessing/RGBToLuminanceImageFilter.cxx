@@ -13,19 +13,23 @@ int main(int argc, char *argv[])
 {
   RGBImageType::Pointer image;
 
+  std::string imageName;
   if(argc < 2)
     {
     //std::cerr << "Required: filename" << std::endl;
     //return EXIT_FAILURE;
     image = RGBImageType::New();
     CreateImage(image);
+    imageName = "Generated image";
     }
   else
   {
     typedef itk::ImageFileReader<RGBImageType> ReaderType;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
+    reader->Update();
     image = reader->GetOutput();
+    imageName = argv[1];
   }
 
   typedef itk::RGBToLuminanceImageFilter<RGBImageType, ScalarImageType> LuminanceFilterType;
@@ -34,8 +38,14 @@ int main(int argc, char *argv[])
   luminanceFilter->Update();
 
   QuickView viewer;
-  viewer.AddRGBImage(image.GetPointer());
-  viewer.AddImage(luminanceFilter->GetOutput());
+  viewer.AddImage(
+    image.GetPointer(),
+    true,
+    imageName);
+  viewer.AddImage(
+    luminanceFilter->GetOutput(),
+    true,
+    "Luminance");
   viewer.Visualize();
 
   return EXIT_SUCCESS;
