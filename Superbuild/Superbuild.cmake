@@ -18,6 +18,10 @@ endif()
 
 set( ITKWikiExamples_DEPENDENCIES )
 
+set(ep_common_args
+    "-DCMAKE_BUILD_TYPE:STRING=Release"
+)
+
 include( ${CMAKE_SOURCE_DIR}/External-VTK.cmake )
 list( APPEND ITKWikiExamples_DEPENDENCIES VTK )
 
