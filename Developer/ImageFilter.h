@@ -36,7 +36,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "ImageFilter.txx"
+#include "ImageFilter.hxx"
 #endif
 
 
