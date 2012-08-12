@@ -24,23 +24,14 @@ int main(int, char*[])
 
   itk::Index<2> cornerPixel = image->GetLargestPossibleRegion().GetIndex();
 
-  itk::Index<2> cornerPixel2 = {{image->GetLargestPossibleRegion().GetSize()[0] - 1,
-                                 image->GetLargestPossibleRegion().GetSize()[1] - 1}};
-
-  // The output here is:
-  // 3
-  // 4
-  std::cout << filter->GetOutput()->GetPixel(cornerPixel) << std::endl;
+  // The output here should be "3"
+  std::cout << "Filter output:" << std::endl;
   std::cout << filter->GetOutput()->GetPixel(cornerPixel) << std::endl;
 
-  // The output here is also:
-  // 3
-  // 4
-  // That is, the filter changed the pixel in the output, and also in the input.
-  std::cout << image->GetPixel(cornerPixel) << std::endl;
-  std::cout << image->GetPixel(cornerPixel2) << std::endl;
-
-
+  // The follow calls fail. This is because the output has stolen the input's
+  // buffer and the input has no image buffer.
+//   std::cout << "Image output:" << std::endl;
+//   std::cout << image->GetPixel(cornerPixel) << std::endl;
 
   return EXIT_SUCCESS;
 }
