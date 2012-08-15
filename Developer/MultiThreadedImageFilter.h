@@ -14,6 +14,8 @@ public:
   typedef ImageToImageFilter< TImage, TImage > Superclass;
   typedef SmartPointer< Self >        Pointer;
 
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -24,8 +26,8 @@ protected:
   MultiThreadedImageFilter(){}
   ~MultiThreadedImageFilter(){}
 
-  /** Does the real work. */
-  virtual void GenerateData();
+  virtual void ThreadedGenerateData(const OutputImageRegionType &,
+                                    ThreadIdType);
 
 private:
   MultiThreadedImageFilter(const Self &); //purposely not implemented
