@@ -77,7 +77,7 @@ void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
   // Make the left half of the mask white and the right half black
   while(!imageIterator.IsAtEnd())
   {
-    if(imageIterator.GetIndex()[0] > regionSize[0] / 2)
+     if(imageIterator.GetIndex()[0] > static_cast<ImageType::IndexValueType>(regionSize[0]) / 2)
         {
         imageIterator.Set(0);
         }

@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
   writer->SetInput(opening->GetOutput());
   writer->Update();
 
+  return EXIT_SUCCESS;
 }
 
 void CreateImage(ImageType::Pointer image1, ImageType::Pointer image2)

@@ -4,7 +4,6 @@
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkRGBPixel.h"
 #include "itkNthElementImageAdaptor.h"
-#include "itkComposeRGBImageFilter.h"
 
 #include "QuickView.h"
 

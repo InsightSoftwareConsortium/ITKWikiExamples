@@ -1,7 +1,7 @@
 #include "itkImageToListSampleAdaptor.h"
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 int main(int, char *[])
 {
@@ -28,7 +28,7 @@ int main(int, char *[])
 
   typedef itk::FixedArray< float, 1 > MeasurementVectorType;
   typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType;
-  typedef itk::ScalarToArrayCastImageFilter< FloatImage2DType, ArrayImageType >
+  typedef itk::ComposeImageFilter< FloatImage2DType, ArrayImageType >
     CasterType;
 
   CasterType::Pointer caster = CasterType::New();

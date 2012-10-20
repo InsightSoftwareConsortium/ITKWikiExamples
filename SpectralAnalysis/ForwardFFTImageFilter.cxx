@@ -122,9 +122,9 @@ void CreateImage(FloatImageType* const image)
   image->Allocate();
 
   // Make a square
-  for(unsigned int r = 40; r < 100; r++)
+  for(FloatImageType::IndexValueType r = 40; r < 100; r++)
     {
-    for(unsigned int c = 40; c < 100; c++)
+    for(FloatImageType::IndexValueType c = 40; c < 100; c++)
       {
       FloatImageType::IndexType pixelIndex = {{r,c}};
 

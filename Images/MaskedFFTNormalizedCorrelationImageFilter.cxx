@@ -100,7 +100,7 @@ void CreateImage(ImageType::Pointer image, const itk::Index<2>& cornerOfSquare)
 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
 
-  unsigned int squareSize = 8;
+  ImageType::IndexValueType squareSize = 8;
 
   while(!imageIterator.IsAtEnd())
     {
@@ -140,7 +140,7 @@ void CreateMask(MaskType* const mask)
   mask->FillBuffer(255); // Make the whole mask "valid"
 
   //unsigned int squareSize = 8;
-  unsigned int squareSize = 3;
+  ImageType::IndexValueType squareSize = 3;
 
   itk::Index<2> cornerOfSquare = {{3,8}};
 

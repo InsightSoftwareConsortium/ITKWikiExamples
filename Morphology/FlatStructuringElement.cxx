@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
   typedef itk::FlatStructuringElement<2> StructuringElementType;
   StructuringElementType::RadiusType elementRadius;
-  elementRadius.Fill(3);
+  elementRadius.Fill(radius);
 
   StructuringElementType structuringElement = StructuringElementType::Box(elementRadius);
 

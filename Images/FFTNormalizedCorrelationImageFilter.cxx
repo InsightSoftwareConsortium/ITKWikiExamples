@@ -93,7 +93,7 @@ void CreateImage(ImageType::Pointer image, const itk::Index<2>& cornerOfSquare)
 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
 
-  unsigned int squareSize = 8;
+  ImageType::IndexValueType squareSize = 8;
 
   while(!imageIterator.IsAtEnd())
     {

@@ -16,7 +16,7 @@ Author: Juan Cardelino <juan dot cardelino at gmail dot com>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImagePCAShapeModelEstimator.h"
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
@@ -50,9 +50,9 @@ int main( int argc, char *argv[] )
 
   typedef  itk::ImageFileReader< ImageType > ReaderType;
   typedef  itk::ImageFileWriter<  ImageType  > WriterType;
-  typedef itk::MultiplyByConstantImageFilter < ImageType , double ,ImageType > ScaleType;
+  typedef itk::MultiplyImageFilter < ImageType , ImageType ,ImageType > ScaleType;
 
-  int nb_train=atoi(argv[1]);
+  unsigned int nb_train=atoi(argv[1]);
 
   itk::NumericSeriesFileNames::Pointer fileNamesCreator =
                                        itk::NumericSeriesFileNames::New();
@@ -82,8 +82,7 @@ int main( int argc, char *argv[] )
     filter->SetInput(k, trainingImages[k] );
     }
 
-  int nb_modes=atoi(argv[3]);
-
+  unsigned int nb_modes=atoi(argv[3]);
 
   itk::NumericSeriesFileNames::Pointer fileNamesOutCreator =
                                        itk::NumericSeriesFileNames::New();
