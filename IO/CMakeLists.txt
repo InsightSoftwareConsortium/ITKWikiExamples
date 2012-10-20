@@ -31,6 +31,7 @@ SET(NEEDS_ARGS
   ImageToVTKImageFilter
   ReadUnknownImageType
   ReadVectorImage
+  TransformFileReader
   VolumeFromSlices
 )
 
@@ -50,6 +51,9 @@ ADD_TEST(${KIT}-ReadVectorImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ImageToVTKImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestImageToVTKImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-TransformFileReader ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestTransformFileReader ${DATA}/transform.tfm)
 
 ADD_TEST(${KIT}-VolumeFromSlices ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVolumeFromSlices ${DATA}/VHF%03d.png 1 10 ${TEMP}/VHF.mhd)
