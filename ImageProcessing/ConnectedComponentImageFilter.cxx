@@ -1,18 +1,34 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
 #include "QuickView.h"
  
-typedef itk::Image<unsigned char, 2>  ImageType;
-
-static void CreateImage(ImageType::Pointer image);
+template <typename TImage>
+static void CreateImage(TImage* const image);
 
 int main( int argc, char *argv[])
 {
-  ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
+  typedef itk::Image<unsigned char, 2>  ImageType;
+
+  ImageType::Pointer image;
+
+  if(argc < 2)
+    {
+    image = ImageType::New();
+    CreateImage(image.GetPointer());
+    }
+  else
+    {
+    std::string fileName = argv[1];
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(fileName);
+    reader->Update();
+
+    image = reader->GetOutput();
+    }
 
   typedef itk::ConnectedComponentImageFilter <ImageType, ImageType >
     ConnectedComponentImageFilterType;
@@ -36,47 +52,42 @@ int main( int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-void CreateImage(ImageType::Pointer image)
+template <typename TImage>
+void CreateImage(TImage* const image)
 {
   // Create an image with 2 connected components
-  ImageType::RegionType region;
-  ImageType::IndexType start;
+  typename TImage::IndexType start = {{0,0}};
   start[0] = 0;
   start[1] = 0;
 
-  ImageType::SizeType size;
+  typename TImage::SizeType size;
   unsigned int NumRows = 200;
   unsigned int NumCols = 300;
   size[0] = NumRows;
   size[1] = NumCols;
 
-  region.SetSize(size);
-  region.SetIndex(start);
+  typename TImage::RegionType region(start, size);
 
   image->SetRegions(region);
   image->Allocate();
 
   // Make a square
-  for(unsigned int r = 20; r < 80; r++)
+  for(typename TImage::IndexValueType r = 20; r < 80; r++)
     {
-    for(unsigned int c = 30; c < 100; c++)
+    for(typename TImage::IndexValueType c = 30; c < 100; c++)
       {
-      ImageType::IndexType pixelIndex;
-      pixelIndex[0] = r;
-      pixelIndex[1] = c;
+      typename TImage::IndexType pixelIndex = {{r,c}};
 
       image->SetPixel(pixelIndex, 255);
       }
     }
 
   // Make another square
-  for(unsigned int r = 100; r < 130; r++)
+  for(typename TImage::IndexValueType r = 100; r < 130; r++)
     {
-    for(unsigned int c = 115; c < 160; c++)
+    for(typename TImage::IndexValueType c = 115; c < 160; c++)
       {
-      ImageType::IndexType pixelIndex;
-      pixelIndex[0] = r;
-      pixelIndex[1] = c;
+      typename TImage::IndexType pixelIndex = {{r,c}};
 
       image->SetPixel(pixelIndex, 255);
       }

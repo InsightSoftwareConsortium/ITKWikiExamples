@@ -2,24 +2,23 @@
 #include "itkImageFileReader.h"
 #include "itkContourMeanDistanceImageFilter.h"
 
-#include <itksys/SystemTools.hxx>
-#include "vnl/vnl_sample.h"
-#include <math.h>
-
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2> ImageType;
+template<typename TImage>
+static void CreateImage1(TImage* const);
 
-static void CreateImage1(ImageType::Pointer);
-static void CreateImage2(ImageType::Pointer);
+template<typename TImage>
+static void CreateImage2(TImage* const);
 
 int main(int argc, char*argv[])
 {
+  typedef itk::Image<unsigned char, 2> ImageType;
+
   ImageType::Pointer image1 = ImageType::New();
-  CreateImage1(image1);
+  CreateImage1(image1.GetPointer());
 
   ImageType::Pointer image2 = ImageType::New();
-  CreateImage2(image2);
+  CreateImage2(image2.GetPointer());
   
   typedef itk::ContourMeanDistanceImageFilter <ImageType, ImageType >
     ContourMeanDistanceImageFilterType;
@@ -40,58 +39,55 @@ int main(int argc, char*argv[])
   return EXIT_SUCCESS;
 }
 
-void CreateImage1(ImageType::Pointer image)
+template<typename TImage>
+void CreateImage1(TImage* const image)
 {
   // Create an image bigger than the input image and that has dimensions which are powers of two
-  itk::Index<2> start;
-  start.Fill(0);
+  typename TImage::IndexType start = {{0,0}};
 
-  itk::Size<2> size;
-  size.Fill(20);
+  typename TImage::SizeType size = {{20,20}};
 
   itk::ImageRegion<2> region(start, size);
 
   image->SetRegions(region);
   image->Allocate();
+  image->FillBuffer(0);
 
-  for(unsigned int i = 0; i < 20; i++)
+  // Create a diagonal white line through the image
+  for(typename TImage::IndexValueType i = 0; i < 20; i++)
     {
-    for(unsigned int j = 0; j < 20; j++)
+    for(typename TImage::IndexValueType j = 0; j < 20; j++)
       {
-      if(i == j) // y = x
+      if(i == j)
         {
-        itk::Index<2> pixel;
-        pixel[0] = i;
-        pixel[1] = j;
+        itk::Index<2> pixel = {{i,j}};
         image->SetPixel(pixel, 255);
         }
       }
     }
 }
 
-void CreateImage2(ImageType::Pointer image)
+template<typename TImage>
+void CreateImage2(TImage* const image)
 {
-  // Create an image bigger than the input image and that has dimensions which are powers of two
-  itk::Index<2> start;
-  start.Fill(0);
+  typename TImage::IndexType start = {{0,0}};
 
-  itk::Size<2> size;
-  size.Fill(20);
+  typename TImage::SizeType size = {{20,20}};
 
   itk::ImageRegion<2> region(start, size);
 
   image->SetRegions(region);
   image->Allocate();
+  image->FillBuffer(0);
 
-  for(unsigned int i = 0; i < 20; i++)
+  // Create a vertical line of white pixels down the center of the image
+  for(typename TImage::IndexValueType i = 0; i < 20; i++)
     {
-    for(unsigned int j = 0; j < 20; j++)
+    for(typename TImage::IndexValueType j = 0; j < 20; j++)
       {
       if(i == 10)
         {
-        itk::Index<2> pixel;
-        pixel[0] = i;
-        pixel[1] = j;
+        itk::Index<2> pixel = {{i,j}};
         image->SetPixel(pixel, 255);
         }
       }
