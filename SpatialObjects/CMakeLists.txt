@@ -34,5 +34,5 @@ ADD_TEST(${KIT}-EllipseSpatialObject ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestEllipseSpatialObject ${TEMP}/EllipseSpatialObject.png)
 
 ADD_TEST(${KIT}-SpatialObjectToImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestSpatialObjectToImageFilter ${DATA}/SpatialObjectToImageFilter.png)
+  TestSpatialObjectToImageFilter ${TEMP}/SpatialObjectToImageFilter.png)
 endif()
