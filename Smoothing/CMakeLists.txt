@@ -56,7 +56,7 @@ ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxT
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
 
 ADD_TEST(${KIT}-MinMaxCurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png 10)
+  TestMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png ${TEMP}/MinMaxCurvatureFlowImageFilterOutput.png 10)
 
 ADD_TEST(${KIT}-MeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMeanImageFilter ${DATA}/Gourds.png)
