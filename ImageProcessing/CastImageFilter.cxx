@@ -1,17 +1,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkCastImageFilter.h"
-
-#include <itkImageToVTKImageFilter.h>
-
-#include "vtkVersion.h"
-#include "vtkImageViewer.h"
-#include "vtkImageMapper3D.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,51 +11,25 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
+  std::string fileName = argv[1];
+
+  std::cout << "FileName: " << fileName << std::endl;
+
   typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
   typedef itk::Image<float, 2>  FloatImageType;
 
   typedef itk::ImageFileReader<FloatImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
+  reader->SetFileName(fileName);
 
   typedef itk::CastImageFilter< FloatImageType, UnsignedCharImageType > CastFilterType;
   CastFilterType::Pointer castFilter = CastFilterType::New();
   castFilter->SetInput(reader->GetOutput());
 
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
-  ConnectorType::Pointer connector = ConnectorType::New();
-  connector->SetInput(castFilter->GetOutput());
-
-  vtkSmartPointer<vtkImageActor> actor =
-    vtkSmartPointer<vtkImageActor>::New();
-#if VTK_MAJOR_VERSION <= 5
-  actor->SetInput(connector->GetOutput());
-#else
-  actor->GetMapper()->SetInputData(connector->GetOutput());
-#endif
-  // There will be one render window
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  vtkSmartPointer<vtkRenderer> renderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(renderer);
-
-  renderer->AddActor(actor);
-  renderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
+  QuickView viewer;
+  viewer.AddImage<FloatImageType>(reader->GetOutput());
+  viewer.AddImage<UnsignedCharImageType>(castFilter->GetOutput());
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }

@@ -85,48 +85,56 @@ void calcTextureFeatureImage (OffsetType offset,
     }
 }
 
-int main(int, char *[])
+int main(int argc, char*argv[])
 {
-    typedef itk::ImageFileReader<InternalImageType> ReaderType;
-    ReaderType::Pointer reader=ReaderType::New();
-    reader->SetFileName("t64.mha"); //http://www.cg.informatik.uni-siegen.de/data/Downloads/t64.mha
-    reader->Update();
-    InternalImageType::Pointer image=reader->GetOutput();
-
-    NeighborhoodType neighborhood;
-    neighborhood.SetRadius(1);
-    unsigned int centerIndex = neighborhood.GetCenterNeighborhoodIndex();
-    OffsetType offset;
-
-    typedef itk::ImageFileWriter<InternalImageType> WriterType;
-    WriterType::Pointer writer=WriterType::New();
-
-    for ( unsigned int d = 0; d < centerIndex; d++ )
+  if(argc < 2)
     {
-        offset = neighborhood.GetOffset(d);
-        InternalImageType::Pointer inertia=InternalImageType::New();
-        InternalImageType::Pointer correlation=InternalImageType::New();
-        InternalImageType::Pointer energy=InternalImageType::New();
-        calcTextureFeatureImage(offset, image, inertia, correlation, energy);
-        
-        writer->SetInput(inertia);
-//	snprintf(buf, 100, "Inertia%u.mha", d); // Warning: call to int __builtin___snprintf_chk will always overflow destination buffer
-        std::stringstream ssInertia;
-        ssInertia << "Inertia" << d << ".mha";
-        writer->SetFileName(ssInertia.str());
-        writer->Update();
-        writer->SetInput(correlation);
-        std::stringstream ssCorrelation;
-        ssCorrelation << "Correlation" << d << ".mha";
-        writer->SetFileName(ssCorrelation.str());
-        writer->Update();
-        writer->SetInput(energy);
-        std::stringstream ssEnergy;
-        ssEnergy << "Energy" << d << ".mha";
-        writer->SetFileName(ssEnergy.str());
-        writer->Update();
-        std::cout<<'\n';
+    std::cerr << "Required arguments: image.mha" << std::endl;
+    return EXIT_FAILURE;
     }
+  
+  std::string fileName = argv[1];
+  
+  typedef itk::ImageFileReader<InternalImageType> ReaderType;
+  ReaderType::Pointer reader=ReaderType::New();
+  reader->SetFileName(fileName);
+  reader->Update();
+  InternalImageType::Pointer image=reader->GetOutput();
 
-    return EXIT_SUCCESS;
+  NeighborhoodType neighborhood;
+  neighborhood.SetRadius(1);
+  unsigned int centerIndex = neighborhood.GetCenterNeighborhoodIndex();
+  OffsetType offset;
+
+  typedef itk::ImageFileWriter<InternalImageType> WriterType;
+  WriterType::Pointer writer=WriterType::New();
+
+  for ( unsigned int d = 0; d < centerIndex; d++ )
+  {
+      offset = neighborhood.GetOffset(d);
+      InternalImageType::Pointer inertia=InternalImageType::New();
+      InternalImageType::Pointer correlation=InternalImageType::New();
+      InternalImageType::Pointer energy=InternalImageType::New();
+      calcTextureFeatureImage(offset, image, inertia, correlation, energy);
+      
+      writer->SetInput(inertia);
+//	snprintf(buf, 100, "Inertia%u.mha", d); // Warning: call to int __builtin___snprintf_chk will always overflow destination buffer
+      std::stringstream ssInertia;
+      ssInertia << "Inertia" << d << ".mha";
+      writer->SetFileName(ssInertia.str());
+      writer->Update();
+      writer->SetInput(correlation);
+      std::stringstream ssCorrelation;
+      ssCorrelation << "Correlation" << d << ".mha";
+      writer->SetFileName(ssCorrelation.str());
+      writer->Update();
+      writer->SetInput(energy);
+      std::stringstream ssEnergy;
+      ssEnergy << "Energy" << d << ".mha";
+      writer->SetFileName(ssEnergy.str());
+      writer->Update();
+      std::cout<<'\n';
+  }
+
+  return EXIT_SUCCESS;
 }

@@ -10,6 +10,14 @@ int main(int argc, char* argv[])
     std::cerr << argv[0] << " InputFileName OutputFileName NumberOfIterations" <<std ::endl;
     return EXIT_FAILURE;
     }
+
+  std::string inputFileName = argv[1];
+  std::string outputFileName = argv[2];
+  std::stringstream ssNumIter;
+  ssNumIter << argv[3];
+  unsigned int numberOfIterations;
+  ssNumIter >> numberOfIterations;
+
   const unsigned int Dimension = 3;
 
   typedef unsigned char InputPixelType;
@@ -19,7 +27,7 @@ int main(int argc, char* argv[])
   typedef itk::ImageFileReader< InputImageType >    ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(inputFileName);
   reader->Update();
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
@@ -28,13 +36,13 @@ int main(int argc, char* argv[])
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetThreshold( 255 );
-  filter->SetNumberOfIterations( atoi( argv[3] ) );
+  filter->SetNumberOfIterations(numberOfIterations);
   filter->Update();
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetFileName(outputFileName);
   writer->Update();
 
   return EXIT_SUCCESS;
