@@ -79,7 +79,7 @@ for page in site.pages:
     # ExampleName = Line
     PathSplit = os.path.split(ExamplePath)
     PathName = PathSplit[0]
-    ExampleName = PathSplit[1]
+    ExampleName = re.sub(" ", "_", PathSplit[1])
 
     # Get the content of the page
     content = page.edit()
