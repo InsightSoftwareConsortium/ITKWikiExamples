@@ -131,6 +131,10 @@ else:
     shutil.rmtree(tmpDir)    
     os.makedirs(tmpDir)
 
+# Create the Tarballs directory in the source tree if not present
+if not os.path.exists("Tarballs"):
+    os.makedirs("Tarballs")
+
 for example in exampleToCode:
     # Make the directories for the example
     srcDir = tmpDir + example
