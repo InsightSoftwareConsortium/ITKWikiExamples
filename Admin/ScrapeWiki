@@ -132,8 +132,13 @@ else:
     os.makedirs(tmpDir)
 
 # Create the Tarballs directory in the source tree if not present
+# If it does not exist, assume the tarball repo has not been cloned
+# and we need to ignore tar files
 if not os.path.exists("Tarballs"):
     os.makedirs("Tarballs")
+    ignoreFile = open("Tarballs/.gitignore", 'w')
+    ignoreFile.write("*,tar\n")
+    ignoreFile.close()
 
 for example in exampleToCode:
     # Make the directories for the example
