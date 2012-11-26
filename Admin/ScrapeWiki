@@ -4,6 +4,7 @@ import mwclient
 import re
 import os, sys, shutil
 import tarfile
+import hashlib
 
 # Get the title of the section ==FileName.xyz==
 # and everything between the <source*> </source> tag
@@ -42,6 +43,28 @@ ITKTemplateFile.close()
 ITKVTKTemplateFile = open("Admin/ITKVTKCMakeLists", 'r')
 ITKVTKTemplate = ITKVTKTemplateFile.read();
 ITKVTKTemplateFile.close()
+
+# Update the Wiki Templates if they have changed
+print "Updating wiki templates..."
+for t in site.allpages(namespace='10'):
+    if t.name == "Template:ITKVTKCMakeLists":
+        if (hashlib.md5(ITKVTKTemplate).digest() != hashlib.md5(t.edit()+"\n").digest()):
+            print "   Admin/ITKVTKCMakeLists has changed"
+            ITKVTKTemplate = t.edit()+"\n";
+            ITKVTKTemplateFile = open("Admin/ITKVTKCMakeLists", 'w')
+            ITKVTKTemplate = ITKVTKTemplateFile.write(ITKVTKTemplate);
+            ITKVTKTemplateFile.close()
+        else:
+            print "   Admin/ITKVTKCMakeLists not changed"
+    elif t.name == "Template:ITKCMakeLists":
+        if (hashlib.md5(ITKTemplate).digest() != hashlib.md5(t.edit()+"\n").digest()):
+            print "   Admin/ITKCMakeLists has changed"
+            ITKTemplate = t.edit()+"\n";
+            ITKTemplateFile = open("Admin/ITKCMakeLists", 'w')
+            ITKTemplate = ITKTemplateFile.write(ITKTemplate);
+            ITKTemplateFile.close()
+        else:
+            print "   Admin/ITKCMakeLists not changed"
 
 # Make the reference mtime to be the most recent of the two CMakeLists templates
 refStat1 = os.stat("Admin/ITKVTKCMakeLists")
@@ -90,7 +113,7 @@ for page in site.pages:
     itkVtkCMakeChunks = GetITKVTKCMake(content)
     if itkVtkCMakeChunks[0]:
         exampleToCMake[ExampleName] = FillCMakeLists(ExtractCMakeLists(ITKVTKTemplate)[0], ExampleName)
-
+        
     itkCMakeChunks = GetITKCMake(content)
     if itkCMakeChunks[0]:
         exampleToCMake[ExampleName] = FillCMakeLists(ExtractCMakeLists(ITKTemplate)[0], ExampleName)
