@@ -52,7 +52,7 @@ for t in site.allpages(namespace='10'):
             print "   Admin/ITKVTKCMakeLists has changed"
             ITKVTKTemplate = t.edit()+"\n";
             ITKVTKTemplateFile = open("Admin/ITKVTKCMakeLists", 'w')
-            ITKVTKTemplate = ITKVTKTemplateFile.write(ITKVTKTemplate);
+            ITKVTKTemplateFile.write(ITKVTKTemplate);
             ITKVTKTemplateFile.close()
         else:
             print "   Admin/ITKVTKCMakeLists not changed"
@@ -61,7 +61,7 @@ for t in site.allpages(namespace='10'):
             print "   Admin/ITKCMakeLists has changed"
             ITKTemplate = t.edit()+"\n";
             ITKTemplateFile = open("Admin/ITKCMakeLists", 'w')
-            ITKTemplate = ITKTemplateFile.write(ITKTemplate);
+            ITKTemplateFile.write(ITKTemplate);
             ITKTemplateFile.close()
         else:
             print "   Admin/ITKCMakeLists not changed"
