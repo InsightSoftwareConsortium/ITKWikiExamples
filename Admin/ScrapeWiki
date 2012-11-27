@@ -5,6 +5,7 @@ import re
 import os, sys, shutil
 import tarfile
 import hashlib
+import tempfile
 
 # Get the title of the section ==FileName.xyz==
 # and everything between the <source*> </source> tag
@@ -147,12 +148,7 @@ for page in site.pages:
             codeToPage[FileName] = ExamplePath
 
 # Create tarballs for each example
-tmpDir = "/tmp/ITKTarballs/"
-if not os.path.exists(tmpDir):
-    os.makedirs(tmpDir)
-else:
-    shutil.rmtree(tmpDir)    
-    os.makedirs(tmpDir)
+tmpDir = tempfile.mkdtemp(prefix="ITKTarballs") + "/"
 
 # Create the Tarballs directory in the source tree if not present
 # If it does not exist, assume the tarball repo has not been cloned
