@@ -16,6 +16,7 @@ fi
 
 echo "1) Pull updates from master repository"
 git pull origin master
+(cd Tarballs; git checkout .)
 (cd Tarballs; git pull origin master)
 
 echo "2) Remove all .cxx, .h, .py, .tcl, files from local repository"
