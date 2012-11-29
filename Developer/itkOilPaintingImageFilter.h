@@ -44,7 +44,7 @@ protected:
   virtual void BeforeThreadedGenerateData();
  
   /** Does the real work. */
-  virtual void ThreadedGenerateData(const typename Superclass::OutputImageRegionType& outputRegionForThread, int threadId);
+  virtual void ThreadedGenerateData(const typename Superclass::OutputImageRegionType& outputRegionForThread, ThreadIdType threadId);
  
 private:
   OilPaintingImageFilter(const Self &); //purposely not implemented
