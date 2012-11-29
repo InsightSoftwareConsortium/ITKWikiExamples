@@ -23,6 +23,8 @@ if(BUILD_TESTING)
 SET(KIT Morphology)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  BinaryMorphologicalClosingImageFilter
+  BinaryMorphologicalOpeningImageFilter
   BinaryDilateImageFilter
   BinaryErodeImageFilter
   FlatStructuringElement
@@ -33,6 +35,12 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-BinaryMorphologicalClosingImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinaryMorphologicalClosingImageFilter ${DATA}/Yinyang.png 20)
+
+ADD_TEST(${KIT}-BinaryMorphologicalOpeningImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestBinaryMorphologicalOpeningImageFilter ${DATA}/Yinyang.png 20)
 
 ADD_TEST(${KIT}-BinaryDilateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBinaryDilateImageFilter ${DATA}/Yinyang.png 2)
