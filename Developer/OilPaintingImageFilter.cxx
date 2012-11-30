@@ -1,30 +1,58 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
  
 #include "itkOilPaintingImageFilter.h"
  
-int main(int, char*[])
+#include "QuickView.h"
+
+int main(int argc, char*argv[])
 {
+  if (argc < 2)
+    {
+    std::cerr << "Usage: " << argv[0] << " inputFile [bins [radius]]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  unsigned int numberOfBins = 50;
+  if (argc > 3)
+    {
+    numberOfBins = atoi(argv[2]);
+    }
+
+  unsigned int radius = 2;
+  if (argc > 4)
+    {
+    radius = atoi(argv[3]);
+    }
+
   typedef itk::Image<unsigned char, 2>   ImageType;
   typedef itk::OilPaintingImageFilter<ImageType>  FilterType;
  
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName("LenaGrayscale.jpg");
+  reader->SetFileName(argv[1]);
   reader->Update();
  
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
-  filter->SetNumberOfBins(50);
-  filter->SetRadius(2);
+  filter->SetNumberOfBins(numberOfBins);
+  filter->SetRadius(radius);
   filter->Update();
  
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("LenaOil.jpg");
-  writer->SetInput(filter->GetOutput());
-  writer->Update();
- 
+  QuickView viewer;
+  viewer.AddImage(
+    reader->GetOutput(),
+    true,
+    itksys::SystemTools::GetFilenameName(reader->GetFileName()));
+
+  std::stringstream desc;
+  desc << "OilPaintingImageFilter, bins = " << numberOfBins
+       << " radius = " << radius;
+  viewer.AddImage(
+    filter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
+
   return EXIT_SUCCESS;
 }

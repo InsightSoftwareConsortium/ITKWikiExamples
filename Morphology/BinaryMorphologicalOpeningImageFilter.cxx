@@ -2,7 +2,7 @@
 #include "itkBinaryMorphologicalOpeningImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkImageFileWriter.h"
+#include "itkSubtractImageFilter.h"
 
 #include "QuickView.h"
 
@@ -16,8 +16,6 @@ int main(int argc, char *argv[])
 
   if(argc == 1)
     {
-//     std::cerr << "Usage: " << std::endl;
-//     std::cerr << argv[0] << " InputImageFile OutputImageFile [radius]" << std::endl;
     image = ImageType::New();
     CreateImage(image);
     }
@@ -36,7 +34,7 @@ int main(int argc, char *argv[])
     std::stringstream ss(argv[2]);
     ss >> radius;
     }
-
+  std::cout << "Radius: " << radius << std::endl;
   typedef itk::BinaryBallStructuringElement<ImageType::PixelType, ImageType::ImageDimension>
               StructuringElementType;
   StructuringElementType structuringElement;
@@ -51,15 +49,29 @@ int main(int argc, char *argv[])
   openingFilter->SetKernel(structuringElement);
   openingFilter->Update();
 
-//   typedef itk::ImageFileWriter< ImageType > WriterType;
-//   WriterType::Pointer writer = WriterType::New();
-//   writer->SetInput( dilateFilter->GetOutput() );
-//   writer->SetFileName( argv[2] );
-//   writer->Update();
+  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+  SubtractType::Pointer diff = SubtractType::New();
+  diff->SetInput1(image);
+  diff->SetInput2(openingFilter->GetOutput());
 
   QuickView viewer;
-  viewer.AddImage(image.GetPointer());
-  viewer.AddImage(openingFilter->GetOutput());
+  std::stringstream desc;
+  desc << "Original ";
+  viewer.AddImage(image.GetPointer(),
+                  true,
+                  desc.str());
+
+  std::stringstream desc2;
+  desc2 << "BinaryOpening, radius = " << radius;
+  viewer.AddImage(openingFilter->GetOutput(),
+                  true,
+                  desc2.str());
+
+  std::stringstream desc3;
+  desc3 << "Original - BinaryOpening";
+  viewer.AddImage(diff->GetOutput(),
+                  true,
+                  desc3.str());
   viewer.Visualize();
 
   return EXIT_SUCCESS;
