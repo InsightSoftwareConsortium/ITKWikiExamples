@@ -30,9 +30,14 @@ if(BUILD_TESTING)
 SET(KIT Statistics)
 SET(KIT_LIBS ItkVtkGlue ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  TextureFeatures
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-TextureFeatures ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestTextureFeatures ${DATA}/t64.mha)
+
 endif()
