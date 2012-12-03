@@ -3,30 +3,25 @@
 #include <iostream>
 
 typedef itk::Image<float, 2> ImageType;
-
-static void StandardPointer(const ImageType* input)
+static void myStandardPointer(const ImageType* input)
 {
-
 }
 
-static void SmartPointer(const ImageType::Pointer input)
+static void mySmartPointer(const ImageType::Pointer input)
 {
-
 }
 
 template <typename TImage>
 static void TemplateSmartPointer(const typename TImage::Pointer input)
 {
-
 }
 
 template <typename TImage>
 static void TemplateStandardPointer(const TImage* input)
 {
-
 }
 
-int main()
+int main(int, char *[])
 {
   ImageType::Pointer image = ImageType::New();
   itk::Index<2> corner = {{0,0}};
@@ -36,20 +31,12 @@ int main()
   image->Allocate();
 
   // A function that accepts a standard pointer can be passed either a standard or a smart pointer
-  StandardPointer(image.GetPointer());
-  StandardPointer(image);
+  myStandardPointer(image.GetPointer());
+  myStandardPointer(image);
 
   // A function that accepts a smart pointer can be passed either a standard or a smart pointer
-  SmartPointer(image.GetPointer());
-  SmartPointer(image);
+  mySmartPointer(image.GetPointer());
+  mySmartPointer(image);
 
-  // TemplateSmartPointer(image); // This does not work
-  //TemplateSmartPointer(image.GetPointer()); // This does not work
-  TemplateSmartPointer<ImageType>(image);
-
-  //TemplateStandardPointer(image); // This does not work
-  TemplateStandardPointer<ImageType>(image);
-  TemplateStandardPointer(image.GetPointer());
-  
   return 0;
 }

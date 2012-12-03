@@ -1,10 +1,10 @@
-#include "itkJetColormapFunctor.h"
+#include "itkJetColormapFunction.h"
 #include "itkRGBPixel.h"
 
 int main( int argc, char *argv[])
 {
   typedef itk::RGBPixel<unsigned char> PixelType;
-  typedef itk::Functor::JetColormapFunctor<float, PixelType> ColorMapType;
+  typedef itk::Function::JetColormapFunction<float, PixelType> ColorMapType;
   ColorMapType::Pointer colormap = ColorMapType::New();
   
   colormap->SetMinimumInputValue(0.0);
