@@ -96,6 +96,7 @@ ADD_SUBDIRECTORY(Smoothing)
 ADD_SUBDIRECTORY(SpatialObjects)
 ADD_SUBDIRECTORY(SpectralAnalysis)
 ADD_SUBDIRECTORY(Statistics)
+ADD_SUBDIRECTORY(Utilities)
 ADD_SUBDIRECTORY(VectorImages)
 
 OPTION(RUN_ADMIN_TESTS "Run the admin tests" OFF)
