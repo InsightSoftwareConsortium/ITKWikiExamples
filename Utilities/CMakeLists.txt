@@ -31,6 +31,6 @@ SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-AddNoiseToBinaryImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestAddNoiseToBinaryImage ${DATA}/Yinyang.png ${Temp}/YinyangNoise.png 5)
+  TestAddNoiseToBinaryImage ${DATA}/Yinyang.png ${TEMP}/YinyangNoise.png 5)
 
 endif()
