@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# SyncRepoWithWIki - synchronize the wikiexamples with the
+# SyncRepoWithWiki - synchronize the wikiexamples with the
 #                    itk.org/Wiki/ITK?examples wiki
 #
 # Make sure the wiki is up
