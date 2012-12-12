@@ -64,6 +64,11 @@ int main( int argc, char *argv[] )
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
 
+
+  // The old registration framework has problems with multi-threading
+  // For now, we set the number of threads to 1
+  registration->SetNumberOfThreads(1);
+
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
