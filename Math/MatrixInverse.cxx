@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-int main()
+int main(int, char *[])
 {
   typedef itk::Matrix<double, 2, 2> MatrixType;
   MatrixType M;
