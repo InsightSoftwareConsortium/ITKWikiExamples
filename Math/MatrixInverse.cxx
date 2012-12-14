@@ -17,4 +17,5 @@ int main(int, char *[])
 
   std::cout << "Inverse: " << Minv << std::endl;
 
+  return EXIT_SUCCESS;
 }
