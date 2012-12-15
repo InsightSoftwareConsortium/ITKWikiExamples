@@ -37,6 +37,7 @@ SET(NEEDS_ARGS
   BinaryThresholdImageFilter
   CastImageFilter
   ConvolutionImageFilter
+  CropImageFilter
   ImageFilterOnARegion
   LaplacianImageFilter
   LaplacianSharpeningImageFilter
@@ -63,6 +64,9 @@ ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTe
 
 ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestConvolutionImageFilter ${DATA}/cthead1.png 10)
+
+ADD_TEST(${KIT}-CropImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestCropImageFilter ${DATA}/Gourds.png 100 200)
 
 ADD_TEST(${KIT}-ImageFilterOnARegion ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestImageFilterOnARegion ${DATA}/Gourds.png 3)
