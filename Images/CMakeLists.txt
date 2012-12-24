@@ -22,6 +22,7 @@ if(BUILD_TESTING)
 SET(KIT Images)
 SET(KIT_LIBS ItkVtkGlue)
 SET(NEEDS_ARGS
+  FlipImageFilter
   NormalizedCorrelationImageFilter
   VectorRescaleIntensityImageFilter
 )
@@ -29,6 +30,9 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-FlipImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestFlipImageFilter ${DATA}/Pileated.jpg 0)
 
 ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNormalizedCorrelationImageFilter ${DATA}/Gourds.png)
