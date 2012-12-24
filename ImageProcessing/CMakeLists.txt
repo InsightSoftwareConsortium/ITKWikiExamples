@@ -82,7 +82,7 @@ ADD_TEST(${KIT}-LaplacianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLaplacianImageFilter ${DATA}/cthead1.png)
 
 ADD_TEST(${KIT}-LaplacianSharpeningImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestLaplacianSharpeningImageFilter ${DATA}/Gourds.png ${TEMP}/LaplacianSharpening.png)
+  TestLaplacianSharpeningImageFilter ${DATA}/Pileated.jpg)
 
 ADD_TEST(${KIT}-NormalizeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestNormalizeImageFilter ${DATA}/cthead1.png)
