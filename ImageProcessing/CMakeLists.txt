@@ -39,6 +39,7 @@ SET(NEEDS_ARGS
   ConvolutionImageFilter
   CropImageFilter
   ImageFilterOnARegion
+  InvertIntensityImageFilter
   LaplacianImageFilter
   LaplacianSharpeningImageFilter
   MaskImageFilter
@@ -70,6 +71,9 @@ ADD_TEST(${KIT}-CropImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ImageFilterOnARegion ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestImageFilterOnARegion ${DATA}/Gourds.png 3)
+
+ADD_TEST(${KIT}-InvertIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestInvertIntensityImageFilter ${DATA}/Gourds.png 255)
 
 ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
