@@ -1,16 +1,47 @@
 #include "itkFixedArray.h"
 #include "itkFlipImageFilter.h"
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkRGBPixel.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+#include "QuickView.h"
+
+typedef itk::RGBPixel<unsigned char>  PixelType;
+typedef itk::Image<PixelType, 2>  ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
   ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
+  std::stringstream desc;
+
+  itk::FixedArray<bool, 2> flipAxes;
+  flipAxes[0] = false;
+  flipAxes[1] = false;
+  if (argc > 1)
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName( argv[1] );
+    reader->Update();
+    image = reader->GetOutput();
+    desc << itksys::SystemTools::GetFilenameName(argv[1]);
+    if (argc > 2)
+      {
+      flipAxes[atoi(argv[2])] = true;
+      }
+    if (argc > 3)
+      {
+      flipAxes[atoi(argv[3])] = true;
+      }
+    }
+  else
+    {
+    CreateImage(image);
+    desc << "Synthetic image";
+    flipAxes[1] = true;
+    }
 
   typedef itk::FlipImageFilter <ImageType>
           FlipImageFilterType;
@@ -18,13 +49,23 @@ int main(int, char *[])
   FlipImageFilterType::Pointer flipFilter
           = FlipImageFilterType::New ();
   flipFilter->SetInput(image);
-
-  itk::FixedArray<bool, 2> flipAxes;
-  flipAxes[0] = false;
-  flipAxes[1] = true;
-
   flipFilter->SetFlipAxes(flipAxes);
-  flipFilter->Update();
+
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),
+    true,
+    desc.str());  
+
+  std::stringstream desc2;
+  desc2 << "Flip, flipAxes= " << flipAxes;
+  viewer.AddImage(
+    flipFilter->GetOutput(),
+    true,
+    desc2.str());  
+
+  viewer.ShareCameraOff();
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
@@ -58,7 +99,7 @@ void CreateImage(ImageType::Pointer image)
           pixelIndex[0] = r;
           pixelIndex[1] = c;
 
-          image->SetPixel(pixelIndex, 15);
+          image->SetPixel(pixelIndex, 255);
       }
   }
 }

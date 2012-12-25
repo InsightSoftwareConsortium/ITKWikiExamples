@@ -1,27 +1,40 @@
 #include "itkImage.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkInvertIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 
-#include "itkImageToVTKImageFilter.h"
-
-#include "vtkVersion.h"
-#include "vtkImageViewer.h"
-#include "vtkImageMapper3D.h"
-#include "vtkRenderWindowInteractor.h"
-#include "vtkSmartPointer.h"
-#include "vtkImageActor.h"
-#include "vtkInteractorStyleImage.h"
-#include "vtkRenderer.h"
+#include "QuickView.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
   ImageType::Pointer image = ImageType::New();
+  std::stringstream desc;
+
   CreateImage(image);
+
+  unsigned int maximum = 255;
+  if (argc > 1)
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName( argv[1] );
+    reader->Update();
+    image = reader->GetOutput();
+    desc << itksys::SystemTools::GetFilenameName(argv[1]);
+    if (argc > 2)
+      {
+      maximum = atoi(argv[2]);
+      }
+    }
+  else
+    {
+    CreateImage(image);
+    desc << "Synthetic image";
+    maximum = 50;
+    }
 
   typedef itk::InvertIntensityImageFilter <ImageType>
     InvertIntensityImageFilterType;
@@ -29,77 +42,22 @@ int main(int, char *[])
   InvertIntensityImageFilterType::Pointer invertIntensityFilter
     = InvertIntensityImageFilterType::New();
   invertIntensityFilter->SetInput(image);
-  invertIntensityFilter->SetMaximum(50);
-  invertIntensityFilter->Update();
+  invertIntensityFilter->SetMaximum(maximum);
 
-  // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
-  ConnectorType::Pointer originalConnector = ConnectorType::New();
-  originalConnector->SetInput(image);
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),
+    true,
+    desc.str());  
 
-  vtkSmartPointer<vtkImageActor> originalActor =
-    vtkSmartPointer<vtkImageActor>::New();
-#if VTK_MAJOR_VERSION <= 5
-  originalActor->SetInput(originalConnector->GetOutput());
-#else
-  originalConnector->Update();
-  originalActor->GetMapper()->SetInputData(originalConnector->GetOutput());
-#endif
-  // Visualize inverted image
-  ConnectorType::Pointer invertedConnector = ConnectorType::New();
-  invertedConnector->SetInput(invertIntensityFilter->GetOutput());
+  std::stringstream desc2;
+  desc2 << "InvertIntensity, maximum = " << maximum;
+  viewer.AddImage(
+    invertIntensityFilter->GetOutput(),
+    true,
+    desc2.str());  
 
-  vtkSmartPointer<vtkImageActor> invertedActor =
-    vtkSmartPointer<vtkImageActor>::New();
-#if VTK_MAJOR_VERSION <= 5
-  invertedActor->SetInput(invertedConnector->GetOutput());
-#else
-  invertedConnector->Update();
-  invertedActor->GetMapper()->SetInputData(invertedConnector->GetOutput());
-#endif
-
-  // There will be one render window
-  vtkSmartPointer<vtkRenderWindow> renderWindow =
-    vtkSmartPointer<vtkRenderWindow>::New();
-  renderWindow->SetSize(600, 300);
-
-  vtkSmartPointer<vtkRenderWindowInteractor> interactor =
-    vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  interactor->SetRenderWindow(renderWindow);
-
-  // Define viewport ranges
-  // (xmin, ymin, xmax, ymax)
-  double leftViewport[4] = {0.0, 0.0, 0.5, 1.0};
-  double rightViewport[4] = {0.5, 0.0, 1.0, 1.0};
-
-  // Setup both renderers
-  vtkSmartPointer<vtkRenderer> leftRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(leftRenderer);
-  leftRenderer->SetViewport(leftViewport);
-  leftRenderer->SetBackground(.6, .5, .4);
-
-  vtkSmartPointer<vtkRenderer> rightRenderer =
-    vtkSmartPointer<vtkRenderer>::New();
-  renderWindow->AddRenderer(rightRenderer);
-  rightRenderer->SetViewport(rightViewport);
-  rightRenderer->SetBackground(.4, .5, .6);
-
-  // Add the sphere to the left and the cube to the right
-  leftRenderer->AddActor(originalActor);
-  rightRenderer->AddActor(invertedActor);
-
-  leftRenderer->ResetCamera();
-  rightRenderer->ResetCamera();
-
-  renderWindow->Render();
-
-  vtkSmartPointer<vtkInteractorStyleImage> style =
-    vtkSmartPointer<vtkInteractorStyleImage>::New();
-  interactor->SetInteractorStyle(style);
-
-  interactor->Start();
-
+  viewer.Visualize();
   return EXIT_SUCCESS;
 }
 

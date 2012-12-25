@@ -2,6 +2,7 @@
 #include "itkImageFileReader.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkLaplacianSharpeningImageFilter.h"
+#include "itkSubtractImageFilter.h"
 
 #include "QuickView.h"
 
@@ -30,6 +31,11 @@ int main(int argc, char * argv[])
     LaplacianSharpeningImageFilterType::New();
   laplacianSharpeningImageFilter->SetInput( reader->GetOutput() );
 
+  typedef itk::SubtractImageFilter<FloatImageType>           SubtractType;
+  SubtractType::Pointer diff = SubtractType::New();
+  diff->SetInput1(reader->GetOutput());
+  diff->SetInput2(laplacianSharpeningImageFilter->GetOutput());
+
   QuickView viewer;
   viewer.AddImage(
     reader->GetOutput(),true,
@@ -41,6 +47,13 @@ int main(int argc, char * argv[])
     laplacianSharpeningImageFilter->GetOutput(),
     true,
     desc.str());  
+
+  std::stringstream desc2;
+  desc2 << "Original - LaplacianSharpening";
+  viewer.AddImage(
+    diff->GetOutput(),
+    true,
+    desc2.str());  
 
   viewer.Visualize();
   return EXIT_SUCCESS;
