@@ -6,8 +6,6 @@
 #include "itkCastImageFilter.h"
 #include "itkImageFileWriter.h"
 
-#include "QuickView.h"
-
 typedef itk::Image<float, 2> FloatImageType;
   
 static void CreateImage(FloatImageType* const image);
