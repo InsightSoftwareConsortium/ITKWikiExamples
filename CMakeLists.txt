@@ -1,22 +1,30 @@
 cmake_minimum_required(VERSION 2.6)
  
 PROJECT(ITKWikiExamples)
- 
-FIND_PACKAGE(VTK REQUIRED)
-INCLUDE(${VTK_USE_FILE})
+if (Fetch_WikiExamples)
+  message(STATUS "ITKWikiExamples: Building ITKWikiExamples as a Remote Module")
+  itk_module_impl()
+  set(ITK_LIBRARIES ${ITKWikiExamples_LIBRARIES})
+  set(ITK_NO_IO_FACTORY_REGISTER_MANAGER "")
+  include(${ITK_SOURCE_DIR}/CMake/UseITK.cmake)
+else()
+  message(STATUS "ITKWikiExamples: Building ITKWikiExamples stand-alone")
+  FIND_PACKAGE(VTK REQUIRED)
+  INCLUDE(${VTK_USE_FILE})
 
-FIND_PACKAGE(ITK REQUIRED)
-INCLUDE(${ITK_USE_FILE})
+  FIND_PACKAGE(ITK REQUIRED)
+  INCLUDE(${ITK_USE_FILE})
+endif()
 
 if (NOT ITK_VERSION)
-set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
+  set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 endif()
-message(STATUS "ITK VERSION: ${ITK_VERSION}")
-message(STATUS "VTK VERSION: ${VTK_VERSION}")
+message(STATUS "ITKWikiExamples: ITK VERSION: ${ITK_VERSION}")
+message(STATUS "ITKWikiExamples: VTK VERSION: ${VTK_VERSION}")
 
 ENABLE_TESTING()
 INCLUDE(CTest)
-CONFIGURE_FILE(${ITKWikiExamples_SOURCE_DIR}/CMake//CTestCustom.ctest.in
+CONFIGURE_FILE(${ITKWikiExamples_SOURCE_DIR}/CMake/CTestCustom.ctest.in
   ${ITKWikiExamples_BINARY_DIR}/CMake/CTestCustom.ctest @ONLY)
 FILE(WRITE ${ITKWikiExamples_BINARY_DIR}/CTestCustom.cmake
   "INCLUDE(\"${ITKWikiExamples_BINARY_DIR}/CMake/CTestCustom.ctest\")\n")
@@ -34,14 +42,18 @@ ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
 
 #-----------------------------------------------------------------------------
 # Output directories.
-IF(NOT LIBRARY_OUTPUT_PATH)
-  SET (LIBRARY_OUTPUT_PATH ${ITKWikiExamples_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
-ENDIF(NOT LIBRARY_OUTPUT_PATH)
-IF(NOT EXECUTABLE_OUTPUT_PATH)
-  SET (EXECUTABLE_OUTPUT_PATH ${ITKWikiExamples_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
-MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
-
+if(NOT Fetch_WikiExamples)
+  IF(NOT LIBRARY_OUTPUT_PATH)
+    SET (LIBRARY_OUTPUT_PATH ${ITKWikiExamples_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
+  ENDIF(NOT LIBRARY_OUTPUT_PATH)
+  IF(NOT EXECUTABLE_OUTPUT_PATH)
+    SET (EXECUTABLE_OUTPUT_PATH ${ITKWikiExamples_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+  ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
+  MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
+else()
+    SET (EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin)
+endif()
+message(STATUS "ITKWikiExamples: Example executables are stored in ${EXECUTABLE_OUTPUT_PATH}")
 if(WIN32)
   # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
   # build full shared libraries only with the GNU toolchain.
@@ -68,12 +80,18 @@ endif(WIN32)
 
 if (ITK_VERSION_MAJOR STRLESS 4)
   if(NOT ITK_USE_REVIEW)
-    message(FATAL_ERROR "Examples require building ITK with Review turned on")
+    message(FATAL_ERROR "ITKWikiExamples: Examples require building ITK with Review turned on")
   endif()
 endif ()
 
-INCLUDE_DIRECTORIES(ItkVtkGlue)
-ADD_SUBDIRECTORY(ItkVtkGlue)
+if (NOT ITKVtkGlue_LOADED)
+  message(STATUS "ITKWikiExamples: ItkVtkGlue will be built")
+  set(ItkVtkGlue "ItkVtkGlue")
+  INCLUDE_DIRECTORIES(ItkVtkGlue)
+  ADD_SUBDIRECTORY(ItkVtkGlue)
+else()
+  message(STATUS "ITKWikiExamples: ItkVtkGlue is provided as part of the ITK build")
+endif()
 ADD_SUBDIRECTORY(Curves)
 ADD_SUBDIRECTORY(DICOM)
 ADD_SUBDIRECTORY(EdgesAndGradients)
