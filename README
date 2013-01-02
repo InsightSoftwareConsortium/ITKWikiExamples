@@ -1,19 +1,21 @@
 The ITKWikiExamples can be built in several ways:
 
-1) A single example - go to to the example page and follow instrutions
-2) All examples stand-alone - go to xxx and follow instructions
-3) All examples with a superbuild that builds a proper ITK and VTK - go to xxx and follow instructions
-4) As an ITKv4 Remote Module
+1) A single example - go to the example page and follow instrutions
+2) All examples stand-alone go to
+   http://www.vtk.org/Wiki/ITK/Examples/Instructions/ForUsers#Build_all_of_the_examples
+3) All examples with a superbuild that builds a proper ITK and VTK - go to
+   http://www.vtk.org/Wiki/ITK/Examples/Instructions/ForUsers#Use_the_Superbuild_to_build_a_proper_VTK_and_ITK
+4) As an ITKv4 Remote Module proceed as follows.
 
 * Enable fetching
-  1) Go to: https://github.com/lorensen/skullStrip/blob/master/SkullStrip.remote.cmake
-  2) Right click on the "Raw" button and select "Save Link As..."
+  1) Go to: http://gitorious.org/itkwikiexamples/itkwikiexamples/blobs/master/WikiExamples.remote.cmake
+  2) Right click on the "Raw blob data" button and select "Save Link As..."
   3) Save the file in: YOUR_ITK_SOURCE_DIR/Modules/Remote
 
 A) If you use an interactive cmake (ccmake, cmake-gui or cmakesetup)
 --------------------------------------------------------------------
 * Configure
-  1) Go to your itk build diectory and run cmake
+  1) Go to your itk build directory and run cmake
   2) Configure
 
 * Fetch ITKWikiExamples
