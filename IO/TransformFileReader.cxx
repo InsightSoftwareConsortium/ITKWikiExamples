@@ -20,5 +20,8 @@ int main(int argc, char *argv[])
   reader->SetFileName(fileName);
   reader->Update();
 
+  // Display the transform
+  std::cout << *(reader->GetTransformList()->begin()) << std::endl;
+
   return EXIT_SUCCESS;
 }
