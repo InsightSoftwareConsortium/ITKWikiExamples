@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 # April 19, 2011
 set( VTK_TAG "be4c4f115793598f6c8937a98bdd1f227d471540" )
-set( VTK_TAG release )
+set( VTK_TAG v5.10.1 )
 
 ExternalProject_Add(VTK
   GIT_REPOSITORY "${git_protocol}://vtk.org/VTK.git"
