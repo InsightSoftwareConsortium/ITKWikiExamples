@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkMaskImageFilter.h"
-
+#include "itkImageRegionIterator.h"
 #include "QuickView.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
