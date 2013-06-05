@@ -2,6 +2,9 @@
 #include "itkCommand.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
+static void CreateImageObserve(ImageType::Pointer image);
+
+typedef itk::Image<unsigned char, 2>  ImageType;
 
 class MyCommand : public itk::Command
 {
@@ -25,6 +28,8 @@ class MyCommand : public itk::Command
 int main(int, char*[])
 {
   ImageType::Pointer image = ImageType::New();
+  CreateImageObserve(image);
+
   typedef itk::BinaryNotImageFilter <ImageType>
           BinaryNotImageFilterType;
 
@@ -38,4 +43,21 @@ int main(int, char*[])
 
 
   return EXIT_SUCCESS;
+}
+
+void CreateImageObserve(ImageType::Pointer image)
+{
+  // Create an image
+  ImageType::IndexType start;
+  start.Fill(0);
+
+  ImageType::SizeType size;
+  size.Fill(100);
+
+  ImageType::RegionType region(start, size);
+
+  image->SetRegions(region);
+  image->Allocate();
+  image->FillBuffer(0);
+
 }
