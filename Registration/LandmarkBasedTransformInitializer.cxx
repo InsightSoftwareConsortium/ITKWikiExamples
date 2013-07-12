@@ -1,4 +1,3 @@
-#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkVector.h"
@@ -46,8 +45,8 @@ int main(int argc, char * argv[])
   fixedPoint[1] = 10;
   movingPoint[0] = 50;
   movingPoint[1] = 50;
-  fixedLandmarks.push_back(fixedPoint );
-  movingLandmarks.push_back(movingPoint );
+  fixedLandmarks.push_back( fixedPoint );
+  movingLandmarks.push_back( movingPoint );
 
   fixedPoint[0] = 10;
   fixedPoint[1] = 20;
@@ -60,18 +59,18 @@ int main(int argc, char * argv[])
   fixedPoint[1] = 10;
   movingPoint[0] = 60;
   movingPoint[1] = 50;
-  fixedLandmarks.push_back(fixedPoint );
-  movingLandmarks.push_back(movingPoint );
+  fixedLandmarks.push_back( fixedPoint );
+  movingLandmarks.push_back( movingPoint );
 
   fixedPoint[0] = 20;
   fixedPoint[1] = 20;
   movingPoint[0] = 60;
   movingPoint[1] = 60;
   fixedLandmarks.push_back( fixedPoint );
-  movingLandmarks.push_back(movingPoint );
+  movingLandmarks.push_back( movingPoint );
 
-  landmarkBasedTransformInitializer->SetFixedLandmarks( fixedLandmarks);
-  landmarkBasedTransformInitializer->SetMovingLandmarks( movingLandmarks);
+  landmarkBasedTransformInitializer->SetFixedLandmarks( fixedLandmarks );
+  landmarkBasedTransformInitializer->SetMovingLandmarks( movingLandmarks );
   
   Rigid2DTransformType::Pointer transform = Rigid2DTransformType::New();
   
