@@ -21,7 +21,7 @@ public:
     }
   inline TOutput operator()( const TInput & A ) const
     {
-      typedef itk::Vector<double, 2> VectorType;
+      typedef itk::Vector<float, 2> VectorType;
       VectorType v;
       v[0] = A[0];
       v[1] = A[1];
