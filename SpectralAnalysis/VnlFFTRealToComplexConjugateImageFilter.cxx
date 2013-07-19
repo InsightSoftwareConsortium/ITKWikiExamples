@@ -40,8 +40,8 @@ int main(int argc, char*argv[])
   unsigned int powerOfTwo = 0;
   for(unsigned int i = 0; i < 20; i++)
     {
-    if(pow(2, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] &&
-       pow(2, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[1])
+    if(pow(2.0, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] &&
+       pow(2.0, i) >= reader->GetOutput()->GetLargestPossibleRegion().GetSize()[1])
       {
       powerOfTwo = i;
       break;
@@ -54,7 +54,7 @@ int main(int argc, char*argv[])
   start.Fill(0);
 
   itk::Size<2> size;
-  size.Fill(pow(2,powerOfTwo));
+  size.Fill(pow(2.0,powerOfTwo));
 
   itk::ImageRegion<2> region(start, size);
 

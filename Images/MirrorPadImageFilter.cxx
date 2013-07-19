@@ -52,7 +52,7 @@ void CreateImage(ImageType::Pointer image)
 
   while(!imageIterator.IsAtEnd())
     {
-    double distance = sqrt(pow(100 - imageIterator.GetIndex()[0], 2) + pow(50 - imageIterator.GetIndex()[1],2));
+    double distance = sqrt(pow(100.0 - imageIterator.GetIndex()[0], 2) + pow(50.0 - imageIterator.GetIndex()[1],2));
     imageIterator.Set(static_cast<unsigned char>(distance));
     ++imageIterator;
     }
