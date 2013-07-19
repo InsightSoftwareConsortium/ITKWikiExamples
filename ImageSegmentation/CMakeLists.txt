@@ -27,6 +27,8 @@ SET(KIT ImageSegmentation)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   ExtractContourWithSnakes.cxx
+  ConfidenceConnectedImageFilter.cxx
+  ExtractLargestConnectedComponentFromBinaryImage.cxx
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -34,6 +36,13 @@ SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-ExtractContourWithSnakes ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+
   TestExtractContourWithSnakes 100 0.01 0.4 0.07 4 6000)
+
+ADD_TEST(${KIT}-ConfidenceConnectedImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestConfidenceConnectedImageFilter ${DATA}/cthead1.png 127 127)
+
+ADD_TEST(${KIT}-ExtractLargestConnectedComponentFromBinaryImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestExtractLargestConnectedComponentFromBinaryImage ${DATA}/BinaryImageWithVariousShapes01.png)
 
 endif()
