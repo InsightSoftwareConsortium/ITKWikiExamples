@@ -1,20 +1,23 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 #include "itkConfidenceConnectedImageFilter.h"
+
+#include "itksys/SystemTools.hxx"
+#include <sstream>
+
+#include "QuickView.h"
 
 typedef itk::Image< unsigned char, 2 >  ImageType;
 
 int main( int argc, char *argv[])
 {
-  if(argc < 3)
+  if(argc < 4)
     {
-    std::cerr << "Required: filename.png output.png" << std::endl;
+    std::cerr << "Required: filename.png seedX seedY" << std::endl;
 
     return EXIT_FAILURE;
     }
   std::string inputFileName = argv[1];
-  std::string outputFileName = argv[2];
   
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -24,23 +27,30 @@ int main( int argc, char *argv[])
   typedef itk::ConfidenceConnectedImageFilter<ImageType, ImageType> ConfidenceConnectedFilterType;
   ConfidenceConnectedFilterType::Pointer confidenceConnectedFilter = ConfidenceConnectedFilterType::New();
   confidenceConnectedFilter->SetInitialNeighborhoodRadius(3);
-  confidenceConnectedFilter->SetMultiplier(2);
+  confidenceConnectedFilter->SetMultiplier(3);
   confidenceConnectedFilter->SetNumberOfIterations(25);
   confidenceConnectedFilter->SetReplaceValue(255);
 
   // Set seed
   ImageType::IndexType seed;
-  seed[0] = 60;
-  seed[1] = 70;
+  seed[0] = atoi(argv[2]);
+  seed[1] = atoi(argv[3]);
   confidenceConnectedFilter->SetSeed(seed);
   confidenceConnectedFilter->SetInput(reader->GetOutput());
-  confidenceConnectedFilter->Update();
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputFileName);
-  writer->SetInput(confidenceConnectedFilter->GetOutput());
-  writer->Update();
-  
+  QuickView viewer;
+  viewer.AddImage(
+    reader->GetOutput(),true,
+    itksys::SystemTools::GetFilenameName(inputFileName));  
+
+  std::stringstream desc;
+  desc << "ConfidenceConnected Seed: " << seed[0] << ", " << seed[1];
+  viewer.AddImage(
+    confidenceConnectedFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
+
   return EXIT_SUCCESS;
 }
