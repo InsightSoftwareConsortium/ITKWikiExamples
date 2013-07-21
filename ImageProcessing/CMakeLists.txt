@@ -42,6 +42,7 @@ SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   BinaryThresholdImageFilter
   CastImageFilter
+  ConnectedComponentImageFilter
   ConvolutionImageFilter
   CropImageFilter
   ImageFilterOnARegion
@@ -68,6 +69,9 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBinaryThresholdImageFilter ${DATA}/cthead1.png 100 255)
+
+ADD_TEST(${KIT}-ConnectedComponentImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestConnectedComponentImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
 ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestConvolutionImageFilter ${DATA}/cthead1.png 10)
