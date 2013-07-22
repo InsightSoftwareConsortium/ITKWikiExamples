@@ -1,52 +1,70 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkConnectedComponentImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
+#include "itkScalarToRGBColormapImageFilter.h"
+
+#include "itksys/SystemTools.hxx"
+#include <sstream>
 
 #include "QuickView.h"
- 
+
 template <typename TImage>
 static void CreateImage(TImage* const image);
 
 int main( int argc, char *argv[])
 {
-  typedef itk::Image<unsigned char, 2>  ImageType;
+  const unsigned int Dimension = 2;
+  typedef unsigned char                       PixelType;
+  typedef itk::RGBPixel<unsigned char>         RGBPixelType;
+  typedef itk::Image<PixelType, Dimension>     ImageType;
+  typedef itk::Image<RGBPixelType, Dimension>  RGBImageType;
 
   ImageType::Pointer image;
-
-  if(argc < 2)
+  if( argc < 2 )
     {
     image = ImageType::New();
     CreateImage(image.GetPointer());
     }
   else
     {
-    std::string fileName = argv[1];
     typedef itk::ImageFileReader<ImageType> ReaderType;
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(fileName);
+    reader->SetFileName(argv[1]);
     reader->Update();
 
     image = reader->GetOutput();
     }
 
-  typedef itk::ConnectedComponentImageFilter <ImageType, ImageType >
+  typedef itk::Image< unsigned short, Dimension > OutputImageType;
+
+  typedef itk::ConnectedComponentImageFilter <ImageType, OutputImageType >
     ConnectedComponentImageFilterType;
 
-  ConnectedComponentImageFilterType::Pointer labelFilter
-    = ConnectedComponentImageFilterType::New ();
-  labelFilter->SetInput(image);
-  labelFilter->Update();
+  ConnectedComponentImageFilterType::Pointer connected =
+    ConnectedComponentImageFilterType::New ();
+  connected->SetInput(image);
+  connected->Update();
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  rescaleFilter->SetInput(labelFilter->GetOutput());
+  std::cout << "Number of objects: " << connected->GetObjectCount() << std::endl;
+
+  typedef itk::ScalarToRGBColormapImageFilter<OutputImageType, RGBImageType> RGBFilterType;
+  RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
+  rgbFilter->SetInput( connected->GetOutput() );
+  rgbFilter->SetColormap( RGBFilterType::Jet );
 
   QuickView viewer;
-  viewer.AddImage<ImageType>( image, false );  
-  viewer.AddImage<ImageType>( rescaleFilter->GetOutput(), false );  
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");  
+
+  std::stringstream desc;
+  desc << "Connected Components: "
+       << connected->GetObjectCount() << " objects";
+  viewer.AddRGBImage(
+    rgbFilter->GetOutput(),
+    true,
+    desc.str());  
+
   viewer.Visualize();
 
   return EXIT_SUCCESS;
