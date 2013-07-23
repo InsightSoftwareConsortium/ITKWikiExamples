@@ -1,41 +1,72 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
-#include "itkRescaleIntensityImageFilter.h"
+#include "itkImageFileReader.h"
 #include "itkLabelContourImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
+#include "itkScalarToRGBColormapImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+#include "itksys/SystemTools.hxx"
+#include <sstream>
 
-void CreateImage(ImageType::Pointer image);
+#include "QuickView.h"
 
-int main(int, char *[])
+typedef unsigned char                 PixelType;
+typedef itk::RGBPixel<unsigned char>  RGBPixelType;
+typedef itk::Image<PixelType, 2>      ImageType;
+typedef itk::Image<RGBPixelType, 2>   RGBImageType;
+
+static void CreateImage(ImageType::Pointer image);
+
+int main(int argc, char *argv[])
 {
-  ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
+  // Create or read an image
+  ImageType::Pointer image;
+  if( argc < 2 )
+    {
+    image = ImageType::New();
+    CreateImage(image.GetPointer());
+    }
+  else
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader =
+      ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
 
+    image = reader->GetOutput();
+    }
+
+  // Generate connected components
   typedef itk::ConnectedComponentImageFilter <ImageType, ImageType >
     ConnectedComponentImageFilterType;
    ConnectedComponentImageFilterType::Pointer connectedComponentImageFilter
     = ConnectedComponentImageFilterType::New ();
   connectedComponentImageFilter->SetInput(image);
-  connectedComponentImageFilter->Update();
 
+  // Generate contours for each component
   typedef itk::LabelContourImageFilter<ImageType, ImageType> LabelContourImageFilterType;
-  LabelContourImageFilterType::Pointer labelContourImageFilterFilter = LabelContourImageFilterType::New();
-  labelContourImageFilterFilter->SetInput(connectedComponentImageFilter->GetOutput());
-  labelContourImageFilterFilter->Update();
+  LabelContourImageFilterType::Pointer labelContourImageFilter =
+    LabelContourImageFilterType::New();
+  labelContourImageFilter->SetInput(connectedComponentImageFilter->GetOutput());
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  rescaleFilter->SetInput(labelContourImageFilterFilter->GetOutput());
-  
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("output.png");
-  writer->SetInput(rescaleFilter->GetOutput());
-  writer->Update();
+  typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> RGBFilterType;
+  RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
+  rgbFilter->SetInput( labelContourImageFilter->GetOutput() );
+  rgbFilter->SetColormap( RGBFilterType::Jet );
+
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");
+
+  std::stringstream desc;
+  desc << "LabelContourImageFilter";
+  viewer.AddRGBImage(
+    rgbFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
