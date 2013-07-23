@@ -75,5 +75,5 @@ ADD_TEST(${KIT}-SmoothingRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/
   TestSmoothingRecursiveGaussianImageFilter ${DATA}/Gourds.png 3)
 
 ADD_TEST(${KIT}-VectorGradientAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestVectorGradientAnisotropicDiffusionImageFilter ${DATA}/Gourds.png ${TEMP}/GourdsAD.mhd)
+  TestVectorGradientAnisotropicDiffusionImageFilter ${DATA}/Gourds.png 10 1.5)
 endif()
