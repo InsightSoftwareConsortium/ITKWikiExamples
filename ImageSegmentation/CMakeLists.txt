@@ -29,6 +29,7 @@ SET(NEEDS_ARGS
   ExtractContourWithSnakes.cxx
   ConfidenceConnectedImageFilter.cxx
   ExtractLargestConnectedComponentFromBinaryImage.cxx
+  LabelContourImageFilter.cxx
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -44,5 +45,8 @@ ADD_TEST(${KIT}-ConfidenceConnectedImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}C
 
 ADD_TEST(${KIT}-ExtractLargestConnectedComponentFromBinaryImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestExtractLargestConnectedComponentFromBinaryImage ${DATA}/BinaryImageWithVariousShapes01.png)
+
+ADD_TEST(${KIT}-LabelContourImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestLabelContourImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
 endif()
