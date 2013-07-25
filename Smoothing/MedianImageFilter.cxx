@@ -4,7 +4,6 @@
 #include "itkSubtractImageFilter.h"
 
 #include "itksys/SystemTools.hxx"
-
 #include <sstream>
 
 #include "QuickView.h"
