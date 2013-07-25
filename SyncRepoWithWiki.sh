@@ -5,7 +5,7 @@
 #
 # Make sure the wiki is up
 echo "Synchronizing the wikiexamples repository with the wiki."
-HOST=www.itk.org
+HOST=github.com
 echo "0) Can we access the wiki?"
 ping -c 1 $HOST &> /dev/null
 if test "${?}" = 1
@@ -47,4 +47,5 @@ echo "8) Update tarballs and push to tarball repo"
 (cd Tarballs; git push)
 
 echo "9) Push the changes"
-git push git@gitorious.org:itkwikiexamples/itkwikiexamples.git
+git push
+
