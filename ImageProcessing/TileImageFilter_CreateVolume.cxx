@@ -13,7 +13,7 @@ int main(int argc, char *argv[] )
   typedef itk::Image< PixelType, InputImageDimension  >   InputImageType;
   typedef itk::Image< PixelType, OutputImageDimension >   OutputImageType;
 
-  typedef itk::ImageFileReader< InputImageType > ImageReaderType ;
+  typedef itk::ImageFileReader< InputImageType > ImageReaderType;
 
   typedef itk::TileImageFilter< InputImageType, OutputImageType > TilerType;
 
@@ -58,9 +58,7 @@ int main(int argc, char *argv[] )
   tiler->Update();
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( tiler->GetOutput() );
-
   writer->SetFileName( argv[argc-1] );
 
   try
