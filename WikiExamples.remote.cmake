@@ -1,5 +1,5 @@
 itk_fetch_module(WikiExamples
-  "A collection of examples that illsutare how to use ITK."
-  GIT_REPOSITORY https://git.gitorious.org/itkwikiexamples/itkwikiexamples.git
+  "A collection of examples that illustrate how to use ITK."
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKWikiExamples.git
   GIT_TAG master
   )

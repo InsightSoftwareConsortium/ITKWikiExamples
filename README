@@ -8,8 +8,8 @@ The ITKWikiExamples can be built in several ways:
 4) As an ITKv4 Remote Module proceed as follows.
 
 * Enable fetching
-  1) Go to: http://gitorious.org/itkwikiexamples/itkwikiexamples/blobs/master/WikiExamples.remote.cmake
-  2) Right click on the "Raw blob data" button and select "Save Link As..."
+  1) Go to: https://github.com/InsightSoftwareConsortium/ITKWikiExamples/raw/master/WikiExamples.remote.cmake
+  2) Right click on the "Raw" button and select "Save Link As..."
   3) Save the file in: YOUR_ITK_SOURCE_DIR/Modules/Remote
 
 A) If you use an interactive cmake (ccmake, cmake-gui or cmakesetup)
