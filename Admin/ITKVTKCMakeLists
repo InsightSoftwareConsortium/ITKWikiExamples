@@ -29,8 +29,10 @@ Once the tarball ''{{{1}}}.tar'' has been downloaded and extracted,
  cmake ..
 * If ITK is not installed but compiled on your system, you will need to specify '''the path to your ITK build''':
  cmake -DITK_DIR='''/home/me/itk_build''' ..
-Build the project, and run it:
+Build the project,
  make
+and run it:
+ ./{{{1}}}
 
 ==Building All of the Examples==
 Many of the examples in the ITK Wiki Examples Collection require VTK. You can build all of the the examples by following [[ITK/Examples/Instructions/ForUsers#Build_all_of_the_examples|these instructions]]. If you are a new VTK user, you may want to try the [[ITK/Examples/Instructions/ForUsers#Use_the_Superbuild_to_build_a_proper_VTK_and_ITK|Superbuild]] which will build a proper ITK and VTK.
@@ -39,4 +41,4 @@ Many of the examples in the ITK Wiki Examples Collection require VTK. You can bu
 For examples that use QuickView (which depends on VTK), you must have built ITK with Module_ITKVtkGlue=ON.
 
 ===ITK < 4===
-Some of the ITK Examples require VTK to display the images. If you download the entire ITK Wiki Examples Collection, the ItkVtkGlue directory will be included and configured. If you wish to just build a few examples, then you will need to [http://gitorious.org/itkwikiexamples/itkwikiexamples/blobs/raw/master/ItkVtkGlue.tar.gz download ItkVtkGlue] and build it. When you run cmake it will ask you to specify the location of the ItkVtkGlue binary directory.
+Some of the ITK Examples require VTK to display the images. If you download the entire ITK Wiki Examples Collection, the ItkVtkGlue directory will be included and configured. If you wish to just build a few examples, then you will need to [https://github.com/InsightSoftwareConsortium/ITKWikiExamples/raw/master/ItkVtkGlue.tar.gz download ItkVtkGlue] and build it. When you run cmake it will ask you to specify the location of the ItkVtkGlue binary directory.
