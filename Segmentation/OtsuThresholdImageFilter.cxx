@@ -1,23 +1,59 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
 #include "itkOtsuThresholdImageFilter.h"
+#include "itkImageFileReader.h"
 #include "itkImageRegionIterator.h"
+#include "itkNumericTraits.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+#include "itksys/SystemTools.hxx"
+#include <sstream>
+
+#include "QuickView.h"
+
+typedef unsigned char             PixelType;
+typedef itk::Image<PixelType, 2>  ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
-  ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
+  ImageType::Pointer image;
+  if( argc < 2 )
+    {
+    image = ImageType::New();
+    CreateImage(image.GetPointer());
+    }
+  else
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader =
+      ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+
+    image = reader->GetOutput();
+    }
 
   typedef itk::OtsuThresholdImageFilter <ImageType, ImageType>
-          OtsuThresholdImageFilterType;
-  OtsuThresholdImageFilterType::Pointer otsuFilter
-          = OtsuThresholdImageFilterType::New();
+          FilterType;
+  FilterType::Pointer otsuFilter
+          = FilterType::New();
   otsuFilter->SetInput(image);
-  otsuFilter->Update();
+  otsuFilter->Update(); // To compute threshold
+
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");
+
+  std::stringstream desc;
+  desc << "Otsu Threshold: "
+       << itk::NumericTraits<FilterType::InputPixelType>::PrintType(otsuFilter->GetThreshold());
+  viewer.AddImage(
+    otsuFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
 
   return EXIT_SUCCESS;
 }
