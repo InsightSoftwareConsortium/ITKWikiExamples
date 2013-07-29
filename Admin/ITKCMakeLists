@@ -34,6 +34,7 @@ Build the project:
  make
 and run it:
  ./{{{1}}}
+'''WINDOWS USERS PLEASE NOTE:''' Be sure to add the ITK bin directory to your path. This will resolve the ITK dll's at run time.
 
 ==Building All of the Examples==
 Many of the examples in the ITK Wiki Examples Collection require VTK. You can build all of the the examples by following [[ITK/Examples/Instructions/ForUsers#Build_all_of_the_examples|these instructions]]. If you are a new VTK user, you may want to try the [[ITK/Examples/Instructions/ForUsers#Use_the_Superbuild_to_build_a_proper_VTK_and_ITK|Superbuild]] which will build a proper ITK and VTK.
