@@ -28,6 +28,7 @@ if(BUILD_TESTING)
 SET(KIT Segmentation)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  OtsuMultipleThresholdsImageFilter
   OtsuThresholdImageFilter
   WatershedImageFilter
 )
@@ -35,6 +36,9 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-OtsuMultipleThresholdsImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestOtsuMultipleThresholdsImageFilter ${DATA}/cthead1.png 2)
 
 ADD_TEST(${KIT}-OtsuThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestOtsuThresholdImageFilter ${DATA}/cthead1.png)
