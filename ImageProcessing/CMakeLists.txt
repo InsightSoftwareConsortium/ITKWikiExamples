@@ -56,6 +56,7 @@ SET(NEEDS_ARGS
   RescaleIntensityImageFilter
   RGBToLuminanceImageFilter
   RGBResampleImageFilter
+  ScalarConnectedComponentImageFilter
   SigmoidImageFilter
   ThresholdImageFilter
   TileImageFilter_SideBySide
@@ -111,6 +112,9 @@ ADD_TEST(${KIT}-RGBToLuminanceImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTes
 
 ADD_TEST(${KIT}-RGBResampleImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRGBResampleImageFilter ${DATA}/VHF001.png 10)
+
+ADD_TEST(${KIT}-ScalarConnectedComponentImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestScalarConnectedComponentImageFilter ${DATA}/cthead1.png 4 100)
 
 ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestSigmoidImageFilter ${DATA}/cthead1.png 10 150)
