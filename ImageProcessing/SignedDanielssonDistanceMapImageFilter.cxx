@@ -72,5 +72,4 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     pixel.Fill(i);
     image->SetPixel(pixel, 255);
     }
-
 }

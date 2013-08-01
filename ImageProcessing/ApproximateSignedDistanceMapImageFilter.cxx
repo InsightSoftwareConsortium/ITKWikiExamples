@@ -1,39 +1,54 @@
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
-#include "itkBinomialBlurImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
+#include "itkImageFileReader.h"
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 
+#include "itksys/SystemTools.hxx"
+#include <sstream>
+
+#include "QuickView.h"
+
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+typedef itk::Image<float, 2>          FloatImageType;
  
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
 int main(int argc, char * argv[])
 {
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
-  CreateImage(image);
-  
+  if (argc < 2)
+    {
+    CreateImage(image);
+    }
+  else
+    {
+    typedef itk::ImageFileReader<UnsignedCharImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+    image = reader->GetOutput();
+    }
+
   typedef  itk::ApproximateSignedDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > ApproximateSignedDistanceMapImageFilterType;
-  ApproximateSignedDistanceMapImageFilterType::Pointer approximateSignedDistanceMapImageFilter = ApproximateSignedDistanceMapImageFilterType::New();
+  ApproximateSignedDistanceMapImageFilterType::Pointer approximateSignedDistanceMapImageFilter =
+    ApproximateSignedDistanceMapImageFilterType::New();
   approximateSignedDistanceMapImageFilter->SetInput(image);
   approximateSignedDistanceMapImageFilter->SetInsideValue(255);
   approximateSignedDistanceMapImageFilter->SetOutsideValue(0);
-  approximateSignedDistanceMapImageFilter->Update();
   
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
-  rescaleFilter->SetInput(approximateSignedDistanceMapImageFilter->GetOutput());
-  rescaleFilter->SetOutputMinimum(0);
-  rescaleFilter->SetOutputMaximum(255);
-  rescaleFilter->Update();
-  
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("output.png");
-  writer->SetInput(rescaleFilter->GetOutput());
-  writer->Update();
-  
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");  
+
+  std::stringstream desc;
+  desc << "Approximate Signed Distance";
+  viewer.AddImage(
+    approximateSignedDistanceMapImageFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
+
   return EXIT_SUCCESS;
 }
 
@@ -60,9 +75,4 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     image->SetPixel(pixel, 255);
     }
 
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("input.png");
-  writer->SetInput(image);
-  writer->Update();
 }
