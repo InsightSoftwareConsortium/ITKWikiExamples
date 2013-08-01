@@ -40,6 +40,7 @@ if(BUILD_TESTING)
 SET(KIT ImageProcessing)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  ApproximateSignedDistanceMapImageFilter
   BinaryThresholdImageFilter
   CastImageFilter
   ConnectedComponentImageFilter
@@ -58,6 +59,8 @@ SET(NEEDS_ARGS
   RGBResampleImageFilter
   ScalarConnectedComponentImageFilter
   SigmoidImageFilter
+  SignedDaniellsonDistanceMapImageFilter
+  SignedMaurerDistanceMapImageFilter
   ThresholdImageFilter
   TileImageFilter_SideBySide
   TileImageFilter_CreateVolume
@@ -67,6 +70,15 @@ INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-ApproximateSignedDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestApproximateSignedDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
+
+ADD_TEST(${KIT}-SignedMaurerDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestSignedMaurerDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
+
+ADD_TEST(${KIT}-SignedDanielssonDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestSignedDanielssonDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
 ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestBinaryThresholdImageFilter ${DATA}/cthead1.png 100 255)
