@@ -65,6 +65,7 @@ SET(NEEDS_ARGS
   TileImageFilter_SideBySide
   TileImageFilter_CreateVolume
   Upsampling
+  ZeroCrossingImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -145,4 +146,8 @@ ADD_TEST(${KIT}-TileImageFilter_CreateVolume ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cxx
 
 ADD_TEST(${KIT}-Upsampling ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestUpsampling ${DATA}/cthead1.png ${TEMP}/Upsampling.png 512 512)
+
+ADD_TEST(${KIT}-ZeroCrossingImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestZeroCrossingImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
+
 endif()
