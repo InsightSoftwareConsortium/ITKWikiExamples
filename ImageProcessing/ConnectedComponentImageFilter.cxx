@@ -1,7 +1,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkConnectedComponentImageFilter.h"
-#include "itkScalarToRGBColormapImageFilter.h"
+#include "itkLabelToRGBImageFilter.h"
 
 #include "itksys/SystemTools.hxx"
 #include <sstream>
@@ -47,10 +47,9 @@ int main( int argc, char *argv[])
 
   std::cout << "Number of objects: " << connected->GetObjectCount() << std::endl;
 
-  typedef itk::ScalarToRGBColormapImageFilter<OutputImageType, RGBImageType> RGBFilterType;
+  typedef itk::LabelToRGBImageFilter<OutputImageType, RGBImageType> RGBFilterType;
   RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
   rgbFilter->SetInput( connected->GetOutput() );
-  rgbFilter->SetColormap( RGBFilterType::Jet );
 
   QuickView viewer;
   viewer.AddImage(

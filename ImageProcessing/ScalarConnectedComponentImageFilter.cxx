@@ -1,66 +1,136 @@
-#include "itkBinomialBlurImageFilter.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
+#include "itkLabelToRGBImageFilter.h"
+#include "itkRelabelComponentImageFilter.h"
+
 #include "itkScalarConnectedComponentImageFilter.h"
 
-typedef itk::Image< unsigned char, 2 >  ImageType;
+#include "itksys/SystemTools.hxx"
+#include <sstream>
 
-static void CreateImage(ImageType::Pointer image);
+#include "QuickView.h"
+
+template <typename TImage>
+static void CreateImage(TImage* const image);
 
 int main( int argc, char *argv[])
 {
+  const unsigned int Dimension = 2;
+  typedef unsigned char                          PixelType;
+  typedef itk::Image<PixelType, Dimension>       ImageType;
 
-  ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
-  
-  typedef itk::ScalarConnectedComponentImageFilter<ImageType, ImageType> ScalarConnectedComponentImageFilterType;
-  ScalarConnectedComponentImageFilterType::Pointer scalarConnectedComponentFilter = ScalarConnectedComponentImageFilterType::New();
-  scalarConnectedComponentFilter->SetInput(image);
-  scalarConnectedComponentFilter->Update();
+  typedef itk::RGBPixel<unsigned char>           RGBPixelType;
+  typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("output.png");
-  writer->SetInput(scalarConnectedComponentFilter->GetOutput());
-  writer->Update();
-  
+  typedef unsigned short                         LabelPixelType;
+  typedef itk::Image<LabelPixelType, Dimension > LabelImageType;
+
+  ImageType::Pointer image;
+  PixelType distanceThreshold = 4;
+  if( argc < 2 )
+    {
+    image = ImageType::New();
+    CreateImage(image.GetPointer());
+    }
+  else
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+
+    if (argc > 2)
+      {
+      distanceThreshold = static_cast<PixelType> (atoi(argv[2]));
+      }
+    image = reader->GetOutput();
+    }
+
+
+  typedef itk::ScalarConnectedComponentImageFilter <ImageType, LabelImageType >
+    ConnectedComponentImageFilterType;
+
+  ConnectedComponentImageFilterType::Pointer connected =
+    ConnectedComponentImageFilterType::New ();
+  connected->SetInput(image);
+  connected->SetDistanceThreshold(distanceThreshold);
+
+  typedef itk::RelabelComponentImageFilter <LabelImageType, LabelImageType >
+    RelabelFilterType;
+  RelabelFilterType::Pointer relabel =
+    RelabelFilterType::New();
+  RelabelFilterType::ObjectSizeType minSize = 20;
+  if (argc > 3)
+    {
+    minSize = atoi(argv[3]);
+    }
+  relabel->SetInput(connected->GetOutput());
+  relabel->SetMinimumObjectSize(minSize);
+  relabel->Update();
+
+  typedef itk::LabelToRGBImageFilter<LabelImageType, RGBImageType> RGBFilterType;
+  RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
+  rgbFilter->SetInput( relabel->GetOutput() );
+
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");  
+
+  std::stringstream desc;
+  desc << "Scalar Connected Components:\n# of Objects: "
+       << relabel->GetNumberOfObjects()
+       << " Threshold: "
+       << itk::NumericTraits<ConnectedComponentImageFilterType::OutputPixelType>::PrintType(connected->GetDistanceThreshold())
+       << " Min Size: " << relabel->GetMinimumObjectSize();
+  viewer.AddRGBImage(
+    rgbFilter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
+
   return EXIT_SUCCESS;
 }
 
-void CreateImage(ImageType::Pointer image)
+template <typename TImage>
+void CreateImage(TImage* const image)
 {
   // Create an image with 2 connected components
-  ImageType::IndexType start;
-  start.Fill(0);
+  typename TImage::IndexType start = {{0,0}};
+  start[0] = 0;
+  start[1] = 0;
 
-  ImageType::SizeType size;
-  size.Fill(100);
+  typename TImage::SizeType size;
+  unsigned int NumRows = 200;
+  unsigned int NumCols = 300;
+  size[0] = NumRows;
+  size[1] = NumCols;
 
-  ImageType::RegionType region(start,size);
+  typename TImage::RegionType region(start, size);
 
   image->SetRegions(region);
   image->Allocate();
 
   // Make a square
-  for(unsigned int r = 20; r < 80; r++)
+  for(typename TImage::IndexValueType r = 20; r < 80; r++)
     {
-    for(unsigned int c = 30; c < 100; c++)
+    for(typename TImage::IndexValueType c = 30; c < 100; c++)
       {
-      ImageType::IndexType pixelIndex;
-      pixelIndex[0] = r;
-      pixelIndex[1] = c;
+      typename TImage::IndexType pixelIndex = {{r,c}};
 
       image->SetPixel(pixelIndex, 255);
       }
     }
-  
-  typedef itk::BinomialBlurImageFilter<ImageType, ImageType >  BinomialBlurImageFilterType;
-  BinomialBlurImageFilterType::Pointer binomialBlurImageFilter = BinomialBlurImageFilterType::New();
-  binomialBlurImageFilter->SetInput( image );
-  binomialBlurImageFilter->SetRepetitions( 4 );
-  binomialBlurImageFilter->Update();
-  
-  image->Graft(binomialBlurImageFilter->GetOutput());
 
+  // Make another square
+  for(typename TImage::IndexValueType r = 100; r < 130; r++)
+    {
+    for(typename TImage::IndexValueType c = 115; c < 160; c++)
+      {
+      typename TImage::IndexType pixelIndex = {{r,c}};
+
+      image->SetPixel(pixelIndex, 255);
+      }
+    }
 }
