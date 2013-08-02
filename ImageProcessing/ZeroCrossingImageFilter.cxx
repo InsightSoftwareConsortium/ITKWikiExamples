@@ -1,35 +1,55 @@
-#include "itkImage.h"
-#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
 #include "itkZeroCrossingImageFilter.h"
 
-typedef itk::Image<float, 2>  FloatImageType;
+#include "itksys/SystemTools.hxx"
+#include <sstream>
 
-static void CreateImage(FloatImageType::Pointer image);
+#include "QuickView.h"
+
+typedef itk::Image<float, 2>  ImageType;
+
+static void CreateImage(ImageType::Pointer image);
 
 int main(int argc, char *argv[])
 {
-  typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+  ImageType::Pointer image = ImageType::New();
+  if (argc < 2)
+    {
+    CreateImage(image);
+    }
+  else
+    {
+    typedef itk::ImageFileReader<ImageType> ReaderType;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+    image = reader->GetOutput();
+    }
 
-  FloatImageType::Pointer image = FloatImageType::New();
-  CreateImage(image);
-
-  typedef  itk::ZeroCrossingImageFilter< FloatImageType, UnsignedCharImageType  > ZeroCrossingImageFilterType;
-  ZeroCrossingImageFilterType::Pointer zeroCrossingImageFilter = ZeroCrossingImageFilterType::New();
-  zeroCrossingImageFilter->SetInput(image);
-  zeroCrossingImageFilter->SetBackgroundValue(0);
-  zeroCrossingImageFilter->SetForegroundValue(255);
-  zeroCrossingImageFilter->Update();
+  typedef  itk::ZeroCrossingImageFilter< ImageType, ImageType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetInput(image);
+  filter->SetBackgroundValue(0);
+  filter->SetForegroundValue(255);
     
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("output.png");
-  writer->SetInput(zeroCrossingImageFilter->GetOutput());
-  writer->Update();
+  QuickView viewer;
+  viewer.AddImage(
+    image.GetPointer(),true,
+    argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");  
 
-  return 0;
+  std::stringstream desc;
+  desc << "Zero Crossing";
+  viewer.AddImage(
+    filter->GetOutput(),
+    true,
+    desc.str());  
+
+  viewer.Visualize();
+
+  return EXIT_SUCCESS;
 }
 
-void CreateImage(FloatImageType::Pointer image)
+void CreateImage(ImageType::Pointer image)
 {
   itk::Index<2> start;
   start.Fill(0);
