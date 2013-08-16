@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
  
 PROJECT(ITKWikiExamples)
-if (Fetch_WikiExamples)
+if (Fetch_WikiExamples OR Module_WikiExamples)
   message(STATUS "ITKWikiExamples: Building ITKWikiExamples as a Remote Module")
   if(BUILD_EXAMPLES)
     message(FATAL_ERROR " ITKWikiExamples: Cannot build ITK/Examples and ITKWikiExamples. Set BUILD_EXAMPLES OFF")
