@@ -1,6 +1,6 @@
 set(DOCUMENTATION "A collection of examples illustrating how to use ITK")
 
-itk_module( ITKWikiExamples
+itk_module( WikiExamples
   DEPENDS
   ITKAnisotropicSmoothing
   ITKAntiAlias
