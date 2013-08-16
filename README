@@ -18,7 +18,8 @@ A) If you use an interactive cmake (ccmake, cmake-gui or cmakesetup)
   1) Go to your itk build directory and run cmake
   2) Configure
 
-* Fetch ITKWikiExamples
+* NOTE: ITK 4.4 and earlier
+  Fetch ITKWikiExamples
   1) Open the highlighted (red) cmake entry
   2) Check the Fetch_WikiExamples box
   3) Configure
@@ -26,7 +27,7 @@ A) If you use an interactive cmake (ccmake, cmake-gui or cmakesetup)
 * Enable ITKWikiExampes
   1) Configure (yes, do it again)
   2) Open the highlighted (red) cmake entry
-  3) Check the Module_ITKSkullStrip box
+  3) Check the Module_ITKWikiExamples box
   4) Configure
   5) Generate
   6) Exit cmake
@@ -35,7 +36,8 @@ B) If you use cmake from the command line
 --------------------------------------
 From your itk build directory
 * Configure
-  1) cmake -DFetch_WikiExamples=ON YOUR_ITK_SOURCE_DIR
+  1) NOTE: ITK 4.4 and earlier
+     cmake -DFetch_WikiExamples=ON YOUR_ITK_SOURCE_DIR
   2) cmake -DModule_ITKWikiExamples=ON YOUR_ITK_SOURCE_DIR
 
 Once you have configured using A) or B)
