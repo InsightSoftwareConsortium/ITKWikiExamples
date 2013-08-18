@@ -45,7 +45,7 @@ ENDIF(MSVC_VERSION EQUAL 1400 OR MSVC_VERSION GREATER 1400)
 
 #-----------------------------------------------------------------------------
 # Output directories.
-if(NOT Fetch_WikiExamples)
+if(NOT Fetch_WikiExamples AND NOT Module_WikiExamples)
   IF(NOT LIBRARY_OUTPUT_PATH)
     SET (LIBRARY_OUTPUT_PATH ${ITKWikiExamples_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all libraries.")
   ENDIF(NOT LIBRARY_OUTPUT_PATH)
