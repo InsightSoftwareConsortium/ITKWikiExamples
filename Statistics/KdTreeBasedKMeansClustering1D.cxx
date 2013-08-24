@@ -220,7 +220,6 @@ int main(int, char *[])
   renderer->AddActor(actor1);
   renderer->AddActor(actor2);
   renderer->ResetCamera();
-  renderer->Render();
 
   vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();
@@ -228,9 +227,7 @@ int main(int, char *[])
     vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
 
   renderWindowInteractor->SetInteractorStyle(style);
-
   renderWindowInteractor->SetRenderWindow(renderWindow);
-  renderWindowInteractor->Initialize();
 
   renderWindowInteractor->Start();
 
