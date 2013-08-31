@@ -23,7 +23,7 @@ endif( "${ITK_VERSION_MAJOR}" LESS 4 )
 |lang=cmake}}
 
 ==Download and Build {{{1}}}==
-Click [http://gitorious.org/itkwikiexamplestarballs/itkwikiexamplestarballs/blobs/raw/master/{{{1}}}.tar here to download ''{{{1}}}''] and its ''CMakeLists.txt'' file.
+Click [http://gitorious.org/itkwikiexamplestarballs/itkwikiexamplestarballs/raw/master:{{{1}}}.tar here to download ''{{{1}}}''] and its ''CMakeLists.txt'' file.
 Once the tarball ''{{{1}}}.tar'' has been downloaded and extracted,
  cd {{{1}}}/build
 * If ITK is installed:
