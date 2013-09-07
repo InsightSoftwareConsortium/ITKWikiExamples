@@ -72,7 +72,7 @@ itk_module( WikiExamples
   ITKIOTransformHDF5
   ITKIOTransformInsightLegacy
 
-  EXCLUDE_FROM_DEFAULTS
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
 )
