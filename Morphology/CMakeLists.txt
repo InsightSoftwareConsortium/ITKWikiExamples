@@ -15,6 +15,7 @@ include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
 FILE(GLOB ALL_FILES *.cxx)
 
 Requires_Version(FlatStructuringElementForegroundHasAccurateArea 4.6 ALL_FILES)
+Requires_Version(FlatStructuringElementRadiusIsParametric 4.6 ALL_FILES)
 
 foreach(SOURCE_FILE ${ALL_FILES})
   STRING(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
