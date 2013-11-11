@@ -45,8 +45,6 @@ int main(int argc, char* argv[])
   rgbaImg->FillBuffer(rgbaDefault);
 
   // RGBImage
-  RGBImageType::IndexType rgbStart  = rgbaStart;
-  RGBImageType::SizeType  rgbSize   = rgbaSize;
   itk::ImageRegion<2>     rgbRegion = rgbaRegion;
   rgbImg->SetRegions(rgbRegion);
   rgbImg->Allocate();
@@ -56,9 +54,9 @@ int main(int argc, char* argv[])
 
   // Convert a raw buffer to a buffer of pixel types
   RGBAConverterType::Convert(
-    static_cast<ComponentType *>(rgbaImg->GetPixelContainer()->GetBufferPointer()->GetDataPointer()),
+    rgbaImg->GetBufferPointer()->GetDataPointer(),
     rgbaImg->GetNumberOfComponentsPerPixel(),
-    (rgbImg->GetPixelContainer()->GetBufferPointer()),
+    rgbImg->GetBufferPointer(),
     numberOfPixels);
 
   // Check a few random values
