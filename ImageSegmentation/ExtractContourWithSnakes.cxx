@@ -253,7 +253,7 @@ vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) t
   vnl_matrix< double > Pinv;
   Pinv = vnl_matrix_inverse< double >(P);
  
-  return Pinv;
+  return Pinv.transpose();
 }
  
 vnl_vector<double> sampleImage(vnl_vector<double> x, vnl_vector<double> y, OutputImageType::Pointer gradient, int position)
