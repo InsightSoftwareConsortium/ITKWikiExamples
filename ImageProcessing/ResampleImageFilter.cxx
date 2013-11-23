@@ -1,9 +1,8 @@
 #include "itkImage.h"
 #include "itkIdentityTransform.h"
-#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkNearestNeighborInterpolateImageFunction.h"
+
 
 typedef itk::Image<unsigned char, 2> ImageType;
 
