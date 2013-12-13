@@ -2,6 +2,7 @@
 # Get and build itk
 
 set( ITK_TAG "v4.4.0" )
+set( ITK_TAG "v4.5rc03" )
 
 ExternalProject_Add( ITK
   GIT_REPOSITORY "${git_protocol}://itk.org/ITK.git"
@@ -14,7 +15,7 @@ ExternalProject_Add( ITK
     -DBUILD_SHARED_LIBS:BOOL=ON
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
-    -DITK_BUILD_ALL_MODULES:BOOL=ON
+    -DITK_BUILD_DEFAULT_MODULES:BOOL=ON
   INSTALL_COMMAND ""
 )
 
