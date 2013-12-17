@@ -35,8 +35,11 @@ SET(NEEDS_ARGS
   MeanImageFilter
   MedianImageFilter
   MinMaxCurvatureFlowImageFilter
+  RGBCurvatureFlowImageFilter
   RGBMedianImageFilter
+  RGBMinMaxCurvatureFlowImageFilter
   SmoothingRecursiveGaussianImageFilter
+  VectorCurvatureAnisotropicDiffusionImageFilter
   VectorGradientAnisotropicDiffusionImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
@@ -56,11 +59,17 @@ ADD_TEST(${KIT}-BinomialBlurImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 ADD_TEST(${KIT}-CurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestCurvatureFlowImageFilter ${DATA}/Gourds.png)
 
+ADD_TEST(${KIT}-RGBCurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRGBCurvatureFlowImageFilter ${DATA}/Gourds.png)
+
 ADD_TEST(${KIT}-DiscreteGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestDiscreteGaussianImageFilter ${DATA}/Gourds.png 9)
 
 ADD_TEST(${KIT}-MinMaxCurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png ${TEMP}/MinMaxCurvatureFlowImageFilterOutput.png 10)
+  TestMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png 10)
+
+ADD_TEST(${KIT}-RGBMinMaxCurvatureFlowImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRGBMinMaxCurvatureFlowImageFilter ${DATA}/Gourds.png 10)
 
 ADD_TEST(${KIT}-MeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMeanImageFilter ${DATA}/Gourds.png)
@@ -76,4 +85,7 @@ ADD_TEST(${KIT}-SmoothingRecursiveGaussianImageFilter ${EXECUTABLE_OUTPUT_PATH}/
 
 ADD_TEST(${KIT}-VectorGradientAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorGradientAnisotropicDiffusionImageFilter ${DATA}/Gourds.png 10 1.5)
+
+ADD_TEST(${KIT}-VectorCurvatureAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestVectorCurvatureAnisotropicDiffusionImageFilter ${DATA}/Gourds.png 10 1.5)
 endif()
