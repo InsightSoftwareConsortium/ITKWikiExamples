@@ -1,7 +1,7 @@
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIterator.h"
 #include "itkNthElementImageAdaptor.h"
-#include "itkCurvatureFlowImageFilter.h"]
+#include "itkCurvatureFlowImageFilter.h"
 #include "itkComposeImageFilter.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
