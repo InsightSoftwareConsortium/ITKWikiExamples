@@ -14,7 +14,7 @@ int main(int, char*[])
   v2[1] = 2.0;
   v2[2] = 3.0;
   
-  VectorType dotproduct = v1*v2;
+  VectorType::ComponentType dotproduct = v1*v2;
   std::cout << "dot(v1,v2): " << dotproduct << std::endl;
 
   return EXIT_SUCCESS;
