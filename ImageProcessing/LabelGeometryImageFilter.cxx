@@ -1,31 +1,27 @@
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
-#include "itkBinaryImageToLabelMapFilter.h"
-#include "itkLabelMapToLabelImageFilter.h"
 #include "itkLabelGeometryImageFilter.h"
 
 typedef itk::Image<unsigned char, 2>  ImageType;
-static void CreateImage(ImageType::Pointer image);
+static void CreateIntensityImage(ImageType::Pointer image);
+static void CreateLabelImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
-  ImageType::Pointer image = ImageType::New();
-  CreateImage(image);
+  // Create a label image that is 0 in the background and where the objects are labeled
+  ImageType::Pointer labelImage = ImageType::New();
+  CreateLabelImage(labelImage);
 
-  typedef itk::BinaryImageToLabelMapFilter<ImageType> BinaryImageToLabelMapFilterType;
-  BinaryImageToLabelMapFilterType::Pointer binaryImageToLabelMapFilter = BinaryImageToLabelMapFilterType::New();
-  binaryImageToLabelMapFilter->SetInput(image);
-  binaryImageToLabelMapFilter->Update();
-
-  typedef itk::LabelMapToLabelImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, ImageType> LabelMapToLabelImageFilterType;
-  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
-  labelMapToLabelImageFilter->SetInput(binaryImageToLabelMapFilter->GetOutput());
-  labelMapToLabelImageFilter->Update();
+  // Create an intensity image.  Some LabelGeometry features (such as weighted centroid and integrated intensity)
+  // depend on an intensity image.
+  ImageType::Pointer intensityImage = ImageType::New();
+  CreateIntensityImage(intensityImage);
 
   typedef itk::LabelGeometryImageFilter< ImageType > LabelGeometryImageFilterType;
   LabelGeometryImageFilterType::Pointer labelGeometryImageFilter = LabelGeometryImageFilterType::New();
-  labelGeometryImageFilter->SetInput( labelMapToLabelImageFilter->GetOutput() );
+  labelGeometryImageFilter->SetInput( labelImage );
+  labelGeometryImageFilter->SetIntensityInput( intensityImage );
 
   // These generate optional outputs.
   labelGeometryImageFilter->CalculatePixelIndicesOn();
@@ -42,6 +38,7 @@ int main(int, char *[])
   for( allLabelsIt = allLabels.begin(); allLabelsIt != allLabels.end(); allLabelsIt++ )
     {
     LabelGeometryImageFilterType::LabelPixelType labelValue = *allLabelsIt;
+    std::cout << "\tLabel: " << (int)labelValue << std::endl;
     std::cout << "\tVolume: " << labelGeometryImageFilter->GetVolume(labelValue) << std::endl;
     std::cout << "\tIntegrated Intensity: " << labelGeometryImageFilter->GetIntegratedIntensity(labelValue) << std::endl;
     std::cout << "\tCentroid: " << labelGeometryImageFilter->GetCentroid(labelValue) << std::endl;
@@ -55,15 +52,47 @@ int main(int, char *[])
     std::cout << "\tBounding box: " << labelGeometryImageFilter->GetBoundingBox(labelValue) << std::endl;
     
     std::cout << std::endl << std::endl;
-    
     }
 
   return EXIT_SUCCESS;
 }
 
-void CreateImage(ImageType::Pointer image)
+void CreateIntensityImage(ImageType::Pointer image)
 {
-  // Create a black image with a white square
+  // Create a random image.
+  ImageType::IndexType start;
+  start.Fill(0);
+
+  ImageType::SizeType size;
+  size.Fill(20);
+
+  ImageType::RegionType region;
+  region.SetSize(size);
+  region.SetIndex(start);
+  image->SetRegions(region);
+  image->Allocate();
+
+  itk::ImageRegionIterator<ImageType> imageIterator(image,image->GetLargestPossibleRegion());
+  // Make a random image
+  // Create an unchanging seed.
+  srand(1);
+  while(!imageIterator.IsAtEnd())
+    {
+    int randomNumber = rand() % 255;
+    imageIterator.Set( randomNumber );
+    ++imageIterator;
+    }
+
+  typedef itk::ImageFileWriter< ImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName("intensityImage.png");
+  writer->SetInput(image);
+  writer->Update();
+}
+
+void CreateLabelImage(ImageType::Pointer image)
+{
+  // Create a black image with labeled squares.
   ImageType::IndexType start;
   start.Fill(0);
 
@@ -84,9 +113,19 @@ void CreateImage(ImageType::Pointer image)
     if((imageIterator.GetIndex()[0] > 5 && imageIterator.GetIndex()[0] < 10) &&
       (imageIterator.GetIndex()[1] > 5 && imageIterator.GetIndex()[1] < 10) )
         {
-        imageIterator.Set(255);
+        imageIterator.Set(85);
         }
-      else
+    else if((imageIterator.GetIndex()[0] > 11 && imageIterator.GetIndex()[0] < 17) &&
+      (imageIterator.GetIndex()[1] > 11 && imageIterator.GetIndex()[1] < 17) )
+	{
+	imageIterator.Set(127);
+	}
+    else if((imageIterator.GetIndex()[0] > 11 && imageIterator.GetIndex()[0] < 17) &&
+      (imageIterator.GetIndex()[1] > 1 && imageIterator.GetIndex()[1] < 5) )
+	{
+	imageIterator.Set(191);
+	}
+    else
         {
         imageIterator.Set(0);
         }
