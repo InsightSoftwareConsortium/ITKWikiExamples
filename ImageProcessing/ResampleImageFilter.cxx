@@ -8,7 +8,7 @@ typedef itk::Image<unsigned char, 2> ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   // Create input image
   ImageType::Pointer input = ImageType::New();

@@ -10,7 +10,7 @@ static void CreateImage1(TImage* const);
 template<typename TImage>
 static void CreateImage2(TImage* const);
 
-int main(int argc, char*argv[])
+int main(int, char*[])
 {
   typedef itk::Image<unsigned char, 2> ImageType;
 

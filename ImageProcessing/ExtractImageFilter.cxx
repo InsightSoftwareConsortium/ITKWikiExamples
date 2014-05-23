@@ -4,7 +4,7 @@
 #include <itkImageFileReader.h>
 #include <itkExtractImageFilter.h>
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   typedef itk::Image<unsigned char, 2> ImageType;
 

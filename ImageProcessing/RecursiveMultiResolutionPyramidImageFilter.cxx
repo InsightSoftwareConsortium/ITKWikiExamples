@@ -7,7 +7,7 @@ typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
-int main(int argc, char * argv[])
+int main(int, char *[])
 {
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);

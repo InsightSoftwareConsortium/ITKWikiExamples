@@ -1,6 +1,6 @@
 #include "itkPolyLineParametricPath.h"
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   typedef itk::PolyLineParametricPath< 2 > PathType;
   
