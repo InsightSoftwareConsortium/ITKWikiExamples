@@ -58,6 +58,7 @@ SET(NEEDS_ARGS
   RGBToLuminanceImageFilter
   RGBResampleImageFilter
   ScalarConnectedComponentImageFilter
+  ShapeAttributes
   SigmoidImageFilter
   SignedDaniellsonDistanceMapImageFilter
   SignedMaurerDistanceMapImageFilter
@@ -149,5 +150,8 @@ ADD_TEST(${KIT}-Upsampling ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ZeroCrossingImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestZeroCrossingImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
+
+ADD_TEST(${KIT}-ShapeAttributes ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestShapeAttributes ${DATA}/BinaryImageWithVariousShapes01.png)
 
 endif()
