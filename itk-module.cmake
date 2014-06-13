@@ -54,7 +54,6 @@ itk_module( WikiExamples
   ITKTestKernel
   ITKThresholding
   ITKTransform
-  ITKV3Compatibility
   ITKVoronoi
   ITKVtkGlue
   ITKWatersheds
