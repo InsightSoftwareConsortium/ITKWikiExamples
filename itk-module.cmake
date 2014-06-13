@@ -1,11 +1,5 @@
 set(DOCUMENTATION "A collection of examples illustrating how to use ITK")
 
-if (Module_ITKReview)
-  set (ITKReview_LOADED Off)
-  set (Module_ITKReview Off)
-  message(STATUS "ITKWikiExamples: Review is not allowed for Remote modules, disabling")
-endif()
-
 itk_module( WikiExamples
   DEPENDS
   ITKAnisotropicSmoothing
