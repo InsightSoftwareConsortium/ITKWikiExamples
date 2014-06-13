@@ -1,7 +1,7 @@
 #include "itkBinaryImageToShapeLabelMapFilter.h"
 #include "itkMergeLabelMapFilter.h"
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
   typedef itk::Image<int, 3> ImageType;
 

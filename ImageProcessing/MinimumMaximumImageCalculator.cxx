@@ -30,8 +30,6 @@ int main(int argc, char*argv[])
     }
   std::string inputFilename = argv[1];
 
-  typedef itk::Image< unsigned char, 2 >  ImageType;
-
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
 

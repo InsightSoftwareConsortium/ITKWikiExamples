@@ -10,7 +10,7 @@ typedef itk::Image<unsigned char, 2>  ImageType;
 
 static void OutputImage(ImageType::Pointer image);
 
-int main( int argc, char *argv[])
+int main( int, char *[])
 {
   
   ImageType::Pointer image = ImageType::New();
