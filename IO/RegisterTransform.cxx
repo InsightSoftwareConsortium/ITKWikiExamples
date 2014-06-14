@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
   itk::TransformFileReaderTemplate<float>::Pointer reader =
     itk::TransformFileReaderTemplate<float>::New();
 #else
-  itk::TransformFileReader::Pointer writer = itk::TransformFileReader::New();
+  itk::TransformFileReader::Pointer reader = itk::TransformFileReader::New();
 #endif
   reader->SetFileName(fileName);
   reader->Update();
