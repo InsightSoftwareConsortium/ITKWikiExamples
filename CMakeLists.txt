@@ -20,6 +20,11 @@ else()
   INCLUDE(${ITK_USE_FILE})
 endif()
 
+# Wiki examples use the VTK testing framework
+if ( NOT vtkTestingRendering_LOADED)
+  message(FATAL_ERROR "ITKWikiExamples: The associated VTK build must either have BUILD_TESTING:BOOL=ON or Module_vtkTestingRendering:BOOL=ON")
+endif()
+
 if (NOT ITK_VERSION)
   set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 endif()
