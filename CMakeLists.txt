@@ -21,8 +21,10 @@ else()
 endif()
 
 # Wiki examples use the VTK testing framework
-if ( NOT vtkTestingRendering_LOADED)
-  message(FATAL_ERROR "ITKWikiExamples: The associated VTK build must either have BUILD_TESTING:BOOL=ON or Module_vtkTestingRendering:BOOL=ON")
+if ( ${VTK_VERSION} VERSION_GREATER "6.0")
+  if ( NOT vtkTestingRendering_LOADED)
+    message(FATAL_ERROR "ITKWikiExamples: The associated VTK build must either have BUILD_TESTING:BOOL=ON or Module_vtkTestingRendering:BOOL=ON")
+  endif()
 endif()
 
 if (NOT ITK_VERSION)
