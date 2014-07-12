@@ -41,6 +41,8 @@ SET(NEEDS_ARGS
   SmoothingRecursiveGaussianImageFilter
   VectorCurvatureAnisotropicDiffusionImageFilter
   VectorGradientAnisotropicDiffusionImageFilter
+  VectorMeanImageFilter
+  VectorMedianImageFilter
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -88,4 +90,10 @@ ADD_TEST(${KIT}-VectorGradientAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPU
 
 ADD_TEST(${KIT}-VectorCurvatureAnisotropicDiffusionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorCurvatureAnisotropicDiffusionImageFilter ${DATA}/Gourds.png 10 1.5)
+
+ADD_TEST(${KIT}-VectorMeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestVectorMeanImageFilter ${DATA}/Gourds.png 4)
+
+ADD_TEST(${KIT}-VectorMedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestVectorMedianImageFilter ${DATA}/Gourds.png 2)
 endif()
