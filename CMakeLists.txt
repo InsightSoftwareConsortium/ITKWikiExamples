@@ -13,11 +13,13 @@ if (Fetch_WikiExamples OR Module_WikiExamples)
   include(${ITK_SOURCE_DIR}/CMake/UseITK.cmake)
 else()
   message(STATUS "ITKWikiExamples: Building ITKWikiExamples stand-alone")
-  FIND_PACKAGE(VTK REQUIRED)
-  INCLUDE(${VTK_USE_FILE})
+  find_package(VTK REQUIRED)
+  include(${VTK_USE_FILE})
+  set(VTK_COMPONENTS ${VTK_LIBRARIES})
 
-  FIND_PACKAGE(ITK REQUIRED)
-  INCLUDE(${ITK_USE_FILE})
+  find_package(ITK REQUIRED)
+  include(${ITK_USE_FILE})
+  set(ITK_LIBRARIES ${ITK_LIBRARIES} ${VTK_COMPONENTS})
 endif()
 
 # Wiki examples use the VTK testing framework
