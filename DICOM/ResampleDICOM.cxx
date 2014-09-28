@@ -23,7 +23,7 @@
 //    spacing.
 // 3) Create a MetaDataDictionary for each slice.
 // 4) Shift data to undo the effect of a rescale intercept by the
-//    DICOM reader
+//    DICOM reader (only for ITK < 4.6)
 // 5) Write the new DICOM series
 //
 
@@ -40,7 +40,10 @@
 #include "itkImageSeriesWriter.h"
 
 #include "itkResampleImageFilter.h"
+
+#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
 #include "itkShiftScaleImageFilter.h"
+#endif
 
 #include "itkIdentityTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -65,7 +68,7 @@ int main( int argc, char* argv[] )
   // Validate input parameters
   if( argc < 4 )
     {
-    std::cerr << "Usage: " 
+    std::cerr << "Usage: "
               << argv[0]
               << " InputDicomDirectory OutputDicomDirectory spacing_x spacing_y spacing_z"
               << std::endl;
@@ -95,19 +98,21 @@ int main( int argc, char* argv[] )
     InterpolatorType;
   typedef itk::ResampleImageFilter< InputImageType, InputImageType >
     ResampleFilterType;
+#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
   typedef itk::ShiftScaleImageFilter< InputImageType, InputImageType >
     ShiftScaleType;
+#endif
   typedef itk::ImageSeriesWriter< InputImageType, OutputImageType >
     SeriesWriterType;
 
-////////////////////////////////////////////////  
+////////////////////////////////////////////////
 // 1) Read the input series
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
   InputNamesGeneratorType::Pointer inputNames = InputNamesGeneratorType::New();
   inputNames->SetInputDirectory( argv[1] );
 
-  const ReaderType::FileNamesContainer & filenames = 
+  const ReaderType::FileNamesContainer & filenames =
                             inputNames->GetInputFileNames();
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -125,7 +130,7 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-////////////////////////////////////////////////  
+////////////////////////////////////////////////
 // 2) Resample the series
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -172,24 +177,24 @@ int main( int argc, char* argv[] )
   outputSize[2] = static_cast<SizeValueType>(inputSize[2] * inputSpacing[2] / outputSpacing[2] + .5);
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-    resampler->SetInput( reader->GetOutput() );
-    resampler->SetTransform( transform );
-    resampler->SetInterpolator( interpolator );
-    resampler->SetOutputOrigin ( reader->GetOutput()->GetOrigin());
-    resampler->SetOutputSpacing ( outputSpacing );
-    resampler->SetOutputDirection ( reader->GetOutput()->GetDirection());
-    resampler->SetSize ( outputSize );
-    resampler->Update ();
+  resampler->SetInput( reader->GetOutput() );
+  resampler->SetTransform( transform );
+  resampler->SetInterpolator( interpolator );
+  resampler->SetOutputOrigin ( reader->GetOutput()->GetOrigin());
+  resampler->SetOutputSpacing ( outputSpacing );
+  resampler->SetOutputDirection ( reader->GetOutput()->GetDirection());
+  resampler->SetSize ( outputSize );
+  resampler->Update ();
 
 
-////////////////////////////////////////////////  
+////////////////////////////////////////////////
 // 3) Create a MetaDataDictionary for each slice.
 
   // Copy the dictionary from the first image and override slice
   // specific fields
   ReaderType::DictionaryRawPointer inputDict = (*(reader->GetMetaDataDictionaryArray()))[0];
   ReaderType::DictionaryArrayType outputArray;
-    
+
   // To keep the new series in the same study as the original we need
   // to keep the same study UID. But we need new series and frame of
   // reference UID's.
@@ -246,13 +251,13 @@ int main( int argc, char* argv[] )
     value.str("");
     value << oldSeriesDesc
           << ": Resampled with pixel spacing "
-          << outputSpacing[0] << ", " 
-          << outputSpacing[1] << ", " 
+          << outputSpacing[0] << ", "
+          << outputSpacing[1] << ", "
           << outputSpacing[2];
-    // This is an long string and there is a 64 character limit in the 
+    // This is an long string and there is a 64 character limit in the
     // standard
     unsigned lengthDesc = value.str().length();
-    
+
     std::string seriesDesc( value.str(), 0,
                             lengthDesc > 64 ? 64
                             : lengthDesc);
@@ -276,7 +281,7 @@ int main( int argc, char* argv[] )
                                 lengthDesc > 1024 ? 1024
                                 : lengthDesc);
     itk::EncapsulateMetaData<std::string>(*dict,"0008|2111", derivationDesc);
-    
+
     // Image Position Patient: This is calculated by computing the
     // physical coordinate of the first pixel in each slice.
     InputImageType::PointType position;
@@ -288,12 +293,12 @@ int main( int argc, char* argv[] )
 
     value.str("");
     value << position[0] << "\\" << position[1] << "\\" << position[2];
-    itk::EncapsulateMetaData<std::string>(*dict,"0020|0032", value.str());      
+    itk::EncapsulateMetaData<std::string>(*dict,"0020|0032", value.str());
     // Slice Location: For now, we store the z component of the Image
     // Position Patient.
     value.str("");
     value << position[2];
-    itk::EncapsulateMetaData<std::string>(*dict,"0020|1041", value.str());      
+    itk::EncapsulateMetaData<std::string>(*dict,"0020|1041", value.str());
 
     if (changeInSpacing)
       {
@@ -306,21 +311,22 @@ int main( int argc, char* argv[] )
       itk::EncapsulateMetaData<std::string>(*dict,"0018|0088",
                                             value.str());
       }
-      
+
     // Save the dictionary
     outputArray.push_back(dict);
     }
-    
-////////////////////////////////////////////////  
+
+#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
+////////////////////////////////////////////////
 // 4) Shift data to undo the effect of a rescale intercept by the
 //    DICOM reader
   std::string interceptTag("0028|1052");
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
   itk::MetaDataObjectBase::Pointer entry = (*inputDict)[interceptTag];
-    
-  MetaDataStringType::ConstPointer interceptValue = 
+
+  MetaDataStringType::ConstPointer interceptValue =
     dynamic_cast<const MetaDataStringType *>( entry.GetPointer() ) ;
-    
+
   int interceptShift = 0;
   if( interceptValue )
     {
@@ -329,10 +335,11 @@ int main( int argc, char* argv[] )
     }
 
   ShiftScaleType::Pointer shiftScale = ShiftScaleType::New();
-    shiftScale->SetInput( resampler->GetOutput());
-    shiftScale->SetShift( interceptShift );
+  shiftScale->SetInput( resampler->GetOutput());
+  shiftScale->SetShift( interceptShift );
+#endif
 
-////////////////////////////////////////////////  
+////////////////////////////////////////////////
 // 5) Write the new DICOM series
 
   // Make the output directory and generate the file names.
@@ -345,9 +352,13 @@ int main( int argc, char* argv[] )
   outputNames->SetSeriesFormat (seriesFormat.c_str());
   outputNames->SetStartIndex (1);
   outputNames->SetEndIndex (outputSize[2]);
-  
+
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
-    seriesWriter->SetInput( shiftScale->GetOutput() );
+#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
+  seriesWriter->SetInput( shiftScale->GetOutput() );
+#else
+  seriesWriter->SetInput( resampler->GetOutput() );
+#endif
     seriesWriter->SetImageIO( gdcmIO );
     seriesWriter->SetFileNames( outputNames->GetFileNames() );
     seriesWriter->SetMetaDataDictionaryArray( &outputArray );
@@ -380,13 +391,13 @@ void CopyDictionary (itk::MetaDataDictionary &fromDict, itk::MetaDataDictionary 
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
-    MetaDataStringType::Pointer entryvalue = 
+    MetaDataStringType::Pointer entryvalue =
       dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
     if( entryvalue )
       {
       std::string tagkey   = itr->first;
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      itk::EncapsulateMetaData<std::string>(toDict, tagkey, tagvalue); 
+      itk::EncapsulateMetaData<std::string>(toDict, tagkey, tagvalue);
       }
     ++itr;
     }
