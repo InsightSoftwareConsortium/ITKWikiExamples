@@ -54,6 +54,7 @@ SET(NEEDS_ARGS
   MinimumMaximumImageCalculator
   NormalizeImageFilter
   RegionOfInterestImageFilter
+  ResampleSegmentedImage
   RescaleIntensityImageFilter
   RGBToLuminanceImageFilter
   RGBResampleImageFilter
@@ -123,6 +124,9 @@ ADD_TEST(${KIT}-RescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxT
 
 ADD_TEST(${KIT}-RGBToLuminanceImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRGBToLuminanceImageFilter ${DATA}/Gourds.png)
+
+ADD_TEST(${KIT}-ResampleSegmentedImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestResampleSegmentedImage ${DATA}/BinaryImageWithVariousShapes01.png 2)
 
 ADD_TEST(${KIT}-RGBResampleImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestRGBResampleImageFilter ${DATA}/VHF001.png 10)
