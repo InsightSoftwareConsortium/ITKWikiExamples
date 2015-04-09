@@ -106,7 +106,7 @@ ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
 
 ADD_TEST(${KIT}-LabelGeometryImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
-  TestLabelImageGeometryImageFilter ${DATA}/ctheadlabels.png$ {DATA}/cthead1.png 10)
+  TestLabelGeometryImageFilter ${DATA}/ctheadlabels.png ${DATA}/cthead1.png 10)
 
 ADD_TEST(${KIT}-LaplacianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLaplacianImageFilter ${DATA}/cthead1.png)
