@@ -17,7 +17,16 @@ if (Fetch_WikiExamples OR Module_WikiExamples)
   set(ITK_LIBRARIES ${ITK_LIBRARIES} ${VTK_LIBRARIES})
 else()
   message(STATUS "ITKWikiExamples: Building ITKWikiExamples stand-alone")
-  find_package(VTK REQUIRED)
+
+  find_package(VTK COMPONENTS
+    vtkFiltersSources
+    vtkIOImage
+    vtkIOXML
+    vtkInteractionImage
+    vtkRenderingAnnotation
+    vtkRenderingVolumeOpenGL
+    vtkTestingRendering
+  )
   include(${VTK_USE_FILE})
   set(VTK_COMPONENTS ${VTK_LIBRARIES})
 

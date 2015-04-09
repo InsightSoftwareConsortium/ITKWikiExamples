@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __QuickView_h
-#define __QuickView_h
+#ifndef QuickView_h
+#define QuickView_h
 
 #include <vector>
 #include <algorithm>
@@ -104,11 +104,11 @@ public:
  */
 class QuickView
 {
-
 public:
   QuickView()
   {
     m_ShareCamera = true;
+    m_Interpolate = true;
     m_Counter = 0;
     m_Snapshot = false;
     m_SnapshotPath = "";
@@ -116,13 +116,13 @@ public:
     m_SnapshotExtension = "png";
   }
   /** Add an image to be rendered. */
-  template<class TImage> void AddImage(
+  template<typename TImage> void AddImage(
     TImage *,
     bool FlipVertical=true,
     std::string Description="");
 
   /** Add an RGB image to be rendered */
-  template<class TImage> void AddRGBImage(
+  template<typename TImage> void AddRGBImage(
     TImage *,
     bool FlipVertical=true,
     std::string Description="");
@@ -143,6 +143,18 @@ public:
   void ShareCameraOn()
   {
     m_ShareCamera = true;
+  }
+
+  /** Use pixel replication in rendered image */
+  void InterpolateOff()
+  {
+    m_Interpolate = false;
+  }
+
+  /** Use pixel interpolation in rendered image */
+  void InterpolateOn()
+  {
+    m_Interpolate = true;
   }
 
   /** Each render window will take a snaphot */
@@ -187,6 +199,7 @@ private:
   std::string               m_SnapshotExtension;
   bool                      m_ShareCamera;
   bool                      m_Snapshot;
+  bool                      m_Interpolate;
 };
 
 #endif

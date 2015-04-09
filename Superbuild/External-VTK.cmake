@@ -2,9 +2,8 @@
 # Get and build VTK
 #
 #-----------------------------------------------------------------------------
-# April 19, 2011
-set( VTK_TAG "be4c4f115793598f6c8937a98bdd1f227d471540" )
-set( VTK_TAG v5.10.1 )
+# March 3, 2015
+set( VTK_TAG v6.2.0 )
 
 ExternalProject_Add(VTK
   GIT_REPOSITORY "${git_protocol}://vtk.org/VTK.git"
@@ -18,6 +17,17 @@ ExternalProject_Add(VTK
     -DVTK_DEBUG_LEAKS:BOOL=TRUE
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
+    -DVTK_BUILD_ALL_MODULES_FOR_TESTS:BOOL=OFF
+    -DVTK_Group_Rendering:BOOL=OFF
+    -DVTK_Group_StandAlone:BOOL=OFF
+    -DModule_vtkFiltersSources:BOOL=ON
+    -DModule_vtkIOImage:BOOL=ON
+    -DModule_vtkIOXML:BOOL=ON
+    -DModule_vtkInteractionImage:BOOL=ON
+    -DModule_vtkRenderingAnnotation:BOOL=ON
+    -DModule_vtkRenderingVolumeOpenGL:BOOL=ON
+    -DModule_vtkTestingRendering:BOOL=ON
+
   INSTALL_COMMAND ""
 )
 
