@@ -21,7 +21,7 @@ int main(int, char *[])
   binaryImageToShapeLabelMapFilter->SetInput(image);
   binaryImageToShapeLabelMapFilter->Update();
 
-  // Remove label objects that have PERIMETER less than 50
+  // Remove label objects that have PERIMETER greater than 50
   typedef itk::ShapeOpeningLabelMapFilter< BinaryImageToShapeLabelMapFilterType::OutputImageType > ShapeOpeningLabelMapFilterType;
   ShapeOpeningLabelMapFilterType::Pointer shapeOpeningLabelMapFilter = ShapeOpeningLabelMapFilterType::New();
   shapeOpeningLabelMapFilter->SetInput( binaryImageToShapeLabelMapFilter->GetOutput() );
