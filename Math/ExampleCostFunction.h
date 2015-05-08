@@ -1,5 +1,5 @@
-#ifndef __itkExampleCostFunction_h
-#define __itkExampleCostFunction_h
+#ifndef itkExampleCostFunction_h
+#define itkExampleCostFunction_h
 
 #include "itkSingleValuedCostFunction.h"
 
