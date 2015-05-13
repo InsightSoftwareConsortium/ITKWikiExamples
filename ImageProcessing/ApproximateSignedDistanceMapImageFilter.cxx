@@ -1,6 +1,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkApproximateSignedDistanceMapImageFilter.h"
+#include "itkDanielssonDistanceMapImageFilter.h"
 
 #include "itksys/SystemTools.hxx"
 #include <sstream>
@@ -28,12 +28,11 @@ int main(int argc, char * argv[])
     image = reader->GetOutput();
     }
 
-  typedef  itk::ApproximateSignedDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > ApproximateSignedDistanceMapImageFilterType;
-  ApproximateSignedDistanceMapImageFilterType::Pointer approximateSignedDistanceMapImageFilter =
-    ApproximateSignedDistanceMapImageFilterType::New();
-  approximateSignedDistanceMapImageFilter->SetInput(image);
-  approximateSignedDistanceMapImageFilter->SetInsideValue(255);
-  approximateSignedDistanceMapImageFilter->SetOutsideValue(0);
+  typedef  itk::DanielssonDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > DanielssonDistanceMapImageFilterType;
+  DanielssonDistanceMapImageFilterType::Pointer distanceMapImageFilter =
+    DanielssonDistanceMapImageFilterType::New();
+  distanceMapImageFilter->SetInput(image);
+  distanceMapImageFilter->InputIsBinaryOn();
   
   QuickView viewer;
   viewer.AddImage(
@@ -41,9 +40,9 @@ int main(int argc, char * argv[])
     argc > 1 ? itksys::SystemTools::GetFilenameName(argv[1]) : "Generated image");  
 
   std::stringstream desc;
-  desc << "Approximate Signed Distance";
+  desc << "Danielsson Distance";
   viewer.AddImage(
-    approximateSignedDistanceMapImageFilter->GetOutput(),
+    distanceMapImageFilter->GetOutput(),
     true,
     desc.str());  
 
@@ -74,5 +73,4 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     pixel.Fill(i);
     image->SetPixel(pixel, 255);
     }
-
 }
