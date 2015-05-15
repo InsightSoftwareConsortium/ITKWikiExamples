@@ -30,6 +30,7 @@ SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   QuadEdgeMeshNormalFilter
   QuadEdgeMeshParameterizationFilter
+  ReadWrite
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -41,4 +42,8 @@ ADD_TEST(${KIT}-QuadEdgeMeshNormalFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTest
 
 ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestQuadEdgeMeshParameterizationFilter ${DATA}/disk.vtk 1 1 ${TEMP}/QuadEdgeMeshParameterizationFilter.vtk)
+
+ADD_TEST(${KIT}-ReadWrite ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestreadWrite 6)
+
 endif()
