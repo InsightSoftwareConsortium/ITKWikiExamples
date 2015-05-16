@@ -27,7 +27,7 @@ int main(int argc, char * argv[] )
   i = std::max(std::min(i,8),0);
 
   // Create a string using the appropriate file extension.
-  std::string fileName = "../data/sphere";
+  std::string fileName = "sphere";
 
   switch (i) {
     case 0: fileName += ".vtk"; break;
