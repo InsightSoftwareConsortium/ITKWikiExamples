@@ -1,8 +1,8 @@
 #---------------------------------------------------------------------------
 # Get and build itk
 
-# April 9, 2015 QuickView improvements
-set( ITK_TAG 1bf3976317e2026dce8beed0008c360e9acaadd7)
+# July 2015
+set( ITK_TAG v4.8.0)
 
 ExternalProject_Add( ITK
   GIT_REPOSITORY "${git_protocol}://itk.org/ITK.git"
