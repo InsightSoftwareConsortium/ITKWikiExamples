@@ -1,10 +1,10 @@
 #ifndef itkExampleCostFunction_h
 #define itkExampleCostFunction_h
 
-#include <random>
+#include "itkMultipleValuedCostFunction.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <cmath>
 #include <vector>
-#include "itkMultipleValuedCostFunction.h"
 
 namespace itk
 {
@@ -72,15 +72,17 @@ protected:
     // Take the curve y = C*e^(K*x), add noise, and sample at 100 points on [0,1]
     // C and K are our parameters
     // In the actual data, these parameters are 5.5 and 0.5
-    typename std::default_random_engine generator;
-    typename std::normal_distribution<double> distribution(0.0,0.5);
+    typedef itk::Statistics::MersenneTwisterRandomVariateGenerator
+      GeneratorType;
+    GeneratorType::Pointer randomEngine = GeneratorType::New();
     double actualC = 5.5;
     double actualK = 0.5;
     for (unsigned int i = 0; i < 100; ++i)
       {
       double position = double(i)/100;
       this->x.push_back(position);
-      this->y.push_back(actualC*exp(position*actualK)+distribution(generator));
+      this->y.push_back(actualC*exp(position*actualK) +
+                        randomEngine->GetUniformVariate(0.0, 0.5));
       }
     };
   ~ExampleCostFunction(){};
@@ -90,8 +92,8 @@ private:
   void operator = (const Self &); //purposely not implemented
 
   // The x and y positions of the data, created in the constructor
-  typename std::vector<double> x;
-  typename std::vector<double> y;
+  std::vector<double> x;
+  std::vector<double> y;
 
 };
 
