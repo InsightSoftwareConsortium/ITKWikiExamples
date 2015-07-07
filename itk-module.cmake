@@ -66,6 +66,7 @@ itk_module( WikiExamples
   ITKIONIFTI
   ITKIONRRD
   ITKIOGIPL
+  ITKIOMesh
 # Transform IO Modules
   ITKIOTransformMatlab
   ITKIOTransformHDF5
