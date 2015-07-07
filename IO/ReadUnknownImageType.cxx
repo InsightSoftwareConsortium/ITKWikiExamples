@@ -19,7 +19,11 @@ int main(int argc, char *argv[])
   itk::ImageIOBase::Pointer imageIO =
         itk::ImageIOFactory::CreateImageIO(
             inputFilename.c_str(), itk::ImageIOFactory::ReadMode);
-
+  if( !imageIO )
+  {
+    std::cerr << "Could not CreateImageIO for: " << inputFilename << std::endl;
+    return EXIT_FAILURE;
+  }
   imageIO->SetFileName(inputFilename);
   imageIO->ReadImageInformation();
   const ScalarPixelType pixelType = imageIO->GetComponentType();

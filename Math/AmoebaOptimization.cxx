@@ -3,8 +3,8 @@
 #include "ExampleCostFunction.h"
 
 // Typedef the optimizer and cost function, for convenience
-typedef itk::AmoebaOptimizer OptimizerType;
-typedef itk::ExampleCostFunction  CostType;
+typedef itk::AmoebaOptimizer       OptimizerType;
+typedef itk::ExampleCostFunction2  CostType;
 
 int main(int argc, char ** argv)
 {

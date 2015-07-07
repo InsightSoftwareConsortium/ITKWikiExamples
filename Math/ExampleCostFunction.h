@@ -1,25 +1,25 @@
-#ifndef itkExampleCostFunction_h
-#define itkExampleCostFunction_h
+#ifndef ExampleCostFunction_h
+#define ExampleCostFunction_h
 
 #include "itkSingleValuedCostFunction.h"
 
 namespace itk
 {
-class ExampleCostFunction :
+class ExampleCostFunction2 :
 public SingleValuedCostFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef ExampleCostFunction      Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ExampleCostFunction2      Self;
+  typedef SingleValuedCostFunction  Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExampleCostFunction, SingleValuedCostfunction);
+  itkTypeMacro(ExampleCostFunction2, SingleValuedCostfunction);
 
   unsigned int GetNumberOfParameters(void) const { return 2; } // itk::CostFunction
 
@@ -33,11 +33,11 @@ public:
   }
 
 protected:
-  ExampleCostFunction(){};
-  ~ExampleCostFunction(){};
+  ExampleCostFunction2(){};
+  ~ExampleCostFunction2(){};
 
 private:
-  ExampleCostFunction(const Self &); //purposely not implemented
+  ExampleCostFunction2(const Self &); //purposely not implemented
   void operator = (const Self &); //purposely not implemented
 };
 
