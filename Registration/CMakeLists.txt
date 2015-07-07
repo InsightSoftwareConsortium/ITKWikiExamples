@@ -27,9 +27,14 @@ if(BUILD_TESTING)
 SET(KIT Registration)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  ExhaustiveOptimizer
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-ExhaustiveOptimzer ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestExhaustiveOptimizer ${DATA}/cthead1.png ${DATA}/cthead1.png)
+
 endif()
