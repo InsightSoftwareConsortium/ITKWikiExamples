@@ -6,7 +6,10 @@
 #include "itkLabelMapContourOverlayImageFilter.h"
 #include "itkRGBPixel.h"
  
+namespace
+{
 typedef itk::Image<unsigned char, 2>  ImageType;
+}
 
 static void CreateImage(ImageType::Pointer image);
  

@@ -9,10 +9,13 @@
 
 #include "QuickView.h"
 
-typedef unsigned char                 PixelType;
-typedef itk::RGBPixel<unsigned char>  RGBPixelType;
-typedef itk::Image<PixelType, 2>      ImageType;
-typedef itk::Image<RGBPixelType, 2>   RGBImageType;
+namespace
+{
+  typedef unsigned char                 PixelType;
+  typedef itk::RGBPixel<unsigned char>  RGBPixelType;
+  typedef itk::Image<PixelType, 2>      ImageType;
+  typedef itk::Image<RGBPixelType, 2>   RGBImageType;
+}
 
 static void CreateImage(ImageType::Pointer image);
 

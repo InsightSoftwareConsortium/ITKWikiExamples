@@ -5,8 +5,11 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryCrossStructuringElement.h"
 
+namespace
+{
 typedef itk::Image<int, 2>       ImageType;
 typedef ImageType::PixelType     PixelType;
+}
  
 static void CreateImage(ImageType::Pointer image);
  

@@ -6,7 +6,10 @@
 
 #include "QuickView.h"
 
+namespace
+{
 typedef itk::Image<unsigned char, 2>  ImageType;
+}
 
 static void CreateImage(ImageType* const image);
 

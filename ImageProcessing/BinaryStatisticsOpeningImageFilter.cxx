@@ -4,7 +4,7 @@
 typedef itk::Image<unsigned char, 2> ImageType;
 void CreateImage(ImageType::Pointer image1, ImageType::Pointer image2);
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
   ImageType::Pointer binaryImage = ImageType::New();
   ImageType::Pointer featureImage = ImageType::New();

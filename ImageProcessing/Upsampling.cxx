@@ -32,9 +32,9 @@ int main( int argc, char * argv[] )
  
   // Typedef's for pixel, image, reader and writer types
   typedef unsigned char T_InputPixel;
-  typedef unsigned char T_OutputPixel;
   
   // Doesn't work for RGB pixels
+  //typedef unsigned char T_OutputPixel;
   //typedef itk::CovariantVector<unsigned char, 3> T_InputPixel;
   //typedef itk::CovariantVector<unsigned char, 3> T_OutputPixel;
  

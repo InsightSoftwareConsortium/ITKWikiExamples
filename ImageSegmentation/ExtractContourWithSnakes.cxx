@@ -12,6 +12,8 @@
  
 #include <iostream>
  
+namespace
+{
 typedef itk::Image< unsigned char, 2 >    ImageType;
 typedef itk::Image< float,  2 >           FloatImageType;
 typedef ImageType::IndexType              IndexType;
@@ -22,6 +24,7 @@ typedef itk::GradientRecursiveGaussianImageFilter<
 typedef itk::GradientMagnitudeImageFilter<
   ImageType, FloatImageType >             GradMagfilterType;
 typedef itk::ImageFileReader< ImageType > ReaderType;
+}
  
 vnl_vector<double> generateCircle(double cx, double cy,
                                   double rx, double ry, int n);

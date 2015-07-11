@@ -5,8 +5,11 @@
 
 #include "QuickView.h"
 
+namespace
+{
 typedef itk::RGBPixel<unsigned char> PixelType;
 typedef itk::Image<PixelType, 2> ImageType;
+}
 
 static void CreateImage(ImageType::Pointer image, PixelType);
 
