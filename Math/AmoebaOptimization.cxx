@@ -6,7 +6,7 @@
 typedef itk::AmoebaOptimizer       OptimizerType;
 typedef itk::ExampleCostFunction2  CostType;
 
-int main(int argc, char ** argv)
+int main(int argc, char *argv[])
 {
 
   // Instantiate the optimizer
