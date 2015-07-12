@@ -1,7 +1,7 @@
 #include "itkJetColormapFunction.h"
 #include "itkRGBPixel.h"
 
-int main( int argc, char *argv[])
+int main( int, char *[])
 {
   typedef itk::RGBPixel<unsigned char> PixelType;
   typedef itk::Function::JetColormapFunction<float, PixelType> ColorMapType;

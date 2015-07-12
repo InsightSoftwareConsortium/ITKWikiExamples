@@ -5,7 +5,7 @@ typedef itk::Image<float,2> FloatScalarImageType;
 itk::ImageBase<2>::Pointer CreateImageWithSameType(const itk::ImageBase<2>* input);
 void OutputImageType(const itk::ImageBase<2>* input);
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   FloatScalarImageType::Pointer floatImage = FloatScalarImageType::New();
   itk::ImageBase<2>::Pointer floatCopy = CreateImageWithSameType(floatImage);

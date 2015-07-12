@@ -5,7 +5,7 @@
 #include "itkCovariantVector.h"
 #include "itkNumericTraits.h"
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   typedef itk::CovariantVector<double, 3> VectorType;
   typedef itk::Image<VectorType, 2>  VectorImageType;

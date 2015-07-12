@@ -2,7 +2,7 @@
 #include "itkVectorResampleImageFilter.h"
 #include "itkVectorImage.h"
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   typedef itk::VectorImage<double, 2> VectorImageType;
 

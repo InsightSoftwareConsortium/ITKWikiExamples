@@ -18,7 +18,7 @@ void DeepCopy(typename TImage::Pointer input, typename TImage::Pointer output)
     }
 }
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   typedef itk::Image<unsigned char, 2> ImageType;
   ImageType::Pointer image1 = ImageType::New();

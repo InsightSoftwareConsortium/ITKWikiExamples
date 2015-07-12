@@ -1,6 +1,9 @@
 #include "itkImage.h"
 
+namespace
+{
 typedef itk::Image<unsigned char, 2> ImageType;
+}
 
 ImageType::Pointer ReturnSmartPointer()
 {
@@ -26,7 +29,7 @@ ImageType* ReturnPointer()
   return image;
 }
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   {
   // This is how it should be done.

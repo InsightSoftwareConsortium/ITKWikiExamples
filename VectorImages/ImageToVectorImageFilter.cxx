@@ -2,12 +2,15 @@
 #include "itkComposeImageFilter.h"
 #include "itkVectorImage.h"
 
+namespace
+{
 typedef itk::VectorImage<unsigned char, 2>  VectorImageType;
 typedef itk::Image<unsigned char, 2>  ScalarImageType;
+}
 
 static void CreateImage(ScalarImageType::Pointer image);
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   ScalarImageType::Pointer image0 = ScalarImageType::New();
   CreateImage(image0);

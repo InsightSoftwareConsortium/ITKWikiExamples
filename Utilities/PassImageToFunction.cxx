@@ -3,21 +3,21 @@
 #include <iostream>
 
 typedef itk::Image<float, 2> ImageType;
-static void myStandardPointer(const ImageType* input)
+static void myStandardPointer(const ImageType*)
 {
 }
 
-static void mySmartPointer(const ImageType::Pointer input)
-{
-}
-
-template <typename TImage>
-static void TemplateSmartPointer(const typename TImage::Pointer input)
+static void mySmartPointer(const ImageType::Pointer)
 {
 }
 
 template <typename TImage>
-static void TemplateStandardPointer(const TImage* input)
+static void TemplateSmartPointer(const typename TImage::Pointer)
+{
+}
+
+template <typename TImage>
+static void TemplateStandardPointer(const TImage*)
 {
 }
 
