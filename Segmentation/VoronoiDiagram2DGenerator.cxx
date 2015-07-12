@@ -141,7 +141,7 @@ int main(int, char* [] )
   image->SetPixel(ind, 255);
 
   typedef  itk::ImageFileWriter< ImageType  > ImageWriterType;
-  ImageWriterType::Pointer writer = WriterType::New();
+  ImageWriterType::Pointer writer = ImageWriterType::New();
   writer->SetFileName("image.png");
   writer->SetInput(image);
   writer->Update();
