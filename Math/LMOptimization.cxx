@@ -6,7 +6,7 @@
 typedef itk::LevenbergMarquardtOptimizer OptimizerType;
 typedef itk::ExampleCostFunction         CostType;
 
-int main(int argc, char ** argv)
+int main(int, char *[])
 {
 
   // Instantiate the cost function and optimizer

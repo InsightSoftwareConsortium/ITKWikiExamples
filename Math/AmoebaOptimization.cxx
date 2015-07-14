@@ -2,11 +2,14 @@
 #include "itkAmoebaOptimizer.h"
 #include "ExampleCostFunction.h"
 
+namesace
+{
 // Typedef the optimizer and cost function, for convenience
 typedef itk::AmoebaOptimizer       OptimizerType;
 typedef itk::ExampleCostFunction2  CostType;
+}
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
 
   // Instantiate the optimizer

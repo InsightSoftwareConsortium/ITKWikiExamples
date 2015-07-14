@@ -27,7 +27,7 @@ public:
     return pow(parameters[0]+5, 2)+pow(parameters[1]-7, 2)+5;
   }
 
-  void GetDerivative(const ParametersType & parameters,
+  void GetDerivative(const ParametersType &,
                      DerivativeType & derivative ) const {
     throw itk::ExceptionObject( __FILE__, __LINE__, "No derivative is available for this cost function.");
   }

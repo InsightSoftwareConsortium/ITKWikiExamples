@@ -10,18 +10,20 @@
 #include <iostream>
 #include <string>
 
+namespace
+{
 typedef itk::Image<unsigned char, 2> ImageType;
 typedef itk::Image<float, 2> FloatImageType;
 typedef itk::Image<unsigned char, 2> MaskType;
+}
 
 static void CreateMask(MaskType* const mask);
-
 static void CreateImage(ImageType::Pointer image, const itk::Index<2>& cornerOfSquare);
 
 template <typename TImage>
 void WriteImage(TImage* const image, const std::string& filename);
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   itk::Index<2> offset;
   offset[0] = 5;

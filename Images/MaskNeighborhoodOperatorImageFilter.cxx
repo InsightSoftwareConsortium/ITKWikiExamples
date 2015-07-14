@@ -5,13 +5,16 @@
 #include "itkMaskNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"
 
+namespace
+{
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 typedef itk::Image<float, 2>  FloatImageType;
+}
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 static void CreateHalfMask(UnsignedCharImageType::Pointer image, UnsignedCharImageType::Pointer mask);
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);

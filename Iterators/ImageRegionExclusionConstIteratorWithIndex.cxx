@@ -2,11 +2,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageRegionExclusionConstIteratorWithIndex.h"
 
+namespace
+{
 typedef itk::Image<int, 2>  ImageType;
+}
 
 static void CreateImage(ImageType::Pointer);
 
-int main(int argc, char*argv[])
+int main(int, char*[])
 {
 
   ImageType::SizeType exclusionRegionSize;

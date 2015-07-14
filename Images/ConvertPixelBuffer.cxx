@@ -5,7 +5,7 @@
 #include "itkConvertPixelBuffer.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
   const int xDimension = 200;
   const int yDimension = 100;
