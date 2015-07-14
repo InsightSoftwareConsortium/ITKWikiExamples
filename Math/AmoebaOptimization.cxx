@@ -2,7 +2,7 @@
 #include "itkAmoebaOptimizer.h"
 #include "ExampleCostFunction.h"
 
-namesace
+namespace
 {
 // Typedef the optimizer and cost function, for convenience
 typedef itk::AmoebaOptimizer       OptimizerType;
