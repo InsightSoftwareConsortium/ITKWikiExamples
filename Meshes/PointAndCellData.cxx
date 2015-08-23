@@ -12,7 +12,7 @@ typedef itk::Mesh< TCoordinate, Dimension >   TMesh;
 typedef itk::RegularSphereMeshSource< TMesh > TSphere;
 typedef itk::MeshFileWriter< TMesh >          TMeshWriter;
  
-int main()
+int main(int, char *[])
 {
 
   // Create the sphere source. 
