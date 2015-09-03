@@ -58,6 +58,7 @@
 #endif
 
 #include <string>
+#include <sstream>
 
 static void CopyDictionary (itk::MetaDataDictionary &fromDict,
                      itk::MetaDataDictionary &toDict);
@@ -236,7 +237,7 @@ int main( int argc, char* argv[] )
     itk::EncapsulateMetaData<std::string>(*dict,"0002|0003", sopInstanceUID);
 
     // Change fields that are slice specific
-    itksys_ios::ostringstream value;
+    std::ostringstream value;
     value.str("");
     value << f + 1;
 
