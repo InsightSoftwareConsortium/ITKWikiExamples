@@ -2,61 +2,42 @@
 #include <stdio.h>
 
 #include "itkRGBPixel.h"
-
 #include "itkImageRegionIterator.h"
-
 #include "itkImageFileWriter.h"
-
 
 int main( int argc, char *argv[] )
 {
 
+  if ( argc < 2)
+    {
+    std::cerr << "Please provide an output image name." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const char * out_file_name = argv[1];
 
   const unsigned int Dimension = 2;
-  typedef itk::RGBPixel <unsigned char >           RGBPixelType;
+  typedef unsigned char                            ComponentType;
+  typedef itk::RGBPixel < ComponentType >          RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension >    RGBImageType;
   typedef RGBImageType::RegionType                 RegionType;
   typedef RGBImageType::IndexType                  IndexType;
   typedef RGBImageType::SizeType                   SizeType; 
   typedef itk::ImageRegionIterator< RGBImageType > IteratorType;
-  
+ 
+  // Define the region of the entire image. 
+  IndexType index = {0, 0};
+  SizeType size = {100, 100};
+  RegionType region(index,size);
 
-  IndexType index;
-  index[0] = 0;
-  index[1] = 0;
+  // Now define two overlapping regions within that image.
+  IndexType indexA = {9, 9};
+  SizeType sizeA = {50, 50};
+  RegionType regionA(indexA,sizeA);
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
-
-  RegionType region;
-  region.SetIndex( index );
-  region.SetSize( size );
-
-  IndexType indexA;
-  indexA[0] = 9;
-  indexA[1] = 9;
-
-  SizeType sizeA;
-  sizeA[0] = 50;
-  sizeA[1] = 50;
-
-  RegionType regionA;
-  regionA.SetIndex( indexA );
-  regionA.SetSize( sizeA );
-
-  IndexType indexB;
-  indexB[0] = 39;
-  indexB[1] = 39;
-
-  SizeType sizeB;
-  sizeB[0] = 50;
-  sizeB[1] = 50;
-
-  RegionType regionB;
-  regionB.SetIndex( indexB );
-  regionB.SetSize( sizeB );
+  IndexType indexB = {39, 39};
+  SizeType sizeB = {50, 50};
+  RegionType regionB(indexB,sizeB);
 
   // Region C is the intersection of A and B
   // padded by 10 pixels.
@@ -64,20 +45,16 @@ int main( int argc, char *argv[] )
   regionC.Crop( regionB );
   regionC.PadByRadius( 10 );
 
-  RGBPixelType pix_black;
-  pix_black.Fill( 0 );
+  RGBPixelType pix_black(0.0); // Initialize to (0,0,0)
 
-  RGBPixelType pix_red;
-  pix_red.Fill( 0 );
-  pix_red[0] = 255;
+  RGBPixelType pix_red(0.0);
+  pix_red.SetRed( 255 );
 
-  RGBPixelType pix_green;
-  pix_green.Fill( 0 );
-  pix_green[1] = 255;
+  RGBPixelType pix_green(0.0);
+  pix_green.SetGreen( 255 );
 
-  RGBPixelType pix_blue;
-  pix_blue.Fill( 0 );
-  pix_blue[2] = 255;
+  RGBPixelType pix_blue(0.0);
+  pix_blue.SetBlue( 255 );
  
   // A black canvas
   RGBImageType::Pointer image = RGBImageType::New();
@@ -87,37 +64,24 @@ int main( int argc, char *argv[] )
 
   // Paint region A red.
   IteratorType itA( image, regionA );
-  itA.GoToBegin();
-  while ( !itA.IsAtEnd() )
-    {
-    itA.Set( itA.Get() + pix_red );
-    ++itA;
-    }
+  for (itA.GoToBegin(); !itA.IsAtEnd(); ++itA)
+    itA.Value() += pix_red;
 
   // Paint region B green.
   IteratorType itB( image, regionB );
-  itB.GoToBegin();
-  while ( !itB.IsAtEnd() )
-    {
-    itB.Set( itB.Get() + pix_green );
-    ++itB;
-    }
+  for (itB.GoToBegin(); !itB.IsAtEnd(); ++itB)
+    itB.Value() += pix_green;
 
   // Paint region C blue.
   IteratorType itC( image, regionC );
-  itC.GoToBegin();
-  while ( !itC.IsAtEnd() )
-    {
-    itC.Set( itC.Get() + pix_blue );
-    ++itC;
-    }
+  for (itC.GoToBegin(); !itC.IsAtEnd(); ++itC)
+    itC.Value() += pix_blue;
 
   // Writer
   typedef itk::ImageFileWriter< RGBImageType > FileWriterType;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName( out_file_name );
   writer->SetInput( image );
-
 
   try
     {
@@ -127,8 +91,9 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
-
   return EXIT_SUCCESS;
+
 }
