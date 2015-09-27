@@ -24,7 +24,7 @@ else()
     vtkIOXML
     vtkInteractionImage
     vtkRenderingAnnotation
-    vtkRenderingVolumeOpenGL
+    vtkRenderingVolume${VTK_RENDERING_BACKEND}
     vtkTestingRendering
   )
   include(${VTK_USE_FILE})

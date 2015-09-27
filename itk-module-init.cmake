@@ -8,7 +8,7 @@ set(VTK_USE_FILE_INCLUDED 0)
 find_package(VTK COMPONENTS
   vtkCommonCore
   vtkRenderingCore
-  vtkRenderingOpenGL
+  vtkRendering${VTK_RENDERING_BACKEND}
   vtkRenderingFreeType
   vtkInteractionStyle
   vtkIOImage
