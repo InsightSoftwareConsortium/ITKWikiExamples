@@ -40,6 +40,7 @@ itk_module( WikiExamples
   ITKQuadEdgeMeshFiltering
   ITKRegionGrowing
   ITKRegistrationCommon
+  ITKRegistrationMethodsv4
   ITKSignedDistanceFunction
   ITKSmoothing
   ITKSpatialFunction
