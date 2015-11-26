@@ -17,11 +17,11 @@
 // ./WatershedImageFilter 0.005 .5
 // (A rule of thumb is to set the Threshold to be about 1 / 100 of the Level.)
 
-typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
-typedef itk::Image<float, 2> FloatImageType;
-typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>    RGBImageType;
-typedef itk::Image<unsigned long, 2>   LabeledImageType;
+typedef itk::Image<unsigned char, 2>       UnsignedCharImageType;
+typedef itk::Image<float, 2>               FloatImageType;
+typedef itk::RGBPixel<unsigned char>       RGBPixelType;
+typedef itk::Image<RGBPixelType, 2>        RGBImageType;
+typedef itk::Image<itk::IdentifierType, 2> LabeledImageType;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 static void PerformSegmentation(FloatImageType::Pointer image, const float threshold, const float level);
