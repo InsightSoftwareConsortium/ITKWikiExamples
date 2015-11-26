@@ -82,9 +82,9 @@ void CreateMeshWithEdges()
     MeshType::CellType * cellptr = cellIterator.Value();
     LineType * line = dynamic_cast<LineType *>( cellptr );
 
-    long unsigned int* linePoint0 = line->PointIdsBegin();
-    //long unsigned int* linePoint1 = line->PointIdsEnd();
-    long unsigned int* linePoint1 = linePoint0+1;
+    itk::IdentifierType* linePoint0 = line->PointIdsBegin();
+    //itk::IdentifierType* linePoint1 = line->PointIdsEnd();
+	itk::IdentifierType* linePoint1 = linePoint0+1;
     std::cout << "line first point id: " << *linePoint0 << std::endl;
     std::cout << "line second point id: " << *linePoint1 << std::endl;
 		

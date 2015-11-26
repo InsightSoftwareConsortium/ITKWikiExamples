@@ -24,7 +24,7 @@ int main(int, char*[])
   points->InsertElement(1, p1);
   points->InsertElement(2, p2);
   
-  typedef itk::BoundingBox<unsigned long, Dimension, PixelType> BoundingBoxType;
+  typedef itk::BoundingBox<itk::IdentifierType, Dimension, PixelType> BoundingBoxType;
   BoundingBoxType::Pointer boundingBox = BoundingBoxType::New();
   boundingBox->SetPoints(points);
   boundingBox->ComputeBoundingBox();

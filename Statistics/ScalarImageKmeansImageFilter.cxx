@@ -62,7 +62,7 @@ int main(int, char*[])
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
 
-  typedef std::vector< unsigned long > SizesType;
+  typedef RelabelFilterType::ObjectSizeInPixelsContainerType SizesType;
 
   const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
 
