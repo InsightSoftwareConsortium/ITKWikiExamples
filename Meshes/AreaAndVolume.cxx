@@ -9,7 +9,7 @@ typedef itk::RegularSphereMeshSource< TMesh >                   TSphere;
 typedef itk::TriangleMeshToSimplexMeshFilter< TMesh, TSimplex > TConvert;
 typedef itk::SimplexMeshVolumeCalculator< TSimplex >            TVolume;
 
-int main()
+int main(int, char *[])
 {
 
   // Create a spherical mesh with known radius and resolution.
