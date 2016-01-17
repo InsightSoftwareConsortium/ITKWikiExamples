@@ -28,6 +28,7 @@ SET(KIT Registration)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   ExhaustiveOptimizer
+  WatchRegistration
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
@@ -36,5 +37,8 @@ SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-ExhaustiveOptimzer ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestExhaustiveOptimizer ${DATA}/cthead1.png ${DATA}/cthead1.png)
+
+ADD_TEST(${KIT}-WatchRegistration ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestWatchRegistration ${DATA}/BrainProtonDensitySliceBorder20.png ${DATA}/BrainProtonDensitySliceRotated10.png)
 
 endif()
