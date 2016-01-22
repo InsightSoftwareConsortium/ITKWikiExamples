@@ -18,6 +18,12 @@ if (Fetch_WikiExamples OR Module_WikiExamples)
 else()
   message(STATUS "ITKWikiExamples: Building ITKWikiExamples stand-alone")
 
+# See if VTK is using OpenGL or OpenGL2
+  find_package(VTK CONFIG)
+  if (NOT VTK_RENDERING_BACKEND)
+    set(VTK_RENDERING_BACKEND OpenGL)
+  endif()
+
   find_package(VTK COMPONENTS
     vtkFiltersSources
     vtkIOImage
@@ -25,6 +31,7 @@ else()
     vtkInteractionImage
     vtkRenderingAnnotation
     vtkRenderingVolume${VTK_RENDERING_BACKEND}
+    vtkRendering${VTK_RENDERING_BACKEND}
     vtkTestingRendering
   )
   include(${VTK_USE_FILE})
@@ -46,7 +53,7 @@ if (NOT ITK_VERSION)
   set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 endif()
 message(STATUS "ITKWikiExamples: ITK VERSION: ${ITK_VERSION}")
-message(STATUS "ITKWikiExamples: VTK VERSION: ${VTK_VERSION}")
+message(STATUS "ITKWikiExamples: VTK VERSION: ${VTK_VERSION}(${VTK_RENDERING_BACKEND})")
 
 ENABLE_TESTING()
 INCLUDE(CTest)
