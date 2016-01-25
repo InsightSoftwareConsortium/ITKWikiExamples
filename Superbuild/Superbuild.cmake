@@ -41,7 +41,6 @@ ExternalProject_Add( ITKWikiExamples
      # ITK
     -DITK_DIR:PATH=${ITK_DIR}
     # VTK
-    -DUSE_VTK:BOOL=ON
     -DVTK_DIR:PATH=${VTK_DIR}
   INSTALL_COMMAND ""
 )

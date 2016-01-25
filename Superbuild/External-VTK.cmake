@@ -2,8 +2,8 @@
 # Get and build VTK
 #
 #-----------------------------------------------------------------------------
-# March 3, 2015
-set( VTK_TAG v6.2.0 )
+# August 2015
+set( VTK_TAG v6.3.0 )
 
 ExternalProject_Add(VTK
   GIT_REPOSITORY "${git_protocol}://vtk.org/VTK.git"
@@ -13,6 +13,7 @@ ExternalProject_Add(VTK
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${ep_common_args}
+    -DVTK_RENDERING_BACKEND:STRING=OpenGL
     -DBUILD_SHARED_LIBS:BOOL=TRUE
     -DVTK_DEBUG_LEAKS:BOOL=TRUE
     -DBUILD_EXAMPLES:BOOL=OFF
