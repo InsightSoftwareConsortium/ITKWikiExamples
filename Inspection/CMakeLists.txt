@@ -24,11 +24,13 @@ SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   PixelInspection
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-PixelInspection ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestPixelInspection ${DATA}/Gourds.png 100 100)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

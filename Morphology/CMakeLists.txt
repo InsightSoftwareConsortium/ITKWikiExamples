@@ -34,7 +34,6 @@ SET(NEEDS_ARGS
   GrayscaleDilateImageFilter
   GrayscaleErodeImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -59,4 +58,7 @@ ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTe
 
 ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestGrayscaleErodeImageFilter ${DATA}/Gourds.png 2)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

@@ -70,8 +70,6 @@ SET(NEEDS_ARGS
   Upsampling
   ZeroCrossingImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
-
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
@@ -161,5 +159,7 @@ ADD_TEST(${KIT}-ZeroCrossingImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-ShapeAttributes ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestShapeAttributes ${DATA}/BinaryImageWithVariousShapes01.png)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 endif()

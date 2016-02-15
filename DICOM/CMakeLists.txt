@@ -24,7 +24,6 @@ if(BUILD_TESTING)
 SET(KIT DICOM)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
-  ResampleDICOM
 )
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 

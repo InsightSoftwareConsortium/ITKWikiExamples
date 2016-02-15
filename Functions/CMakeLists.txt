@@ -24,11 +24,12 @@ SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
   GaussianBlurImageFunction
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
-
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST(${KIT}-GaussianBlurImageFunction ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestGaussianBlurImageFunction ${DATA}/Gourds.png ${TEMP}/GourdsGaussianBlur.mha 4 5)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

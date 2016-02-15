@@ -25,7 +25,6 @@ SET(NEEDS_ARGS
   EllipseSpatialObject
   SpatialObjectToImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -35,4 +34,7 @@ ADD_TEST(${KIT}-EllipseSpatialObject ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-SpatialObjectToImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestSpatialObjectToImageFilter ${TEMP}/SpatialObjectToImageFilter.png)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

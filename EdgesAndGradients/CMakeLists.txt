@@ -31,7 +31,6 @@ SET(NEEDS_ARGS
   SobelEdgeDetectionImageFilter
   ZeroCrossingBasedEdgeDetectionImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -59,5 +58,7 @@ ADD_TEST(${KIT}-SobelEdgeDetectionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}Cx
 
 ADD_TEST(${KIT}-ZeroCrossingBasedEdgeDetectionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestZeroCrossingBasedEdgeDetectionImageFilter ${DATA}/Gourds.png 10)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 endif()

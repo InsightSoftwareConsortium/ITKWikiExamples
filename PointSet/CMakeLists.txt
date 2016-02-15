@@ -25,7 +25,6 @@ SET(NEEDS_ARGS
   ReadPointSet
   WritePointSet
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -35,4 +34,7 @@ ADD_TEST(${KIT}-ReadPointSet ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-WritePointSet ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestWritePointSet ${TEMP}/WritePointSet.vtk)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

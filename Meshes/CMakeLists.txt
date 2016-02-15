@@ -32,7 +32,6 @@ SET(NEEDS_ARGS
   QuadEdgeMeshParameterizationFilter
   ReadWrite
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -45,5 +44,7 @@ ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${EXECUTABLE_OUTPUT_PATH}/${K
 
 ADD_TEST(${KIT}-ReadWrite ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestreadWrite 6)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 endif()

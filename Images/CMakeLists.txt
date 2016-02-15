@@ -26,7 +26,6 @@ SET(NEEDS_ARGS
   NormalizedCorrelationImageFilter
   VectorRescaleIntensityImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -39,4 +38,7 @@ ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT
 
 ADD_TEST(${KIT}-VectorRescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorRescaleIntensityImageFilter ${DATA}/Gourds.png ${TEMP}/Gourds_rescaled.png)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

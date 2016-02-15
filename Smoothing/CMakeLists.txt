@@ -44,7 +44,6 @@ SET(NEEDS_ARGS
   VectorMeanImageFilter
   VectorMedianImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -96,4 +95,7 @@ ADD_TEST(${KIT}-VectorMeanImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
 
 ADD_TEST(${KIT}-VectorMedianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestVectorMedianImageFilter ${DATA}/Gourds.png 2)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

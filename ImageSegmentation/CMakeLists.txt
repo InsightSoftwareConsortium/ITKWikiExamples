@@ -31,7 +31,6 @@ SET(NEEDS_ARGS
   ExtractLargestConnectedComponentFromBinaryImage.cxx
   LabelContourImageFilter.cxx
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -48,5 +47,7 @@ ADD_TEST(${KIT}-ExtractLargestConnectedComponentFromBinaryImage ${EXECUTABLE_OUT
 
 ADD_TEST(${KIT}-LabelContourImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestLabelContourImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 endif()

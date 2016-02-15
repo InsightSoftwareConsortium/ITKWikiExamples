@@ -34,7 +34,6 @@ SET(NEEDS_ARGS
   OtsuThresholdImageFilter
   WatershedImageFilter
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -53,4 +52,7 @@ ADD_TEST(${KIT}-OtsuThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTest
 
 ADD_TEST(${KIT}-WatershedImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestWatershedImageFilter .005 .5)
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()

@@ -31,7 +31,6 @@ SET(NEEDS_ARGS
   VnlFFTRealToComplexConjugateImageFilter
   CrossCorrelationInFourierDomain
 )
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
@@ -43,4 +42,7 @@ ADD_TEST(${KIT}-VnlFFTRealToComplexConjugateImageFilter ${EXECUTABLE_OUTPUT_PATH
 ADD_TEST(${KIT}-CrossCorrelationInFourierDomain ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestCrossCorrelationInFourierDomain ${DATA}/cthead1.png ${DATA}/cthead1.png)
 endif()
+
+INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+
 endif()
