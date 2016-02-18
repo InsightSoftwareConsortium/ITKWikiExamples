@@ -27,13 +27,14 @@ if(BUILD_TESTING)
 SET(KIT Registration)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  ExhaustiveOptimizer
   WatchRegistration
 )
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ExhaustiveOptimzer ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ExhaustiveOptimizer ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestExhaustiveOptimizer ${DATA}/cthead1.png ${DATA}/cthead1.png)
 
 ADD_TEST(${KIT}-WatchRegistration ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests

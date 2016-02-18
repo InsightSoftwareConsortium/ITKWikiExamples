@@ -26,10 +26,10 @@ if(BUILD_TESTING)
 SET(KIT ImageSegmentation)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
-  ExtractContourWithSnakes.cxx
-  ConfidenceConnectedImageFilter.cxx
-  ExtractLargestConnectedComponentFromBinaryImage.cxx
-  LabelContourImageFilter.cxx
+  ExtractContourWithSnakes
+  ConfidenceConnectedImageFilter
+  ExtractLargestConnectedComponentFromBinaryImage
+  LabelContourImageFilter
 )
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)

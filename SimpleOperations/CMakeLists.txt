@@ -22,11 +22,15 @@ if(BUILD_TESTING)
 SET(KIT SimpleOperations)
 SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
 SET(NEEDS_ARGS
+  RegionOverlap
   WidthHeight
 )
 
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+
+ADD_TEST(${KIT}-RegionOverlap ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+  TestRegionOverlap ${TEMP}/RegionOverlap.png)
 
 ADD_TEST(${KIT}-WidthHeight ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
   TestWidthHeight ${DATA}/cthead1.png)

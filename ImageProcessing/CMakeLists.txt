@@ -62,7 +62,7 @@ SET(NEEDS_ARGS
   ScalarConnectedComponentImageFilter
   ShapeAttributes
   SigmoidImageFilter
-  SignedDaniellsonDistanceMapImageFilter
+  SignedDanielssonDistanceMapImageFilter
   SignedMaurerDistanceMapImageFilter
   ThresholdImageFilter
   TileImageFilter_SideBySide
