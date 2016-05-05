@@ -34,7 +34,7 @@ def FillCMakeLists(S, Name):
     return reg
 
 # Connect to the wiki
-site = mwclient.Site('paraview.org', '/Wiki/')
+site = mwclient.Site(('https','itk.org'), '/Wiki/')
 
 # Read the Wiki Templates
 ITKTemplateFile = open("Admin/ITKCMakeLists", 'r')
