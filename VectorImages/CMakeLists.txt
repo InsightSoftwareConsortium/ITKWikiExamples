@@ -35,7 +35,7 @@ SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 if(NOT ITK_VERSION VERSION_LESS "4.0")
-ADD_TEST(${KIT}-VectorMagnitudeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-VectorMagnitudeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestVectorMagnitudeImageFilter ${DATA}/GourdsVector.mha ${TEMP}/GourdsVectorMag.png)
 endif()
 

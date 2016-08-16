@@ -29,10 +29,10 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-RegionOverlap ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-RegionOverlap ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRegionOverlap ${TEMP}/RegionOverlap.png)
 
-ADD_TEST(${KIT}-WidthHeight ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-WidthHeight ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestWidthHeight ${DATA}/cthead1.png)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

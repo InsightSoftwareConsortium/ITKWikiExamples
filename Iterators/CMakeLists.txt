@@ -38,22 +38,22 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ConstNeighborhoodIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ConstNeighborhoodIterator ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestConstNeighborhoodIterator ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-ImageRegionConstIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageRegionConstIterator ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageRegionConstIterator ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-ImageRegionConstIteratorWithIndex ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageRegionConstIteratorWithIndex ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageRegionConstIteratorWithIndex ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-ImageRegionIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageRegionIterator ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageRegionIterator ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-ImageRegionIteratorWithIndex ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageRegionIteratorWithIndex ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageRegionIteratorWithIndex ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-NeighborhoodIterator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-NeighborhoodIterator ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestNeighborhoodIterator ${DATA}/cthead1.png)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

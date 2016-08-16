@@ -36,10 +36,10 @@ SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
 if(NOT ITK_VERSION VERSION_LESS "4.0")
-ADD_TEST(${KIT}-VnlFFTRealToComplexConjugateImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-VnlFFTRealToComplexConjugateImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestVnlFFTRealToComplexConjugateImageFilter ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-CrossCorrelationInFourierDomain ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-CrossCorrelationInFourierDomain ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestCrossCorrelationInFourierDomain ${DATA}/cthead1.png ${DATA}/cthead1.png)
 endif()
 

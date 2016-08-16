@@ -36,13 +36,13 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-QuadEdgeMeshNormalFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-QuadEdgeMeshNormalFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestQuadEdgeMeshNormalFilter ${DATA}/sphere.vtk 1)
 
-ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-QuadEdgeMeshParameterizationFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestQuadEdgeMeshParameterizationFilter ${DATA}/disk.vtk 1 1 ${TEMP}/QuadEdgeMeshParameterizationFilter.vtk)
 
-ADD_TEST(${KIT}-ReadWrite ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ReadWrite ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestreadWrite 6)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

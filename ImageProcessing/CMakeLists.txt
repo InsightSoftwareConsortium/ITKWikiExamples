@@ -73,91 +73,91 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ApproximateSignedDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ApproximateSignedDistanceMapImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestApproximateSignedDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-SignedMaurerDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-SignedMaurerDistanceMapImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestSignedMaurerDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-SignedDanielssonDistanceMapImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-SignedDanielssonDistanceMapImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestSignedDanielssonDistanceMapImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-BinaryThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-BinaryThresholdImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryThresholdImageFilter ${DATA}/cthead1.png 100 255)
 
-ADD_TEST(${KIT}-ConnectedComponentImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ConnectedComponentImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestConnectedComponentImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-ConvolutionImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ConvolutionImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestConvolutionImageFilter ${DATA}/cthead1.png 10)
 
-ADD_TEST(${KIT}-CropImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-CropImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestCropImageFilter ${DATA}/Gourds.png 100 200)
 
-ADD_TEST(${KIT}-ImageFilterOnARegion ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageFilterOnARegion ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageFilterOnARegion ${DATA}/Gourds.png 3)
 
-ADD_TEST(${KIT}-InvertIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-InvertIntensityImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestInvertIntensityImageFilter ${DATA}/Gourds.png 255)
 
-ADD_TEST(${KIT}-MaskImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-MaskImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestMaskImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-LabelGeometryImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-LabelGeometryImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestLabelGeometryImageFilter ${DATA}/ctheadlabels.png ${DATA}/cthead1.png 10)
 
-ADD_TEST(${KIT}-LaplacianImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-LaplacianImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestLaplacianImageFilter ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-LaplacianSharpeningImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-LaplacianSharpeningImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestLaplacianSharpeningImageFilter ${DATA}/Pileated.jpg)
 
-ADD_TEST(${KIT}-NormalizeImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-NormalizeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestNormalizeImageFilter ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-MinimumMaximumImageCalculator ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-MinimumMaximumImageCalculator ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestMinimumMaximumImageCalculator ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-RegionOfInterestImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-RegionOfInterestImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRegionOfInterestImageFilter ${DATA}/Gourds.png 100 200)
 
-ADD_TEST(${KIT}-RescaleIntensityImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-RescaleIntensityImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRescaleIntensityImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-RGBToLuminanceImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-RGBToLuminanceImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRGBToLuminanceImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-ResampleSegmentedImage ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ResampleSegmentedImage ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestResampleSegmentedImage ${DATA}/BinaryImageWithVariousShapes01.png 2)
 
-ADD_TEST(${KIT}-RGBResampleImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-RGBResampleImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRGBResampleImageFilter ${DATA}/VHF001.png 10)
 
-ADD_TEST(${KIT}-ScalarConnectedComponentImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ScalarConnectedComponentImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestScalarConnectedComponentImageFilter ${DATA}/cthead1.png 4 100)
 
-ADD_TEST(${KIT}-SigmoidImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-SigmoidImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestSigmoidImageFilter ${DATA}/cthead1.png 10 150)
 
-ADD_TEST(${KIT}-ThresholdImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ThresholdImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestThresholdImageFilter ${DATA}/cthead1.png 100 150)
 
-ADD_TEST(${KIT}-CastImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-CastImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestCastImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-TileImageFilter_SideBySide ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-TileImageFilter_SideBySide ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestTileImageFilter_SideBySide ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/TileImageFilter_SideBySide.png)
 
-ADD_TEST(${KIT}-TileImageFilter_CreateVolume ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-TileImageFilter_CreateVolume ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestTileImageFilter_CreateVolume ${DATA}/Gourds.png ${DATA}/cthead1.png ${TEMP}/TileImageFilter_CreateVolume.mha)
 
-ADD_TEST(${KIT}-Upsampling ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-Upsampling ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestUpsampling ${DATA}/cthead1.png ${TEMP}/Upsampling.png 512 512)
 
-ADD_TEST(${KIT}-ZeroCrossingImageFilter ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ZeroCrossingImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestZeroCrossingImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-ShapeAttributes ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-ShapeAttributes ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestShapeAttributes ${DATA}/BinaryImageWithVariousShapes01.png)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

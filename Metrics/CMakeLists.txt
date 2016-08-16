@@ -32,7 +32,7 @@ SET(NEEDS_ARGS
   MeanSquaresImageToImageMetric
 )
 
-ADD_TEST(${KIT}-MeanSquaresImageToImageMetric ${EXECUTABLE_OUTPUT_PATH}/${KIT}CxxTests
+ADD_TEST(${KIT}-MeanSquaresImageToImageMetric ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestMeanSquaresImageToImageMetric ${DATA}/Gourds.png ${DATA}/Gourds.png )
 
 endif()
