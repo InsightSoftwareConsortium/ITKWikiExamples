@@ -30,13 +30,13 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-FlipImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-FlipImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestFlipImageFilter ${DATA}/Pileated.jpg 0)
 
-ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-NormalizedCorrelationImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestNormalizedCorrelationImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-VectorRescaleIntensityImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-VectorRescaleIntensityImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestVectorRescaleIntensityImageFilter ${DATA}/Gourds.png ${TEMP}/Gourds_rescaled.png)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

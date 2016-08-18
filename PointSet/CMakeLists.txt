@@ -29,10 +29,10 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ReadPointSet ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ReadPointSet ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestReadPointSet ${DATA}/sphere.vtk)
 
-ADD_TEST(${KIT}-WritePointSet ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-WritePointSet ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestWritePointSet ${TEMP}/WritePointSet.vtk)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

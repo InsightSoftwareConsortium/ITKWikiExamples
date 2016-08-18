@@ -29,7 +29,7 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-AddNoiseToBinaryImage ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-AddNoiseToBinaryImage ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestAddNoiseToBinaryImage ${DATA}/Yinyang.png ${TEMP}/YinyangNoise.png 5)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

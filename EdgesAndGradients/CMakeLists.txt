@@ -35,28 +35,28 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-DerivativeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-DerivativeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestDerivativeImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-GradientMagnitudeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-GradientMagnitudeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGradientMagnitudeImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-GradientMagnitudeRecursiveGaussianImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-GradientMagnitudeRecursiveGaussianImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGradientMagnitudeRecursiveGaussianImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-GradientRecursiveGaussianImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-GradientRecursiveGaussianImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGradientRecursiveGaussianImageFilter ${DATA}/Gourds.png ${TEMP}/GradientRecursiveGaussianImageFilter.mha)
 
-ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-LaplacianRecursiveGaussianImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestLaplacianRecursiveGaussianImageFilter ${DATA}/Yinyang.png)
 
-ADD_TEST(${KIT}-RecursiveGaussianImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-RecursiveGaussianImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestRecursiveGaussianImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-SobelEdgeDetectionImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-SobelEdgeDetectionImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestSobelEdgeDetectionImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-ZeroCrossingBasedEdgeDetectionImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ZeroCrossingBasedEdgeDetectionImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestZeroCrossingBasedEdgeDetectionImageFilter ${DATA}/Gourds.png 10)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

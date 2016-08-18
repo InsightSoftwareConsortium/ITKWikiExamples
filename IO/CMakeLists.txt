@@ -39,22 +39,22 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ImageFileReader ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageFileReader ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageFileReader ${DATA}/Yinyang.png)
 
-ADD_TEST(${KIT}-ReadUnknownImageType ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ReadUnknownImageType ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestReadUnknownImageType ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-ReadVectorImage ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ReadVectorImage ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestReadVectorImage ${DATA}/GourdsVector.mha)
 
-ADD_TEST(${KIT}-ImageToVTKImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ImageToVTKImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestImageToVTKImageFilter ${DATA}/Gourds.png)
 
-ADD_TEST(${KIT}-TransformFileReader ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-TransformFileReader ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestTransformFileReader ${DATA}/transform.tfm)
 
-ADD_TEST(${KIT}-VolumeFromSlices ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-VolumeFromSlices ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestVolumeFromSlices ${DATA}/VHF%03d.png 1 10 ${TEMP}/VHF.mhd)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

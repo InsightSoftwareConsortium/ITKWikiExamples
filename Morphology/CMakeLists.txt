@@ -38,25 +38,25 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-BinaryMorphologicalClosingImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-BinaryMorphologicalClosingImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryMorphologicalClosingImageFilter ${DATA}/Yinyang.png 20)
 
-ADD_TEST(${KIT}-BinaryMorphologicalOpeningImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-BinaryMorphologicalOpeningImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryMorphologicalOpeningImageFilter ${DATA}/Yinyang.png 20)
 
-ADD_TEST(${KIT}-BinaryDilateImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-BinaryDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryDilateImageFilter ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-BinaryErodeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-BinaryErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryErodeImageFilter ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-FlatStructuringElement ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-FlatStructuringElement ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestFlatStructuringElement ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGrayscaleDilateImageFilter ${DATA}/Gourds.png 2)
 
-ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGrayscaleErodeImageFilter ${DATA}/Gourds.png 2)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

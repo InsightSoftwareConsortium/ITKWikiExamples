@@ -38,19 +38,19 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ConnectedComponentImageFilterDemo ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ConnectedComponentImageFilterDemo ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestConnectedComponentImageFilterDemo ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-ThresholdImageFilterDemo ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ThresholdImageFilterDemo ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestThresholdImageFilterDemo ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-OtsuMultipleThresholdsImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-OtsuMultipleThresholdsImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestOtsuMultipleThresholdsImageFilter ${DATA}/cthead1.png 2)
 
-ADD_TEST(${KIT}-OtsuThresholdImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-OtsuThresholdImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestOtsuThresholdImageFilter ${DATA}/cthead1.png)
 
-ADD_TEST(${KIT}-WatershedImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-WatershedImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestWatershedImageFilter .005 .5)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)

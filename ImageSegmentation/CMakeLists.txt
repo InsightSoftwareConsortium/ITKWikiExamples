@@ -35,17 +35,17 @@ SET(NEEDS_ARGS
 SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-ExtractContourWithSnakes ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ExtractContourWithSnakes ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
 
   TestExtractContourWithSnakes 100 0.01 0.4 0.07 4 6000)
 
-ADD_TEST(${KIT}-ConfidenceConnectedImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ConfidenceConnectedImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestConfidenceConnectedImageFilter ${DATA}/cthead1.png 127 127)
 
-ADD_TEST(${KIT}-ExtractLargestConnectedComponentFromBinaryImage ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-ExtractLargestConnectedComponentFromBinaryImage ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestExtractLargestConnectedComponentFromBinaryImage ${DATA}/BinaryImageWithVariousShapes01.png)
 
-ADD_TEST(${KIT}-LabelContourImageFilter ${RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+ADD_TEST(${KIT}-LabelContourImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestLabelContourImageFilter ${DATA}/BinaryImageWithVariousShapes01.png)
 
 INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
