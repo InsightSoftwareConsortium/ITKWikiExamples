@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES //needed for Visual Studio (before #include <cmath>)
 #include <itkSimplexMesh.h>
 #include <itkRegularSphereMeshSource.h>
 #include <itkTriangleMeshToSimplexMeshFilter.h>
