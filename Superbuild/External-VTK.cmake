@@ -2,7 +2,7 @@
 # Get and build VTK
 #
 #-----------------------------------------------------------------------------
-# August 2015
+# November 14, 2016
 set( VTK_TAG v6.3.0 )
 
 ExternalProject_Add(VTK
@@ -13,7 +13,7 @@ ExternalProject_Add(VTK
   CMAKE_GENERATOR ${gen}
   CMAKE_ARGS
     ${ep_common_args}
-    -DVTK_RENDERING_BACKEND:STRING=OpenGL
+    -DVTK_RENDERING_BACKEND:STRING=OpenGL2
     -DBUILD_SHARED_LIBS:BOOL=TRUE
     -DVTK_DEBUG_LEAKS:BOOL=TRUE
     -DBUILD_EXAMPLES:BOOL=OFF
@@ -26,7 +26,7 @@ ExternalProject_Add(VTK
     -DModule_vtkIOXML:BOOL=ON
     -DModule_vtkInteractionImage:BOOL=ON
     -DModule_vtkRenderingAnnotation:BOOL=ON
-    -DModule_vtkRenderingVolumeOpenGL:BOOL=ON
+    -DModule_vtkRenderingVolumeOpenGL2:BOOL=ON
     -DModule_vtkTestingRendering:BOOL=ON
 
   INSTALL_COMMAND ""
