@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfSpatialSamples( numberOfSamples );
 
   optimizer->MinimizeOn();
-  optimizer->SetMaximumStepLength( 2.00 );
+  optimizer->SetMaximumStepLength( 0.500 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 1000 );
 
