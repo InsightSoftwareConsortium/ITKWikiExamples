@@ -201,6 +201,7 @@ for example in exampleToFileNames:
 
     # Now create the tar file for the example
     # The tarballs are stored in the source tree
+    print "Tar file: " + example
     tar = tarfile.open("Tarballs/" + example + ".tar", "w")
     tar.add(srcDir,arcname=example)
     tar.close()
