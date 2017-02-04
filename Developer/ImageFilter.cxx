@@ -10,7 +10,7 @@ static void CreateImage(TImage* const image);
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<int, 2>   ImageType;
+  typedef itk::Image<int, 2>                     ImageType;
   typedef itk::ImageFilter<ImageType>  FilterType;
 
   ImageType::Pointer image = ImageType::New();
