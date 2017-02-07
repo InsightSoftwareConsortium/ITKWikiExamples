@@ -19,13 +19,19 @@ git pull origin master
 (cd Tarballs; git checkout .)
 (cd Tarballs; git pull origin master)
 
+echo "1.1) Protect vtkTestingObjectFactory.hxx"
+mv CMake/vtkTestingObjectFactory.hxx CMake/vtkTestingObjectFactory.hxx.save
+
 echo "2) Remove all .cxx, .h, .hxx, .txx, .py, .tcl, files from local repository"
 find . -name mwclient -prune -type f -o "(" -name \*.cxx -o -name \*.h -o -name \*.hxx -o -name \*.txx -o -name \*.tcl -o -name \*.java -o -name \*.py ")" -exec rm -f {} \;
 
 echo "3) Scrape the wiki"
 ./Admin/ScrapeWiki
 
-echo "3.1) Check for a successful scrape"
+echo "3.1) Restore vtkTestingObjectFactory.hxx"
+mv CMake/vtkTestingObjectFactory.hxx.save CMake/vtkTestingObjectFactory.hxx 
+
+echo "3.2) Check for a successful scrape"
 count=`find . -name \*.cxx | wc -l`
 expected=365
 if test $count -lt $expected; then
