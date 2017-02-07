@@ -2,7 +2,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "ImageFilter.h"
+#include "ImageSource.h"
 
 int main(int, char*[])
 {

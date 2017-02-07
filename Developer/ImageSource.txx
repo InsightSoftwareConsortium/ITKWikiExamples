@@ -1,7 +1,7 @@
-#ifndef __itkImageFilter_txx
-#define __itkImageFilter_txx
+#ifndef __itkImageSource_hxx
+#define __itkImageSource_hxx
 
-#include "ImageFilter.h"
+#include "ImageSource.h"
 #include "itkObjectFactory.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"

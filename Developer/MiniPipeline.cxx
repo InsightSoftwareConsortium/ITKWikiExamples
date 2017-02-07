@@ -2,7 +2,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "ImageFilter.h"
+#include "ImageFilterY.h"
 
 template <typename TImage>
 static void CreateImage(TImage* const image);
