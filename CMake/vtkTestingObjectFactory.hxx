@@ -47,6 +47,9 @@ class VTKTESTINGRENDERING_EXPORT vtkTestingObjectFactory : public vtkObjectFacto
 #endif
 {
 public:
+#ifndef VTK_OVERRIDE
+#define VTK_OVERRIDE
+#endif
   static vtkTestingObjectFactory* New();
   vtkTypeMacro(vtkTestingObjectFactory,vtkObjectFactory);
   virtual const char* GetVTKSourceVersion() VTK_OVERRIDE;

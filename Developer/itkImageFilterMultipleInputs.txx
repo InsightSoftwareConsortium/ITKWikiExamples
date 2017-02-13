@@ -1,7 +1,7 @@
-#ifndef __itkImageFilterMultipleInputs_txx
-#define __itkImageFilterMultipleInputs_txx
+#ifndef itkImageFilterMultipleInputs_txx
+#define itkImageFilterMultipleInputs_txx
 
-#include "ImageFilterMultipleInputs.h"
+#include "itkImageFilterMultipleInputs.h"
 
 #include "itkObjectFactory.h"
 #include "itkImageRegionIterator.h"
@@ -11,25 +11,32 @@ namespace itk
 {
 
 template< class TImage>
-ImageFilterMultipleInputs<TImage>::ImageFilterMultipleInputs()
+ImageFilterMultipleInputs<TImage>
+::ImageFilterMultipleInputs()
 {
   this->SetNumberOfRequiredInputs(2);
 }
 
 template< class TImage>
-void ImageFilterMultipleInputs<TImage>::SetInputImage(const TImage* image)
+void
+ImageFilterMultipleInputs<TImage>
+::SetInputImage(const TImage* image)
 {
   this->SetNthInput(0, const_cast<TImage*>(image));
 }
 
 template< class TImage>
-void ImageFilterMultipleInputs<TImage>::SetInputMask(const TImage* mask)
+void
+ImageFilterMultipleInputs<TImage>
+::SetInputMask(const TImage* mask)
 {
   this->SetNthInput(1, const_cast<TImage*>(mask));
 }
 
 template< class TImage>
-void ImageFilterMultipleInputs<TImage>::GenerateData()
+void
+ImageFilterMultipleInputs<TImage>
+::GenerateData()
 {
   typename TImage::ConstPointer input = this->GetInput();
   

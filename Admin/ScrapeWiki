@@ -140,6 +140,8 @@ for page in site.pages:
                     os.makedirs(PathName)
             # Write the source code file
             OutputFile = "./" + PathName + "/" + FileName
+            if os.path.exists(OutputFile):
+                sys.exit("ERROR: " + OutputFile + " already exists. Check for duplicate file in examples.")
             print "Creating " + OutputFile
             MyFile = open(OutputFile, 'w')
             MyFile.write(FileContent)
@@ -201,6 +203,7 @@ for example in exampleToFileNames:
 
     # Now create the tar file for the example
     # The tarballs are stored in the source tree
+    print "Tar file: " + example
     tar = tarfile.open("Tarballs/" + example + ".tar", "w")
     tar.add(srcDir,arcname=example)
     tar.close()
