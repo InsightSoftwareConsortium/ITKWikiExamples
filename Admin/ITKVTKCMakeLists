@@ -7,18 +7,9 @@ project({{{1}}})
  
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
-if (ITKVtkGlue_LOADED)
-  find_package(VTK REQUIRED)
-  include(${VTK_USE_FILE})
-else()
-  find_package(ItkVtkGlue REQUIRED)
-  include(${ItkVtkGlue_USE_FILE})
-  set(Glue ItkVtkGlue)
-endif()
  
 add_executable({{{1}}} MACOSX_BUNDLE {{{1}}}.cxx)
-target_link_libraries({{{1}}}
-  ${Glue}  ${VTK_LIBRARIES} ${ITK_LIBRARIES})
+target_link_libraries({{{1}}} ${ITK_LIBRARIES})
 |lang=cmake}}
 
 ==Download and Build {{{1}}}==
