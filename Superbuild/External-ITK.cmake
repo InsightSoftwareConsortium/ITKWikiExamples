@@ -1,8 +1,8 @@
 #---------------------------------------------------------------------------
 # Get and build itk
 
-# April 12, 2016
-set( ITK_TAG v4.9.1)
+# June 1, 2017
+set( ITK_TAG v4.12.0)
 
 ExternalProject_Add( ITK
   GIT_REPOSITORY "${git_protocol}://itk.org/ITK.git"
