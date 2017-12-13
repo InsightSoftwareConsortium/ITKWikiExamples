@@ -7,7 +7,7 @@ include(${ITK_USE_FILE})
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ItkVtkGlue_BINARY_DIR})
-endif(NOT ITKWikiExamples_BINARY_DIR)
+endif()
 include(GenerateItkVtkGlueConfig.cmake)
 
 #-----------------------------------------------------------------------------

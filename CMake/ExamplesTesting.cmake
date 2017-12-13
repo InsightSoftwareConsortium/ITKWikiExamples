@@ -12,9 +12,9 @@ foreach(SOURCE_FILE ${ALL_FILES})
   list(FIND NEEDS_ARGS ${EXAMPLE} SKIP_ADD)
   if(SKIP_ADD EQUAL -1)
     add_test(${KIT}-${EXAMPLE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests Test${EXAMPLE})
-  endif(SKIP_ADD EQUAL -1)
+  endif()
   set_property(TEST ${KIT}-${EXAMPLE} PROPERTY LABELS WikiExamples)
-endforeach(SOURCE_FILE)
+endforeach()
 
 if(${VTK_MAJOR_VERSION} GREATER 4 )
   ## Version is OK if greater than 5.5
