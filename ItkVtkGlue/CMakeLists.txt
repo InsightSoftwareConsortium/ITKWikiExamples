@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
-PROJECT (ItkVtkGlue)
+project (ItkVtkGlue)
 
-IF(NOT ITKWikiExamples_BINARY_DIR)
-FIND_PACKAGE(ITK REQUIRED)
-INCLUDE(${ITK_USE_FILE})
-FIND_PACKAGE(VTK REQUIRED)
-INCLUDE(${VTK_USE_FILE})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ItkVtkGlue_BINARY_DIR})
-ENDIF(NOT ITKWikiExamples_BINARY_DIR)
+if(NOT ITKWikiExamples_BINARY_DIR)
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+find_package(VTK REQUIRED)
+include(${VTK_USE_FILE})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ItkVtkGlue_BINARY_DIR})
+endif(NOT ITKWikiExamples_BINARY_DIR)
 include(GenerateItkVtkGlueConfig.cmake)
 
 #-----------------------------------------------------------------------------

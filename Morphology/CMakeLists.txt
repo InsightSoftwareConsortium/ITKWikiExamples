@@ -1,31 +1,31 @@
 Project (Morphology)
 
-IF(NOT ITKWikiExamples_BINARY_DIR)
-FIND_PACKAGE(VTK REQUIRED)
-IF(NOT VTK_USE_RENDERING)
-  MESSAGE(FATAL_ERROR "Example ${PROJECT_NAME} requires VTK_USE_RENDERING.")
-ENDIF(NOT VTK_USE_RENDERING)
-INCLUDE(${VTK_USE_FILE})
-ENDIF(NOT ITKWikiExamples_BINARY_DIR)
+if(NOT ITKWikiExamples_BINARY_DIR)
+find_package(VTK REQUIRED)
+if(NOT VTK_USE_RENDERING)
+  message(FATAL_ERROR "Example ${PROJECT_NAME} requires VTK_USE_RENDERING.")
+endif(NOT VTK_USE_RENDERING)
+include(${VTK_USE_FILE})
+endif(NOT ITKWikiExamples_BINARY_DIR)
 
 include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
 
 #
 # Build all .cxx files in the directory
-FILE(GLOB ALL_FILES *.cxx)
+file(GLOB ALL_FILES *.cxx)
 
 foreach(SOURCE_FILE ${ALL_FILES})
-  STRING(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
-  STRING(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ "" EXAMPLE ${TMP})
-  ADD_EXECUTABLE(${WIKI}${EXAMPLE} MACOSX_BUNDLE ${EXAMPLE}.cxx)
-  TARGET_LINK_LIBRARIES(${WIKI}${EXAMPLE} ${ItkVtkGlue} ${ITK_LIBRARIES})
+  string(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
+  string(REPLACE ${CMAKE_CURRENT_SOURCE_DIR}/ "" EXAMPLE ${TMP})
+  add_executable(${WIKI}${EXAMPLE} MACOSX_BUNDLE ${EXAMPLE}.cxx)
+  target_link_libraries(${WIKI}${EXAMPLE} ${ItkVtkGlue} ${ITK_LIBRARIES})
 endforeach(SOURCE_FILE)
 
 if(BUILD_TESTING)
 # Testing
-SET(KIT Morphology)
-SET(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
-SET(NEEDS_ARGS
+set(KIT Morphology)
+set(KIT_LIBS ${ItkVtkGlue} ${ITK_LIBRARIES})
+set(NEEDS_ARGS
   BinaryMorphologicalClosingImageFilter
   BinaryMorphologicalOpeningImageFilter
   BinaryDilateImageFilter
@@ -35,30 +35,30 @@ SET(NEEDS_ARGS
   GrayscaleErodeImageFilter
 )
 
-SET(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
-SET(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
+set(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
+set(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST(${KIT}-BinaryMorphologicalClosingImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-BinaryMorphologicalClosingImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryMorphologicalClosingImageFilter ${DATA}/Yinyang.png 20)
 
-ADD_TEST(${KIT}-BinaryMorphologicalOpeningImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-BinaryMorphologicalOpeningImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryMorphologicalOpeningImageFilter ${DATA}/Yinyang.png 20)
 
-ADD_TEST(${KIT}-BinaryDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-BinaryDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryDilateImageFilter ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-BinaryErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-BinaryErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestBinaryErodeImageFilter ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-FlatStructuringElement ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-FlatStructuringElement ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestFlatStructuringElement ${DATA}/Yinyang.png 2)
 
-ADD_TEST(${KIT}-GrayscaleDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-GrayscaleDilateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGrayscaleDilateImageFilter ${DATA}/Gourds.png 2)
 
-ADD_TEST(${KIT}-GrayscaleErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
+add_test(${KIT}-GrayscaleErodeImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestGrayscaleErodeImageFilter ${DATA}/Gourds.png 2)
 
-INCLUDE(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
+include(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 
 endif()
