@@ -37,27 +37,28 @@ int main(int argc, char *argv[])
 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
 
+  const PixelType::ValueType alphaTransparency = 122;
   while(!imageIterator.IsAtEnd())
     {
     ImageType::PixelType pixel = imageIterator.Get();
-  
+
     if(imageIterator.GetIndex()[0] > 100)
       {
       pixel.SetRed(0);
       pixel.SetGreen(255);
       pixel.SetBlue(0);
       //pixel.SetAlpha(255); // invisible
-      pixel.SetAlpha(122);
+      pixel.SetAlpha(alphaTransparency);
       }
     else
       {
       pixel.SetRed(255);
       pixel.SetGreen(0);
       pixel.SetBlue(0);
-      pixel.SetAlpha(0.5);
+      pixel.SetAlpha(alphaTransparency);
       }
     imageIterator.Set(pixel);
-    
+
     ++imageIterator;
   }
 

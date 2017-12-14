@@ -12,7 +12,7 @@ typedef itk::Image<RGBPixelType, 2>  RGBImageType;
 typedef itk::Image<float, 2>  FloatImageType;
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 
-int main( int argc, char *argv[])
+int main( int /*argc*/, char * /*argv*/[])
 {
   FloatImageType::Pointer image = FloatImageType::New();
 
@@ -43,7 +43,7 @@ int main( int argc, char *argv[])
   ColormapType::ChannelType redChannel;
   ColormapType::ChannelType greenChannel;
   ColormapType::ChannelType blueChannel;
-  
+
   redChannel.push_back(static_cast<ColormapType::RealType>(0.231373));
   greenChannel.push_back(static_cast<ColormapType::RealType>(0.298039));
   blueChannel.push_back(static_cast<ColormapType::RealType>(0.752941));
@@ -51,11 +51,11 @@ int main( int argc, char *argv[])
   redChannel.push_back(static_cast<ColormapType::RealType>(1));
   greenChannel.push_back(static_cast<ColormapType::RealType>(1));
   blueChannel.push_back(static_cast<ColormapType::RealType>(1));
-  
+
   redChannel.push_back(static_cast<ColormapType::RealType>(0.705882));
   greenChannel.push_back(static_cast<ColormapType::RealType>(0.0156863));
   blueChannel.push_back(static_cast<ColormapType::RealType>(0.14902));
-  
+
   ColormapType::Pointer colormap = ColormapType::New();
   colormap->SetRedChannel(redChannel);
   colormap->SetGreenChannel(greenChannel);
@@ -65,9 +65,9 @@ int main( int argc, char *argv[])
   typedef itk::ScalarToRGBColormapImageFilter<FloatImageType, RGBImageType> RGBFilterType;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
   rgbfilter->SetInput(image);
-  
+
   rgbfilter->SetColormap(colormap);
-  
+
   // Built-in color map
 //   rgbfilter->SetColormap( RGBFilterType::Hot );
 

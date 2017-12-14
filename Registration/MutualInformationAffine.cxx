@@ -19,7 +19,7 @@ typedef itk::Image< PixelType, Dimension >  ImageType;
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
 
-int main( int argc, char *argv[] )
+int main( int /*argc*/, char * /*argv*/[] )
 {
   // Generate synthetic fixed and moving images
   ImageType::Pointer  fixedImage = ImageType::New();
@@ -41,7 +41,6 @@ int main( int argc, char *argv[] )
   movingWriter->Update();
 
   // We use floats internally
-  typedef   float                                    InternalPixelType;
   typedef itk::Image< float, Dimension> InternalImageType;
 
   // Normalize the images

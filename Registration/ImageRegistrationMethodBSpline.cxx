@@ -25,7 +25,7 @@ typedef itk::Image< PixelType, ImageDimension >  ImageType;
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
 
-int main( int argc, char *argv[] )
+int main( int /*argc*/, char * /*argv*/[] )
 {
 
   const unsigned int SpaceDimension = ImageDimension;
@@ -226,7 +226,7 @@ int main( int argc, char *argv[] )
                         OutputImageType > CastFilterType;
 
   typedef itk::ImageFileWriter< OutputImageType >  OutputWriterType;
-                        
+
   OutputWriterType::Pointer      writer =  OutputWriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
@@ -250,13 +250,13 @@ int main( int argc, char *argv[] )
   QuickView viewer;
   viewer.AddImage(
     fixedImage.GetPointer(),true,
-    "Fixed Image");  
+    "Fixed Image");
   viewer.AddImage(
     movingImage.GetPointer(),true,
-    "Moving Image");  
+    "Moving Image");
   viewer.AddImage(
     resample->GetOutput(),true,
-    "Resampled Moving Image");  
+    "Resampled Moving Image");
 
   viewer.Visualize();
 

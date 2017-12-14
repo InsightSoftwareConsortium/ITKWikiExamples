@@ -11,7 +11,7 @@ typedef itk::Image<unsigned char, 2>  ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int argc, char *argv[])
+int main(int /*argc*/, char * /*argv*/[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
@@ -45,15 +45,15 @@ int main(int argc, char *argv[])
   // Without this, the program crashes
   ImageType::SizeType   size = image->GetLargestPossibleRegion().GetSize();
   resampleFilter->SetSize( size );
-  
+
   resampleFilter->Update();
 
   QuickView viewer;
   viewer.AddImage(image.GetPointer());
   viewer.AddImage(resampleFilter->GetOutput());
   viewer.Visualize();
-  
-  
+
+
   return EXIT_SUCCESS;
 }
 

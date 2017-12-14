@@ -6,7 +6,7 @@ int main(int, char* [] )
 {
   const double height = 100;
   const double width = 100;
-  
+
   typedef itk::VoronoiDiagram2D<double> VoronoiDiagramType;
   typedef itk::VoronoiDiagram2DGenerator<double> VoronoiGeneratorType;
 
@@ -30,32 +30,32 @@ int main(int, char* [] )
   seed0[0] = 50;
   seed0[1] = 50;
   seeds.push_back(seed0);
-  
+
   PointType seed1;
   seed1[0] = 25;
   seed1[1] = 25;
   seeds.push_back(seed1);
-  
+
   PointType seed2;
   seed2[0] = 75;
   seed2[1] = 25;
   seeds.push_back(seed2);
-  
+
   PointType seed3;
   seed3[0] = 25;
   seed3[1] = 75;
   seeds.push_back(seed3);
-  
+
   PointType seed4;
   seed4[0] = 75;
   seed4[1] = 75;
   seeds.push_back(seed4);
-  
+
   for(unsigned int i = 0; i < seeds.size(); ++i)
     {
     voronoiGenerator->AddOneSeed(seeds[i]);
     }
-  
+
   voronoiGenerator->Update();
   voronoiDiagram = voronoiGenerator->GetOutput();
 
@@ -97,10 +97,10 @@ int main(int, char* [] )
 
   // Write the resulting mesh
   typedef itk::VTKPolyDataWriter<VoronoiDiagramType::Superclass> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(voronoiDiagram);
-  writer->SetFileName("voronoi.vtk");
-  writer->Update();
+  WriterType::Pointer polyWriter = WriterType::New();
+  polyWriter->SetInput(voronoiDiagram);
+  polyWriter->SetFileName("voronoi.vtk");
+  polyWriter->Update();
 
   // Setup an image to visualize the input
   {
@@ -135,16 +135,16 @@ int main(int, char* [] )
   ind[0] = 25;
   ind[1] = 75;
   image->SetPixel(ind, 255);
-  
+
   ind[0] = 75;
   ind[1] = 75;
   image->SetPixel(ind, 255);
 
   typedef  itk::ImageFileWriter< ImageType  > ImageWriterType;
-  ImageWriterType::Pointer writer = ImageWriterType::New();
-  writer->SetFileName("image.png");
-  writer->SetInput(image);
-  writer->Update();
+  ImageWriterType::Pointer imageWriter = ImageWriterType::New();
+  imageWriter->SetFileName("image.png");
+  imageWriter->SetInput(image);
+  imageWriter->Update();
   }
 
   return EXIT_SUCCESS;

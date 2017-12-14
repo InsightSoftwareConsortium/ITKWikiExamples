@@ -102,7 +102,7 @@ int main(int, char *[] )
   // translation vector
   initialParameters[4] = 0.0;
   initialParameters[5] = 0.0;
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
   optimizer->SetMaximumStepLength( .1 ); // If this is set too high, you will get a
@@ -134,7 +134,7 @@ int main(int, char *[] )
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
   std::cout << "Final parameters: " << finalParameters << std::endl;
-  
+
   //  The value of the image metric corresponding to the last set of parameters
   //  can be obtained with the \code{GetValue()} method of the optimizer.
 
@@ -183,8 +183,6 @@ int main(int, char *[] )
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
 
-  typedef unsigned char OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
       ImageType,
       ImageType > CastFilterType;

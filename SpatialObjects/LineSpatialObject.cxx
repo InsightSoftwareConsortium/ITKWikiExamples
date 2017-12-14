@@ -3,7 +3,7 @@
 #include "itkLineSpatialObjectPoint.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char *argv[] )
+int main( int /*argc*/, char * /*argv*/ [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
   imageFilter->SetSize(size);
   imageFilter->SetInput(line);
   imageFilter->Update();
-  
+
   typedef itk::ImageFileWriter< ImageType >     WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("line.png");

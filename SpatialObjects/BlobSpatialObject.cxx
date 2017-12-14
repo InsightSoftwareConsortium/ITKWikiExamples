@@ -1,6 +1,6 @@
 #include "itkBlobSpatialObject.h"
 
-int main( int argc, char *argv[] )
+int main( int /*argc*/, char * /*argv*/ [] )
 {
   typedef itk::BlobSpatialObject<2> BlobType;
 
@@ -16,9 +16,9 @@ int main( int argc, char *argv[] )
 
   BlobType::Pointer blob = BlobType::New();
   blob->SetPoints(points);
-  
+
   BlobType::BoundingBoxType::BoundsArrayType bounds = blob->GetBoundingBox()->GetBounds();
   std::cout << "Bounds: " << bounds << std::endl;
-  
+
   return EXIT_SUCCESS;
 }

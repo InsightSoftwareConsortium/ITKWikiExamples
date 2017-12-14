@@ -11,7 +11,7 @@ typedef itk::Image<RGBPixelType, 2>  RGBImageType;
 typedef itk::Image<float, 2>  FloatImageType;
 typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
 
-int main( int argc, char *argv[])
+int main( int /*argc*/, char * /*argv*/[])
 {
   FloatImageType::Pointer image = FloatImageType::New();
 

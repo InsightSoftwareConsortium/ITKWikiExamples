@@ -130,7 +130,6 @@ int main( int argc, char *argv[] )
     }
 
   // Use floats internally
-  typedef   float                       InternalPixelType;
   typedef itk::Image< float, Dimension> InternalImageType;
 
   // Normalize the images
