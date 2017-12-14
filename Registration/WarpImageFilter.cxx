@@ -2,11 +2,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkVector.h"
-#if ITK_VERSION_MAJOR < 4
-#include "itkDeformationFieldSource.h"
-#else
 #include "itkLandmarkDisplacementFieldSource.h"
-#endif
 
 #include "itkWarpImageFilter.h"
 
@@ -32,11 +28,8 @@ int main(int, char *[])
     ImageType::New();
   CreateMovingImage(movingImage);
 
-#if ITK_VERSION_MAJOR < 4
-  typedef itk::DeformationFieldSource<DeformationFieldType>  DeformationFieldSourceType;
-#else
   typedef itk::LandmarkDisplacementFieldSource<DeformationFieldType>  DeformationFieldSourceType;
-#endif
+
   DeformationFieldSourceType::Pointer deformationFieldSource =
     DeformationFieldSourceType::New();
   deformationFieldSource->SetOutputSpacing( fixedImage->GetSpacing() );
@@ -113,11 +106,7 @@ int main(int, char *[])
   warpImageFilter->SetInterpolator( interpolator );
   warpImageFilter->SetOutputSpacing( deformationFieldSource->GetOutput()->GetSpacing() );
   warpImageFilter->SetOutputOrigin(  deformationFieldSource->GetOutput()->GetOrigin() );
-#if ITK_VERSION_MAJOR < 4
-  warpImageFilter->SetDeformationField( deformationFieldSource->GetOutput() );
-#else
   warpImageFilter->SetDisplacementField( deformationFieldSource->GetOutput() );
-#endif
   warpImageFilter->SetInput( movingImage );
   warpImageFilter->Update();
 

@@ -12,8 +12,8 @@ endif()
 file(GLOB ALL_FILES *.cxx)
 
 include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
-set(VERSION_MIN "4.0")
-Requires_Version(TransformFileWriter 4.0 ALL_FILES)
+set(VERSION_MIN "4.7")
+Requires_Version(TransformFileWriter 4.7 ALL_FILES)
 
 foreach(SOURCE_FILE ${ALL_FILES})
   string(REPLACE ".cxx" "" TMP ${SOURCE_FILE})

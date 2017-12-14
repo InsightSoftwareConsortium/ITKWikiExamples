@@ -4,11 +4,7 @@
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkEllipseSpatialObject.h"
 
-#if ITK_VERSION_MAJOR < 4
-#include "itkBSplineDeformableTransform.h"
-#else
 #include "itkBSplineTransform.h"
-#endif
 #include "itkLBFGSOptimizer.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
@@ -32,17 +28,11 @@ int main( int /*argc*/, char * /*argv*/[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-#if ITK_VERSION_MAJOR < 4
-  typedef itk::BSplineDeformableTransform<
-                            CoordinateRepType,
-                            SpaceDimension,
-                            SplineOrder >     TransformType;
-#else
   typedef itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
-#endif
+
   typedef itk::LBFGSOptimizer       OptimizerType;
 
 
@@ -98,43 +88,6 @@ int main( int /*argc*/, char * /*argv*/[] )
   //  the grid size to be $8 \times 8$ and place the grid origin such that
   //  grid node (1,1) coincides with the first pixel in the fixed image.
 
-#if ITK_VERSION_MAJOR < 4
-  typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   gridSizeOnImage;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
-
-  gridSizeOnImage.Fill( 5 );
-  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
-  totalGridSize = gridSizeOnImage + gridBorderSize;
-
-  bsplineRegion.SetSize( totalGridSize );
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing = fixedImage->GetSpacing();
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();
-
-  ImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
-    {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                  static_cast<double>(gridSizeOnImage[r] - 1);
-    }
-
-  ImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffset = gridDirection * spacing;
-
-  OriginType gridOrigin = origin - gridOriginOffset;
-
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( gridOrigin );
-  transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( gridDirection );
-#else
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
   TransformType::MeshSizeType             meshSize;
   for( unsigned int i=0; i < ImageDimension; i++ )
@@ -149,7 +102,6 @@ int main( int /*argc*/, char * /*argv*/[] )
   transform->SetTransformDomainPhysicalDimensions( fixedPhysicalDimensions );
   transform->SetTransformDomainMeshSize( meshSize );
   transform->SetTransformDomainDirection( fixedImage->GetDirection() );
-#endif
 
   typedef TransformType::ParametersType     ParametersType;
 

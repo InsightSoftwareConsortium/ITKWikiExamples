@@ -41,21 +41,12 @@
 
 #include "itkResampleImageFilter.h"
 
-#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
-#include "itkShiftScaleImageFilter.h"
-#endif
-
 #include "itkIdentityTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 
 #include <itksys/SystemTools.hxx>
 
-#if ITK_VERSION_MAJOR >= 4
 #include "gdcmUIDGenerator.h"
-#else
-#include "gdcm/src/gdcmFile.h"
-#include "gdcm/src/gdcmUtil.h"
-#endif
 
 #include <string>
 #include <sstream>
@@ -99,10 +90,6 @@ int main( int argc, char* argv[] )
     InterpolatorType;
   typedef itk::ResampleImageFilter< InputImageType, InputImageType >
     ResampleFilterType;
-#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
-  typedef itk::ShiftScaleImageFilter< InputImageType, InputImageType >
-    ShiftScaleType;
-#endif
   typedef itk::ImageSeriesWriter< InputImageType, OutputImageType >
     SeriesWriterType;
 
@@ -199,15 +186,10 @@ int main( int argc, char* argv[] )
   // To keep the new series in the same study as the original we need
   // to keep the same study UID. But we need new series and frame of
   // reference UID's.
-#if ITK_VERSION_MAJOR >= 4
   gdcm::UIDGenerator suid;
   std::string seriesUID = suid.Generate();
   gdcm::UIDGenerator fuid;
   std::string frameOfReferenceUID = fuid.Generate();
-#else
-  std::string seriesUID = gdcm::Util::CreateUniqueUID( gdcmIO->GetUIDPrefix());
-  std::string frameOfReferenceUID = gdcm::Util::CreateUniqueUID( gdcmIO->GetUIDPrefix());
-#endif
   std::string studyUID;
   std::string sopClassUID;
   itk::ExposeMetaData<std::string>(*inputDict, "0020|000d", studyUID);
@@ -227,12 +209,8 @@ int main( int argc, char* argv[] )
     itk::EncapsulateMetaData<std::string>(*dict,"0020|000e", seriesUID);
     itk::EncapsulateMetaData<std::string>(*dict,"0020|0052", frameOfReferenceUID);
 
-#if ITK_VERSION_MAJOR >= 4
     gdcm::UIDGenerator sopuid;
     std::string sopInstanceUID = sopuid.Generate();
-#else
-    std::string sopInstanceUID = gdcm::Util::CreateUniqueUID( gdcmIO->GetUIDPrefix());
-#endif
     itk::EncapsulateMetaData<std::string>(*dict,"0008|0018", sopInstanceUID);
     itk::EncapsulateMetaData<std::string>(*dict,"0002|0003", sopInstanceUID);
 
@@ -317,29 +295,6 @@ int main( int argc, char* argv[] )
     outputArray.push_back(dict);
     }
 
-#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
-////////////////////////////////////////////////
-// 4) Shift data to undo the effect of a rescale intercept by the
-//    DICOM reader
-  std::string interceptTag("0028|1052");
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
-  itk::MetaDataObjectBase::Pointer entry = (*inputDict)[interceptTag];
-
-  MetaDataStringType::ConstPointer interceptValue =
-    dynamic_cast<const MetaDataStringType *>( entry.GetPointer() ) ;
-
-  int interceptShift = 0;
-  if( interceptValue )
-    {
-    std::string tagValue = interceptValue->GetMetaDataObjectValue();
-    interceptShift = -atoi ( tagValue.c_str() );
-    }
-
-  ShiftScaleType::Pointer shiftScale = ShiftScaleType::New();
-  shiftScale->SetInput( resampler->GetOutput());
-  shiftScale->SetShift( interceptShift );
-#endif
-
 ////////////////////////////////////////////////
 // 5) Write the new DICOM series
 
@@ -355,11 +310,7 @@ int main( int argc, char* argv[] )
   outputNames->SetEndIndex (outputSize[2]);
 
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
-#if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
-  seriesWriter->SetInput( shiftScale->GetOutput() );
-#else
   seriesWriter->SetInput( resampler->GetOutput() );
-#endif
     seriesWriter->SetImageIO( gdcmIO );
     seriesWriter->SetFileNames( outputNames->GetFileNames() );
     seriesWriter->SetMetaDataDictionaryArray( &outputArray );

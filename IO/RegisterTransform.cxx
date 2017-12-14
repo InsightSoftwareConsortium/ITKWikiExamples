@@ -18,12 +18,8 @@ int main(int argc, char *argv[])
   typedef itk::MatrixOffsetTransformBase< double, 3, 3 > MatrixOffsetTransformType;
   itk::TransformFactory<MatrixOffsetTransformType>::RegisterTransform();
 
-#if (ITK_VERSION_MAJOR == 4 && ITK_VERSION_MINOR >= 5) || ITK_VERSION_MAJOR > 4
   itk::TransformFileReaderTemplate<float>::Pointer reader =
     itk::TransformFileReaderTemplate<float>::New();
-#else
-  itk::TransformFileReader::Pointer reader = itk::TransformFileReader::New();
-#endif
   reader->SetFileName(fileName);
   reader->Update();
 

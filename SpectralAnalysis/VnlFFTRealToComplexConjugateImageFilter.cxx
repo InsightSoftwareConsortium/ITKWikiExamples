@@ -1,9 +1,5 @@
 #include "itkImage.h"
-#if ITK_VERSION_MAJOR < 4
-#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
-#else
 #include "itkVnlForwardFFTImageFilter.h"
-#endif
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 #include "itkComplexToModulusImageFilter.h"
@@ -68,7 +64,7 @@ int main(int argc, char*argv[])
     PasteImageFilterType;
   itk::Index<2> destinationIndex;
   destinationIndex.Fill(0);
-  
+
   PasteImageFilterType::Pointer pasteFilter
     = PasteImageFilterType::New ();
   pasteFilter->SetSourceImage(reader->GetOutput());
@@ -76,18 +72,14 @@ int main(int argc, char*argv[])
   pasteFilter->SetSourceRegion(reader->GetOutput()->GetLargestPossibleRegion());
   pasteFilter->SetDestinationIndex(destinationIndex);
   pasteFilter->Update();
-  
+
   image->Graft(pasteFilter->GetOutput());
-  
+
   // Compute the FFT
-#if ITK_VERSION_MAJOR < 4
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType> FFTType;
-#else
   typedef itk::VnlForwardFFTImageFilter<FloatImageType> FFTType;
-#endif
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
-  
+
   // Extract the real part
   typedef itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType> RealFilterType;
   RealFilterType::Pointer realFilter = RealFilterType::New();

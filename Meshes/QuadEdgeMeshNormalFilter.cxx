@@ -3,11 +3,7 @@
 #include "itkVTKPolyDataReader.h"
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
-#if ITK_VERSION_MAJOR >= 4
 #include "itkNormalQuadEdgeMeshFilter.h"
-#else
-#include "itkQuadEdgeMeshNormalFilter.h"
-#endif
 #include <stdlib.h>
 
 int main( int argc, char* argv[] )
@@ -43,11 +39,7 @@ int main( int argc, char* argv[] )
   typedef itk::QuadEdgeMesh < VectorType, Dimension, Traits > OutputMeshType;
 
   typedef itk::VTKPolyDataReader< InputMeshType > ReaderType;
-#if ITK_VERSION_MAJOR >= 4
   typedef itk::NormalQuadEdgeMeshFilter< InputMeshType, OutputMeshType > NormalFilterType;
-#else
-  typedef itk::QuadEdgeMeshNormalFilter< InputMeshType, OutputMeshType > NormalFilterType;
-#endif
   NormalFilterType::WeightType weight_type;
 
   int param = atoi( argv[2] );

@@ -12,11 +12,11 @@ include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
 #
 # Build all .cxx files in the directory
 file(GLOB ALL_FILES *.cxx)
-Requires_Version(HistogramToImageFilterGrayscale 4.0 ALL_FILES)
-Requires_Version(HistogramToImageFilterRGB 4.0 ALL_FILES)
-Requires_Version(HistogramToImageFilterVectorImage 4.0 ALL_FILES)
-Requires_Version(ImageKmeansModelEstimator 4.0 ALL_FILES)
-Requires_Version(NoiseImageFilter 4.0 ALL_FILES)
+Requires_Version(HistogramToImageFilterGrayscale 4.7 ALL_FILES)
+Requires_Version(HistogramToImageFilterRGB 4.7 ALL_FILES)
+Requires_Version(HistogramToImageFilterVectorImage 4.7 ALL_FILES)
+Requires_Version(ImageKmeansModelEstimator 4.7 ALL_FILES)
+Requires_Version(NoiseImageFilter 4.7 ALL_FILES)
 
 foreach(SOURCE_FILE ${ALL_FILES})
   string(REPLACE ".cxx" "" TMP ${SOURCE_FILE})

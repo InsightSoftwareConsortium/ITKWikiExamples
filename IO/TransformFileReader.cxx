@@ -16,12 +16,8 @@ int main(int argc, char *argv[])
   // Register default transforms
   itk::TransformFactoryBase::RegisterDefaultTransforms();
 
-#if (ITK_VERSION_MAJOR == 4 && ITK_VERSION_MINOR >= 5) || ITK_VERSION_MAJOR > 4
   itk::TransformFileReaderTemplate<float>::Pointer reader =
     itk::TransformFileReaderTemplate<float>::New();
-#else
-  itk::TransformFileReader::Pointer writer = itk::TransformFileReader::New();
-#endif
   reader->SetFileName(fileName);
   reader->Update();
 

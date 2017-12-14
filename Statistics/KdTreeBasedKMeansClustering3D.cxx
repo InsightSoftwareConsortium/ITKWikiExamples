@@ -4,16 +4,12 @@
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
-#if ITK_VERSION_MAJOR < 4
-#include "itkMinimumDecisionRule2.h"
-#else
 #include "itkMinimumDecisionRule.h"
-#endif
 #include "itkEuclideanDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkNormalVariateGenerator.h"
- 
+
 #include "vtkVersion.h"
 #include "vtkActor.h"
 #include "vtkInteractorStyleTrackballCamera.h"
@@ -25,18 +21,18 @@
 #include "vtkRenderWindowInteractor.h"
 #include "vtkSmartPointer.h"
 #include "vtkVertexGlyphFilter.h"
- 
+
 int main(int, char *[])
 {
   typedef itk::Vector< double, 3 > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
- 
+
   typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
- 
+
   normalGenerator->Initialize( 101 );
- 
+
   MeasurementVectorType mv;
   double mean = 100;
   double standardDeviation = 30;
@@ -47,7 +43,7 @@ int main(int, char *[])
     mv[2] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
     }
- 
+
   normalGenerator->Initialize( 3024 );
   mean = 200;
   standardDeviation = 30;
@@ -58,19 +54,19 @@ int main(int, char *[])
     mv[2] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
     }
- 
+
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >
     TreeGeneratorType;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
- 
+
   treeGenerator->SetSample( sample );
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
- 
+
   typedef TreeGeneratorType::KdTreeType TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
- 
+
   EstimatorType::ParametersType initialMeans(6);
   initialMeans[0] = 0.0; // Cluster 1, mean[0]
   initialMeans[1] = 0.0; // Cluster 1, mean[1]
@@ -78,58 +74,54 @@ int main(int, char *[])
   initialMeans[3] = 5.0; // Cluster 2, mean[0]
   initialMeans[4] = 5.0; // Cluster 2, mean[1]
   initialMeans[5] = 5.0; // Cluster 2, mean[2]
- 
+
   estimator->SetParameters( initialMeans );
   estimator->SetKdTree( treeGenerator->GetOutput() );
   estimator->SetMaximumIteration( 200 );
   estimator->SetCentroidPositionChangesThreshold(0.0);
   estimator->StartOptimization();
- 
+
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
- 
+
   for ( unsigned int i = 0 ; i < 6 ; i+=2 )
     {
     std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " << estimatedMeans[i] << " , " << estimatedMeans[i+1] << std::endl;
     }
- 
+
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
     MembershipFunctionType;
   typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
- 
-#if ITK_VERSION_MAJOR < 4
-  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
-#else
+
   typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
-#endif
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
- 
+
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
   ClassifierType::Pointer classifier = ClassifierType::New();
- 
+
   classifier->SetDecisionRule(decisionRule);
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
- 
+
   typedef ClassifierType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
   typedef ClassifierType::ClassLabelVectorType                     ClassLabelVectorType;
   typedef ClassifierType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
   typedef ClassifierType::MembershipFunctionVectorType             MembershipFunctionVectorType;
- 
+
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   classifier->SetClassLabels( classLabelsObject );
- 
+
   ClassLabelVectorType &  classLabelsVector = classLabelsObject->Get();
   classLabelsVector.push_back( 100 );
   classLabelsVector.push_back( 200 );
- 
- 
+
+
   MembershipFunctionVectorObjectType::Pointer membershipFunctionsObject =
     MembershipFunctionVectorObjectType::New();
   classifier->SetMembershipFunctions( membershipFunctionsObject );
- 
+
   MembershipFunctionVectorType &  membershipFunctionsVector = membershipFunctionsObject->Get();
- 
+
   MembershipFunctionType::CentroidType origin( sample->GetMeasurementVectorSize() );
   int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ )
@@ -142,12 +134,12 @@ int main(int, char *[])
     membershipFunction->SetCentroid( origin );
     membershipFunctionsVector.push_back( membershipFunction.GetPointer() );
     }
- 
+
   classifier->Update();
- 
+
   const ClassifierType::MembershipSampleType* membershipSample = classifier->GetOutput();
   ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
- 
+
   while ( iter != membershipSample->End() )
     {
     std::cout << "measurement vector = " << iter.GetMeasurementVector()
@@ -155,13 +147,13 @@ int main(int, char *[])
               << std::endl;
     ++iter;
     }
- 
+
   // Visualize
   vtkSmartPointer<vtkPoints> points1 =
     vtkSmartPointer<vtkPoints>::New();
   vtkSmartPointer<vtkPoints> points2 =
     vtkSmartPointer<vtkPoints>::New();
- 
+
   iter = membershipSample->Begin();
   while ( iter != membershipSample->End() )
     {
@@ -181,7 +173,7 @@ int main(int, char *[])
       }
     ++iter;
     }
- 
+
   vtkSmartPointer<vtkPolyData> polyData1 =
     vtkSmartPointer<vtkPolyData>::New();
   polyData1->SetPoints(points1);
@@ -201,7 +193,7 @@ int main(int, char *[])
   actor1->GetProperty()->SetColor(0,1,0);
   actor1->GetProperty()->SetPointSize(3);
   actor1->SetMapper(mapper1);
- 
+
   vtkSmartPointer<vtkPolyData> polyData2 =
     vtkSmartPointer<vtkPolyData>::New();
   polyData2->SetPoints(points2);
@@ -221,27 +213,27 @@ int main(int, char *[])
   actor2->GetProperty()->SetColor(1,0,0);
   actor2->GetProperty()->SetPointSize(3);
   actor2->SetMapper(mapper2);
- 
+
   vtkSmartPointer<vtkRenderWindow> renderWindow =
     vtkSmartPointer<vtkRenderWindow>::New();
   renderWindow->SetSize(300,300);
- 
+
   vtkSmartPointer<vtkRenderer> renderer =
     vtkSmartPointer<vtkRenderer>::New();
   renderWindow->AddRenderer(renderer);
- 
+
   renderer->AddActor(actor1);
   renderer->AddActor(actor2);
   renderer->ResetCamera();
-  
+
   vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();
   vtkSmartPointer<vtkInteractorStyleTrackballCamera> style =
     vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
- 
+
   renderWindowInteractor->SetInteractorStyle(style);
   renderWindowInteractor->SetRenderWindow(renderWindow);
   renderWindowInteractor->Start();
- 
+
   return EXIT_SUCCESS;
 }

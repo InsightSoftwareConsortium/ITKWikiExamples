@@ -18,12 +18,8 @@ int main(int argc, char *argv[])
   typedef itk::Rigid2DTransform< float > TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-#if (ITK_VERSION_MAJOR == 4 && ITK_VERSION_MINOR >= 5) || ITK_VERSION_MAJOR > 4
   itk::TransformFileWriterTemplate<float>::Pointer writer =
     itk::TransformFileWriterTemplate<float>::New();
-#else
-  itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
-#endif
 
   writer->SetInput(transform);
   writer->SetFileName(fileName);

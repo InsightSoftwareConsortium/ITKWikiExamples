@@ -12,9 +12,9 @@ include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
 #
 # Build all .cxx files in the directory
 file(GLOB ALL_FILES *.cxx)
-Requires_Version(CrossCorrelationInFourierDomain 4.0 ALL_FILES)
-Requires_Version(RealAndImaginaryToComplexImageFilter 4.0 ALL_FILES)
-Requires_Version(VnlFFTRealToComplexConjugateImageFilter 4.0 ALL_FILES)
+Requires_Version(CrossCorrelationInFourierDomain 4.7 ALL_FILES)
+Requires_Version(RealAndImaginaryToComplexImageFilter 4.7 ALL_FILES)
+Requires_Version(VnlFFTRealToComplexConjugateImageFilter 4.7 ALL_FILES)
 
 foreach(SOURCE_FILE ${ALL_FILES})
   string(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
@@ -35,13 +35,11 @@ set(NEEDS_ARGS
 set(DATA ${ITKWikiExamples_SOURCE_DIR}/Testing/Data)
 set(TEMP ${ITKWikiExamples_BINARY_DIR}/Testing/Temporary)
 
-if(NOT ITK_VERSION VERSION_LESS "4.0")
 add_test(${KIT}-VnlFFTRealToComplexConjugateImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestVnlFFTRealToComplexConjugateImageFilter ${DATA}/cthead1.png)
 
 add_test(${KIT}-CrossCorrelationInFourierDomain ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestCrossCorrelationInFourierDomain ${DATA}/cthead1.png ${DATA}/cthead1.png)
-endif()
 
 include(${ITKWikiExamples_SOURCE_DIR}/CMake/ExamplesTesting.cmake)
 

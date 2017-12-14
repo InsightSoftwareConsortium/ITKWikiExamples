@@ -13,7 +13,7 @@ include(${ITKWikiExamples_SOURCE_DIR}/CMake/RequiresVersion.cmake)
 # Build all .cxx files in the directory
 file(GLOB ALL_FILES *.cxx)
 
-Requires_Version(DeformationFieldTransform 4.0 ALL_FILES)
+Requires_Version(DeformationFieldTransform 4.7 ALL_FILES)
 
 foreach(SOURCE_FILE ${ALL_FILES})
   string(REPLACE ".cxx" "" TMP ${SOURCE_FILE})
