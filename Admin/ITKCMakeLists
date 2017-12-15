@@ -14,7 +14,11 @@ endif()
 
 add_executable({{{1}}} MACOSX_BUNDLE {{{1}}}.cxx)
 
-target_link_libraries({{{1}}} ${ITK_LIBRARIES})
+if( "${ITK_VERSION_MAJOR}" LESS 4 )
+  target_link_libraries({{{1}}} ITKReview ${ITK_LIBRARIES})
+else( "${ITK_VERSION_MAJOR}" LESS 4 )
+  target_link_libraries({{{1}}} ${ITK_LIBRARIES})
+endif( "${ITK_VERSION_MAJOR}" LESS 4 )
 
 |lang=cmake}}
 
