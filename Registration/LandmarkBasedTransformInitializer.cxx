@@ -11,19 +11,24 @@ typedef   itk::Image< PixelType, Dimension > ImageType;
 
 static void CreateFixedImage(ImageType::Pointer image);
 static void CreateMovingImage(ImageType::Pointer image);
-
-int main(int /*argc*/, char * /*argv*/ [])
+  
+int main(int argc, char * argv[])
 {
+  typedef   float          VectorComponentType;
+
+  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
+  typedef   itk::Image< VectorType,  Dimension >   DeformationFieldType;
+
   ImageType::Pointer fixedImage = ImageType::New();
   CreateFixedImage(fixedImage);
-
+  
   ImageType::Pointer movingImage = ImageType::New();
   CreateMovingImage(movingImage);
 
   typedef itk::Rigid2DTransform< double > Rigid2DTransformType;
-  typedef itk::LandmarkBasedTransformInitializer< Rigid2DTransformType, ImageType, ImageType >
+  typedef itk::LandmarkBasedTransformInitializer< Rigid2DTransformType, ImageType, ImageType > 
       LandmarkBasedTransformInitializerType;
-
+      
   LandmarkBasedTransformInitializerType::Pointer landmarkBasedTransformInitializer =
     LandmarkBasedTransformInitializerType::New();
   //  Create source and target landmarks.
@@ -66,13 +71,13 @@ int main(int /*argc*/, char * /*argv*/ [])
 
   landmarkBasedTransformInitializer->SetFixedLandmarks( fixedLandmarks );
   landmarkBasedTransformInitializer->SetMovingLandmarks( movingLandmarks );
-
+  
   Rigid2DTransformType::Pointer transform = Rigid2DTransformType::New();
-
+  
   transform->SetIdentity();
   landmarkBasedTransformInitializer->SetTransform(transform);
   landmarkBasedTransformInitializer->InitializeTransform();
-
+  
   typedef itk::ResampleImageFilter<ImageType, ImageType, double >    ResampleFilterType;
   ResampleFilterType::Pointer resampleFilter = ResampleFilterType::New();
   resampleFilter->SetInput( movingImage );
@@ -90,7 +95,7 @@ int main(int /*argc*/, char * /*argv*/ [])
   writer->SetInput (  resampleFilter->GetOutput() );
   writer->SetFileName( "output.png" );
   writer->Update();
-
+  
   return EXIT_SUCCESS;
 }
 
@@ -99,20 +104,20 @@ void CreateFixedImage(ImageType::Pointer image)
   // Create a black image with a white square
   ImageType::IndexType start;
   start.Fill(0);
-
+ 
   ImageType::SizeType size;
   size.Fill(100);
-
+ 
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
-
+ 
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
-
+ 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
-
+ 
   while(!imageIterator.IsAtEnd())
     {
     if(imageIterator.GetIndex()[0] > 10 && imageIterator.GetIndex()[0] < 20 &&
@@ -137,20 +142,20 @@ void CreateMovingImage(ImageType::Pointer image)
   // Create a black image with a white square
   ImageType::IndexType start;
   start.Fill(0);
-
+ 
   ImageType::SizeType size;
   size.Fill(100);
-
+ 
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
-
+ 
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
-
+ 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
-
+ 
   while(!imageIterator.IsAtEnd())
     {
     if(imageIterator.GetIndex()[0] > 50 && imageIterator.GetIndex()[0] < 60 &&

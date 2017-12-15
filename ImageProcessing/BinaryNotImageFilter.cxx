@@ -1,5 +1,7 @@
 #include "itkImage.h"
+#if ITK_VERSION_MAJOR >= 4
 #include "itkBinaryNotImageFilter.h"
+#endif
 #include "itkImageRegionIterator.h"
 #include "itkImageFileWriter.h"
 
@@ -8,6 +10,7 @@ static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
+#if ITK_VERSION_MAJOR >= 4
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
@@ -16,7 +19,7 @@ int main(int, char *[])
   writer->SetFileName("input.png");
   writer->SetInput(image);
   writer->Update();
-
+  
   typedef itk::BinaryNotImageFilter <ImageType>
           BinaryNotImageFilterType;
 
@@ -28,6 +31,8 @@ int main(int, char *[])
   writer->SetFileName("output.png");
   writer->SetInput(binaryNotFilter->GetOutput());
   writer->Update();
+#endif
+  
   return EXIT_SUCCESS;
 }
 void CreateImage(ImageType::Pointer image)

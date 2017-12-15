@@ -2,7 +2,11 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkVector.h"
+#if ITK_VERSION_MAJOR < 4
+#include "itkDeformationFieldSource.h"
+#else
 #include "itkLandmarkDisplacementFieldSource.h"
+#endif
 
 #include "itkWarpImageFilter.h"
 
@@ -12,7 +16,7 @@ typedef   itk::Image< PixelType, Dimension > ImageType;
 
 static void CreateFixedImage(ImageType::Pointer image);
 static void CreateMovingImage(ImageType::Pointer image);
-
+  
 int main(int, char *[])
 {
   typedef   float          VectorComponentType;
@@ -23,13 +27,16 @@ int main(int, char *[])
   ImageType::Pointer fixedImage =
     ImageType::New();
   CreateFixedImage(fixedImage);
-
+  
   ImageType::Pointer movingImage =
     ImageType::New();
   CreateMovingImage(movingImage);
-
+  
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::DeformationFieldSource<DeformationFieldType>  DeformationFieldSourceType;
+#else
   typedef itk::LandmarkDisplacementFieldSource<DeformationFieldType>  DeformationFieldSourceType;
-
+#endif
   DeformationFieldSourceType::Pointer deformationFieldSource =
     DeformationFieldSourceType::New();
   deformationFieldSource->SetOutputSpacing( fixedImage->GetSpacing() );
@@ -38,6 +45,7 @@ int main(int, char *[])
   deformationFieldSource->SetOutputDirection( fixedImage->GetDirection() );
 
   //  Create source and target landmarks.
+  typedef DeformationFieldSourceType::LandmarkContainerPointer   LandmarkContainerPointer;
   typedef DeformationFieldSourceType::LandmarkContainer          LandmarkContainerType;
   typedef DeformationFieldSourceType::LandmarkPointType          LandmarkPointType;
 
@@ -90,7 +98,7 @@ int main(int, char *[])
   writer->SetFileName( "deformation.mhd" );
   writer->Update();
   }
-
+  
 
   typedef itk::WarpImageFilter< ImageType,
     ImageType,
@@ -106,7 +114,11 @@ int main(int, char *[])
   warpImageFilter->SetInterpolator( interpolator );
   warpImageFilter->SetOutputSpacing( deformationFieldSource->GetOutput()->GetSpacing() );
   warpImageFilter->SetOutputOrigin(  deformationFieldSource->GetOutput()->GetOrigin() );
+#if ITK_VERSION_MAJOR < 4
+  warpImageFilter->SetDeformationField( deformationFieldSource->GetOutput() );
+#else
   warpImageFilter->SetDisplacementField( deformationFieldSource->GetOutput() );
+#endif
   warpImageFilter->SetInput( movingImage );
   warpImageFilter->Update();
 
@@ -117,7 +129,7 @@ int main(int, char *[])
   writer->SetInput (  warpImageFilter->GetOutput() );
   writer->SetFileName( "output.png" );
   writer->Update();
-
+  
   return EXIT_SUCCESS;
 }
 
@@ -126,20 +138,20 @@ void CreateFixedImage(ImageType::Pointer image)
   // Create a black image with a white square
   ImageType::IndexType start;
   start.Fill(0);
-
+ 
   ImageType::SizeType size;
   size.Fill(100);
-
+ 
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
-
+ 
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
-
+ 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
-
+ 
   while(!imageIterator.IsAtEnd())
     {
     if(imageIterator.GetIndex()[0] > 40 && imageIterator.GetIndex()[0] < 60 &&
@@ -165,20 +177,20 @@ void CreateMovingImage(ImageType::Pointer image)
   // Create a black image with a white square
   ImageType::IndexType start;
   start.Fill(0);
-
+ 
   ImageType::SizeType size;
   size.Fill(100);
-
+ 
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
-
+ 
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
-
+ 
   itk::ImageRegionIterator<ImageType> imageIterator(image,region);
-
+ 
   while(!imageIterator.IsAtEnd())
     {
     if(imageIterator.GetIndex()[0] > 20 && imageIterator.GetIndex()[0] < 80 &&

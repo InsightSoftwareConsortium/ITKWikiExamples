@@ -17,20 +17,21 @@ int main( int argc, char *argv[] )
 
   std::string InputFilename = argv[1];
   std::cout << "Input file: " << InputFilename << std::endl;
-
+  
   //typedef itk::PointSet<double, 3 > PointSetType;
   //PointSetType::Pointer pointsSet = PointSetType::New();
   //typedef PointSetType::PointType PointType;
-
+  
   typedef itk::Mesh<float, 3>                 MeshType;
   typedef itk::VTKPolyDataReader< MeshType >  ReaderType;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 
   typedef ReaderType::PointType   PointType;
+  typedef ReaderType::VectorType  VectorType;
 
   polyDataReader->SetFileName(InputFilename.c_str());
-
+  
   try
     {
     polyDataReader->Update();
@@ -42,7 +43,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   //polyDataReader->Update();
-
+  
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
 
@@ -76,14 +77,14 @@ int main( int argc, char *argv[] )
     mesh->GetPoint(i, &point);
     }
   */
-
+  
   // Retrieve points
   for(unsigned int i = 0; i < numberOfPoints; i++)
     {
     PointType pp;
     bool pointExists = mesh->GetPoint(i, &pp);
 
-    if(pointExists)
+    if(pointExists) 
       {
       std::cout << "Point is = " << pp << std::endl;
       }

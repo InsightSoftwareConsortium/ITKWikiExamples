@@ -2,11 +2,11 @@
 #include "itkImageFileReader.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 
-int main(int /*argc*/, char* /*argv*/[])
+int main(int argc, char*argv[])
 {
   typedef itk::Image<unsigned char, 2>  ImageType;
   ImageType::Pointer image = ImageType::New();
-
+  
   ImageType::SizeType regionSize;
   regionSize[0] = 5;
   regionSize[1] = 4;
@@ -22,17 +22,17 @@ int main(int /*argc*/, char* /*argv*/[])
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(0);
-
+  
   itk::ImageRandomConstIteratorWithIndex<ImageType> imageIterator(image, image->GetLargestPossibleRegion());
   imageIterator.SetNumberOfSamples(200);
   imageIterator.GoToBegin();
-
+  
   while(!imageIterator.IsAtEnd())
     {
     std::cout << imageIterator.GetIndex() << std::endl;
 
     ++imageIterator;
     }
-
+    
   return EXIT_SUCCESS;
 }

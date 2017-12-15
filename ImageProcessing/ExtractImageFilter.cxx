@@ -15,7 +15,7 @@ int main(int, char *[])
   size.Fill(10);
 
   ImageType::RegionType region(start, size);
-
+  
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
   image->Allocate();
@@ -32,13 +32,16 @@ int main(int, char *[])
   ImageType::RegionType desiredRegion(desiredStart, desiredSize);
 
   std::cout << "desiredRegion: " << desiredRegion << std::endl;
-
+  
   typedef itk::ExtractImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetExtractionRegion(desiredRegion);
   filter->SetInput(image);
+#if ITK_VERSION_MAJOR >= 4
   filter->SetDirectionCollapseToIdentity(); // This is required.
-
+#endif
+  filter->Update();
+  
   ImageType::Pointer output = filter->GetOutput();
   output->DisconnectPipeline();
   output->FillBuffer(2);

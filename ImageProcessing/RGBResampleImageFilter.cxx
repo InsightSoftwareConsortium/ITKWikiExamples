@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
   ImageType::SpacingType outputSpacing;
   outputSpacing[0] = input->GetSpacing()[0] * (static_cast<double>(inputSize[0]) / static_cast<double>(outputSize[0]));
   outputSpacing[1] = input->GetSpacing()[1] * (static_cast<double>(inputSize[1]) / static_cast<double>(outputSize[1]));
-
+  
   typedef itk::IdentityTransform<double, 2> TransformType;
   typedef itk::VectorResampleImageFilter<ImageType, ImageType> ResampleImageFilterType;
   ResampleImageFilterType::Pointer resample = ResampleImageFilterType::New();
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
   resample->SetOutputSpacing(outputSpacing);
   resample->SetTransform(TransformType::New());
   resample->UpdateLargestPossibleRegion();
-
+  
   typedef itk::VectorNearestNeighborInterpolateImageFunction<
                        ImageType, double >  NearestInterpolatorType;
   NearestInterpolatorType::Pointer nnInterpolator =
@@ -70,9 +70,9 @@ int main(int argc, char *argv[])
   resampleNN->SetTransform(TransformType::New());
   resampleNN->SetInterpolator(nnInterpolator);
   resampleNN->UpdateLargestPossibleRegion();
-
+  
   ImageType::Pointer output = resample->GetOutput();
-
+  
   std::cout << "Output size: " << output->GetLargestPossibleRegion().GetSize() << std::endl;
 
   QuickView viewer;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 void CreateImage(ImageType::Pointer image)
 {
   // Create a black image with 2 white regions
-
+  
   ImageType::IndexType start;
   start.Fill(0);
 
@@ -106,8 +106,8 @@ void CreateImage(ImageType::Pointer image)
   ImageType::RegionType region(start,size);
   image->SetRegions(region);
   image->Allocate();
-  image->FillBuffer( itk::NumericTraits< ImageType::PixelType >::ZeroValue() );
-
+  image->FillBuffer( itk::NumericTraits< ImageType::PixelType >::Zero);
+  
   ImageType::PixelType pixel;
   pixel.SetRed(200);
   pixel.SetGreen(50);

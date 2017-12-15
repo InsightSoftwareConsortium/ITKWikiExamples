@@ -28,7 +28,7 @@ int main(int argc, char * argv[])
 
   ImageType::Pointer kernel = ImageType::New();
   CreateKernel(kernel, width);
-
+  
   typedef itk::ImageFileReader<ImageType>        ReaderType;
   typedef itk::ConvolutionImageFilter<ImageType> FilterType;
 
@@ -39,12 +39,15 @@ int main(int argc, char * argv[])
   // Convolve image with kernel.
   FilterType::Pointer convolutionFilter = FilterType::New();
   convolutionFilter->SetInput(reader->GetOutput());
+#if ITK_VERSION_MAJOR >= 4
   convolutionFilter->SetKernelImage(kernel);
-
+#else
+  convolutionFilter->SetImageKernelInput(kernel);
+#endif
   QuickView viewer;
   viewer.AddImage<ImageType>(
     reader->GetOutput(),true,
-    itksys::SystemTools::GetFilenameName(argv[1]));
+    itksys::SystemTools::GetFilenameName(argv[1]));  
 
   std::stringstream desc;
   desc << "ConvolutionFilter\n"
@@ -72,7 +75,7 @@ void CreateKernel(ImageType::Pointer kernel, unsigned int width)
 
   kernel->SetRegions(region);
   kernel->Allocate();
-
+  
   itk::ImageRegionIterator<ImageType> imageIterator(kernel, region);
 
    while(!imageIterator.IsAtEnd())

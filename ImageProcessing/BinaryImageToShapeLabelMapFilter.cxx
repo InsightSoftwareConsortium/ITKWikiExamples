@@ -24,7 +24,11 @@ int main(int, char *[])
     {
     BinaryImageToShapeLabelMapFilterType::OutputImageType::LabelObjectType* labelObject = binaryImageToShapeLabelMapFilter->GetOutput()->GetNthLabelObject(i);
     // Output the bounding box (an example of one possible property) of the ith region
+#if ITK_VERSION_MAJOR >= 4
     std::cout << "Object " << i << " has bounding box " << labelObject->GetBoundingBox() << std::endl;
+#else
+    std::cout << "Object " << i << " has region " << labelObject->GetRegion() << std::endl;
+#endif
     }
 
   return EXIT_SUCCESS;

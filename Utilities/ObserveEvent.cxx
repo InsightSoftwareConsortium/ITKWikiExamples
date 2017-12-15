@@ -13,12 +13,12 @@ class MyCommand : public itk::Command
 
   public:
 
-    void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+    void Execute(itk::Object *caller, const itk::EventObject & event)
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-    void Execute(const itk::Object * /*object*/, const itk::EventObject & /*event*/) ITK_OVERRIDE
+    void Execute(const itk::Object * object, const itk::EventObject & event)
     {
       std::cout << "Command called." << std::endl;
     }

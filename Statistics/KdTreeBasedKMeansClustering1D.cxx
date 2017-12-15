@@ -4,7 +4,11 @@
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
+#if ITK_VERSION_MAJOR < 4
+#include "itkMinimumDecisionRule2.h"
+#else
 #include "itkMinimumDecisionRule.h"
+#endif
 #include "itkEuclideanDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSampleClassifierFilter.h"
@@ -85,8 +89,12 @@ int main(int, char *[])
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
     MembershipFunctionType;
   typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
-
+  
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+#else
   typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+#endif
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
@@ -108,13 +116,13 @@ int main(int, char *[])
   classLabelsVector.push_back( 100 );
   classLabelsVector.push_back( 200 );
 
-
+  
   MembershipFunctionVectorObjectType::Pointer membershipFunctionsObject =
     MembershipFunctionVectorObjectType::New();
   classifier->SetMembershipFunctions( membershipFunctionsObject );
 
   MembershipFunctionVectorType &  membershipFunctionsVector = membershipFunctionsObject->Get();
-
+  
   MembershipFunctionType::CentroidType origin( sample->GetMeasurementVectorSize() );
   int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ )
@@ -127,7 +135,7 @@ int main(int, char *[])
     membershipFunction->SetCentroid( origin );
     membershipFunctionsVector.push_back( membershipFunction.GetPointer() );
     }
-
+    
   classifier->Update();
 
   const ClassifierType::MembershipSampleType* membershipSample = classifier->GetOutput();
@@ -180,7 +188,7 @@ int main(int, char *[])
   actor1->GetProperty()->SetColor(0,1,0);
   actor1->GetProperty()->SetPointSize(3);
   actor1->SetMapper(mapper1);
-
+  
   vtkSmartPointer<vtkPolyData> polyData2 =
     vtkSmartPointer<vtkPolyData>::New();
   polyData2->SetPoints(points2);

@@ -7,17 +7,17 @@ typedef itk::Image<unsigned char, 2>  ImageType;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int /*argc*/, char* /*argv*/[])
+int main(int argc, char*argv[])
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
-
+  
   typedef itk::StatisticsImageFilter<ImageType> StatisticsImageFilterType;
   StatisticsImageFilterType::Pointer statisticsImageFilter
           = StatisticsImageFilterType::New ();
   statisticsImageFilter->SetInput(image);
   statisticsImageFilter->Update();
-
+  
   std::cout << "Mean: " << statisticsImageFilter->GetMean() << std::endl;
   std::cout << "Std.: " << statisticsImageFilter->GetSigma() << std::endl;
   std::cout << "Min: " << statisticsImageFilter->GetMinimum() << std::endl;

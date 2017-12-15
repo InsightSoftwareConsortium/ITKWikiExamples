@@ -19,7 +19,7 @@ typedef itk::Image< PixelType, Dimension >  ImageType;
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
 
-int main( int /*argc*/, char * /*argv*/[] )
+int main( int argc, char *argv[] )
 {
   // Generate synthetic fixed and moving images
   ImageType::Pointer  fixedImage = ImageType::New();
@@ -41,6 +41,7 @@ int main( int /*argc*/, char * /*argv*/[] )
   movingWriter->Update();
 
   // We use floats internally
+  typedef   float                                    InternalPixelType;
   typedef itk::Image< float, 2> InternalImageType;
 
   // Normalize the images
@@ -145,7 +146,7 @@ int main( int /*argc*/, char * /*argv*/[] )
   //  of the Metric if the noise in their values results in more iterations
   //  being required by the optimizer to converge. You must then study the
   //  behavior of the metric values as the iterations progress.
-
+  
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
 
   const unsigned int numberOfSamples =

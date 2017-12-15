@@ -24,24 +24,24 @@ int main(int, char *[] )
 {
   //  The transform that will map the fixed image into the moving image.
   typedef itk::TranslationTransform< double, Dimension > TransformType;
-
+  
   //  An optimizer is required to explore the parameter space of the transform
   //  in search of optimal values of the metric.
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-
+  
   //  The metric will compare how well the two images match each other. Metric
   //  types are usually parameterized by the image types as it can be seen in
   //  the following type declaration.
-  typedef itk::MeanSquaresImageToImageMetric<
+  typedef itk::MeanSquaresImageToImageMetric< 
       ImageType,
       ImageType >    MetricType;
-
+  
   //  Finally, the type of the interpolator is declared. The interpolator will
   //  evaluate the intensities of the moving image at non-grid positions.
   typedef itk:: LinearInterpolateImageFunction<
       ImageType,
       double          >    InterpolatorType;
-
+  
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
   //  all the components that we have described so far.
@@ -71,7 +71,7 @@ int main(int, char *[] )
 
   // Write the two synthetic inputs
   typedef itk::ImageFileWriter< ImageType >  WriterType;
-
+  
   WriterType::Pointer      fixedWriter =  WriterType::New();
   fixedWriter->SetFileName("fixed.png");
   fixedWriter->SetInput( fixedImage);
@@ -81,11 +81,11 @@ int main(int, char *[] )
   movingWriter->SetFileName("moving.png");
   movingWriter->SetInput( movingImage);
   movingWriter->Update();
-
+  
   // Set the registration inputs
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImage);
-
+  
   registration->SetFixedImageRegion(
     fixedImage->GetLargestPossibleRegion() );
 
@@ -122,13 +122,13 @@ int main(int, char *[] )
   //  The result of the registration process is an array of parameters that
   //  defines the spatial transformation in an unique way. This final result is
   //  obtained using the \code{GetLastTransformParameters()} method.
-
+              
   ParametersType finalParameters = registration->GetLastTransformParameters();
 
   //  In the case of the \doxygen{TranslationTransform}, there is a
   //  straightforward interpretation of the parameters.  Each element of the
   //  array corresponds to a translation along one spatial dimension.
-
+              
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];
 
@@ -137,12 +137,12 @@ int main(int, char *[] )
   //  method returns this value. A large number of iterations may be an
   //  indication that the maximum step length has been set too small, which
   //  is undesirable since it results in long computational times.
-
+              
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
   //  The value of the image metric corresponding to the last set of parameters
   //  can be obtained with the \code{GetValue()} method of the optimizer.
-
+              
   const double bestValue = optimizer->GetValue();
 
   // Print out results
@@ -161,7 +161,7 @@ int main(int, char *[] )
   //  using the image types. It is convenient to use the fixed image type as
   //  the output type since it is likely that the transformed moving image
   //  will be compared with the fixed image.
-
+              
   typedef itk::ResampleImageFilter<
       ImageType,
       ImageType >    ResampleFilterType;
@@ -170,7 +170,7 @@ int main(int, char *[] )
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetInput( movingImage);
-
+  
   //  The Transform that is produced as output of the Registration method is
   //  also passed as input to the resampling filter. Note the use of the
   //  methods \code{GetOutput()} and \code{Get()}. This combination is needed
@@ -185,23 +185,25 @@ int main(int, char *[] )
   //  ResampleImageFilter requires additional parameters to be specified, in
   //  particular, the spacing, origin and size of the output image. The default
   //  pixel value is also set to a distinct gray level in order to highlight
-  //  the regions that are mapped outside of the moving image.
+  //  the regions that are mapped outside of the moving image.  
 
   resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
-
+  
   //  The output of the filter is passed to a writer that will store the
   //  image in a file. An \doxygen{CastImageFilter} is used to convert the
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
-
+                  
+  typedef unsigned char OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
       ImageType,
       ImageType > CastFilterType;
-
+  
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
   writer->SetFileName("output.png");
@@ -214,8 +216,8 @@ int main(int, char *[] )
   //  The fixed image and the transformed moving image can easily be compared
   //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
   //  the difference between homologous pixels of its two input images.
-
-
+                      
+                      
   typedef itk::SubtractImageFilter<
       FixedImageType,
       FixedImageType,
@@ -226,7 +228,7 @@ int main(int, char *[] )
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resampler->GetOutput() );
   */
-
+  
 
   return EXIT_SUCCESS;
 }

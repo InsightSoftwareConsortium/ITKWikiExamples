@@ -1,3 +1,11 @@
+#if ( ITK_VERSION_MAJOR < 4  )//This only works with ITKv4
+int main(int argc, char *argv[])
+{
+  return 0;
+}
+
+#else
+
 #include "itkBresenhamLine.h"
 #include "itkVector.h"
 #include "itkOffset.h"
@@ -8,7 +16,7 @@
 static void Vector(void);
 static void Line(void);
 
-int main(int /*argc*/, char * /*argv*/[])
+int main(int argc, char *argv[])
 {
   Vector();
   Line();
@@ -53,3 +61,4 @@ void Line(void)
     }
 
 }
+#endif

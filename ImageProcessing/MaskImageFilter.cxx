@@ -1,5 +1,12 @@
 #include "itkConfigure.h"
 
+#if ( ITK_VERSION_MAJOR < 4  ) //These are all defaults in ITKv4
+//  Not supported in ITKv3.
+int main(int argc, char *argv[])
+{
+  return 0;
+}
+#else
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkMaskImageFilter.h"
@@ -25,7 +32,7 @@ int main(int argc, char *argv[])
 
   ImageType::Pointer mask = ImageType::New();
   CreateHalfMask(reader->GetOutput(), mask);
-
+  
   typedef itk::MaskImageFilter< ImageType, ImageType > MaskFilterType;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
   maskFilter->SetInput(reader->GetOutput());
@@ -34,21 +41,21 @@ int main(int argc, char *argv[])
   QuickView viewer;
   viewer.AddImage(
     reader->GetOutput(),true,
-    itksys::SystemTools::GetFilenameName(argv[1]));
+    itksys::SystemTools::GetFilenameName(argv[1]));  
 
   std::stringstream desc;
   desc << "Mask";
   viewer.AddImage(
     mask.GetPointer(),
     true,
-    desc.str());
+    desc.str());  
 
   std::stringstream desc2;
   desc2 << "MaskFilter";
   viewer.AddImage(
     maskFilter->GetOutput(),
     true,
-    desc2.str());
+    desc2.str());  
 
   viewer.Visualize();
 
@@ -59,7 +66,7 @@ int main(int argc, char *argv[])
 void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
 {
   ImageType::RegionType region = image->GetLargestPossibleRegion();
-
+  
   mask->SetRegions(region);
   mask->Allocate();
 
@@ -83,3 +90,4 @@ void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask)
   }
 
 }
+#endif

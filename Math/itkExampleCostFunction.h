@@ -27,27 +27,27 @@ public:
   // The equation we're fitting is y=C*e^(K*x)
   // The free parameters which we're trying to fit are C and K
   // Therefore, there are two parameters
-  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 2; }
-
+  unsigned int GetNumberOfParameters() const { return 2; }
+  
   // We will take a curve with concrete values for C and K,
   // which has been corrupted by Gaussian noise, and sample
   // it at 100 points on the interval [0,1].  Each of these
   // points will produce a residual with the expected value.
   // Therefore, there are 100 values (aka residuals).
-  unsigned int GetNumberOfValues() const ITK_OVERRIDE { return 100; }
+  unsigned int GetNumberOfValues() const { return 100; }
 
   // Calculate the residual array, given a set of parameters.
   // We take parameters[0] to be C and parameters[1] to be K.
   // Therefore, this is a matter of calculating the value of y
   // at each of the sampled points, given the provided guesses
   // for C and K, and returning the difference from the data.
-  MeasureType GetValue(const ParametersType &parameters) const ITK_OVERRIDE
+  MeasureType GetValue(const ParametersType &parameters) const
     {
     MeasureType residual(this->GetNumberOfValues());
     double predictedC = parameters[0];
     double predictedK = parameters[1];
     for (unsigned int i = 0; i < 100; ++i)
-      {
+      {      
       double position = double(i)/100;
       double prediction = predictedC*exp(position*predictedK);
       residual[i] = prediction - y[i];
@@ -60,7 +60,7 @@ public:
   // class does not provide a derivative, any optimizer using this
   // cost function must be told explicitly not to ask for derivative,
   // otherwise an exception will the thrown.
-  void GetDerivative(const ParametersType & /*parameters*/, DerivativeType & /*derivative*/ ) const ITK_OVERRIDE
+  void GetDerivative(const ParametersType &parameters, DerivativeType & derivative ) const
     {
     throw ExceptionObject(__FILE__,__LINE__,"No derivative available.");
     }

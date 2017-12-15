@@ -26,6 +26,8 @@ int main(int, char *[])
   treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
+  typedef TreeType::NearestNeighbors NeighborsType;
+  typedef TreeType::KdTreeNodeType NodeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
@@ -43,7 +45,7 @@ int main(int, char *[])
     {
     std::cout << tree->GetMeasurementVector( neighbors[i] ) << std::endl;
     }
-
+    
   // Radius search
   std::cout << "Radius search:" << std::endl;
   double radius = 4.0;

@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
   viewer.AddRGBImage(
     image.GetPointer(),
     true,
-    desc.str());
+    desc.str());  
 
   std::stringstream desc2;
   desc2 << "CropImageFilter, crop size = {"
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
   viewer.AddRGBImage(
     cropFilter->GetOutput(),
     true,
-    desc2.str());
+    desc2.str());  
 
   viewer.Visualize();
 
@@ -96,7 +96,7 @@ void CreateImage(ImageType::Pointer image)
 
   image->SetRegions(region);
   image->Allocate();
-  image->FillBuffer( itk::NumericTraits<ImageType::PixelType>::ZeroValue());
+  image->FillBuffer( itk::NumericTraits<ImageType::PixelType>::Zero);
 
   // Make a rectangle, centered at (100,150) with sides 160 & 240
   // This provides a 20 x 30 border around the square for the crop filter to remove
@@ -107,7 +107,7 @@ void CreateImage(ImageType::Pointer image)
       ImageType::IndexType pixelIndex;
       pixelIndex[0] = r;
       pixelIndex[1] = c;
-
+      
       image->SetPixel(pixelIndex, 200);
       }
     }

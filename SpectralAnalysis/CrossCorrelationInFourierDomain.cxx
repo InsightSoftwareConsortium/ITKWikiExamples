@@ -2,8 +2,13 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#if ITK_VERSION_MAJOR < 4
+#include "itkVnlFFTRealToComplexConjugateImageFilter.h"
+#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+#else
 #include "itkVnlForwardFFTImageFilter.h"
 #include "itkVnlInverseFFTImageFilter.h"
+#endif
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 #include "itkMultiplyImageFilter.h"
@@ -11,7 +16,12 @@
 #include "itkFFTShiftImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
+#if ITK_VERSION_MAJOR < 4
+#include "itkMultiplyByConstantImageFilter.h"
+#include "itkRealAndImaginaryToComplexImageFilter.h"
+#else
 #include "itkComposeImageFilter.h"
+#endif
 
 int main(int argc, char*argv[])
 {
@@ -35,7 +45,7 @@ int main(int argc, char*argv[])
   ImageReaderType::Pointer  fixedImageReader  = ImageReaderType::New();
   fixedImageReader->SetFileName( fixedImageFilename );
   fixedImageReader->Update();
-
+  
   ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName( movingImageFilename );
   movingImageReader->Update();
@@ -49,16 +59,20 @@ int main(int argc, char*argv[])
   FFTShiftFilterType::Pointer movingFFTShiftFilter = FFTShiftFilterType::New();
   movingFFTShiftFilter->SetInput(movingImageReader->GetOutput());
   movingFFTShiftFilter->Update();
-
+  
   // Compute the FFT of the input
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter< FloatImageType >  FFTFilterType;
+#else
   typedef itk::VnlForwardFFTImageFilter< FloatImageType >  FFTFilterType;
+#endif
   FFTFilterType::Pointer fixedFFTFilter = FFTFilterType::New();
   fixedFFTFilter->SetInput( fixedFFTShiftFilter->GetOutput() );
   fixedFFTFilter->Update();
-
+  
   FFTFilterType::Pointer movingFFTFilter = FFTFilterType::New();
   movingFFTFilter->SetInput( movingFFTShiftFilter->GetOutput() );
-
+  
   typedef FFTFilterType::OutputImageType    SpectralImageType;
 
   // Take the conjugate of the fftFilterMoving
@@ -73,12 +87,24 @@ int main(int argc, char*argv[])
   imaginaryFilter->SetInput(movingFFTFilter->GetOutput());
 
   // Flip the sign of the imaginary and combine with the real part again
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::MultiplyByConstantImageFilter<FloatImageType,PixelType,FloatImageType> MultiplyConstantFilterType;
+#else
   typedef itk::MultiplyImageFilter<FloatImageType,FloatImageType,FloatImageType> MultiplyConstantFilterType;
+#endif
 
   MultiplyConstantFilterType::Pointer flipSignFilter = MultiplyConstantFilterType::New();
+#if ITK_VERSION_MAJOR < 4
+  flipSignFilter->SetConstant(-1);
+#else
   flipSignFilter->SetConstant2(-1);
+#endif
   flipSignFilter->SetInput(imaginaryFilter->GetOutput());
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::RealAndImaginaryToComplexImageFilter<FloatImageType> RealImageToComplexFilterType;
+#else
   typedef itk::ComposeImageFilter<FloatImageType, SpectralImageType> RealImageToComplexFilterType;
+#endif
   RealImageToComplexFilterType::Pointer conjugateFilter = RealImageToComplexFilterType::New();
   conjugateFilter->SetInput1(realFilter->GetOutput());
   conjugateFilter->SetInput2(flipSignFilter->GetOutput());
@@ -92,7 +118,11 @@ int main(int argc, char*argv[])
   multiplyFilter->SetInput2( conjugateFilter->GetOutput() );
 
   // IFFT
+#if ITK_VERSION_MAJOR < 4
+  typedef itk::VnlFFTComplexConjugateToRealImageFilter< SpectralImageType >  IFFTFilterType;
+#else
   typedef itk::VnlInverseFFTImageFilter< SpectralImageType >  IFFTFilterType;
+#endif
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
   fftInverseFilter->SetInput( multiplyFilter->GetOutput() );
 
@@ -103,7 +133,7 @@ int main(int argc, char*argv[])
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
   rescaler->Update();
-
+    
   typedef itk::ImageFileWriter< UnsignedCharImageType >  WriterType;
   WriterType::Pointer writer =  WriterType::New();
   writer->SetFileName( "CrossCorr.png" );
@@ -117,10 +147,10 @@ int main(int argc, char*argv[])
     = ImageCalculatorFilterType::New ();
   imageCalculatorFilter->SetImage(rescaler->GetOutput());
   imageCalculatorFilter->Compute();
-
+  
   UnsignedCharImageType::IndexType maximumLocation = imageCalculatorFilter->GetIndexOfMaximum();
   std::cout << maximumLocation << std::endl; // should be (17,15)
-
+  
   /*
   if ypeak < size(I,1)/2 ypeak = -(ypeak-1);
   else ypeak = size(I,1) - (ypeak-1);
@@ -129,6 +159,6 @@ int main(int argc, char*argv[])
   else xpeak = size(I,2) - (xpeak-1);
   end
   */
-
+  
   return EXIT_SUCCESS;
 }
