@@ -21,14 +21,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExampleCostFunction2, SingleValuedCostfunction);
 
-  unsigned int GetNumberOfParameters(void) const { return 2; } // itk::CostFunction
+  unsigned int GetNumberOfParameters(void) const override { return 2; } // itk::CostFunction
 
-  MeasureType GetValue(const ParametersType & parameters) const {
+  MeasureType GetValue(const ParametersType & parameters) const override {
     return pow(parameters[0]+5, 2)+pow(parameters[1]-7, 2)+5;
   }
 
   void GetDerivative(const ParametersType &,
-                     DerivativeType & derivative ) const {
+                     DerivativeType & ) const override {
     throw itk::ExceptionObject( __FILE__, __LINE__, "No derivative is available for this cost function.");
   }
 
