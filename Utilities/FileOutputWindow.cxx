@@ -20,11 +20,7 @@ int main(int argc, char* argv[])
   // Warning
   typedef itk::ScaleTransform<float,2> TransformType;
   TransformType::Pointer transform = TransformType::New();
-#if defined(ITK_FIXED_PARAMETERS_ARE_DOUBLE) || defined(ITK_LEGACY_REMOVE) // After 4.8.1
   TransformType::FixedParametersType parameters(3);
-#else                                         //Pre 4.8.1
-  TransformType::ParametersType parameters(3);
-#endif
   transform->SetFixedParameters(parameters);
 
   std::cout << "Look in " << window->GetFileName() << " for the output" << std::endl;
