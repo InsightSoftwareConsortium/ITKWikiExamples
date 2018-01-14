@@ -13,7 +13,7 @@ typedef itk::RegularSphereMeshSource< TQEMesh > TSphere;
 typedef itk::LoopTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TQEMesh > TLoop;
 typedef itk::IterativeTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TLoop > TSubdivision;
 
-int main(int argc, char * argv[] )
+int main(int , char * [] )
 {
 
   // Specify the number of times the loop subdivision should be applied
