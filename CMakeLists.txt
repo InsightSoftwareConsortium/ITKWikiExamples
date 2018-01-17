@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.9.5 FATAL_ERROR)
  
 project(ITKWikiExamples)
 if (Fetch_WikiExamples OR Module_WikiExamples)
