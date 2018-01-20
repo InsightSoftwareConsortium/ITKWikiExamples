@@ -9,7 +9,7 @@ set(CTEST_BUILD_CONFIGURATION "Debug")
 set(CTEST_BUILD_CONFIGURATION "RelWithDebinfo")
 
 
-cmake_minimum_required(VERSION 2.8.1)
+cmake_minimum_required(VERSION 3.9.5)
 
 set(CTEST_SOURCE_DIRECTORY "@WikiExamples_SOURCE_DIR@")
 set(CTEST_BINARY_DIRECTORY "@WikiExamples_BINARY_DIR@")
