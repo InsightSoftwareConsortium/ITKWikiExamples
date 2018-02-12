@@ -217,7 +217,7 @@ int main( int argc, char* argv[] )
   for (unsigned int f = 0; f < outputSize[2]; f++)
     {
     // Create a new dictionary for this slice
-    ReaderType::DictionaryRawPointer dict = new ReaderType::DictionaryType;
+    auto dict = new ReaderType::DictionaryType;
 
     // Copy the dictionary from the first slice
     CopyDictionary (*inputDict, *dict);

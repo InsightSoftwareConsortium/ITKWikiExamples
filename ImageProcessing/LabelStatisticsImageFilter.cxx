@@ -32,10 +32,9 @@ int main(int, char *[])
   std::cout << "Number of labels: " << labelStatisticsImageFilter->GetNumberOfLabels() << std::endl;
   std::cout << std::endl;
   
-  typedef LabelStatisticsImageFilterType::ValidLabelValuesContainerType ValidLabelValuesType;
   typedef LabelStatisticsImageFilterType::LabelPixelType                LabelPixelType;
 
-  for(ValidLabelValuesType::const_iterator vIt=labelStatisticsImageFilter->GetValidLabelValues().begin();
+  for(auto vIt=labelStatisticsImageFilter->GetValidLabelValues().begin();
       vIt != labelStatisticsImageFilter->GetValidLabelValues().end();
       ++vIt)
     {

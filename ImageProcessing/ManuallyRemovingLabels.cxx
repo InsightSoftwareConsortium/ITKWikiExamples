@@ -40,9 +40,9 @@ int main(int, char *[])
     
   std::cout << "Removing " << labelsToRemove.size() << " objects." << std::endl;
   // Remove all regions that were marked for removal.
-  for(unsigned int i = 0; i < labelsToRemove.size(); ++i)
+  for(unsigned long i : labelsToRemove)
     {
-    binaryImageToLabelMapFilter->GetOutput()->RemoveLabel(labelsToRemove[i]);
+    binaryImageToLabelMapFilter->GetOutput()->RemoveLabel(i);
     }
 
   std::cout << "There are " << binaryImageToLabelMapFilter->GetOutput()->GetNumberOfLabelObjects() 

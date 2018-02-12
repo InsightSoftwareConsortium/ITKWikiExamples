@@ -183,8 +183,6 @@ int main(int, char *[] )
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
 
-  typedef unsigned char OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
       ImageType,
       ImageType > CastFilterType;

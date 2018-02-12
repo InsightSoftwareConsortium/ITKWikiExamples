@@ -42,7 +42,7 @@ int main(int, char * [])
   importFilter->SetSpacing( spacing );
 
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
-  PixelType * localBuffer = new PixelType[ numberOfPixels ];
+  auto * localBuffer = new PixelType[ numberOfPixels ];
 
   const double radius = 80.0;
 

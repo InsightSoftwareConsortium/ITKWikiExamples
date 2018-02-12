@@ -80,7 +80,7 @@ void CreateMeshWithEdges()
   while( cellIterator != CellsEnd ) 
     {
     MeshType::CellType * cellptr = cellIterator.Value();
-    LineType * line = dynamic_cast<LineType *>( cellptr );
+    auto * line = dynamic_cast<LineType *>( cellptr );
 
     itk::IdentifierType* linePoint0 = line->PointIdsBegin();
     //itk::IdentifierType* linePoint1 = line->PointIdsEnd();

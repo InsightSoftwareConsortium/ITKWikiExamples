@@ -15,7 +15,6 @@ int main( int argc, char* argv[] )
   // Store points
   typedef itk::PointSet<double, 3 > PointSetType;
   PointSetType::Pointer pointsSet = PointSetType::New();
-  typedef PointSetType::PointType PointType;
   
       
   return EXIT_SUCCESS;

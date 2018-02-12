@@ -51,9 +51,9 @@ int main(int, char* [] )
   seed4[1] = 75;
   seeds.push_back(seed4);
   
-  for(unsigned int i = 0; i < seeds.size(); ++i)
+  for(const auto & seed : seeds)
     {
-    voronoiGenerator->AddOneSeed(seeds[i]);
+    voronoiGenerator->AddOneSeed(seed);
     }
   
   voronoiGenerator->Update();

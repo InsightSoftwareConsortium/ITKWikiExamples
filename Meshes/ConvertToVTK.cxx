@@ -179,7 +179,7 @@ void ConvertMeshToUnstructuredGrid(MeshType::Pointer mesh, vtkUnstructuredGrid* 
   // Setup some VTK things
   int vtkCellCount = 0; // running counter for current cell being inserted into vtk
   int numCells = mesh->GetNumberOfCells();
-  int *types = new int[numCells]; // type array for vtk
+  auto *types = new int[numCells]; // type array for vtk
   // create vtk cells and estimate the size
   vtkCellArray* cells = vtkCellArray::New();
   cells->EstimateSize(numCells, 4);

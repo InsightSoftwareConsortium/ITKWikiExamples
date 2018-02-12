@@ -28,7 +28,6 @@ int main( int argc, char *argv[] )
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 
   typedef ReaderType::PointType   PointType;
-  typedef ReaderType::VectorType  VectorType;
 
   polyDataReader->SetFileName(InputFilename.c_str());
   

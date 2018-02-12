@@ -41,7 +41,6 @@ int main( int argc, char *argv[] )
   movingWriter->Update();
 
   // We use floats internally
-  typedef   float                                    InternalPixelType;
   typedef itk::Image< float, 2> InternalImageType;
 
   // Normalize the images
@@ -149,8 +148,7 @@ int main( int argc, char *argv[] )
   
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
 
-  const unsigned int numberOfSamples =
-                        static_cast< unsigned int >( numberOfPixels * 0.01 );
+  const auto numberOfSamples = static_cast< unsigned int >( numberOfPixels * 0.01 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
 
