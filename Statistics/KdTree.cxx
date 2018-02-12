@@ -26,8 +26,6 @@ int main(int, char *[])
   treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::NearestNeighbors NeighborsType;
-  typedef TreeType::KdTreeNodeType NodeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
@@ -41,9 +39,9 @@ int main(int, char *[])
   TreeType::InstanceIdentifierVectorType neighbors;
   tree->Search( queryPoint, numberOfNeighbors, neighbors ) ;
 
-  for ( unsigned int i = 0 ; i < neighbors.size() ; ++i )
+  for (unsigned long neighbor : neighbors)
     {
-    std::cout << tree->GetMeasurementVector( neighbors[i] ) << std::endl;
+    std::cout << tree->GetMeasurementVector( neighbor ) << std::endl;
     }
     
   // Radius search
@@ -51,9 +49,9 @@ int main(int, char *[])
   double radius = 4.0;
   tree->Search( queryPoint, radius, neighbors ) ;
   std::cout << "There are " << neighbors.size() << " neighbors." << std::endl;
-  for ( unsigned int i = 0 ; i < neighbors.size() ; ++i )
+  for (unsigned long neighbor : neighbors)
     {
-    std::cout << tree->GetMeasurementVector( neighbors[i] ) << std::endl;
+    std::cout << tree->GetMeasurementVector( neighbor ) << std::endl;
     }
 
   return EXIT_SUCCESS;

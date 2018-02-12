@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
        << otsuFilter->GetNumberOfThresholds()
        << " thresholds: ";
   FilterType::ThresholdVectorType thresholds = otsuFilter->GetThresholds();
-  for (unsigned int i = 0; i < thresholds.size(); i++)
+  for (double threshold : thresholds)
     {
-    desc << itk::NumericTraits<FilterType::InputPixelType>::PrintType(thresholds[i]) << " ";
+    desc << itk::NumericTraits<FilterType::InputPixelType>::PrintType(threshold) << " ";
     }
 
   viewer.AddRGBImage(

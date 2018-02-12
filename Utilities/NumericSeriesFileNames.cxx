@@ -10,9 +10,9 @@ int main(int, char *[])
   
   std::vector< std::string > fileNames = numericSeriesFileNames->GetFileNames();
   
-  for(unsigned int i = 0; i < fileNames.size(); ++i)
+  for(const auto & fileName : fileNames)
     {
-    std::cout << fileNames[i] << std::endl;
+    std::cout << fileName << std::endl;
     }
 
   return EXIT_SUCCESS;

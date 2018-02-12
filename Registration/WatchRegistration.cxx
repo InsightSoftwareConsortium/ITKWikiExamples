@@ -59,7 +59,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
@@ -130,7 +130,6 @@ int main( int argc, char *argv[] )
     }
 
   // Use floats internally
-  typedef   float                       InternalPixelType;
   typedef itk::Image< float, Dimension> InternalImageType;
 
   // Normalize the images
@@ -220,8 +219,7 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( initialParameters );
 
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
-  const unsigned int numberOfSamples =
-                        static_cast< unsigned int >( numberOfPixels * 0.05 );
+  const auto numberOfSamples = static_cast< unsigned int >( numberOfPixels * 0.05 );
 
   metric->SetNumberOfHistogramBins( 26 );
   metric->SetNumberOfSpatialSamples( numberOfSamples );

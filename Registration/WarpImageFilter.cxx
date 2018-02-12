@@ -45,7 +45,6 @@ int main(int, char *[])
   deformationFieldSource->SetOutputDirection( fixedImage->GetDirection() );
 
   //  Create source and target landmarks.
-  typedef DeformationFieldSourceType::LandmarkContainerPointer   LandmarkContainerPointer;
   typedef DeformationFieldSourceType::LandmarkContainer          LandmarkContainerType;
   typedef DeformationFieldSourceType::LandmarkPointType          LandmarkPointType;
 

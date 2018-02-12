@@ -66,8 +66,8 @@ int main(int, char*[])
 
   const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
 
-  SizesType::const_iterator sizeItr = sizes.begin();
-  SizesType::const_iterator sizeEnd = sizes.end();
+  auto sizeItr = sizes.begin();
+  auto sizeEnd = sizes.end();
 
   std::cout << "Number of pixels per class " << std::endl;
   unsigned int kclass = 0;

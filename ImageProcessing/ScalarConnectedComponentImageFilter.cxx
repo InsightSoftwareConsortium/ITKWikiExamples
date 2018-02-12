@@ -160,10 +160,9 @@ void SummarizeLabelStatistics (TImage* image,
             << labelStatisticsImageFilter->GetNumberOfLabels() << std::endl;
   std::cout << std::endl;
   
-  typedef typename LabelStatisticsImageFilterType::ValidLabelValuesContainerType ValidLabelValuesType;
   typedef typename LabelStatisticsImageFilterType::LabelPixelType LabelPixelType;
 
-  for(typename ValidLabelValuesType::const_iterator vIt = labelStatisticsImageFilter->GetValidLabelValues().begin();
+  for(auto vIt = labelStatisticsImageFilter->GetValidLabelValues().begin();
       vIt != labelStatisticsImageFilter->GetValidLabelValues().end();
       ++vIt)
     {
