@@ -34,7 +34,7 @@ public:
 
 protected:
   ExampleCostFunction2(){};
-  ~ExampleCostFunction2(){};
+  ~ExampleCostFunction2() override{};
 
 private:
   ExampleCostFunction2(const Self &); //purposely not implemented
