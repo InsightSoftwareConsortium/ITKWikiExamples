@@ -2,7 +2,7 @@
 
 int main( int argc, char *argv[] )
 {
-  typedef itk::BlobSpatialObject<2> BlobType;
+  using BlobType = itk::BlobSpatialObject<2>;
 
   // Create a list of points
   BlobType::PointListType points;

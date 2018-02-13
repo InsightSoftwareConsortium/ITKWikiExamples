@@ -4,7 +4,7 @@
 #include "itkWrapPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -13,8 +13,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::WrapPadImageFilter <ImageType, ImageType>
-          WrapPadImageFilterType;
+  using WrapPadImageFilterType = itk::WrapPadImageFilter <ImageType, ImageType>;
 
   ImageType::SizeType lowerBound;
   lowerBound[0] = 20;

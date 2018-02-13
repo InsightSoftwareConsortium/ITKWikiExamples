@@ -4,14 +4,14 @@
 #include "itkMeshFileWriter.h"
 #include "itkMeshFileReader.h"
 
-// Create convenience typedefs
+// Create convenience type alias
 const unsigned int Dimension = 3;
-typedef float TCoordinate;
+using TCoordinate = float;
 
-typedef itk::Mesh< TCoordinate, Dimension > TMesh;
-typedef itk::RegularSphereMeshSource< TMesh > TSphere;
-typedef itk::MeshFileReader< TMesh > TReader;
-typedef itk::MeshFileWriter< TMesh > TWriter;
+using TMesh = itk::Mesh< TCoordinate, Dimension >;
+using TSphere = itk::RegularSphereMeshSource< TMesh >;
+using TReader = itk::MeshFileReader< TMesh >;
+using TWriter = itk::MeshFileWriter< TMesh >;
 
 int main(int argc, char * argv[] )
 {

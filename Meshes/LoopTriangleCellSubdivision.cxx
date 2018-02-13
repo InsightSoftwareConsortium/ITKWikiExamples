@@ -5,13 +5,13 @@
  
 // Dimension and coordinate type
 const unsigned int Dimension = 3;
-typedef float TCoordinate;
+using TCoordinate = float;
  
 // Typedefs
-typedef itk::QuadEdgeMesh< TCoordinate, Dimension > TQEMesh;
-typedef itk::RegularSphereMeshSource< TQEMesh > TSphere;
-typedef itk::LoopTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TQEMesh > TLoop;
-typedef itk::IterativeTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TLoop > TSubdivision;
+using TQEMesh = itk::QuadEdgeMesh< TCoordinate, Dimension >;
+using TSphere = itk::RegularSphereMeshSource< TQEMesh >;
+using TLoop = itk::LoopTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TQEMesh >;
+using TSubdivision = itk::IterativeTriangleCellSubdivisionQuadEdgeMeshFilter< TQEMesh, TLoop >;
 
 int main(int , char * [] )
 {

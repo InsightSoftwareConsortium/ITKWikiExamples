@@ -8,10 +8,10 @@
 #include "itkScalarToRGBColormapImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
-typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>    RGBImageType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -20,36 +20,35 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
 
-  typedef itk::LabelImageToLabelMapFilter<UnsignedCharImageType> LabelImageToLabelMapFilterType;
+  using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<UnsignedCharImageType>;
   LabelImageToLabelMapFilterType::Pointer labelImageToLabelMapFilter = LabelImageToLabelMapFilterType::New();
   labelImageToLabelMapFilter->SetInput(image);
   labelImageToLabelMapFilter->Update();
   
-  typedef itk::ConnectedComponentImageFilter <UnsignedCharImageType, UnsignedCharImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <UnsignedCharImageType, UnsignedCharImageType >;
   ConnectedComponentImageFilterType::Pointer connectedComponentImageFilter
     = ConnectedComponentImageFilterType::New();
   
-  typedef itk::ObjectByObjectLabelMapFilter< LabelImageToLabelMapFilterType::OutputImageType > ObjectByObjectLabelMapFilterType;
+  using ObjectByObjectLabelMapFilterType = itk::ObjectByObjectLabelMapFilter< LabelImageToLabelMapFilterType::OutputImageType >;
   ObjectByObjectLabelMapFilterType::Pointer objectByObjectLabelMapFilter = ObjectByObjectLabelMapFilterType::New();
   objectByObjectLabelMapFilter->SetInput( labelImageToLabelMapFilter->GetOutput() );
   objectByObjectLabelMapFilter->SetBinaryInternalOutput(false);
   objectByObjectLabelMapFilter->SetFilter(connectedComponentImageFilter);
   objectByObjectLabelMapFilter->Update();
 
-  typedef itk::LabelMapToLabelImageFilter<LabelImageToLabelMapFilterType::OutputImageType, UnsignedCharImageType> LabelMapToLabelImageFilterType;
+  using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelImageToLabelMapFilterType::OutputImageType, UnsignedCharImageType>;
   LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(objectByObjectLabelMapFilter->GetOutput());
   labelMapToLabelImageFilter->Update();
   
   // Color each label/object a different color
-  typedef itk::ScalarToRGBColormapImageFilter<UnsignedCharImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<UnsignedCharImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(labelMapToLabelImageFilter->GetOutput());
   colormapImageFilter->SetColormap( RGBFilterType::Jet );
   colormapImageFilter->Update();
   
-  typedef itk::ImageFileWriter< RGBImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( colormapImageFilter->GetOutput() );
   writer->SetFileName("output.png");
@@ -97,13 +96,13 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     }
 
   // Color each label/object a different color
-  typedef itk::ScalarToRGBColormapImageFilter<UnsignedCharImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<UnsignedCharImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(image);
   colormapImageFilter->SetColormap( RGBFilterType::Jet );
   colormapImageFilter->Update();
   
-  typedef  itk::ImageFileWriter< RGBImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(colormapImageFilter->GetOutput());

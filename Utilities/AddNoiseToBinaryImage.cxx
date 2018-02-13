@@ -21,10 +21,10 @@ int main (int argc, char *argv[])
       percent /= 100.0;
       }
     }
-  typedef itk::Image<unsigned char, 2>  ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  typedef itk::ImageRandomNonRepeatingIteratorWithIndex<ImageType> IteratorType;
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using IteratorType = itk::ImageRandomNonRepeatingIteratorWithIndex<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   // Read the binary file
   ReaderType::Pointer reader = ReaderType::New();
@@ -37,7 +37,7 @@ int main (int argc, char *argv[])
   it.SetNumberOfSamples(reader->GetOutput()->GetLargestPossibleRegion().GetNumberOfPixels() * percent);
   std::cout << "Number of random samples: "
             << it.GetNumberOfSamples() << std::endl;
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   GeneratorType::Pointer random = GeneratorType::New();
 
   it.GoToBegin();

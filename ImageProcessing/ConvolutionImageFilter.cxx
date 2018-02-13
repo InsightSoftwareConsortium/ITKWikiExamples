@@ -5,7 +5,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<float, 2> ImageType;
+using ImageType = itk::Image<float, 2>;
 
 static void CreateKernel(ImageType::Pointer kernel, unsigned int width);
 
@@ -29,8 +29,8 @@ int main(int argc, char * argv[])
   ImageType::Pointer kernel = ImageType::New();
   CreateKernel(kernel, width);
   
-  typedef itk::ImageFileReader<ImageType>        ReaderType;
-  typedef itk::ConvolutionImageFilter<ImageType> FilterType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using FilterType = itk::ConvolutionImageFilter<ImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

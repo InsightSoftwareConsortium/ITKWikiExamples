@@ -10,16 +10,15 @@
 #include "itkRegionOfInterestImageFilter.h"
 
 //definitions of used types
-typedef itk::Image<float, 3> InternalImageType;
-typedef itk::Image<unsigned char, 3> VisualizingImageType;
-typedef itk::Neighborhood<float, 3> NeighborhoodType;
-typedef itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<InternalImageType>
-    Image2CoOccuranceType;
-typedef Image2CoOccuranceType::HistogramType HistogramType;
-typedef itk::Statistics::HistogramToTextureFeaturesFilter<HistogramType> Hist2FeaturesType;
-typedef InternalImageType::OffsetType OffsetType;
-typedef itk::AddImageFilter <InternalImageType> AddImageFilterType;
-typedef itk::MultiplyImageFilter<InternalImageType> MultiplyImageFilterType;
+using InternalImageType = itk::Image<float, 3>;
+using VisualizingImageType = itk::Image<unsigned char, 3>;
+using NeighborhoodType = itk::Neighborhood<float, 3>;
+using Image2CoOccuranceType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<InternalImageType>;
+using HistogramType = Image2CoOccuranceType::HistogramType;
+using Hist2FeaturesType = itk::Statistics::HistogramToTextureFeaturesFilter<HistogramType>;
+using OffsetType = InternalImageType::OffsetType;
+using AddImageFilterType = itk::AddImageFilter <InternalImageType>;
+using MultiplyImageFilterType = itk::MultiplyImageFilter<InternalImageType>;
 
 //calculate features for one offset
 void calcTextureFeatureImage (OffsetType offset,
@@ -46,7 +45,7 @@ void calcTextureFeatureImage (OffsetType offset,
     glcmGenerator->SetPixelValueMinMax(0, 255); //for input UCHAR pixel type
     Hist2FeaturesType::Pointer featureCalc=Hist2FeaturesType::New();
 
-    typedef itk::RegionOfInterestImageFilter<InternalImageType,InternalImageType> roiType;
+    using roiType = itk::RegionOfInterestImageFilter<InternalImageType,InternalImageType>;
     roiType::Pointer roi=roiType::New();
     roi->SetInput(inputImage);
 
@@ -95,7 +94,7 @@ int main(int argc, char*argv[])
   
   std::string fileName = argv[1];
   
-  typedef itk::ImageFileReader<InternalImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<InternalImageType>;
   ReaderType::Pointer reader=ReaderType::New();
   reader->SetFileName(fileName);
   reader->Update();
@@ -106,7 +105,7 @@ int main(int argc, char*argv[])
   unsigned int centerIndex = neighborhood.GetCenterNeighborhoodIndex();
   OffsetType offset;
 
-  typedef itk::ImageFileWriter<InternalImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<InternalImageType>;
   WriterType::Pointer writer=WriterType::New();
 
   for ( unsigned int d = 0; d < centerIndex; d++ )

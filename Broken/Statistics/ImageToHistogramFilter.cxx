@@ -5,8 +5,8 @@
  
 #include <fstream>
  
-typedef itk::RGBPixel<unsigned char> RGBPixelType;
-typedef itk::Image< RGBPixelType, 2> RGBImageType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image< RGBPixelType, 2>;
  
 void CreateImage(RGBImageType::Pointer image);
  
@@ -17,10 +17,10 @@ int main(int, char *[])
   RGBImageType::Pointer image = RGBImageType::New();
   CreateImage(image);
  
-  typedef itk::Statistics::ImageToHistogramFilter< RGBImageType >         HistogramFilterType;
-  typedef HistogramFilterType::HistogramMeasurementVectorType             HistogramMeasurementVectorType;
-  typedef HistogramFilterType::HistogramSizeType                          HistogramSizeType;
-  typedef HistogramFilterType::HistogramType                              HistogramType;
+  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter< RGBImageType >;
+  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
+  using HistogramSizeType = HistogramFilterType::HistogramSizeType;
+  using HistogramType = HistogramFilterType::HistogramType;
  
   HistogramFilterType::Pointer filter = HistogramFilterType::New();
   filter->SetInput(image);
@@ -46,7 +46,7 @@ int main(int, char *[])
 	      << " Histogram cell center = " << histogramIterator.GetMeasurementVector() 
 	      << " Frequency = " << histogramIterator.GetFrequency() << std::endl;
 
-    ++histogramIterator ;
+    ++histogramIterator;
     }
  
   HistogramType::MeasurementVectorType mv(3);

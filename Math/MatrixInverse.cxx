@@ -4,7 +4,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Matrix<double, 2, 2> MatrixType;
+  using MatrixType = itk::Matrix<double, 2, 2>;
   MatrixType M;
   M(0,0) = 1.0;
   M(0,1) = 2.0;

@@ -18,16 +18,16 @@ int main( int argc, char *argv[] )
   std::string InputFilename = argv[1];
   std::cout << "Input file: " << InputFilename << std::endl;
   
-  //typedef itk::PointSet<double, 3 > PointSetType;
+  //using PointSetType = itk::PointSet<double, 3 >;
   //PointSetType::Pointer pointsSet = PointSetType::New();
-  //typedef PointSetType::PointType PointType;
+  //using PointType = PointSetType::PointType;
   
-  typedef itk::Mesh<float, 3>                 MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >  ReaderType;
+  using MeshType = itk::Mesh<float, 3>;
+  using ReaderType = itk::VTKPolyDataReader< MeshType >;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 
-  typedef ReaderType::PointType   PointType;
+  using PointType = ReaderType::PointType;
 
   polyDataReader->SetFileName(InputFilename.c_str());
   

@@ -3,7 +3,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkMedianImageFunction.h"
 
-typedef itk::Image< unsigned char, 2 > UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
 void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -12,7 +12,7 @@ int main( int, char *[] )
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
   
-  typedef itk::MedianImageFunction< UnsignedCharImageType > MedianImageFunctionType;
+  using MedianImageFunctionType = itk::MedianImageFunction< UnsignedCharImageType >;
   MedianImageFunctionType::Pointer medianImageFunction = MedianImageFunctionType::New();
   medianImageFunction->SetInputImage( image );
   
@@ -49,7 +49,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     ++imageIterator;
     }
  
-  typedef itk::ImageFileWriter < UnsignedCharImageType > WriterType;
+  using WriterType = itk::ImageFileWriter < UnsignedCharImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

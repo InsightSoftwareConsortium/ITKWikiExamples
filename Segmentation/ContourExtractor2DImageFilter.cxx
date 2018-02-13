@@ -3,8 +3,8 @@
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
  
 static void CreateImage(UnsignedCharImageType::Pointer image);
  
@@ -13,15 +13,14 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
  
-  typedef  itk::ApproximateSignedDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > ApproximateSignedDistanceMapImageFilterType;
+  using ApproximateSignedDistanceMapImageFilterType = itk::ApproximateSignedDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  >;
   ApproximateSignedDistanceMapImageFilterType::Pointer approximateSignedDistanceMapImageFilter = ApproximateSignedDistanceMapImageFilterType::New();
   approximateSignedDistanceMapImageFilter->SetInput(image);
   approximateSignedDistanceMapImageFilter->SetInsideValue(255);
   approximateSignedDistanceMapImageFilter->SetOutsideValue(0);
   approximateSignedDistanceMapImageFilter->Update();
   
-  typedef itk::ContourExtractor2DImageFilter <FloatImageType>
-          ContourExtractor2DImageFilterType;
+  using ContourExtractor2DImageFilterType = itk::ContourExtractor2DImageFilter <FloatImageType>;
   ContourExtractor2DImageFilterType::Pointer contourExtractor2DImageFilter
           = ContourExtractor2DImageFilterType::New();
   contourExtractor2DImageFilter->SetInput(approximateSignedDistanceMapImageFilter->GetOutput());
@@ -78,7 +77,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     image->SetPixel(pixel, 255);
     }
  
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("image.png");
   writer->SetInput(image);

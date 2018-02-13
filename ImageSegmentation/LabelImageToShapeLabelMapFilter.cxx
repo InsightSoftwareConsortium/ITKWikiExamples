@@ -3,7 +3,7 @@
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -12,15 +12,13 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::ConnectedComponentImageFilter <ImageType, ImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <ImageType, ImageType >;
    ConnectedComponentImageFilterType::Pointer connectedComponentImageFilter
     = ConnectedComponentImageFilterType::New ();
   connectedComponentImageFilter->SetInput(image);
   connectedComponentImageFilter->Update();
 
-  typedef itk::LabelImageToShapeLabelMapFilter <ImageType>
-    LabelImageToShapeLabelMapFilterType;
+  using LabelImageToShapeLabelMapFilterType = itk::LabelImageToShapeLabelMapFilter <ImageType>;
    LabelImageToShapeLabelMapFilterType::Pointer labelImageToShapeLabelMapFilter
     = LabelImageToShapeLabelMapFilterType::New ();
   labelImageToShapeLabelMapFilter->SetInput(connectedComponentImageFilter->GetOutput());

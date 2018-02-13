@@ -8,7 +8,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<float, 2> FloatImageType;
+using FloatImageType = itk::Image<float, 2>;
 
 static void CreateImage(FloatImageType* const image);
 
@@ -26,7 +26,7 @@ int main(int argc, char*argv[])
   else
   {
     // Read the image
-    typedef itk::ImageFileReader<FloatImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<FloatImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -35,21 +35,21 @@ int main(int argc, char*argv[])
   }
 
   // Define some types
-  typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
+  using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
   // Compute the FFT
-  typedef itk::ForwardFFTImageFilter<FloatImageType> FFTType;
+  using FFTType = itk::ForwardFFTImageFilter<FloatImageType>;
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
   fftFilter->Update();
 
   // Extract the real part
-  typedef itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType> RealFilterType;
+  using RealFilterType = itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType>;
   RealFilterType::Pointer realFilter = RealFilterType::New();
   realFilter->SetInput(fftFilter->GetOutput());
   realFilter->Update();
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer realRescaleFilter = RescaleFilterType::New();
   realRescaleFilter->SetInput(realFilter->GetOutput());
   realRescaleFilter->SetOutputMinimum(0);
@@ -57,7 +57,7 @@ int main(int argc, char*argv[])
   realRescaleFilter->Update();
 
   // Extract the imaginary part
-  typedef itk::ComplexToImaginaryImageFilter<FFTType::OutputImageType, FloatImageType> ImaginaryFilterType;
+  using ImaginaryFilterType = itk::ComplexToImaginaryImageFilter<FFTType::OutputImageType, FloatImageType>;
   ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
   imaginaryFilter->SetInput(fftFilter->GetOutput());
   imaginaryFilter->Update();
@@ -69,7 +69,7 @@ int main(int argc, char*argv[])
   imaginaryRescaleFilter->Update();
 
   // Compute the magnitude
-  typedef itk::ComplexToModulusImageFilter<FFTType::OutputImageType, FloatImageType> ModulusFilterType;
+  using ModulusFilterType = itk::ComplexToModulusImageFilter<FFTType::OutputImageType, FloatImageType>;
   ModulusFilterType::Pointer modulusFilter = ModulusFilterType::New();
   modulusFilter->SetInput(fftFilter->GetOutput());
   modulusFilter->Update();
@@ -88,7 +88,7 @@ int main(int argc, char*argv[])
 //   viewer.Visualize();
 
   // Write the images
-  typedef itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   
   WriterType::Pointer realWriter = WriterType::New();
   realWriter->SetFileName("real.png");

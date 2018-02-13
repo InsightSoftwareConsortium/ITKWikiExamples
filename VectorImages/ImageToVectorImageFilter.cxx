@@ -4,8 +4,8 @@
 
 namespace
 {
-typedef itk::VectorImage<unsigned char, 2>  VectorImageType;
-typedef itk::Image<unsigned char, 2>  ScalarImageType;
+using VectorImageType = itk::VectorImage<unsigned char, 2>;
+using ScalarImageType = itk::Image<unsigned char, 2>;
 }
 
 static void CreateImage(ScalarImageType::Pointer image);
@@ -21,7 +21,7 @@ int main(int, char *[])
   ScalarImageType::Pointer image2 = ScalarImageType::New();
   CreateImage(image2);
   
-  typedef itk::ComposeImageFilter<ScalarImageType> ImageToVectorImageFilterType;
+  using ImageToVectorImageFilterType = itk::ComposeImageFilter<ScalarImageType>;
   ImageToVectorImageFilterType::Pointer imageToVectorImageFilter = ImageToVectorImageFilterType::New();
   imageToVectorImageFilter->SetInput(0, image0);
   imageToVectorImageFilter->SetInput(1, image1);

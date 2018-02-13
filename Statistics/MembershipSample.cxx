@@ -4,8 +4,8 @@
 
 int main(int, char *[])
 {
-  typedef itk::Vector< float, 3 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< float, 3 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   MeasurementVectorType mv;
 
@@ -23,8 +23,7 @@ int main(int, char *[])
   mv[1] = 8.0;
   mv[2] = 6.0;
   sample->PushBack(mv);
-  typedef itk::Statistics::MembershipSample< SampleType >
-    MembershipSampleType;
+  using MembershipSampleType = itk::Statistics::MembershipSample< SampleType >;
 
   MembershipSampleType::Pointer membershipSample =
     MembershipSampleType::New();

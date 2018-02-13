@@ -14,16 +14,16 @@
 #include <string>
 
 // Vector types
-typedef itk::CovariantVector<float, 3> FloatVectorType;
-typedef itk::CovariantVector<unsigned char, 3> UnsignedCharVectorType;
+using FloatVectorType = itk::CovariantVector<float, 3>;
+using UnsignedCharVectorType = itk::CovariantVector<unsigned char, 3>;
 
 // Vector image types
-typedef itk::Image<FloatVectorType, 2> FloatVectorImageType;
-typedef itk::Image<UnsignedCharVectorType, 2> UnsignedCharVectorImageType;
+using FloatVectorImageType = itk::Image<FloatVectorType, 2>;
+using UnsignedCharVectorImageType = itk::Image<UnsignedCharVectorType, 2>;
 
 // Scalar image types
-typedef itk::Image<float, 2> FloatImageType;
-typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
+using FloatImageType = itk::Image<float, 2>;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
   std::string filename = argv[1];
 
-  typedef itk::ImageFileReader<FloatVectorImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatVectorImageType>;
 
   // Read the image
   ReaderType::Pointer reader = ReaderType::New();
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
   reader->Update();
 
   // Extract a small region
-  typedef itk::RegionOfInterestImageFilter< FloatVectorImageType,
-                                            FloatVectorImageType > ExtractFilterType;
+  using ExtractFilterType = itk::RegionOfInterestImageFilter< FloatVectorImageType,
+                                            FloatVectorImageType >;
 
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
   // Perform normalized correlation
   // <input type, mask type (not used), output type>
-  typedef itk::NormalizedCorrelationImageFilter<FloatVectorImageType, FloatVectorImageType, FloatImageType> CorrelationFilterType;
+  using CorrelationFilterType = itk::NormalizedCorrelationImageFilter<FloatVectorImageType, FloatVectorImageType, FloatImageType>;
 
   itk::ImageKernelOperator<FloatVectorType> kernelOperator;
   kernelOperator.SetImageKernel(extractFilter->GetOutput());
@@ -79,8 +79,7 @@ int main(int argc, char *argv[])
   correlationFilter->SetTemplate(kernelOperator);
   correlationFilter->Update();
 
-  typedef itk::MinimumMaximumImageCalculator <FloatImageType>
-          MinimumMaximumImageCalculatorType;
+  using MinimumMaximumImageCalculatorType = itk::MinimumMaximumImageCalculator <FloatImageType>;
 
   MinimumMaximumImageCalculatorType::Pointer minimumMaximumImageCalculatorFilter
           = MinimumMaximumImageCalculatorType::New ();
@@ -92,8 +91,8 @@ int main(int argc, char *argv[])
 
   // Note that the best correlation is at the center of the patch we extracted (ie. (75, 75) rather than the corner (50,50)
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
-  typedef itk::ImageFileWriter<UnsignedCharVectorImageType> WriterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
+  using WriterType = itk::ImageFileWriter<UnsignedCharVectorImageType>;
   {
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(correlationFilter->GetOutput());

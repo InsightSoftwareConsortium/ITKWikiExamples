@@ -22,11 +22,11 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image<float, 2 >                         ImageType;
-  typedef itk::ImageFileReader<ImageType>               ReaderType;
-  typedef itk::MedianImageFilter<ImageType, ImageType > FilterType;
-  typedef itk::SubtractImageFilter<ImageType>           SubtractType;
-  typedef itk::PasteImageFilter<ImageType, ImageType >  PasteType;
+  using ImageType = itk::Image<float, 2 >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using FilterType = itk::MedianImageFilter<ImageType, ImageType >;
+  using SubtractType = itk::SubtractImageFilter<ImageType>;
+  using PasteType = itk::PasteImageFilter<ImageType, ImageType >;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

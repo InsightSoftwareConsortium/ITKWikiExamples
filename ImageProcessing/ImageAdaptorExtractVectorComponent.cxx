@@ -1,8 +1,8 @@
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<float, 2> ScalarImageType;
-typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
+using ScalarImageType = itk::Image<float, 2>;
+using VectorImageType = itk::Image<itk::CovariantVector< float, 3>, 2>;
 
 
 static void CreateImage(VectorImageType::Pointer image);
@@ -10,8 +10,8 @@ static void CreateImage(VectorImageType::Pointer image);
 class VectorPixelAccessor
 {
 public:
-  typedef itk::CovariantVector<float,3>   InternalType;
-  typedef                      float      ExternalType;
+  using InternalType = itk::CovariantVector<float,3>;
+  using ExternalType = float;
 
   void operator=( const VectorPixelAccessor & vpa )
     {
@@ -39,8 +39,8 @@ int main(int, char *[])
   
   std::cout << image->GetPixel(index) << std::endl;
   
-  typedef itk::ImageAdaptor<  VectorImageType,
-                              VectorPixelAccessor > ImageAdaptorType;
+  using ImageAdaptorType = itk::ImageAdaptor<  VectorImageType,
+                              VectorPixelAccessor >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 

@@ -10,8 +10,8 @@
 #include "itkImageFileReader.h"
 #include "itkSimpleFilterWatcher.h"
 
-typedef itk::CovariantVector<unsigned char, 3> PixelType;
-typedef itk::Image<PixelType, 2>  ImageType;
+using PixelType = itk::CovariantVector<unsigned char, 3>;
+using ImageType = itk::Image<PixelType, 2>;
 
 static void ControlledImage(ImageType::Pointer image);
 static void RandomImage(ImageType::Pointer image);
@@ -24,14 +24,14 @@ int main(int argc, char*argv[])
   RandomImage(image);
   //ControlledImage(image);
 
-  typedef itk::Statistics::ImageToListSampleFilter<ImageType> ImageToListSampleFilterType;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType>;
   ImageToListSampleFilterType::Pointer imageToListSampleFilter = ImageToListSampleFilterType::New();
   imageToListSampleFilter->SetInput(image);
   imageToListSampleFilter->Update();
 
   unsigned int numberOfClasses = 3;
 
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   ParametersType params( numberOfClasses + numberOfClasses*numberOfClasses ); // 3 for means and 9 for 3x3 covariance
 
   // Create the first set (for the first cluster/model) of initial parameters
@@ -105,19 +105,18 @@ int main(int argc, char*argv[])
   initialParameters[2] = params;
 
   std::cout << "Initial parameters: " << std::endl;
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     std::cout << initialParameters[i] << std::endl;
     }
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< ImageToListSampleFilterType::ListSampleType >
-    ComponentType;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent< ImageToListSampleFilterType::ListSampleType >;
 
   std::cout << "Number of samples: " << imageToListSampleFilter->GetOutput()->GetTotalFrequency() << std::endl;
 
   // Create the components
   std::vector< ComponentType::Pointer > components;
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     components.push_back( ComponentType::New() );
     (components[i])->SetSample( imageToListSampleFilter->GetOutput() );
@@ -125,8 +124,8 @@ int main(int argc, char*argv[])
     }
     
 
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
-                           ImageToListSampleFilterType::ListSampleType > EstimatorType;
+  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
+                           ImageToListSampleFilterType::ListSampleType >;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( imageToListSampleFilter->GetOutput() );
@@ -141,7 +140,7 @@ int main(int argc, char*argv[])
 
   estimator->SetInitialProportions( initialProportions );
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++)
+  for ( unsigned int i = 0; i < numberOfClasses; i++)
     {
     estimator->AddComponent( components[i]);
     }
@@ -149,7 +148,7 @@ int main(int argc, char*argv[])
   estimator->Update();
 
   // Output the results
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -161,18 +160,18 @@ int main(int argc, char*argv[])
     }
 
   // Display the membership of each sample
-  typedef itk::Statistics::SampleClassifierFilter< ImageToListSampleFilterType::ListSampleType > FilterType;
+  using FilterType = itk::Statistics::SampleClassifierFilter< ImageToListSampleFilterType::ListSampleType >;
 
-  typedef itk::Statistics::MaximumDecisionRule2  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule2;
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 
-  typedef FilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef FilterType::ClassLabelVectorType                     ClassLabelVectorType;
+  using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = FilterType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef FilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = FilterType::ClassLabelType;
 
   ClassLabelType  class0 = 0;
   classLabelVector.push_back( class0 );

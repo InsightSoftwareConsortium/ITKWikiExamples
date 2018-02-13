@@ -3,8 +3,8 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
-typedef itk::VectorImage<float, 2> VectorImageType;
-typedef itk::Image<float, 2> ScalarImageType;
+using VectorImageType = itk::VectorImage<float, 2>;
+using ScalarImageType = itk::Image<float, 2>;
 
 static void CreateImage(VectorImageType::Pointer image);
 
@@ -13,12 +13,12 @@ int main(int, char *[])
   VectorImageType::Pointer image = VectorImageType::New();
   CreateImage(image);
 
-  typedef itk::VectorIndexSelectionCastImageFilter<VectorImageType, ScalarImageType> IndexSelectionType;
+  using IndexSelectionType = itk::VectorIndexSelectionCastImageFilter<VectorImageType, ScalarImageType>;
   IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
   indexSelectionFilter->SetIndex(0);
   indexSelectionFilter->SetInput(image);
 
-  typedef itk::MinimumMaximumImageCalculator <ScalarImageType> ImageCalculatorFilterType;
+  using ImageCalculatorFilterType = itk::MinimumMaximumImageCalculator <ScalarImageType>;
   ImageCalculatorFilterType::Pointer imageCalculatorFilter = ImageCalculatorFilterType::New();
   imageCalculatorFilter->SetImage(indexSelectionFilter->GetOutput());
   imageCalculatorFilter->Compute();
@@ -40,7 +40,7 @@ void CreateImage(VectorImageType::Pointer image)
   image->SetNumberOfComponentsPerPixel(3);
   image->Allocate();
 
-  typedef itk::VariableLengthVector<double> VariableVectorType;
+  using VariableVectorType = itk::VariableLengthVector<double>;
   VariableVectorType variableLengthVector;
   variableLengthVector.SetSize(3);
   variableLengthVector[0] = 1.1;

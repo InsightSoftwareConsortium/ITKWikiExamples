@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::ForwardDifferenceOperator<float, 2> ForwardDifferenceOperatorType;
+  using ForwardDifferenceOperatorType = itk::ForwardDifferenceOperator<float, 2>;
   ForwardDifferenceOperatorType forwardDifferenceOperator;
   forwardDifferenceOperator.SetDirection(0); // Create the operator for the X axis derivative
   itk::Size<2> radius;

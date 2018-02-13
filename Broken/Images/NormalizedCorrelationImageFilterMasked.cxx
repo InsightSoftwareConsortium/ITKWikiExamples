@@ -12,9 +12,9 @@
 #include <iostream>
 #include <string>
 
-typedef itk::Image<unsigned char, 2> ImageType;
-typedef itk::Image<unsigned char, 2> MaskType;
-typedef itk::Image<float, 2> FloatImageType;
+using ImageType = itk::Image<unsigned char, 2>;
+using MaskType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
 
 void CreateMask(MaskType* const mask);
 void CreateImage(ImageType* const image);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
   // Perform normalized correlation
   // <input type, mask type, output type>
-  typedef itk::NormalizedCorrelationImageFilter<ImageType, MaskType, FloatImageType, unsigned char> CorrelationFilterType;
+  using CorrelationFilterType = itk::NormalizedCorrelationImageFilter<ImageType, MaskType, FloatImageType, unsigned char>;
   CorrelationFilterType::Pointer correlationFilter = CorrelationFilterType::New();
   correlationFilter->SetInput(image2);
   correlationFilter->SetMaskImage(mask);
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
   WriteImage(correlationFilter->GetOutput(), "correlation.mha");
 
-  typedef itk::RescaleIntensityImageFilter<FloatImageType, ImageType> RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<FloatImageType, ImageType>;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(correlationFilter->GetOutput());
   rescaleFilter->SetOutputMinimum(0);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
   rescaleFilter->Update();
   WriteImage(rescaleFilter->GetOutput(), "correlation.png");
   
-  typedef itk::MinimumMaximumImageCalculator<FloatImageType> MinimumMaximumImageCalculatorType;
+  using MinimumMaximumImageCalculatorType = itk::MinimumMaximumImageCalculator<FloatImageType>;
   MinimumMaximumImageCalculatorType::Pointer minimumMaximumImageCalculatorFilter = MinimumMaximumImageCalculatorType::New ();
   minimumMaximumImageCalculatorFilter->SetImage(correlationFilter->GetOutput());
   minimumMaximumImageCalculatorFilter->Compute();
@@ -190,7 +190,7 @@ void CreateImageOfSquare(ImageType* const image, const itk::Index<2>& cornerOfSq
 template <typename TImage>
 void WriteImage(const TImage* const image, const std::string& filename)
 {
-  typedef  itk::ImageFileWriter<TImage> WriterType;
+  using WriterType = itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(filename);
   writer->SetInput(image);

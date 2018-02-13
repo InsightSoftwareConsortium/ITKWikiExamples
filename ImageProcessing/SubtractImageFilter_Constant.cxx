@@ -2,7 +2,7 @@
 #include "itkSubtractImageFilter.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -10,13 +10,13 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::SubtractImageFilter <ImageType, ImageType, ImageType> SubtractImageFilterType;
+  using SubtractImageFilterType = itk::SubtractImageFilter <ImageType, ImageType, ImageType>;
   SubtractImageFilterType::Pointer subtractConstantFromImageFilter = SubtractImageFilterType::New();
   subtractConstantFromImageFilter->SetInput(image);
   subtractConstantFromImageFilter->SetConstant2(2);
   subtractConstantFromImageFilter->Update();
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(subtractConstantFromImageFilter->GetOutput());

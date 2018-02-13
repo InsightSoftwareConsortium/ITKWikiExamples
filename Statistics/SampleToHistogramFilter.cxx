@@ -2,11 +2,11 @@
 #include "itkListSample.h"
 #include "itkHistogram.h"
 
-typedef itk::Vector<unsigned char, 1> MeasurementVectorType;
-typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
+using MeasurementVectorType = itk::Vector<unsigned char, 1>;
+using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-typedef itk::Statistics::Histogram< float,
-        itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+using HistogramType = itk::Statistics::Histogram< float,
+        itk::Statistics::DenseFrequencyContainer2 >;
 
 void CreateSample(SampleType::Pointer image);
 
@@ -15,7 +15,7 @@ int main(int, char *[])
   SampleType::Pointer sample = SampleType::New();
   CreateSample(sample);
 
-  typedef itk::Statistics::SampleToHistogramFilter<SampleType, HistogramType> SampleToHistogramFilterType;
+  using SampleToHistogramFilterType = itk::Statistics::SampleToHistogramFilter<SampleType, HistogramType>;
   SampleToHistogramFilterType::Pointer sampleToHistogramFilter =
     SampleToHistogramFilterType::New();
   sampleToHistogramFilter->SetInput(sample);
@@ -42,14 +42,14 @@ int main(int, char *[])
 
 void CreateSample(SampleType::Pointer sample)
 {
-  MeasurementVectorType mv ;
-  mv[0] = 1.0 ;
-  sample->PushBack(mv) ;
+  MeasurementVectorType mv;
+  mv[0] = 1.0;
+  sample->PushBack(mv);
 
-  mv[0] = 1.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 1.0;
+  sample->PushBack(mv);
 
-  mv[0] = 2.0 ;
-  sample->PushBack(mv) ;
+  mv[0] = 2.0;
+  sample->PushBack(mv);
 
 }

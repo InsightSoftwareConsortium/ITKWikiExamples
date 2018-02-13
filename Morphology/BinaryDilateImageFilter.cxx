@@ -20,19 +20,18 @@ int main(int argc, char *argv[])
     radius = atoi(argv[2]);
     }
 
-  typedef itk::Image<unsigned char, 2>    ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::BinaryBallStructuringElement<
-    ImageType::PixelType,2>                  StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<
+    ImageType::PixelType,2>;
   StructuringElementType structuringElement;
   structuringElement.SetRadius(radius);
   structuringElement.CreateStructuringElement();
 
-  typedef itk::BinaryDilateImageFilter <ImageType, ImageType, StructuringElementType>
-          BinaryDilateImageFilterType;
+  using BinaryDilateImageFilterType = itk::BinaryDilateImageFilter <ImageType, ImageType, StructuringElementType>;
 
   BinaryDilateImageFilterType::Pointer dilateFilter
           = BinaryDilateImageFilterType::New();

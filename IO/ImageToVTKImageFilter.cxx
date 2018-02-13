@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<itk::RGBPixel<unsigned char>, 2> ImageType;
-  typedef itk::ImageFileReader<ImageType>             ReaderType;
-  typedef itk::ImageToVTKImageFilter<ImageType>       ConnectorType;
+  using ImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   ConnectorType::Pointer connector = ConnectorType::New();

@@ -12,10 +12,10 @@ class MyImageSource:public ImageSource< TImage >
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MyImageSource         Self;
-  typedef ImageSource< TImage > Superclass;
-  typedef SmartPointer< Self >  Pointer;
+  /** Standard class type alias. */
+  using Self = MyImageSource;
+  using Superclass = ImageSource< TImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

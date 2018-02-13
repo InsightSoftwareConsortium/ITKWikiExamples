@@ -28,10 +28,10 @@ int main(int argc, char*argv[])
     }
 
   // Define some types
-  typedef itk::Image<float, 2> FloatImageType;
+  using FloatImageType = itk::Image<float, 2>;
 
   // Read the image
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
@@ -64,8 +64,7 @@ int main(int argc, char*argv[])
   image->FillBuffer(0);
 
   // The image dimensions must be powers of two
-  typedef itk::PasteImageFilter <FloatImageType, FloatImageType >
-    PasteImageFilterType;
+  using PasteImageFilterType = itk::PasteImageFilter <FloatImageType, FloatImageType >;
   itk::Index<2> destinationIndex;
   destinationIndex.Fill(0);
   
@@ -81,25 +80,25 @@ int main(int argc, char*argv[])
   
   // Compute the FFT
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType> FFTType;
+  using FFTType = itk::VnlFFTRealToComplexConjugateImageFilter<FloatImageType>;
 #else
-  typedef itk::VnlForwardFFTImageFilter<FloatImageType> FFTType;
+  using FFTType = itk::VnlForwardFFTImageFilter<FloatImageType>;
 #endif
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
   
   // Extract the real part
-  typedef itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType> RealFilterType;
+  using RealFilterType = itk::ComplexToRealImageFilter<FFTType::OutputImageType, FloatImageType>;
   RealFilterType::Pointer realFilter = RealFilterType::New();
   realFilter->SetInput(fftFilter->GetOutput());
 
   // Extract the complex part
-  typedef itk::ComplexToImaginaryImageFilter<FFTType::OutputImageType, FloatImageType> ImaginaryFilterType;
+  using ImaginaryFilterType = itk::ComplexToImaginaryImageFilter<FFTType::OutputImageType, FloatImageType>;
   ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
   imaginaryFilter->SetInput(fftFilter->GetOutput());
 
   // Compute the magnitude
-  typedef itk::ComplexToModulusImageFilter<FFTType::OutputImageType, FloatImageType> ModulusFilterType;
+  using ModulusFilterType = itk::ComplexToModulusImageFilter<FFTType::OutputImageType, FloatImageType>;
   ModulusFilterType::Pointer modulusFilter = ModulusFilterType::New();
   modulusFilter->SetInput(fftFilter->GetOutput());
 

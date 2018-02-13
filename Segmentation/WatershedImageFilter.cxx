@@ -17,11 +17,11 @@
 // ./WatershedImageFilter 0.005 .5
 // (A rule of thumb is to set the Threshold to be about 1 / 100 of the Level.)
 
-typedef itk::Image<unsigned char, 2>       UnsignedCharImageType;
-typedef itk::Image<float, 2>               FloatImageType;
-typedef itk::RGBPixel<unsigned char>       RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>        RGBImageType;
-typedef itk::Image<itk::IdentifierType, 2> LabeledImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
+using LabeledImageType = itk::Image<itk::IdentifierType, 2>;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 static void PerformSegmentation(FloatImageType::Pointer image, const float threshold, const float level);
@@ -57,8 +57,8 @@ int main( int argc, char *argv[] )
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
   
-  typedef itk::GradientMagnitudeImageFilter<
-    UnsignedCharImageType, FloatImageType >  GradientMagnitudeImageFilterType;
+  using GradientMagnitudeImageFilterType = itk::GradientMagnitudeImageFilter<
+    UnsignedCharImageType, FloatImageType >;
   GradientMagnitudeImageFilterType::Pointer gradientMagnitudeImageFilter = GradientMagnitudeImageFilterType::New();
   gradientMagnitudeImageFilter->SetInput(image);
   gradientMagnitudeImageFilter->Update();
@@ -124,7 +124,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     ++imageIterator;
     }
     
-  typedef itk::ImageFileWriter<UnsignedCharImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);
@@ -133,14 +133,14 @@ void CreateImage(UnsignedCharImageType::Pointer image)
 
 void PerformSegmentation(FloatImageType::Pointer image, const float threshold, const float level)
 {
-  typedef itk::WatershedImageFilter<FloatImageType> WatershedFilterType;
+  using WatershedFilterType = itk::WatershedImageFilter<FloatImageType>;
   WatershedFilterType::Pointer watershed = WatershedFilterType::New();
   watershed->SetThreshold(threshold);
   watershed->SetLevel(level);
   watershed->SetInput(image);
   watershed->Update();
 
-  typedef itk::ScalarToRGBColormapImageFilter<LabeledImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<LabeledImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(watershed->GetOutput());
   colormapImageFilter->SetColormap( RGBFilterType::Jet );
@@ -149,7 +149,7 @@ void PerformSegmentation(FloatImageType::Pointer image, const float threshold, c
   std::stringstream ss;
   ss << "output_" << threshold << "_" << level << ".png";
   
-  typedef itk::ImageFileWriter<RGBImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<RGBImageType>;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(ss.str());
   writer->SetInput(colormapImageFilter->GetOutput());

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 //   std::cerr << "Usage: " << std::endl;
 //   std::cerr << argv[0] << " InputImageFile OutputImageFile [iteration]" << std::endl;
 
-  typedef itk::Image<unsigned char, 2> ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
   ImageType::Pointer image;
 
   unsigned int iteration = 1;
@@ -26,15 +26,14 @@ int main(int argc, char *argv[])
     }
   else
   {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     image = reader->GetOutput();
     std::stringstream ssIteration(argv[2]);
   }
 
-  typedef itk::BinaryPruningImageFilter <ImageType, ImageType >
-          BinaryPruningImageFilterType;
+  using BinaryPruningImageFilterType = itk::BinaryPruningImageFilter <ImageType, ImageType >;
   BinaryPruningImageFilterType::Pointer pruneFilter
           = BinaryPruningImageFilterType::New();
   pruneFilter->SetInput(image);

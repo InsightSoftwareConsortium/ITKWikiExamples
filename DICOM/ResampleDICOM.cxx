@@ -79,32 +79,21 @@ int main( int argc, char* argv[] )
   const unsigned int InputDimension = 3;
   const unsigned int OutputDimension = 2;
 
-  typedef signed short PixelType;
+  using PixelType = signed short;
 
-  typedef itk::Image< PixelType, InputDimension >
-    InputImageType;
-  typedef itk::Image< PixelType, OutputDimension >
-    OutputImageType;
-  typedef itk::ImageSeriesReader< InputImageType >
-    ReaderType;
-  typedef itk::GDCMImageIO
-    ImageIOType;
-  typedef itk::GDCMSeriesFileNames
-    InputNamesGeneratorType;
-  typedef itk::NumericSeriesFileNames
-    OutputNamesGeneratorType;
-  typedef itk::IdentityTransform< double, InputDimension >
-    TransformType;
-  typedef itk::LinearInterpolateImageFunction< InputImageType, double >
-    InterpolatorType;
-  typedef itk::ResampleImageFilter< InputImageType, InputImageType >
-    ResampleFilterType;
+  using InputImageType = itk::Image< PixelType, InputDimension >;
+  using OutputImageType = itk::Image< PixelType, OutputDimension >;
+  using ReaderType = itk::ImageSeriesReader< InputImageType >;
+  using ImageIOType = itk::GDCMImageIO;
+  using InputNamesGeneratorType = itk::GDCMSeriesFileNames;
+  using OutputNamesGeneratorType = itk::NumericSeriesFileNames;
+  using TransformType = itk::IdentityTransform< double, InputDimension >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< InputImageType, double >;
+  using ResampleFilterType = itk::ResampleImageFilter< InputImageType, InputImageType >;
 #if ( ( ITK_VERSION_MAJOR == 4 ) && ( ITK_VERSION_MINOR < 6 ) )
-  typedef itk::ShiftScaleImageFilter< InputImageType, InputImageType >
-    ShiftScaleType;
+  using ShiftScaleType = itk::ShiftScaleImageFilter< InputImageType, InputImageType >;
 #endif
-  typedef itk::ImageSeriesWriter< InputImageType, OutputImageType >
-    SeriesWriterType;
+  using SeriesWriterType = itk::ImageSeriesWriter< InputImageType, OutputImageType >;
 
 ////////////////////////////////////////////////
 // 1) Read the input series
@@ -172,7 +161,7 @@ int main( int argc, char* argv[] )
       }
     }
   InputImageType::SizeType   outputSize;
-  typedef InputImageType::SizeType::SizeValueType SizeValueType;
+  using SizeValueType = InputImageType::SizeType::SizeValueType;
   outputSize[0] = static_cast<SizeValueType>(inputSize[0] * inputSpacing[0] / outputSpacing[0] + .5);
   outputSize[1] = static_cast<SizeValueType>(inputSize[1] * inputSpacing[1] / outputSpacing[1] + .5);
   outputSize[2] = static_cast<SizeValueType>(inputSize[2] * inputSpacing[2] / outputSpacing[2] + .5);
@@ -322,11 +311,11 @@ int main( int argc, char* argv[] )
 // 4) Shift data to undo the effect of a rescale intercept by the
 //    DICOM reader
   std::string interceptTag("0028|1052");
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+  using MetaDataStringType = itk::MetaDataObject< std::string >;
   itk::MetaDataObjectBase::Pointer entry = (*inputDict)[interceptTag];
 
   MetaDataStringType::ConstPointer interceptValue =
-    dynamic_cast<const MetaDataStringType *>( entry.GetPointer() ) ;
+    dynamic_cast<const MetaDataStringType *>( entry.GetPointer() );
 
   int interceptShift = 0;
   if( interceptValue )
@@ -382,18 +371,18 @@ int main( int argc, char* argv[] )
 
 void CopyDictionary (itk::MetaDataDictionary &fromDict, itk::MetaDataDictionary &toDict)
 {
-  typedef itk::MetaDataDictionary DictionaryType;
+  using DictionaryType = itk::MetaDataDictionary;
 
   DictionaryType::ConstIterator itr = fromDict.Begin();
   DictionaryType::ConstIterator end = fromDict.End();
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+  using MetaDataStringType = itk::MetaDataObject< std::string >;
 
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
     MetaDataStringType::Pointer entryvalue =
-      dynamic_cast<MetaDataStringType *>( entry.GetPointer() ) ;
+      dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
     if( entryvalue )
       {
       std::string tagkey   = itr->first;

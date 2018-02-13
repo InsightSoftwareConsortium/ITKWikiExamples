@@ -28,11 +28,11 @@
  
 int main(int, char *[])
 {
-  typedef itk::Vector< double, 3 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, 3 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
  
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
  
   normalGenerator->Initialize( 101 );
@@ -40,7 +40,7 @@ int main(int, char *[])
   MeasurementVectorType mv;
   double mean = 100;
   double standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     mv[1] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
@@ -51,7 +51,7 @@ int main(int, char *[])
   normalGenerator->Initialize( 3024 );
   mean = 200;
   standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     mv[1] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
@@ -59,16 +59,15 @@ int main(int, char *[])
     sample->PushBack( mv );
     }
  
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >
-    TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
  
   treeGenerator->SetSample( sample );
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
  
-  typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
+  using TreeType = TreeGeneratorType::KdTreeType;
+  using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<TreeType>;
   EstimatorType::Pointer estimator = EstimatorType::New();
  
   EstimatorType::ParametersType initialMeans(6);
@@ -87,34 +86,33 @@ int main(int, char *[])
  
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
  
-  for ( unsigned int i = 0 ; i < 6 ; i+=2 )
+  for ( unsigned int i = 0; i < 6; i+=2 )
     {
     std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " << estimatedMeans[i] << " , " << estimatedMeans[i+1] << std::endl;
     }
  
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
-    MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
  
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule2;
 #else
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 #endif
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
  
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
   ClassifierType::Pointer classifier = ClassifierType::New();
  
   classifier->SetDecisionRule(decisionRule);
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
  
-  typedef ClassifierType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef ClassifierType::ClassLabelVectorType                     ClassLabelVectorType;
-  typedef ClassifierType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
-  typedef ClassifierType::MembershipFunctionVectorType             MembershipFunctionVectorType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
+  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
  
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   classifier->SetClassLabels( classLabelsObject );
@@ -132,10 +130,10 @@ int main(int, char *[])
  
   MembershipFunctionType::CentroidType origin( sample->GetMeasurementVectorSize() );
   int index = 0;
-  for ( unsigned int i = 0 ; i < 2 ; i++ )
+  for ( unsigned int i = 0; i < 2; i++ )
     {
     MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
-    for ( unsigned int j = 0 ; j < sample->GetMeasurementVectorSize(); j++ )
+    for ( unsigned int j = 0; j < sample->GetMeasurementVectorSize(); j++ )
       {
       origin[j] = estimatedMeans[index++];
       }

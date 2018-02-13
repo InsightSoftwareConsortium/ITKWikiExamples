@@ -3,7 +3,7 @@
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -12,7 +12,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::IntensityWindowingImageFilter <ImageType, ImageType> IntensityWindowingImageFilterType;
+  using IntensityWindowingImageFilterType = itk::IntensityWindowingImageFilter <ImageType, ImageType>;
 
   IntensityWindowingImageFilterType::Pointer filter = IntensityWindowingImageFilterType::New();
   filter->SetInput(image);
@@ -22,7 +22,7 @@ int main(int, char *[])
   filter->SetOutputMaximum(255);
   filter->Update();
 
-  typedef  itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(image);

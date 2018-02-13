@@ -13,7 +13,7 @@ int main(int, char*[])
 
 void UniformDouble()
 {
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
 
   generator->Initialize();
@@ -22,7 +22,7 @@ void UniformDouble()
 
 void Int()
 {
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
 
   generator->Initialize();

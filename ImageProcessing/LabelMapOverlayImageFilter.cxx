@@ -6,7 +6,7 @@
 #include "itkLabelMapOverlayImageFilter.h"
 #include "itkRGBPixel.h"
  
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
  
 int main(int, char *[])
@@ -14,23 +14,22 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
  
-  typedef itk::BinaryImageToLabelMapFilter<ImageType> BinaryImageToLabelMapFilterType;
+  using BinaryImageToLabelMapFilterType = itk::BinaryImageToLabelMapFilter<ImageType>;
   BinaryImageToLabelMapFilterType::Pointer binaryImageToLabelMapFilter = BinaryImageToLabelMapFilterType::New();
   binaryImageToLabelMapFilter->SetInput(image);
   binaryImageToLabelMapFilter->Update();
  
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType> RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType>;
  
-  typedef itk::LabelMapOverlayImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, ImageType, RGBImageType>
-                                       LabelMapOverlayImageFilterType;
+  using LabelMapOverlayImageFilterType = itk::LabelMapOverlayImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, ImageType, RGBImageType>;
   LabelMapOverlayImageFilterType::Pointer labelMapOverlayImageFilter = LabelMapOverlayImageFilterType::New();
   labelMapOverlayImageFilter->SetInput(binaryImageToLabelMapFilter->GetOutput());
   labelMapOverlayImageFilter->SetFeatureImage(image);
   labelMapOverlayImageFilter->SetOpacity(.5);
   labelMapOverlayImageFilter->Update();
  
-  typedef  itk::ImageFileWriter< RGBImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(labelMapOverlayImageFilter->GetOutput());
@@ -74,7 +73,7 @@ void CreateImage(ImageType::Pointer image)
     ++imageIterator;
     }
  
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("image.png");
   writer->SetInput(image);

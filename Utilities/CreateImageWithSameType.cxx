@@ -1,6 +1,6 @@
 #include "itkImage.h"
 
-typedef itk::Image<float,2> FloatScalarImageType;
+using FloatScalarImageType = itk::Image<float,2>;
 
 itk::ImageBase<2>::Pointer CreateImageWithSameType(const itk::ImageBase<2>* input);
 void OutputImageType(const itk::ImageBase<2>* input);

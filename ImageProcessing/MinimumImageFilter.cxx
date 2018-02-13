@@ -4,7 +4,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage1(ImageType* image);
 static void CreateImage2(ImageType* image);
@@ -17,8 +17,7 @@ int main(int, char*[])
   ImageType::Pointer image2 = ImageType::New();
   CreateImage2(image2);
 
-  typedef itk::MinimumImageFilter <ImageType>
-    MinimumImageFilterType;
+  using MinimumImageFilterType = itk::MinimumImageFilter <ImageType>;
 
   MinimumImageFilterType::Pointer minimumImageFilter
     = MinimumImageFilterType::New ();

@@ -10,15 +10,15 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >       ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::EllipseSpatialObject< Dimension >   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -48,7 +48,7 @@ int main( int argc, char *argv[] )
 
   // Position the ellipse
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -73,7 +73,7 @@ int main( int argc, char *argv[] )
 
   imageFilter->SetOutsideValue( 0 );
 
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[1] );

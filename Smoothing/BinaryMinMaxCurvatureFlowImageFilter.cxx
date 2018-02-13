@@ -25,24 +25,24 @@ int main(int argc, char* argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef float InputPixelType;
-  typedef float OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
 
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef itk::ImageFileReader< InputImageType >    ReaderType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::BinaryMinMaxCurvatureFlowImageFilter< InputImageType, OutputImageType >    FilterType;
+  using FilterType = itk::BinaryMinMaxCurvatureFlowImageFilter< InputImageType, OutputImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetThreshold( 255 );
   filter->SetNumberOfIterations(numberOfIterations);
 
-  typedef itk::SubtractImageFilter<OutputImageType>           SubtractType;
+  using SubtractType = itk::SubtractImageFilter<OutputImageType>;
   SubtractType::Pointer diff = SubtractType::New();
   diff->SetInput1(reader->GetOutput());
   diff->SetInput2(filter->GetOutput());

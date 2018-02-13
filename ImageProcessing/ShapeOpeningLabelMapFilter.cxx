@@ -6,8 +6,8 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkScalarToRGBColormapImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
-typedef itk::Image<unsigned char, 2>  LabelImageType;
+using ImageType = itk::Image<unsigned char, 2>;
+using LabelImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -16,13 +16,13 @@ int main(int, char *[])
   CreateImage(image);
 
   // Create a ShapeLabelMap from the image
-  typedef itk::BinaryImageToShapeLabelMapFilter<ImageType> BinaryImageToShapeLabelMapFilterType;
+  using BinaryImageToShapeLabelMapFilterType = itk::BinaryImageToShapeLabelMapFilter<ImageType>;
   BinaryImageToShapeLabelMapFilterType::Pointer binaryImageToShapeLabelMapFilter = BinaryImageToShapeLabelMapFilterType::New();
   binaryImageToShapeLabelMapFilter->SetInput(image);
   binaryImageToShapeLabelMapFilter->Update();
 
   // Remove label objects that have PERIMETER greater than 50
-  typedef itk::ShapeOpeningLabelMapFilter< BinaryImageToShapeLabelMapFilterType::OutputImageType > ShapeOpeningLabelMapFilterType;
+  using ShapeOpeningLabelMapFilterType = itk::ShapeOpeningLabelMapFilter< BinaryImageToShapeLabelMapFilterType::OutputImageType >;
   ShapeOpeningLabelMapFilterType::Pointer shapeOpeningLabelMapFilter = ShapeOpeningLabelMapFilterType::New();
   shapeOpeningLabelMapFilter->SetInput( binaryImageToShapeLabelMapFilter->GetOutput() );
   shapeOpeningLabelMapFilter->SetLambda( 50 );
@@ -31,23 +31,23 @@ int main(int, char *[])
   shapeOpeningLabelMapFilter->Update();
  
   // Create a label image
-  typedef itk::LabelMapToLabelImageFilter<BinaryImageToShapeLabelMapFilterType::OutputImageType, LabelImageType> LabelMapToLabelImageFilterType;
+  using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<BinaryImageToShapeLabelMapFilterType::OutputImageType, LabelImageType>;
   LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(shapeOpeningLabelMapFilter->GetOutput());
   labelMapToLabelImageFilter->Update();
   
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2>    RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2>;
 
   // Color each label/object a different color
-  typedef itk::ScalarToRGBColormapImageFilter<LabelImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<LabelImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(labelMapToLabelImageFilter->GetOutput());
   colormapImageFilter->SetColormap( RGBFilterType::Jet );
   colormapImageFilter->Update();
   
   // Write the output
-  typedef itk::ImageFileWriter< RGBImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( colormapImageFilter->GetOutput() );
   writer->SetFileName("output.png");
@@ -93,7 +93,7 @@ void CreateImage(ImageType::Pointer image)
     ++imageIterator;
     }
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

@@ -9,9 +9,9 @@
 #include "itkMinimumDecisionRule.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Vector<unsigned char,3> MeasurementVectorType;
-typedef itk::Image<MeasurementVectorType,2> ColorImageType;
-typedef itk::Image<unsigned char,2> ScalarImageType;
+using MeasurementVectorType = itk::Vector<unsigned char,3>;
+using ColorImageType = itk::Image<MeasurementVectorType,2>;
+using ScalarImageType = itk::Image<unsigned char,2>;
 
 static void CreateImage(ColorImageType::Pointer image);
 
@@ -22,11 +22,11 @@ int main(int, char* [] )
   CreateImage(image);
 
   // Compute pixel clusters using KMeans
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >  MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
-  typedef std::vector< MembershipFunctionPointer >  MembershipFunctionPointerVector;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
+  using MembershipFunctionPointerVector = std::vector< MembershipFunctionPointer >;
 
-  typedef itk::ImageKmeansModelEstimator<ColorImageType, MembershipFunctionType>  ImageKmeansModelEstimatorType;
+  using ImageKmeansModelEstimatorType = itk::ImageKmeansModelEstimator<ColorImageType, MembershipFunctionType>;
 
   ImageKmeansModelEstimatorType::Pointer kmeansEstimator = ImageKmeansModelEstimatorType::New();
   kmeansEstimator->SetInputImage(image);
@@ -38,20 +38,20 @@ int main(int, char* [] )
   kmeansEstimator->Update();
 
   // Classify each pixel
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   
   classifier->SetDecisionRule(decisionRule);
   classifier->SetNumberOfClasses(3);
 
-  typedef ClassifierType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef ClassifierType::ClassLabelVectorType                     ClassLabelVectorType;
-  typedef ClassifierType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
-  typedef ClassifierType::MembershipFunctionVectorType             MembershipFunctionVectorType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
+  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
 
   // Setup membership functions
   MembershipFunctionPointerVector kmeansMembershipFunctions = kmeansEstimator->GetMembershipFunctions();
@@ -76,7 +76,7 @@ int main(int, char* [] )
   classLabelsVector.push_back( 250 );
 
   // Perform the classification
-  typedef itk::Statistics::ImageToListSampleAdaptor< ColorImageType > SampleAdaptorType;
+  using SampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor< ColorImageType >;
   SampleAdaptorType::Pointer sample = SampleAdaptorType::New();
   sample->SetImage(image);
 
@@ -106,13 +106,13 @@ int main(int, char* [] )
     ++outputIterator;
     }
     
-  typedef  itk::ImageFileWriter< ColorImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ColorImageType  >;
   WriterType::Pointer inputWriter = WriterType::New();
   inputWriter->SetFileName("input.mha");
   inputWriter->SetInput(image);
   inputWriter->Update();
 
-  typedef  itk::ImageFileWriter< ScalarImageType  > ScalarWriterType;
+  using ScalarWriterType = itk::ImageFileWriter< ScalarImageType  >;
   ScalarWriterType::Pointer outputWriter = ScalarWriterType::New();
   outputWriter->SetFileName("output.mha");
   outputWriter->SetInput(outputImage);

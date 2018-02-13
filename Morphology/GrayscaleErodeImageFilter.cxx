@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
   std::string inputFilename = argv[1];
 
-  typedef itk::Image<unsigned char, 2>  ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFilename);
 
@@ -30,22 +30,21 @@ int main(int argc, char *argv[])
     radius = atoi(argv[2]);
     }
 
-  typedef itk::BinaryBallStructuringElement<
+  using StructuringElementType = itk::BinaryBallStructuringElement<
     ImageType::PixelType,
-    2>                  StructuringElementType;
+    2>;
   StructuringElementType structuringElement;
   structuringElement.SetRadius(radius);
   structuringElement.CreateStructuringElement();
 
-  typedef itk::GrayscaleErodeImageFilter <ImageType, ImageType, StructuringElementType>
-    GrayscaleErodeImageFilterType;
+  using GrayscaleErodeImageFilterType = itk::GrayscaleErodeImageFilter <ImageType, ImageType, StructuringElementType>;
 
   GrayscaleErodeImageFilterType::Pointer erodeFilter
     = GrayscaleErodeImageFilterType::New();
   erodeFilter->SetInput(reader->GetOutput());
   erodeFilter->SetKernel(structuringElement);
 
-  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+  using SubtractType = itk::SubtractImageFilter<ImageType>;
   SubtractType::Pointer diff = SubtractType::New();
   diff->SetInput1(reader->GetOutput());
   diff->SetInput2(erodeFilter->GetOutput());

@@ -26,9 +26,9 @@
 int main(int argc, char*argv[])
 {
   const    unsigned int    Dimension = 2;
-  typedef  float                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >      FloatImageType;
-  typedef itk::Image< unsigned char, Dimension >  UnsignedCharImageType;
+  using PixelType = float;
+  using FloatImageType = itk::Image< PixelType, Dimension >;
+  using UnsignedCharImageType = itk::Image< unsigned char, Dimension >;
 
   if( argc < 3 )
     {
@@ -41,7 +41,7 @@ int main(int argc, char*argv[])
   std::string movingImageFilename = argv[2];
 
   // Read the input images
-  typedef itk::ImageFileReader< FloatImageType  > ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< FloatImageType  >;
   ImageReaderType::Pointer  fixedImageReader  = ImageReaderType::New();
   fixedImageReader->SetFileName( fixedImageFilename );
   fixedImageReader->Update();
@@ -51,7 +51,7 @@ int main(int argc, char*argv[])
   movingImageReader->Update();
 
   // Shift the input images
-  typedef itk::FFTShiftImageFilter< FloatImageType, FloatImageType > FFTShiftFilterType;
+  using FFTShiftFilterType = itk::FFTShiftImageFilter< FloatImageType, FloatImageType >;
   FFTShiftFilterType::Pointer fixedFFTShiftFilter = FFTShiftFilterType::New();
   fixedFFTShiftFilter->SetInput(fixedImageReader->GetOutput());
   fixedFFTShiftFilter->Update();
@@ -62,9 +62,9 @@ int main(int argc, char*argv[])
   
   // Compute the FFT of the input
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter< FloatImageType >  FFTFilterType;
+  using FFTFilterType = itk::VnlFFTRealToComplexConjugateImageFilter< FloatImageType >;
 #else
-  typedef itk::VnlForwardFFTImageFilter< FloatImageType >  FFTFilterType;
+  using FFTFilterType = itk::VnlForwardFFTImageFilter< FloatImageType >;
 #endif
   FFTFilterType::Pointer fixedFFTFilter = FFTFilterType::New();
   fixedFFTFilter->SetInput( fixedFFTShiftFilter->GetOutput() );
@@ -73,24 +73,24 @@ int main(int argc, char*argv[])
   FFTFilterType::Pointer movingFFTFilter = FFTFilterType::New();
   movingFFTFilter->SetInput( movingFFTShiftFilter->GetOutput() );
   
-  typedef FFTFilterType::OutputImageType    SpectralImageType;
+  using SpectralImageType = FFTFilterType::OutputImageType;
 
   // Take the conjugate of the fftFilterMoving
   // Extract the real part
-  typedef itk::ComplexToRealImageFilter<SpectralImageType, FloatImageType> RealFilterType;
+  using RealFilterType = itk::ComplexToRealImageFilter<SpectralImageType, FloatImageType>;
   RealFilterType::Pointer realFilter = RealFilterType::New();
   realFilter->SetInput(movingFFTFilter->GetOutput());
 
   // Extract the imaginary part
-  typedef itk::ComplexToImaginaryImageFilter<SpectralImageType, FloatImageType> ImaginaryFilterType;
+  using ImaginaryFilterType = itk::ComplexToImaginaryImageFilter<SpectralImageType, FloatImageType>;
   ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
   imaginaryFilter->SetInput(movingFFTFilter->GetOutput());
 
   // Flip the sign of the imaginary and combine with the real part again
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::MultiplyByConstantImageFilter<FloatImageType,PixelType,FloatImageType> MultiplyConstantFilterType;
+  using MultiplyConstantFilterType = itk::MultiplyByConstantImageFilter<FloatImageType,PixelType,FloatImageType>;
 #else
-  typedef itk::MultiplyImageFilter<FloatImageType,FloatImageType,FloatImageType> MultiplyConstantFilterType;
+  using MultiplyConstantFilterType = itk::MultiplyImageFilter<FloatImageType,FloatImageType,FloatImageType>;
 #endif
 
   MultiplyConstantFilterType::Pointer flipSignFilter = MultiplyConstantFilterType::New();
@@ -101,47 +101,46 @@ int main(int argc, char*argv[])
 #endif
   flipSignFilter->SetInput(imaginaryFilter->GetOutput());
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::RealAndImaginaryToComplexImageFilter<FloatImageType> RealImageToComplexFilterType;
+  using RealImageToComplexFilterType = itk::RealAndImaginaryToComplexImageFilter<FloatImageType>;
 #else
-  typedef itk::ComposeImageFilter<FloatImageType, SpectralImageType> RealImageToComplexFilterType;
+  using RealImageToComplexFilterType = itk::ComposeImageFilter<FloatImageType, SpectralImageType>;
 #endif
   RealImageToComplexFilterType::Pointer conjugateFilter = RealImageToComplexFilterType::New();
   conjugateFilter->SetInput1(realFilter->GetOutput());
   conjugateFilter->SetInput2(flipSignFilter->GetOutput());
 
   // The conjugate product of the spectrum
-  typedef itk::MultiplyImageFilter< SpectralImageType,
+  using MultiplyFilterType = itk::MultiplyImageFilter< SpectralImageType,
     SpectralImageType,
-    SpectralImageType >  MultiplyFilterType;
+    SpectralImageType >;
   MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1( fixedFFTFilter->GetOutput() );
   multiplyFilter->SetInput2( conjugateFilter->GetOutput() );
 
   // IFFT
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter< SpectralImageType >  IFFTFilterType;
+  using IFFTFilterType = itk::VnlFFTComplexConjugateToRealImageFilter< SpectralImageType >;
 #else
-  typedef itk::VnlInverseFFTImageFilter< SpectralImageType >  IFFTFilterType;
+  using IFFTFilterType = itk::VnlInverseFFTImageFilter< SpectralImageType >;
 #endif
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
   fftInverseFilter->SetInput( multiplyFilter->GetOutput() );
 
   // Write the spectrum
-  typedef itk::RescaleIntensityImageFilter< FloatImageType,  UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType,  UnsignedCharImageType >;
   RescaleFilterType::Pointer  rescaler =  RescaleFilterType::New();
   rescaler->SetInput( fftInverseFilter->GetOutput() );
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
   rescaler->Update();
     
-  typedef itk::ImageFileWriter< UnsignedCharImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType >;
   WriterType::Pointer writer =  WriterType::New();
   writer->SetFileName( "CrossCorr.png" );
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
-  typedef itk::MinimumMaximumImageCalculator <UnsignedCharImageType>
-    ImageCalculatorFilterType;
+  using ImageCalculatorFilterType = itk::MinimumMaximumImageCalculator <UnsignedCharImageType>;
 
   ImageCalculatorFilterType::Pointer imageCalculatorFilter
     = ImageCalculatorFilterType::New ();

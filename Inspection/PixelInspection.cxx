@@ -10,11 +10,11 @@ int main( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef short        PixelType;
+  using PixelType = short;
   const   unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 

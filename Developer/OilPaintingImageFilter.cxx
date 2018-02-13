@@ -24,10 +24,10 @@ int main(int argc, char*argv[])
     radius = atoi(argv[3]);
     }
 
-  typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::OilPaintingImageFilter<ImageType>  FilterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::OilPaintingImageFilter<ImageType>;
  
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();

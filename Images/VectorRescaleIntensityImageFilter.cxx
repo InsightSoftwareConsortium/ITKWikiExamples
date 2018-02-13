@@ -15,21 +15,21 @@ int main(int argc, char *argv[])
   std::string inputFilename = argv[1];
   std::string outputFilename = argv[2];
   
-  typedef itk::Image<itk::CovariantVector<float, 3>, 2>  FloatImageType;
-  typedef itk::Image<itk::CovariantVector<unsigned char, 3>, 2>  UnsignedCharImageType;
+  using FloatImageType = itk::Image<itk::CovariantVector<float, 3>, 2>;
+  using UnsignedCharImageType = itk::Image<itk::CovariantVector<unsigned char, 3>, 2>;
 
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFilename);
   reader->Update();
 
-  typedef itk::VectorRescaleIntensityImageFilter<FloatImageType, UnsignedCharImageType> VectorRescaleFilterType;
+  using VectorRescaleFilterType = itk::VectorRescaleIntensityImageFilter<FloatImageType, UnsignedCharImageType>;
   VectorRescaleFilterType::Pointer rescaleFilter = VectorRescaleFilterType::New();
   rescaleFilter->SetInput(reader->GetOutput());
   rescaleFilter->SetOutputMaximumMagnitude(255);
   rescaleFilter->Update();
 
-  typedef  itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFilename);
   writer->SetInput(rescaleFilter->GetOutput());

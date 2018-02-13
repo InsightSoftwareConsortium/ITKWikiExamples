@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::Vector<double, 3> VectorType;
+  using VectorType = itk::Vector<double, 3>;
   
   VectorType v1;
   v1[0] = 1.0;

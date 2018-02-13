@@ -7,8 +7,8 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>          FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
  
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -21,14 +21,14 @@ int main(int argc, char * argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<UnsignedCharImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<UnsignedCharImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
     image = reader->GetOutput();
     }
 
-  typedef  itk::SignedDanielssonDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > SignedDanielssonDistanceMapImageFilterType;
+  using SignedDanielssonDistanceMapImageFilterType = itk::SignedDanielssonDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  >;
   SignedDanielssonDistanceMapImageFilterType::Pointer distanceMapImageFilter =
     SignedDanielssonDistanceMapImageFilterType::New();
   distanceMapImageFilter->SetInput(image);

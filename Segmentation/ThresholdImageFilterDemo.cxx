@@ -29,40 +29,27 @@ int main(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
-  typedef itk::LiThresholdImageFilter<InputImageType, OutputImageType >
-    LiFilterType;
-  typedef itk::HuangThresholdImageFilter<InputImageType, OutputImageType >
-    HuangFilterType;
-  typedef itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType >
-    IntermodesFilterType;
-  typedef itk::IsoDataThresholdImageFilter<InputImageType, OutputImageType >
-    IsoDataFilterType;
-  typedef itk::KittlerIllingworthThresholdImageFilter<InputImageType, OutputImageType >
-    KittlerIllingworthFilterType;
-  typedef itk::LiThresholdImageFilter<InputImageType, OutputImageType >
-    LiFilterType;
-  typedef itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType >
-    MaximumEntropyFilterType;
-  typedef itk::MomentsThresholdImageFilter<InputImageType, OutputImageType >
-    MomentsFilterType;
-  typedef itk::OtsuThresholdImageFilter<InputImageType, OutputImageType >
-    OtsuFilterType;
-  typedef itk::RenyiEntropyThresholdImageFilter<InputImageType, OutputImageType >
-    RenyiEntropyFilterType;
-  typedef itk::ShanbhagThresholdImageFilter<InputImageType, OutputImageType >
-    ShanbhagFilterType;
-  typedef itk::TriangleThresholdImageFilter<InputImageType, OutputImageType >
-    TriangleFilterType;
-  typedef itk::YenThresholdImageFilter<InputImageType, OutputImageType >
-    YenFilterType;
+  using LiFilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType >;
+  using HuangFilterType = itk::HuangThresholdImageFilter<InputImageType, OutputImageType >;
+  using IntermodesFilterType = itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType >;
+  using IsoDataFilterType = itk::IsoDataThresholdImageFilter<InputImageType, OutputImageType >;
+  using KittlerIllingworthFilterType = itk::KittlerIllingworthThresholdImageFilter<InputImageType, OutputImageType >;
+  using LiFilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType >;
+  using MaximumEntropyFilterType = itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType >;
+  using MomentsFilterType = itk::MomentsThresholdImageFilter<InputImageType, OutputImageType >;
+  using OtsuFilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType >;
+  using RenyiEntropyFilterType = itk::RenyiEntropyThresholdImageFilter<InputImageType, OutputImageType >;
+  using ShanbhagFilterType = itk::ShanbhagThresholdImageFilter<InputImageType, OutputImageType >;
+  using TriangleFilterType = itk::TriangleThresholdImageFilter<InputImageType, OutputImageType >;
+  using YenFilterType = itk::YenThresholdImageFilter<InputImageType, OutputImageType >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -72,7 +59,7 @@ int main(int argc, char* argv[] )
     reader->GetOutput(),true,
     itksys::SystemTools::GetFilenameName(argv[1]));  
 
-  typedef std::map<std::string, itk::HistogramThresholdImageFilter<InputImageType, OutputImageType>::Pointer> FilterContainerType;
+  using FilterContainerType = std::map<std::string, itk::HistogramThresholdImageFilter<InputImageType, OutputImageType>::Pointer>;
   FilterContainerType filterContainer;
 
   filterContainer["Huang"] = HuangFilterType::New();

@@ -3,8 +3,8 @@
 
 int main( int, char *[])
 {
-  typedef itk::RGBPixel<unsigned char> PixelType;
-  typedef itk::Function::JetColormapFunction<float, PixelType> ColorMapType;
+  using PixelType = itk::RGBPixel<unsigned char>;
+  using ColorMapType = itk::Function::JetColormapFunction<float, PixelType>;
   ColorMapType::Pointer colormap = ColorMapType::New();
   
   colormap->SetMinimumInputValue(0.0);

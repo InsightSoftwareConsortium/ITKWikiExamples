@@ -9,11 +9,11 @@ class ExampleCostFunction2 :
 public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExampleCostFunction2      Self;
-  typedef SingleValuedCostFunction  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type alias. */
+  using Self = ExampleCostFunction2;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

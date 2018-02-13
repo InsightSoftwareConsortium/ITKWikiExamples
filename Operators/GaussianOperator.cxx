@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::GaussianOperator<float, 2> GaussianOperatorType;
+  using GaussianOperatorType = itk::GaussianOperator<float, 2>;
   GaussianOperatorType gaussianOperator;
   gaussianOperator.SetDirection(0); // Create the operator for the X axis derivative
   itk::Size<2> radius;

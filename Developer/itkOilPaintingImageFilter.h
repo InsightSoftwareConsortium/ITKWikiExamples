@@ -18,11 +18,11 @@ template< class TImage>
 class OilPaintingImageFilter:public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef OilPaintingImageFilter             Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef typename NeighborhoodIterator<TImage>::RadiusType RadiusType;
+  /** Standard class type alias. */
+  using Self = OilPaintingImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using RadiusType = typename NeighborhoodIterator<TImage>::RadiusType;
  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

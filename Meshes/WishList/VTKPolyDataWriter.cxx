@@ -3,7 +3,7 @@
 #include "itkVTKPolyDataWriter.h"
 
 const unsigned int Dimension = 3;
-typedef itk::Mesh< float, Dimension >   MeshType;
+using MeshType = itk::Mesh< float, Dimension >;
 	
 MeshType::Pointer CreateMeshWithEdges();
 
@@ -12,7 +12,7 @@ int main(int, char *[])
 
   MeshType::Pointer mesh = CreateMeshWithEdges();
 
-  typedef itk::VTKPolyDataWriter<MeshType> WriterType;
+  using WriterType = itk::VTKPolyDataWriter<MeshType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(mesh);
   writer->SetFileName("test.vtk");
@@ -43,7 +43,7 @@ MeshType::Pointer CreateMeshWithEdges()
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
 
   //access points
-  typedef MeshType::PointsContainer::Iterator     PointsIterator;
+  using PointsIterator = MeshType::PointsContainer::Iterator;
 
   PointsIterator  pointIterator = mesh->GetPoints()->Begin();
 
@@ -55,8 +55,8 @@ MeshType::Pointer CreateMeshWithEdges()
     ++pointIterator;                                // advance to next point
     }
 
-  typedef MeshType::CellType::CellAutoPointer         CellAutoPointer;
-  typedef itk::LineCell< MeshType::CellType >         LineType;
+  using CellAutoPointer = MeshType::CellType::CellAutoPointer;
+  using LineType = itk::LineCell< MeshType::CellType >;
 
 
   CellAutoPointer line0;

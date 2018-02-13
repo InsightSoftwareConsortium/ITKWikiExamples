@@ -24,14 +24,13 @@ int main(int argc, char *argv[])
     beta = atof(argv[3]);
     }
 
-  typedef itk::Image<unsigned char, 2> ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::SigmoidImageFilter <ImageType, ImageType>
-    SigmoidImageFilterType;
+  using SigmoidImageFilterType = itk::SigmoidImageFilter <ImageType, ImageType>;
 
   SigmoidImageFilterType::Pointer sigmoidFilter
     = SigmoidImageFilterType::New();

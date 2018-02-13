@@ -2,8 +2,8 @@
 #include "itkImageFileReader.h"
 #include "itkClampImageFilter.h"
 
-typedef itk::Image<float, 2>  FloatImageType;
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using FloatImageType = itk::Image<float, 2>;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(FloatImageType* const image);
 
@@ -19,14 +19,14 @@ int main(int argc, char *argv[])
     }
   else // Input image argument provided
     {
-    typedef itk::ImageFileReader<FloatImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<FloatImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
     image = reader->GetOutput();
     }
 
-  typedef itk::ClampImageFilter< FloatImageType, UnsignedCharImageType > ClampFilterType;
+  using ClampFilterType = itk::ClampImageFilter< FloatImageType, UnsignedCharImageType >;
   ClampFilterType::Pointer clampFilter = ClampFilterType::New();
   clampFilter->SetInput(image);
   clampFilter->Update();

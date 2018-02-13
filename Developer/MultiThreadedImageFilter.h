@@ -9,12 +9,12 @@ template< class TImage>
 class MultiThreadedImageFilter : public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiThreadedImageFilter             Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type alias. */
+  using Self = MultiThreadedImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
 
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

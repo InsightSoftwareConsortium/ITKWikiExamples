@@ -8,8 +8,8 @@
 
 #include "QuickView.h"
 
-typedef itk::RGBPixel<unsigned char> PixelType;
-typedef itk::Image<PixelType, 2>     ImageType;
+using PixelType = itk::RGBPixel<unsigned char>;
+using ImageType = itk::Image<PixelType, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -24,7 +24,7 @@ int main(int argc, char*argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName (argv[1]);
     reader->Update();

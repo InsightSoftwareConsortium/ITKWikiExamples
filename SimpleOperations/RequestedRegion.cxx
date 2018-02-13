@@ -4,7 +4,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image<float, 2> ImageType;
+  using ImageType = itk::Image<float, 2>;
   
   itk::Size<2> smallSize;
   smallSize.Fill(10);
@@ -25,7 +25,7 @@ int main(int, char *[])
   
   std::cout << "Created random image." << std::endl;
   
-  typedef itk::DerivativeImageFilter<ImageType, ImageType >  DerivativeImageFilterType;
+  using DerivativeImageFilterType = itk::DerivativeImageFilter<ImageType, ImageType >;
   DerivativeImageFilterType::Pointer derivativeFilter = DerivativeImageFilterType::New();
   derivativeFilter->SetInput( randomImageSource->GetOutput() );
   derivativeFilter->SetDirection(0); // "x" axis

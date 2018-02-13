@@ -12,17 +12,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::ExhaustiveOptimizerv4<double> OptimizerType;
-  typedef   const OptimizerType *            OptimizerPointer;
+  using OptimizerType = itk::ExhaustiveOptimizerv4<double>;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -52,18 +52,15 @@ int main (int argc, char *argv[])
     std::cout << "Usage: " << argv[0] << " fixedImage movingImage" << std::endl;
     return EXIT_FAILURE;
     }
-  typedef itk::Image<double, 2>                 FixedImageType;
-  typedef itk::Image<double, 2>                 MovingImageType;
-  typedef itk::ImageFileReader<FixedImageType>  FixedImageReaderType;
-  typedef itk::ImageFileReader<MovingImageType> MovingImageReaderType;
-  typedef itk::Euler2DTransform< double >       TransformType;
-  typedef itk::ExhaustiveOptimizerv4< double >  OptimizerType; 
-  typedef itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType >
-                                                MetricType;
-  typedef itk::CenteredTransformInitializer< TransformType, FixedImageType,  MovingImageType >
-                                                TransformInitializerType;
-  typedef itk::ImageRegistrationMethodv4< FixedImageType, MovingImageType, TransformType >
-                                                RegistrationType;
+  using FixedImageType = itk::Image<double, 2>;
+  using MovingImageType = itk::Image<double, 2>;
+  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
+  using TransformType = itk::Euler2DTransform< double >;
+  using OptimizerType = itk::ExhaustiveOptimizerv4< double >; 
+  using MetricType = itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType >;
+  using TransformInitializerType = itk::CenteredTransformInitializer< TransformType, FixedImageType,  MovingImageType >;
+  using RegistrationType = itk::ImageRegistrationMethodv4< FixedImageType, MovingImageType, TransformType >;
 
   FixedImageReaderType::Pointer     fixedImageReader    = FixedImageReaderType::New();
   MovingImageReaderType::Pointer    movingImageReader    = MovingImageReaderType::New();

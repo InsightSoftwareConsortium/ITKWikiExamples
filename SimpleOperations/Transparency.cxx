@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     outputFilename = "test.tif";
     }
 
-  typedef itk::RGBAPixel<unsigned char> PixelType;
-  typedef itk::Image< PixelType, 2>  ImageType;
+  using PixelType = itk::RGBAPixel<unsigned char>;
+  using ImageType = itk::Image< PixelType, 2>;
 
   ImageType::RegionType region;
   ImageType::IndexType start;
@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
     ++imageIterator;
   }
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
-  typedef  itk::TIFFImageIO TIFFIOType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
+  using TIFFIOType = itk::TIFFImageIO;
   WriterType::Pointer writer = WriterType::New();
   TIFFIOType::Pointer tiffIO = TIFFIOType::New();
   tiffIO->SetPixelType(itk::ImageIOBase::RGBA);

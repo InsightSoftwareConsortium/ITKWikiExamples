@@ -26,14 +26,13 @@ int main( int argc, char *argv[])
     }
   std::string inputFilename = argv[1];
 
-  typedef   float           PixelType;
+  using PixelType = float;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef  itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::MinMaxCurvatureFlowImageFilter< ImageType, ImageType >
-                                              MinMaxCurvatureFlowImageFilterType;
-  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using MinMaxCurvatureFlowImageFilterType = itk::MinMaxCurvatureFlowImageFilter< ImageType, ImageType >;
+  using SubtractType = itk::SubtractImageFilter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFilename );

@@ -11,10 +11,10 @@
 
 namespace
 {
-  typedef unsigned char                 PixelType;
-  typedef itk::RGBPixel<unsigned char>  RGBPixelType;
-  typedef itk::Image<PixelType, 2>      ImageType;
-  typedef itk::Image<RGBPixelType, 2>   RGBImageType;
+  using PixelType = unsigned char;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using ImageType = itk::Image<PixelType, 2>;
+  using RGBImageType = itk::Image<RGBPixelType, 2>;
 }
 
 static void CreateImage(ImageType::Pointer image);
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader =
       ReaderType::New();
     reader->SetFileName(argv[1]);
@@ -40,19 +40,18 @@ int main(int argc, char *argv[])
     }
 
   // Generate connected components
-  typedef itk::ConnectedComponentImageFilter <ImageType, ImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <ImageType, ImageType >;
    ConnectedComponentImageFilterType::Pointer connectedComponentImageFilter
     = ConnectedComponentImageFilterType::New ();
   connectedComponentImageFilter->SetInput(image);
 
   // Generate contours for each component
-  typedef itk::LabelContourImageFilter<ImageType, ImageType> LabelContourImageFilterType;
+  using LabelContourImageFilterType = itk::LabelContourImageFilter<ImageType, ImageType>;
   LabelContourImageFilterType::Pointer labelContourImageFilter =
     LabelContourImageFilterType::New();
   labelContourImageFilter->SetInput(connectedComponentImageFilter->GetOutput());
 
-  typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType>;
   RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
   rgbFilter->SetInput( labelContourImageFilter->GetOutput() );
   rgbFilter->SetColormap( RGBFilterType::Jet );

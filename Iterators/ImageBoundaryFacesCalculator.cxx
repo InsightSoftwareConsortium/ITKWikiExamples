@@ -3,7 +3,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -15,10 +15,10 @@ int main(int, char*[])
   ImageType::SizeType radius;
   radius.Fill(1);
 
-  typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  typedef itk::NeighborhoodAlgorithm
-    ::ImageBoundaryFacesCalculator< ImageType > FaceCalculatorType;
+  using FaceCalculatorType = itk::NeighborhoodAlgorithm
+    ::ImageBoundaryFacesCalculator< ImageType >;
 
   FaceCalculatorType faceCalculator;
  

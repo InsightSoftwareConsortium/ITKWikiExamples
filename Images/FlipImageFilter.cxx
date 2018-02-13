@@ -6,8 +6,8 @@
 
 #include "QuickView.h"
 
-typedef itk::RGBPixel<unsigned char>  PixelType;
-typedef itk::Image<PixelType, 2>  ImageType;
+using PixelType = itk::RGBPixel<unsigned char>;
+using ImageType = itk::Image<PixelType, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
   flipAxes[1] = false;
   if (argc > 1)
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( argv[1] );
     reader->Update();
@@ -43,8 +43,7 @@ int main(int argc, char *argv[])
     flipAxes[1] = true;
     }
 
-  typedef itk::FlipImageFilter <ImageType>
-          FlipImageFilterType;
+  using FlipImageFilterType = itk::FlipImageFilter <ImageType>;
 
   FlipImageFilterType::Pointer flipFilter
           = FlipImageFilterType::New ();

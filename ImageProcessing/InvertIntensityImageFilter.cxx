@@ -4,7 +4,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
   unsigned int maximum = 255;
   if (argc > 1)
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( argv[1] );
     reader->Update();
@@ -36,8 +36,7 @@ int main(int argc, char *argv[])
     maximum = 50;
     }
 
-  typedef itk::InvertIntensityImageFilter <ImageType>
-    InvertIntensityImageFilterType;
+  using InvertIntensityImageFilterType = itk::InvertIntensityImageFilter <ImageType>;
 
   InvertIntensityImageFilterType::Pointer invertIntensityFilter
     = InvertIntensityImageFilterType::New();

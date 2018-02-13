@@ -2,12 +2,12 @@
 
 int main(int, char *[])
 {
-  typedef itk::PolyLineParametricPath< 2 > PathType;
+  using PathType = itk::PolyLineParametricPath< 2 >;
   
   PathType::Pointer path = PathType::New();
   path->Initialize();
 
-  typedef PathType::ContinuousIndexType    ContinuousIndexType;
+  using ContinuousIndexType = PathType::ContinuousIndexType;
 
   // Create a line
   for(unsigned int i = 0; i < 20; ++i)

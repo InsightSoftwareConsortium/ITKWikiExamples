@@ -15,12 +15,12 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char   PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef itk::ImageSeriesReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter<   ImageType > WriterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using WriterType = itk::ImageFileWriter<   ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -30,7 +30,7 @@ int main( int argc, char * argv[] )
 
   const char * outputFilename = argv[4];
 
-  typedef itk::NumericSeriesFileNames    NameGeneratorType;
+  using NameGeneratorType = itk::NumericSeriesFileNames;
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
 

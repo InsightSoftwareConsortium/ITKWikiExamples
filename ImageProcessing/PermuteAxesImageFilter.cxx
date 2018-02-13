@@ -14,7 +14,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -23,8 +23,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::PermuteAxesImageFilter <ImageType>
-    PermuteAxesImageFilterType;
+  using PermuteAxesImageFilterType = itk::PermuteAxesImageFilter <ImageType>;
 
   itk::FixedArray<unsigned int, 2> order;
   order[0] = 1;
@@ -37,7 +36,7 @@ int main(int, char *[])
   permuteAxesFilter->Update();
 
   // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer originalConnector = ConnectorType::New();
   originalConnector->SetInput(image);
 

@@ -8,11 +8,11 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<itk::CovariantVector<unsigned char, 3>, 2>   VectorImageType;
-  typedef itk::Image<unsigned char, 2> ScalarImageType;
-  typedef itk::ImageFilterMultipleInputsDifferentType<VectorImageType, ScalarImageType>  FilterType;
+  using VectorImageType = itk::Image<itk::CovariantVector<unsigned char, 3>, 2>;
+  using ScalarImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::ImageFilterMultipleInputsDifferentType<VectorImageType, ScalarImageType>;
 
-  typedef itk::ImageFileReader<VectorImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<VectorImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName("Test.jpg");
   reader->Update();
@@ -22,7 +22,7 @@ int main(int, char*[])
   filter->SetInput(reader->GetOutput());
   filter->Update();
 
-  typedef  itk::ImageFileWriter< VectorImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< VectorImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("TestOutput.jpg");
   writer->SetInput(filter->GetOutput());

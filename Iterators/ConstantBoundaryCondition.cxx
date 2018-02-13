@@ -15,7 +15,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char*[])
@@ -39,7 +39,7 @@ int main(int, char*[])
   radius[0] = 1;
   radius[1] = 1;
 
-  typedef itk::ConstantBoundaryCondition<ImageType>  BoundaryConditionType;
+  using BoundaryConditionType = itk::ConstantBoundaryCondition<ImageType>;
   itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType> iterator(radius, image,region);
 
   while(!iterator.IsAtEnd())
@@ -56,7 +56,7 @@ int main(int, char*[])
     }
 
   // Visualize
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector = ConnectorType::New();
   connector->SetInput(image);
 

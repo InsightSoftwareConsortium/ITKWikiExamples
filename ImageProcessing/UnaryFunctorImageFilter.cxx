@@ -21,12 +21,12 @@ public:
     }
   inline TOutput operator()( const TInput & A ) const
     {
-      typedef itk::Vector<float, 2> VectorType;
+      using VectorType = itk::Vector<float, 2>;
       VectorType v;
       v[0] = A[0];
       v[1] = A[1];
             
-      typedef itk::Rigid2DTransform< float > TransformType;
+      using TransformType = itk::Rigid2DTransform< float >;
 
       TransformType::Pointer transform = TransformType::New();
       transform->SetAngle(vnl_math::pi/2.0);
@@ -43,7 +43,7 @@ public:
 
 int main(int, char *[])
 {
-  typedef itk::VectorImage<float, 2>  ImageType;
+  using ImageType = itk::VectorImage<float, 2>;
 
   ImageType::RegionType region;
   ImageType::IndexType start;
@@ -66,7 +66,7 @@ int main(int, char *[])
   pixelIndex[0] = 1;
   pixelIndex[1] = 1;
 
-  typedef itk::VariableLengthVector<float> VectorType;
+  using VectorType = itk::VariableLengthVector<float>;
   VectorType v;
   v.SetSize(2);
   v[0] = 1;
@@ -74,10 +74,10 @@ int main(int, char *[])
   
   image->SetPixel(pixelIndex, v);
   
-  typedef itk::UnaryFunctorImageFilter<ImageType,ImageType,
+  using FilterType = itk::UnaryFunctorImageFilter<ImageType,ImageType,
                                   RotateVectors<
     ImageType::PixelType,
-    ImageType::PixelType> > FilterType;
+    ImageType::PixelType> >;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(image);

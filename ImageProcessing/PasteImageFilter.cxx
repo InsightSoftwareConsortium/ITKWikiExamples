@@ -6,7 +6,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage1(ImageType::Pointer image);
 static void CreateImage2(ImageType::Pointer image);
@@ -19,8 +19,7 @@ int main(int, char *[])
   ImageType::Pointer image2 = ImageType::New();
   CreateImage2(image2);
 
-  typedef itk::PasteImageFilter <ImageType, ImageType >
-    PasteImageFilterType;
+  using PasteImageFilterType = itk::PasteImageFilter <ImageType, ImageType >;
 
   // The SetDestinationIndex() method prescribes where in the first
   // input to start pasting data from the second input.

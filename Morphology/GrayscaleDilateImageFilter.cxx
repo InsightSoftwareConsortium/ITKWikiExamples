@@ -25,26 +25,25 @@ int main(int argc, char *argv[])
 
   std::string inputFilename = argv[1];
 
-  typedef itk::Image<unsigned char, 2>    ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFilename);
 
-  typedef itk::BinaryBallStructuringElement<
-    ImageType::PixelType,2> StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<
+    ImageType::PixelType,2>;
   StructuringElementType structuringElement;
   structuringElement.SetRadius(radius);
   structuringElement.CreateStructuringElement();
 
-  typedef itk::GrayscaleDilateImageFilter <ImageType, ImageType, StructuringElementType>
-    GrayscaleDilateImageFilterType;
+  using GrayscaleDilateImageFilterType = itk::GrayscaleDilateImageFilter <ImageType, ImageType, StructuringElementType>;
 
   GrayscaleDilateImageFilterType::Pointer dilateFilter
     = GrayscaleDilateImageFilterType::New();
   dilateFilter->SetInput(reader->GetOutput());
   dilateFilter->SetKernel(structuringElement);
 
-  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+  using SubtractType = itk::SubtractImageFilter<ImageType>;
   SubtractType::Pointer diff = SubtractType::New();
   diff->SetInput2(reader->GetOutput());
   diff->SetInput1(dilateFilter->GetOutput());

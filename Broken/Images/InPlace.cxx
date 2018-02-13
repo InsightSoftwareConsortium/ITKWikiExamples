@@ -11,7 +11,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image< unsigned char, 2 >  ImageType;
+using ImageType = itk::Image< unsigned char, 2 >;
 
 static void ApplyThresholding(ImageType::Pointer image);
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     
   std::string inputFilename = argv[1];
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName(inputFilename.c_str());
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   ApplyThresholding(image);
   
   // Visualize
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector = ConnectorType::New();
   connector->SetInput(image);
 
@@ -74,8 +74,7 @@ int main(int argc, char *argv[])
 void ApplyThresholding(ImageType::Pointer image)
 {
 
-  typedef itk::BinaryThresholdImageFilter <ImageType, ImageType>
-          BinaryThresholdImageFilterType;
+  using BinaryThresholdImageFilterType = itk::BinaryThresholdImageFilter <ImageType, ImageType>;
 
   BinaryThresholdImageFilterType::Pointer thresholdFilter
           = BinaryThresholdImageFilterType::New();

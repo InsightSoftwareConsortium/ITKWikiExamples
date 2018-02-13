@@ -27,11 +27,11 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< float,  2 >                 FloatImageType;
-  typedef itk::ImageFileReader< FloatImageType >  ReaderType;
+  using FloatImageType = itk::Image< float,  2 >;
+  using ReaderType = itk::ImageFileReader< FloatImageType >;
 
-  typedef itk::ZeroCrossingBasedEdgeDetectionImageFilter<
-    FloatImageType, FloatImageType >  FilterType;
+  using FilterType = itk::ZeroCrossingBasedEdgeDetectionImageFilter<
+    FloatImageType, FloatImageType >;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

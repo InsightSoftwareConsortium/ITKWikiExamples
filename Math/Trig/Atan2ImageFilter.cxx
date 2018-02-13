@@ -1,7 +1,7 @@
 #include "itkAtan2ImageFilter.h"
 #include "itkImage.h"
 
-typedef itk::Image<float, 2>  FloatImageType;
+using FloatImageType = itk::Image<float, 2>;
 
 static void CreateImage1(FloatImageType::Pointer image);
 static void CreateImage2(FloatImageType::Pointer image);
@@ -15,8 +15,7 @@ int main(int, char *[])
   CreateImage2(image2);
 
   // Compute the atan of each pixel
-  typedef itk::Atan2ImageFilter <FloatImageType, FloatImageType, FloatImageType>
-          Atan2ImageFilterType;
+  using Atan2ImageFilterType = itk::Atan2ImageFilter <FloatImageType, FloatImageType, FloatImageType>;
 
   Atan2ImageFilterType::Pointer atan2ImageFilter
           = Atan2ImageFilterType::New ();

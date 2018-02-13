@@ -7,17 +7,17 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   InputImageType;
-  typedef itk::Image<float, 2>   OutputImageType1;
-  typedef itk::Image<int, 2>   OutputImageType2;
-  typedef itk::ImageFilterMultipleOutputsDifferentType<InputImageType, OutputImageType1, OutputImageType2>  FilterType;
+  using InputImageType = itk::Image<unsigned char, 2>;
+  using OutputImageType1 = itk::Image<float, 2>;
+  using OutputImageType2 = itk::Image<int, 2>;
+  using FilterType = itk::ImageFilterMultipleOutputsDifferentType<InputImageType, OutputImageType1, OutputImageType2>;
 
   // Create and the filter
   FilterType::Pointer filter = FilterType::New();
   filter->Update();
 
   {
-  typedef  itk::ImageFileWriter< OutputImageType1  > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType1  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("TestOutput1.jpg");
   writer->SetInput(filter->GetOutput1());
@@ -25,7 +25,7 @@ int main(int, char*[])
   }
   
   {
-  typedef  itk::ImageFileWriter< OutputImageType2  > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType2  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("TestOutput2.jpg");
   writer->SetInput(filter->GetOutput2());

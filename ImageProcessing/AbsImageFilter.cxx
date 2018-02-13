@@ -5,8 +5,8 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
 
 static void CreateImage(FloatImageType::Pointer image);
 
@@ -16,8 +16,7 @@ int main(int, char *[])
   CreateImage(image);
 
   // Take the absolute value of the image
-  typedef itk::AbsImageFilter <FloatImageType, FloatImageType>
-          AbsImageFilterType;
+  using AbsImageFilterType = itk::AbsImageFilter <FloatImageType, FloatImageType>;
 
   AbsImageFilterType::Pointer absFilter
           = AbsImageFilterType::New ();

@@ -16,9 +16,9 @@
 #include "vtkRenderWindow.h"
 #include "vtkRenderWindowInteractor.h"
 
-typedef itk::Vector<unsigned char,3> MeasurementVectorType;
-typedef itk::Image<MeasurementVectorType,2> ColorImageType;
-typedef itk::Image<unsigned char,2> GrayscaleImageType;
+using MeasurementVectorType = itk::Vector<unsigned char,3>;
+using ColorImageType = itk::Image<MeasurementVectorType,2>;
+using GrayscaleImageType = itk::Image<unsigned char,2>;
 
 void CreateImage(ColorImageType::Pointer image);
 void ITKImagetoVTKImageColor(ColorImageType::Pointer image, vtkImageData* outputImage);
@@ -32,11 +32,11 @@ int main(int, char* [] )
   CreateImage(image);
 
   // Compute pixel clusters using KMeans
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< itk::Vector<unsigned char,3> >  MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
-  typedef std::vector< MembershipFunctionPointer >  MembershipFunctionPointerVector;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction< itk::Vector<unsigned char,3> > ;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
+  using MembershipFunctionPointerVector = std::vector< MembershipFunctionPointer >;
 
-  typedef itk::ImageKmeansModelEstimator<ColorImageType, MembershipFunctionType>  ImageKmeansModelEstimatorType;
+  using ImageKmeansModelEstimatorType = itk::ImageKmeansModelEstimator<ColorImageType, MembershipFunctionType>;
 
   ImageKmeansModelEstimatorType::Pointer
     kmeansEstimator = ImageKmeansModelEstimatorType::New();
@@ -49,20 +49,20 @@ int main(int, char* [] )
   kmeansEstimator->Update();
 
   // Classify each pixel
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
-  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule2;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   
   classifier->SetDecisionRule(decisionRule);
   classifier->SetNumberOfClasses(3);
 
-  typedef ClassifierType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef ClassifierType::ClassLabelVectorType                     ClassLabelVectorType;
-  typedef ClassifierType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
-  typedef ClassifierType::MembershipFunctionVectorType             MembershipFunctionVectorType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
+  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
 
   // Setup membership functions
   MembershipFunctionPointerVector kmeansMembershipFunctions =
@@ -88,7 +88,7 @@ int main(int, char* [] )
   classLabelsVector.push_back( 250 );
 
   // Perform the classification
-  typedef itk::Statistics::ImageToListSampleAdaptor< ColorImageType > SampleAdaptorType;
+  using SampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor< ColorImageType >;
   SampleAdaptorType::Pointer sample = SampleAdaptorType::New();
   sample->SetImage(image);
 

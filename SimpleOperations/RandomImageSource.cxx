@@ -5,7 +5,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image< unsigned char, 2 >  ImageType;
+  using ImageType = itk::Image< unsigned char, 2 >;
 
   itk::Size<2> size;
   size.Fill(10);

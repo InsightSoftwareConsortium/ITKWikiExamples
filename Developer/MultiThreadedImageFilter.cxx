@@ -13,8 +13,8 @@ static void OutputImage(TImage* const image);
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<int, 2>   ImageType;
-  typedef itk::MultiThreadedImageFilter<ImageType>  FilterType;
+  using ImageType = itk::Image<int, 2>;
+  using FilterType = itk::MultiThreadedImageFilter<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
   CreateImage(image.GetPointer());

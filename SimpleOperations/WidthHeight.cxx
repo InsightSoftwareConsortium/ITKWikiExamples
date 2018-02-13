@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<float, 2>            ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<float, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );

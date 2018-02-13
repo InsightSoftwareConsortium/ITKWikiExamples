@@ -23,8 +23,8 @@ template< typename TComponent = unsigned short >
 class myRGBPixel : public RGBPixel<TComponent>
 {
 public:
-  typedef myRGBPixel           Self;
-  typedef RGBPixel<TComponent> Superclass;
+  using Self = myRGBPixel;
+  using Superclass = RGBPixel<TComponent>;
   using RGBPixel<TComponent>::operator=;
 
   bool operator<=(const Self & r) const
@@ -64,14 +64,14 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::myRGBPixel<unsigned char>                      PixelType;
-  typedef itk::Image<PixelType, 2 >                           ImageType;
-  typedef itk::RGBPixel<unsigned char>                        RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2 >                        RGBImageType;
+  using PixelType = itk::myRGBPixel<unsigned char>;
+  using ImageType = itk::Image<PixelType, 2 >;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2 >;
 
-  typedef itk::ImageFileReader<ImageType>                     ReaderType;
-  typedef itk::MedianImageFilter<ImageType, ImageType >       FilterType;
-  typedef itk::CastImageFilter<ImageType, RGBImageType>       CastType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using FilterType = itk::MedianImageFilter<ImageType, ImageType >;
+  using CastType = itk::CastImageFilter<ImageType, RGBImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

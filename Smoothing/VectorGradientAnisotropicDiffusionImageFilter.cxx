@@ -27,25 +27,25 @@ int main( int argc, char *argv[])
   // 0) Parse arguments
   std::string inputFileName = argv[1];
 
-  typedef itk::Image< itk::Vector<float, 3>, 2 >  FloatImageType;
-  typedef itk::Image< itk::RGBPixel<float>, 2 >   RGBImageType;
+  using FloatImageType = itk::Image< itk::Vector<float, 3>, 2 >;
+  using RGBImageType = itk::Image< itk::RGBPixel<float>, 2 >;
   
   // 1) Read the RGB image
-  typedef  itk::ImageFileReader< RGBImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< RGBImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
 
   // 2) Cast to Vector image for processing
-  typedef itk::RGBToVectorImageAdaptor<RGBImageType> AdaptorInputType;
+  using AdaptorInputType = itk::RGBToVectorImageAdaptor<RGBImageType>;
   AdaptorInputType::Pointer adaptInput = AdaptorInputType::New();
   adaptInput->SetImage(reader->GetOutput());
-  typedef itk::CastImageFilter<AdaptorInputType,FloatImageType> CastInputType;
+  using CastInputType = itk::CastImageFilter<AdaptorInputType,FloatImageType>;
   CastInputType::Pointer castInput = CastInputType::New();
   castInput->SetInput(adaptInput);
 
   // 3) Smooth the image
-  typedef itk::VectorGradientAnisotropicDiffusionImageFilter< FloatImageType, 
-    FloatImageType > VectorGradientAnisotropicDiffusionImageFilterType;
+  using VectorGradientAnisotropicDiffusionImageFilterType = itk::VectorGradientAnisotropicDiffusionImageFilter< FloatImageType, 
+    FloatImageType >;
   VectorGradientAnisotropicDiffusionImageFilterType::Pointer filter = 
     VectorGradientAnisotropicDiffusionImageFilterType::New();
   filter->SetInput( castInput->GetOutput() );
@@ -60,10 +60,10 @@ int main( int argc, char *argv[])
     }
 
   // 4) Cast the Vector image to an RGB image for display
-  typedef itk::VectorToRGBImageAdaptor<FloatImageType> AdaptorOutputType;
+  using AdaptorOutputType = itk::VectorToRGBImageAdaptor<FloatImageType>;
   AdaptorOutputType::Pointer adaptOutput = AdaptorOutputType::New();
   adaptOutput->SetImage(filter->GetOutput());
-  typedef itk::CastImageFilter<AdaptorOutputType,RGBImageType> CastOutputType;
+  using CastOutputType = itk::CastImageFilter<AdaptorOutputType,RGBImageType>;
   CastOutputType::Pointer castOutput = CastOutputType::New();
   castOutput->SetInput(adaptOutput);
   

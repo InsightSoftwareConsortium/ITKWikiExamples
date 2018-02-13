@@ -23,10 +23,10 @@ int main(int argc, char *argv[] )
   std::cout << "input2FileName " << input2FileName << std::endl;;
   std::cout << "outputFileName " << outputFileName << std::endl;;
   
-  typedef itk::Image< unsigned char, 2>   ImageType;
+  using ImageType = itk::Image< unsigned char, 2>;
 
   // Read images
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  using ImageReaderType = itk::ImageFileReader< ImageType >;
   ImageReaderType::Pointer reader1 = ImageReaderType::New();
   reader1->SetFileName(input1FileName);
   reader1->Update();
@@ -36,7 +36,7 @@ int main(int argc, char *argv[] )
   reader2->Update();
 
   // Tile the images side-by-side
-  typedef itk::TileImageFilter< ImageType, ImageType > TileFilterType;
+  using TileFilterType = itk::TileImageFilter< ImageType, ImageType >;
 
   TileFilterType::Pointer tileFilter = TileFilterType::New();
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[] )
   tileFilter->Update();
 
   // Write the output image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( tileFilter->GetOutput() );
   writer->SetFileName( outputFileName );

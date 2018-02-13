@@ -7,7 +7,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::TranslationTransform<double,2> TranslationTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double,2>;
   TranslationTransformType::Pointer transform =
     TranslationTransformType::New();
   TranslationTransformType::OutputVectorType translation;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   translation[1] = 20;
   transform->Translate(translation);
 
-  typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleImageFilterType;
+  using ResampleImageFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   ResampleImageFilterType::Pointer resampleFilter = ResampleImageFilterType::New();
   resampleFilter->SetTransform(transform.GetPointer());
   resampleFilter->SetInput(image);

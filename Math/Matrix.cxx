@@ -17,7 +17,7 @@ int main(int, char *[])
 
 void Construct()
 {
-  typedef itk::Matrix<double, 3, 3> MatrixType;
+  using MatrixType = itk::Matrix<double, 3, 3>;
   MatrixType M;
   M(0,0) = 1.0;
   M(0,1) = 2.0;
@@ -36,7 +36,7 @@ void Construct()
 void ConstructRunTimeDims()
 {
   int matrixSize = 3;
-  typedef itk::Matrix<double, matrixSize, matrixSize> MatrixType;
+  using MatrixType = itk::Matrix<double, matrixSize, matrixSize>;
   MatrixType M;
   M(0,0) = 1.0;
   M(0,1) = 2.0;
@@ -54,7 +54,7 @@ void ConstructRunTimeDims()
 
 void Multiply()
 {
-  typedef itk::Matrix<double, 3, 3> MatrixType;
+  using MatrixType = itk::Matrix<double, 3, 3>;
   MatrixType M;
   M(0,0) = 1.0;
   M(0,1) = 2.0;
@@ -68,7 +68,7 @@ void Multiply()
 
   std::cout << "M: " << M << std::endl;
 
-  typedef itk::Vector<double, 3> VectorType;
+  using VectorType = itk::Vector<double, 3>;
   VectorType V;
   V[0] = 1.0;
   V[1] = 2.0;

@@ -5,8 +5,8 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image< double, 2 >         ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image< double, 2 >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   try
   {

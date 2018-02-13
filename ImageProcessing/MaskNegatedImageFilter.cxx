@@ -2,7 +2,7 @@
 #include "itkImageFileWriter.h"
 #include "itkMaskNegatedImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer mask);
 static void CreateImage(ImageType::Pointer image);
@@ -15,13 +15,13 @@ int main(int, char *[])
   ImageType::Pointer mask = ImageType::New();
   CreateHalfMask(image, mask);
 
-  typedef itk::MaskNegatedImageFilter< ImageType, ImageType > MaskNegatedImageFilterType;
+  using MaskNegatedImageFilterType = itk::MaskNegatedImageFilter< ImageType, ImageType >;
   MaskNegatedImageFilterType::Pointer maskNegatedImageFilter = MaskNegatedImageFilterType::New();
   maskNegatedImageFilter->SetInput(image);
   maskNegatedImageFilter->SetMaskImage(mask);
   maskNegatedImageFilter->Update();;
   
-  typedef itk::ImageFileWriter<ImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<ImageType>;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(maskNegatedImageFilter->GetOutput());

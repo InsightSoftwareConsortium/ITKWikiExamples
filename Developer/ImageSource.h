@@ -12,10 +12,10 @@ class ImageFilter:public ImageToImageFilter< TImage, TImage >
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef ImageFilter             Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type alias. */
+  using Self = ImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

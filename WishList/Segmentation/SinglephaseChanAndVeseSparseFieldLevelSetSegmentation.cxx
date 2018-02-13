@@ -54,33 +54,33 @@ int main(int argc, char**argv)
   //  due to the requirements of the smoothing filter.
   //
   const unsigned int Dimension = 2;
-  typedef float ScalarPixelType;
-  typedef itk::Image< ScalarPixelType, Dimension > InternalImageType;
+  using ScalarPixelType = float;
+  using InternalImageType = itk::Image< ScalarPixelType, Dimension >;
 
 
-  typedef itk::ScalarChanAndVeseLevelSetFunctionData< InternalImageType,
-    InternalImageType > DataHelperType;
+  using DataHelperType = itk::ScalarChanAndVeseLevelSetFunctionData< InternalImageType,
+    InternalImageType >;
 
-  typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData<
-    InternalImageType, InternalImageType, DataHelperType > SharedDataHelperType;
+  using SharedDataHelperType = itk::ConstrainedRegionBasedLevelSetFunctionSharedData<
+    InternalImageType, InternalImageType, DataHelperType >;
 
-  typedef itk::ScalarChanAndVeseLevelSetFunction< InternalImageType,
-    InternalImageType, SharedDataHelperType > LevelSetFunctionType;
+  using LevelSetFunctionType = itk::ScalarChanAndVeseLevelSetFunction< InternalImageType,
+    InternalImageType, SharedDataHelperType >;
 
 
   //  We declare now the type of the numerically discretized Step and Delta functions that
   //  will be used in the level-set computations for foreground and background regions
   //
-  typedef itk::AtanRegularizedHeavisideStepFunction< ScalarPixelType,
-    ScalarPixelType >  DomainFunctionType;
+  using DomainFunctionType = itk::AtanRegularizedHeavisideStepFunction< ScalarPixelType,
+    ScalarPixelType >;
 
   DomainFunctionType::Pointer domainFunction = DomainFunctionType::New();
   domainFunction->SetEpsilon( epsilon );
 
   // We instantiate reader and writer types in the following lines.
   //
-  typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter< InternalImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter< InternalImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -96,8 +96,7 @@ int main(int argc, char**argv)
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter< InternalImageType, InternalImageType >
-    FastMarchingFilterType;
+  using FastMarchingFilterType = itk::FastMarchingImageFilter< InternalImageType, InternalImageType >;
 
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
 
@@ -112,8 +111,8 @@ int main(int argc, char**argv)
   //  container is defined as \code{NodeContainer} among the
   //  FastMarchingImageFilter traits.
   //
-  typedef FastMarchingFilterType::NodeContainer  NodeContainer;
-  typedef FastMarchingFilterType::NodeType       NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -167,9 +166,9 @@ int main(int argc, char**argv)
   //  will be used to generate a segmentation.
   //
 
-  typedef itk::ScalarChanAndVeseSparseLevelSetImageFilter< InternalImageType,
+  using MultiLevelSetType = itk::ScalarChanAndVeseSparseLevelSetImageFilter< InternalImageType,
     InternalImageType, InternalImageType, LevelSetFunctionType,
-    SharedDataHelperType > MultiLevelSetType;
+    SharedDataHelperType >;
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 

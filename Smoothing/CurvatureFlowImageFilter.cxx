@@ -21,17 +21,17 @@ int main( int argc, char *argv[])
     iterations = atoi(argv[2]);
     }
 
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
 
-  typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >CurvatureFlowImageFilterType;
+  using CurvatureFlowImageFilterType = itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >;
 
   CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
 
@@ -39,7 +39,7 @@ int main( int argc, char *argv[])
   smoothing->SetNumberOfIterations( iterations );
   smoothing->SetTimeStep( 0.125 );
 
-  typedef itk::SubtractImageFilter< InternalImageType > SubtractImageFilterType;
+  using SubtractImageFilterType = itk::SubtractImageFilter< InternalImageType >;
   SubtractImageFilterType::Pointer diff = SubtractImageFilterType::New();
   diff->SetInput1(reader->GetOutput());
   diff->SetInput2(smoothing->GetOutput());

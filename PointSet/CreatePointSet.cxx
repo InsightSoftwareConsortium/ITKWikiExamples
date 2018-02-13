@@ -3,11 +3,11 @@
 
 int main(int, char*[])
 {
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 3;
-  typedef itk::PointSet< PixelType, Dimension >   PointSetType;
-  typedef PointSetType::PointType PointType;
-  typedef PointSetType::PointsContainerPointer PointsContainerPointer;
+  using PointSetType = itk::PointSet< PixelType, Dimension >;
+  using PointType = PointSetType::PointType;
+  using PointsContainerPointer = PointSetType::PointsContainerPointer;
   
   PointSetType::Pointer  PointSet = PointSetType::New();
   PointsContainerPointer  points = PointSet->GetPoints();

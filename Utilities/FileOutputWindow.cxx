@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-  typedef itk::FileOutputWindow myFileOutputWindow;
+  using myFileOutputWindow = itk::FileOutputWindow;
   myFileOutputWindow::Pointer window = myFileOutputWindow::New();
 
   if (argc > 1)
@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
   // Generic output
   itkGenericOutputMacro("This should be in the file: " << window->GetFileName());
   // Warning
-  typedef itk::ScaleTransform<float,2> TransformType;
+  using TransformType = itk::ScaleTransform<float,2>;
   TransformType::Pointer transform = TransformType::New();
   TransformType::FixedParametersType parameters(3);
   transform->SetFixedParameters(parameters);

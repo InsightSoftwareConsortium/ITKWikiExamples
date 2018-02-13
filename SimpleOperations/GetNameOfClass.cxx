@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::Image<unsigned char, 2> ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
   ImageType::Pointer image = ImageType::New();
 
   std::cout << "image is type: " << image->GetNameOfClass() << std::endl;

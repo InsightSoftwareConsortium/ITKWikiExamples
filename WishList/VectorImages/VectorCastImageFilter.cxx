@@ -3,12 +3,12 @@
 
 int main(int argc, char *argv[])
 {
-  typedef itk::VectorImage<unsigned char, 2>  UnsignedCharVectorImageType;
-  typedef itk::VectorImage<float, 2>  FloatVectorImageType;
+  using UnsignedCharVectorImageType = itk::VectorImage<unsigned char, 2>;
+  using FloatVectorImageType = itk::VectorImage<float, 2>;
 
   FloatVectorImageType::Pointer image = FloatVectorImageType::New();
 
-  typedef itk::VectorCastImageFilter< FloatVectorImageType, UnsignedCharVectorImageType > VectorCastImageFilterType;
+  using VectorCastImageFilterType = itk::VectorCastImageFilter< FloatVectorImageType, UnsignedCharVectorImageType >;
   VectorCastImageFilterType::Pointer vectorCastImageFilter = VectorCastImageFilterType::New();
   vectorCastImageFilter->SetInput(image);
   vectorCastImageFilter->Update();

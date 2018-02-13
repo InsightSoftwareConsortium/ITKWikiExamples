@@ -14,16 +14,16 @@
  
 namespace
 {
-typedef itk::Image< unsigned char, 2 >    ImageType;
-typedef itk::Image< float,  2 >           FloatImageType;
-typedef ImageType::IndexType              IndexType;
-typedef itk::CovariantVector< float, 2  > OutputPixelType;
-typedef itk::Image< OutputPixelType, 2 >  OutputImageType;
-typedef itk::GradientRecursiveGaussianImageFilter<
-  FloatImageType, OutputImageType>        FilterType;
-typedef itk::GradientMagnitudeImageFilter<
-  ImageType, FloatImageType >             GradMagfilterType;
-typedef itk::ImageFileReader< ImageType > ReaderType;
+using ImageType = itk::Image< unsigned char, 2 >;
+using FloatImageType = itk::Image< float,  2 >;
+using IndexType = ImageType::IndexType;
+using OutputPixelType = itk::CovariantVector< float, 2  >;
+using OutputImageType = itk::Image< OutputPixelType, 2 >;
+using FilterType = itk::GradientRecursiveGaussianImageFilter<
+  FloatImageType, OutputImageType>;
+using GradMagfilterType = itk::GradientMagnitudeImageFilter<
+  ImageType, FloatImageType >;
+using ReaderType = itk::ImageFileReader< ImageType >;
 }
  
 vnl_vector<double> generateCircle(double cx, double cy,

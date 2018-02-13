@@ -7,7 +7,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image< unsigned char, 2 >  ImageType;
+using ImageType = itk::Image< unsigned char, 2 >;
 
 int main( int argc, char *argv[])
 {
@@ -19,12 +19,12 @@ int main( int argc, char *argv[])
     }
   std::string inputFileName = argv[1];
   
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputFileName.c_str());
   reader->Update();
 
-  typedef itk::ConfidenceConnectedImageFilter<ImageType, ImageType> ConfidenceConnectedFilterType;
+  using ConfidenceConnectedFilterType = itk::ConfidenceConnectedImageFilter<ImageType, ImageType>;
   ConfidenceConnectedFilterType::Pointer confidenceConnectedFilter = ConfidenceConnectedFilterType::New();
   confidenceConnectedFilter->SetInitialNeighborhoodRadius(3);
   confidenceConnectedFilter->SetMultiplier(3);

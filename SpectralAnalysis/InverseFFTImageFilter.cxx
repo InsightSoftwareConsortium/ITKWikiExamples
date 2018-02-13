@@ -6,7 +6,7 @@
 #include "itkCastImageFilter.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<float, 2> FloatImageType;
+using FloatImageType = itk::Image<float, 2>;
   
 static void CreateImage(FloatImageType* const image);
 
@@ -24,7 +24,7 @@ int main(int argc, char*argv[])
   else
   {
     // Read the image
-    typedef itk::ImageFileReader<FloatImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<FloatImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -33,17 +33,17 @@ int main(int argc, char*argv[])
   }
 
   // Define some types
-  typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
+  using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
   // Compute the FFT
-  typedef itk::ForwardFFTImageFilter<FloatImageType> FFTType;
+  using FFTType = itk::ForwardFFTImageFilter<FloatImageType>;
   FFTType::Pointer fftFilter = FFTType::New();
   fftFilter->SetInput(image);
   fftFilter->Update();
 
   // Compute the IFFT
-  //typedef itk::InverseFFTImageFilter<FFTType::OutputImageType, UnsignedCharImageType> IFFTType; // This does not work - output type seems to need to be float, but it is just an error, not a concept check error...
-  typedef itk::InverseFFTImageFilter<FFTType::OutputImageType, FloatImageType> IFFTType;
+  //using IFFTType = itk::InverseFFTImageFilter<FFTType::OutputImageType, UnsignedCharImageType>; // This does not work - output type seems to need to be float, but it is just an error, not a concept check error...
+  using IFFTType = itk::InverseFFTImageFilter<FFTType::OutputImageType, FloatImageType>;
   IFFTType::Pointer ifftFilter = IFFTType::New();
   ifftFilter->SetInput(fftFilter->GetOutput());
   ifftFilter->Update();
@@ -53,12 +53,12 @@ int main(int argc, char*argv[])
 //   viewer.AddImage(ifftFilter->GetOutput());
 //   viewer.Visualize();
 
-  typedef itk::CastImageFilter< FloatImageType, UnsignedCharImageType > CastFilterType;
+  using CastFilterType = itk::CastImageFilter< FloatImageType, UnsignedCharImageType >;
   CastFilterType::Pointer castFilter = CastFilterType::New();
   castFilter->SetInput(ifftFilter->GetOutput());
   castFilter->Update();
   
-  typedef itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("ifft.png");

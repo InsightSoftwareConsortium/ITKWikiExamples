@@ -35,23 +35,23 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< float,  2 >   FloatImageType;
-  typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
+  using FloatImageType = itk::Image< float,  2 >;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
   // Create and setup a reader
-  typedef itk::ImageFileReader< UnsignedCharImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< UnsignedCharImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFilename.c_str() );
   
   // Create and setup a gradient filter
-  typedef itk::GradientImageFilter<
-      UnsignedCharImageType, float>  GradientFilterType;
+  using GradientFilterType = itk::GradientImageFilter<
+      UnsignedCharImageType, float>;
   GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput( reader->GetOutput() );
   gradientFilter->Update();
 
   // Visualize original image
-  typedef itk::ImageToVTKImageFilter<UnsignedCharImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<UnsignedCharImageType>;
   ConnectorType::Pointer originalConnector = ConnectorType::New();
   originalConnector->SetInput(reader->GetOutput());
 

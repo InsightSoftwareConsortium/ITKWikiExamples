@@ -32,14 +32,13 @@ int main(int argc, char *argv[])
     upperThreshold = atof(argv[4]);
     }
 
-  typedef itk::Image<double, 2>  DoubleImageType;
+  using DoubleImageType = itk::Image<double, 2>;
 
-  typedef itk::ImageFileReader<DoubleImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<DoubleImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::CannyEdgeDetectionImageFilter <DoubleImageType, DoubleImageType>
-    CannyEdgeDetectionImageFilterType;
+  using CannyEdgeDetectionImageFilterType = itk::CannyEdgeDetectionImageFilter <DoubleImageType, DoubleImageType>;
 
   CannyEdgeDetectionImageFilterType::Pointer cannyFilter
     = CannyEdgeDetectionImageFilterType::New();

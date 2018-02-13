@@ -9,10 +9,10 @@ template< class TImage>
 class MyInPlaceImageFilter : public InPlaceImageFilter<TImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MyInPlaceImageFilter             Self;
-  typedef InPlaceImageFilter<TImage> Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type alias. */
+  using Self = MyInPlaceImageFilter;
+  using Superclass = InPlaceImageFilter<TImage>;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

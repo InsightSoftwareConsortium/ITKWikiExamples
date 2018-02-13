@@ -2,7 +2,7 @@
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<float, 2> ImageType;
+using ImageType = itk::Image<float, 2>;
 
 void CreateImage(ImageType::Pointer image);
 
@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef  itk::AdaptiveHistogramEqualizationImageFilter< ImageType > AdaptiveHistogramEqualizationImageFilterType;
+  using AdaptiveHistogramEqualizationImageFilterType = itk::AdaptiveHistogramEqualizationImageFilter< ImageType >;
   AdaptiveHistogramEqualizationImageFilterType::Pointer adaptiveHistogramEqualizationImageFilter = AdaptiveHistogramEqualizationImageFilterType::New();
   adaptiveHistogramEqualizationImageFilter->SetInput(image);
   adaptiveHistogramEqualizationImageFilter->SetRadius(1);
   adaptiveHistogramEqualizationImageFilter->Update();
  
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.mhd");
   writer->SetInput(adaptiveHistogramEqualizationImageFilter->GetOutput());
@@ -60,7 +60,7 @@ void CreateImage(ImageType::Pointer image)
   pixel.Fill(20);
   image->SetPixel(pixel, 255);
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.mhd");
   writer->SetInput(image);

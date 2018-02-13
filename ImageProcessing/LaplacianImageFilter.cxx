@@ -20,14 +20,14 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< float,  2 >   FloatImageType;
+  using FloatImageType = itk::Image< float,  2 >;
 
-  typedef itk::ImageFileReader< FloatImageType >  readerType;
+  using readerType = itk::ImageFileReader< FloatImageType >;
   readerType::Pointer reader = readerType::New();
   reader->SetFileName( inputFilename.c_str() );
   reader->Update();
 
-  typedef itk::LaplacianImageFilter<FloatImageType, FloatImageType >  filterType;
+  using filterType = itk::LaplacianImageFilter<FloatImageType, FloatImageType >;
   filterType::Pointer laplacianFilter = filterType::New();
   laplacianFilter->SetInput( reader->GetOutput() ); // NOTE: input image type must be double or float
   laplacianFilter->Update();

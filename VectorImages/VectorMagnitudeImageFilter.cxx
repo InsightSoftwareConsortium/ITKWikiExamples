@@ -20,26 +20,26 @@ int main(int argc, char * argv[])
   std::string outputFilename = argv[2];
 
   // Setup types
-  typedef itk::VectorImage< float,  2 >    VectorImageType;
-  typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
+  using VectorImageType = itk::VectorImage< float,  2 >;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
   // Create and setup a reader
-  typedef itk::ImageFileReader< VectorImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< VectorImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFilename );
 
-  typedef itk::ImageFileWriter< UnsignedCharImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType >;
 
-  typedef itk::VectorMagnitudeImageFilter<
-    VectorImageType, UnsignedCharImageType >  VectorMagnitudeFilterType;
+  using VectorMagnitudeFilterType = itk::VectorMagnitudeImageFilter<
+    VectorImageType, UnsignedCharImageType >;
   VectorMagnitudeFilterType::Pointer magnitudeFilter =
     VectorMagnitudeFilterType::New();
   magnitudeFilter->SetInput( reader->GetOutput() );
 
   // To write the magnitude image file, we should rescale the gradient values
   // to a reasonable range
-  typedef itk::RescaleIntensityImageFilter<
-    UnsignedCharImageType, UnsignedCharImageType > rescaleFilterType;
+  using rescaleFilterType = itk::RescaleIntensityImageFilter<
+    UnsignedCharImageType, UnsignedCharImageType >;
 
   rescaleFilterType::Pointer rescaler =
     rescaleFilterType::New();

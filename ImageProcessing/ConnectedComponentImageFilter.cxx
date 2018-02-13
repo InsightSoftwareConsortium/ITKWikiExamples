@@ -14,10 +14,10 @@ static void CreateImage(TImage* const image);
 int main( int argc, char *argv[])
 {
   const unsigned int Dimension = 2;
-  typedef unsigned char                       PixelType;
-  typedef itk::RGBPixel<unsigned char>         RGBPixelType;
-  typedef itk::Image<PixelType, Dimension>     ImageType;
-  typedef itk::Image<RGBPixelType, Dimension>  RGBImageType;
+  using PixelType = unsigned char;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
   ImageType::Pointer image;
   if( argc < 2 )
@@ -27,7 +27,7 @@ int main( int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -35,10 +35,9 @@ int main( int argc, char *argv[])
     image = reader->GetOutput();
     }
 
-  typedef itk::Image< unsigned short, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< unsigned short, Dimension >;
 
-  typedef itk::ConnectedComponentImageFilter <ImageType, OutputImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <ImageType, OutputImageType >;
 
   ConnectedComponentImageFilterType::Pointer connected =
     ConnectedComponentImageFilterType::New ();
@@ -47,7 +46,7 @@ int main( int argc, char *argv[])
 
   std::cout << "Number of objects: " << connected->GetObjectCount() << std::endl;
 
-  typedef itk::LabelToRGBImageFilter<OutputImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::LabelToRGBImageFilter<OutputImageType, RGBImageType>;
   RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
   rgbFilter->SetInput( connected->GetOutput() );
 

@@ -14,13 +14,13 @@
 
 #include <iostream>
  
-typedef unsigned short InputPixelType;
-typedef itk::Image<InputPixelType, 2> ImageType;
-typedef itk::RGBPixel<unsigned char> RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>  RGBImageType;
+using InputPixelType = unsigned short;
+using ImageType = itk::Image<InputPixelType, 2>;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
-typedef itk::Function::CustomColormapFunction<
-  ImageType::PixelType, RGBImageType::PixelType> ColormapType;
+using ColormapType = itk::Function::CustomColormapFunction<
+  ImageType::PixelType, RGBImageType::PixelType>;
 
 static void CreateRandomColormap(unsigned int size, ColormapType::Pointer colormap);
 
@@ -36,23 +36,19 @@ int main( int argc, char * argv[] )
     }
   double spacing = atof(argv[2]);
  
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
  
   // Identity transform.
   // We don't want any transform on our image except rescaling which is not
   // specified by a transform but by the input/output spacing as we will see
   // later.
   // So no transform will be specified.
-  typedef itk::IdentityTransform<double, 2>
-    TransformType;
+  using TransformType = itk::IdentityTransform<double, 2>;
  
-  typedef itk::LabelImageGaussianInterpolateImageFunction<ImageType, double>
-    GaussianInterpolatorType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType, double>
-    NearestNeighborInterpolatorType;
+  using GaussianInterpolatorType = itk::LabelImageGaussianInterpolateImageFunction<ImageType, double>;
+  using NearestNeighborInterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
  
-  typedef itk::ResampleImageFilter<ImageType, ImageType>
-    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
 
   // Prepare the reader and update it right away to know the sizes beforehand.
   ReaderType::Pointer reader =
@@ -137,7 +133,7 @@ int main( int argc, char * argv[] )
   resizeFilter2->SetInput(reader->GetOutput());
  
   // Display the images
-  typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> ColormapFilterType;
+  using ColormapFilterType = itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType>;
   ColormapFilterType::Pointer colormapFilter1 =
     ColormapFilterType::New();
 

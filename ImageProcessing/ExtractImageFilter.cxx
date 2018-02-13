@@ -6,7 +6,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image<unsigned char, 2> ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
 
   ImageType::IndexType start;
   start.Fill(0);
@@ -33,7 +33,7 @@ int main(int, char *[])
 
   std::cout << "desiredRegion: " << desiredRegion << std::endl;
   
-  typedef itk::ExtractImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::ExtractImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetExtractionRegion(desiredRegion);
   filter->SetInput(image);

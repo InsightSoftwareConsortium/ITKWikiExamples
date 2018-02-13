@@ -4,11 +4,11 @@
 #include <itkTriangleMeshToSimplexMeshFilter.h>
 #include <itkSimplexMeshVolumeCalculator.h>
 
-typedef itk::Mesh< float, 3 >        TMesh;
-typedef itk::SimplexMesh< float, 3 > TSimplex;
-typedef itk::RegularSphereMeshSource< TMesh >                   TSphere;
-typedef itk::TriangleMeshToSimplexMeshFilter< TMesh, TSimplex > TConvert;
-typedef itk::SimplexMeshVolumeCalculator< TSimplex >            TVolume;
+using TMesh = itk::Mesh< float, 3 >;
+using TSimplex = itk::SimplexMesh< float, 3 >;
+using TSphere = itk::RegularSphereMeshSource< TMesh >;
+using TConvert = itk::TriangleMeshToSimplexMeshFilter< TMesh, TSimplex >;
+using TVolume = itk::SimplexMeshVolumeCalculator< TSimplex >;
 
 int main(int, char *[])
 {

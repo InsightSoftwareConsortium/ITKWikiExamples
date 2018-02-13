@@ -1,10 +1,10 @@
 #include "itkBinaryNotImageFilter.h"
 #include "itkCommand.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImageObserve(ImageType::Pointer image);
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 class MyCommand : public itk::Command
 {
@@ -30,8 +30,7 @@ int main(int, char*[])
   ImageType::Pointer image = ImageType::New();
   CreateImageObserve(image);
 
-  typedef itk::BinaryNotImageFilter <ImageType>
-          BinaryNotImageFilterType;
+  using BinaryNotImageFilterType = itk::BinaryNotImageFilter <ImageType>;
 
   BinaryNotImageFilterType::Pointer filter = BinaryNotImageFilterType::New();
   filter->SetInput(image);

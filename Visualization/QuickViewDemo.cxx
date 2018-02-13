@@ -4,7 +4,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType* const image);
 
@@ -21,13 +21,13 @@ int main(int argc, char *argv[])
     }
   else
   {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     image = reader->GetOutput();
   }
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(image);
   rescaleFilter->SetOutputMinimum(0);

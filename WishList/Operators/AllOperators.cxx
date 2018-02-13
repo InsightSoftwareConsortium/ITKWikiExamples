@@ -14,15 +14,15 @@
 
 int main(int, char*[])
 {
-  typedef itk::DerivativeOperator<float, 2> DerivativeOperatorType;
-  typedef itk::ForwardDifferenceOperator<float, 2> ForwardDifferenceOperatorType;
-  typedef itk::GaussianDerivativeOperator<float, 2> GaussianDerivativeOperatorType;
-  typedef itk::GaussianOperator<float, 2> GaussianOperatorType;
-  typedef itk::ImageKernelOperator<float, 2> ImageKernelOperatorType;
-  typedef itk::LaplacianOperator<float, 2> LaplacianOperatorType;
-  typedef itk::SobelOperator<float, 2> SobelOperatorType;
-  typedef itk::AnnulusOperator<float, 2> AnnulusOperatorType;
-  typedef itk::BackwardDifferenceOperator<float, 2> BackwardDifferenceOperatorType;
+  using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
+  using ForwardDifferenceOperatorType = itk::ForwardDifferenceOperator<float, 2>;
+  using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator<float, 2>;
+  using GaussianOperatorType = itk::GaussianOperator<float, 2>;
+  using ImageKernelOperatorType = itk::ImageKernelOperator<float, 2>;
+  using LaplacianOperatorType = itk::LaplacianOperator<float, 2>;
+  using SobelOperatorType = itk::SobelOperator<float, 2>;
+  using AnnulusOperatorType = itk::AnnulusOperator<float, 2>;
+  using BackwardDifferenceOperatorType = itk::BackwardDifferenceOperator<float, 2>;
 
   std::vector<itk::NeighborhoodOperator<float, 2>*> operators;
   operators.push_back(new DerivativeOperatorType);

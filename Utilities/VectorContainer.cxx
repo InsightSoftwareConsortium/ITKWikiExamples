@@ -3,8 +3,8 @@
 
 int main(int, char*[])
 {
-  typedef itk::Point<double, 2> PointType;
-  typedef itk::VectorContainer<int, PointType> VectorContainerType;
+  using PointType = itk::Point<double, 2>;
+  using VectorContainerType = itk::VectorContainer<int, PointType>;
   
   PointType p0;
   p0[0] = 1.0;

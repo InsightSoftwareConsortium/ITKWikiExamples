@@ -3,7 +3,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
-typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -12,12 +12,12 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
   
-  typedef itk::Image<float, 2 > FloatImageType;
+  using FloatImageType = itk::Image<float, 2 >;
   
   unsigned int numberOfLevels = 4;
   
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<
-      UnsignedCharImageType, FloatImageType>  RecursiveMultiResolutionPyramidImageFilterType;
+  using RecursiveMultiResolutionPyramidImageFilterType = itk::RecursiveMultiResolutionPyramidImageFilter<
+      UnsignedCharImageType, FloatImageType>;
   RecursiveMultiResolutionPyramidImageFilterType::Pointer recursiveMultiResolutionPyramidImageFilter =
       RecursiveMultiResolutionPyramidImageFilterType::New();
   recursiveMultiResolutionPyramidImageFilter->SetInput(image);
@@ -28,14 +28,14 @@ int main(int, char *[])
   for(unsigned int i = 0; i < numberOfLevels; ++i)
     {
     // Scale so we can write to a PNG
-    typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+    using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
     RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
     rescaleFilter->SetInput(recursiveMultiResolutionPyramidImageFilter->GetOutput(i));
     rescaleFilter->SetOutputMinimum(0);
     rescaleFilter->SetOutputMaximum(255);
     rescaleFilter->Update();
 
-    typedef itk::ImageFileWriter<UnsignedCharImageType> FileWriterType;
+    using FileWriterType = itk::ImageFileWriter<UnsignedCharImageType>;
     FileWriterType::Pointer writer = FileWriterType::New();
     std::stringstream ss;
     ss << "output_" << i << ".png";

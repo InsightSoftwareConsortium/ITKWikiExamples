@@ -21,14 +21,14 @@ static void SummarizeLabelStatistics (TImage* image,
 int main( int argc, char *argv[])
 {
   const unsigned int Dimension = 2;
-  typedef short                                  PixelType;
-  typedef itk::Image<PixelType, Dimension>       ImageType;
+  using PixelType = short;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::RGBPixel<unsigned char>           RGBPixelType;
-  typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
-  typedef unsigned int                           LabelPixelType;
-  typedef itk::Image<LabelPixelType, Dimension > LabelImageType;
+  using LabelPixelType = unsigned int;
+  using LabelImageType = itk::Image<LabelPixelType, Dimension >;
 
   ImageType::Pointer image;
   PixelType distanceThreshold = 4;
@@ -39,7 +39,7 @@ int main( int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -52,16 +52,14 @@ int main( int argc, char *argv[])
     }
 
 
-  typedef itk::ScalarConnectedComponentImageFilter <ImageType, LabelImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ScalarConnectedComponentImageFilter <ImageType, LabelImageType >;
 
   ConnectedComponentImageFilterType::Pointer connected =
     ConnectedComponentImageFilterType::New ();
   connected->SetInput(image);
   connected->SetDistanceThreshold(distanceThreshold);
 
-  typedef itk::RelabelComponentImageFilter <LabelImageType, LabelImageType >
-    RelabelFilterType;
+  using RelabelFilterType = itk::RelabelComponentImageFilter <LabelImageType, LabelImageType >;
   RelabelFilterType::Pointer relabel =
     RelabelFilterType::New();
   RelabelFilterType::ObjectSizeType minSize = 20;
@@ -75,7 +73,7 @@ int main( int argc, char *argv[])
 
   SummarizeLabelStatistics (image.GetPointer(), relabel->GetOutput());
 
-  typedef itk::LabelToRGBImageFilter<LabelImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::LabelToRGBImageFilter<LabelImageType, RGBImageType>;
   RGBFilterType::Pointer rgbFilter =
     RGBFilterType::New();
   rgbFilter->SetInput( relabel->GetOutput() );
@@ -147,8 +145,7 @@ template<typename TImage, typename TLabelImage>
 void SummarizeLabelStatistics (TImage* image,
                                TLabelImage* labelImage)
 {
-  typedef itk::LabelStatisticsImageFilter< TImage, TLabelImage >
-    LabelStatisticsImageFilterType;
+  using LabelStatisticsImageFilterType = itk::LabelStatisticsImageFilter< TImage, TLabelImage >;
   typename LabelStatisticsImageFilterType::Pointer labelStatisticsImageFilter =
     LabelStatisticsImageFilterType::New();
   labelStatisticsImageFilter->SetLabelInput( labelImage );
@@ -160,7 +157,7 @@ void SummarizeLabelStatistics (TImage* image,
             << labelStatisticsImageFilter->GetNumberOfLabels() << std::endl;
   std::cout << std::endl;
   
-  typedef typename LabelStatisticsImageFilterType::LabelPixelType LabelPixelType;
+  using LabelPixelType = typename LabelStatisticsImageFilterType::LabelPixelType;
 
   for(auto vIt = labelStatisticsImageFilter->GetValidLabelValues().begin();
       vIt != labelStatisticsImageFilter->GetValidLabelValues().end();

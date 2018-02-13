@@ -5,8 +5,8 @@
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkContourExtractor2DImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
  
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -15,27 +15,27 @@ int main(int argc, char * argv[])
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
   
-  typedef  itk::SignedDanielssonDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  > SignedDanielssonDistanceMapImageFilterType;
+  using SignedDanielssonDistanceMapImageFilterType = itk::SignedDanielssonDistanceMapImageFilter< UnsignedCharImageType, FloatImageType  >;
   SignedDanielssonDistanceMapImageFilterType::Pointer signedDanielssonDistanceMapImageFilter = SignedDanielssonDistanceMapImageFilterType::New();
   signedDanielssonDistanceMapImageFilter->SetInput(image);
   signedDanielssonDistanceMapImageFilter->Update();
 
   {
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(signedDanielssonDistanceMapImageFilter->GetOutput());
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
   rescaleFilter->Update();
 
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(rescaleFilter->GetOutput());
   writer->Update();
   }
   
-  typedef itk::ContourExtractor2DImageFilter <FloatImageType> ContourExtractor2DImageFilterType;
+  using ContourExtractor2DImageFilterType = itk::ContourExtractor2DImageFilter <FloatImageType>;
   ContourExtractor2DImageFilterType::Pointer contourExtractor2DImageFilter = ContourExtractor2DImageFilterType::New();
   contourExtractor2DImageFilter->SetInput(signedDanielssonDistanceMapImageFilter->GetOutput());
   contourExtractor2DImageFilter->SetContourValue(0);
@@ -93,7 +93,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     image->SetPixel(pixel, 255);
     }
 
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

@@ -2,9 +2,9 @@
 
 int main(int, char *[])
 {
-  typedef float MeasurementType;
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using MeasurementType = float;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
   HistogramType::Pointer histogram = HistogramType::New();
 
   unsigned int dimension = 3;

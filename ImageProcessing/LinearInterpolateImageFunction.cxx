@@ -2,7 +2,7 @@
 #include "itkContinuousIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
 
-typedef itk::Image<unsigned char, 1>  ImageType;
+using ImageType = itk::Image<unsigned char, 1>;
 
 static void CreateImage(ImageType::Pointer image);
 

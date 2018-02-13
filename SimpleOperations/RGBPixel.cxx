@@ -3,8 +3,8 @@
 
 int main(int argc, char *argv[])
 {
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType> RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType>;
   RGBImageType::Pointer image = RGBImageType::New();
   
   return EXIT_SUCCESS;

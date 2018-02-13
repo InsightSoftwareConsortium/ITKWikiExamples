@@ -5,7 +5,7 @@
 #include <itkImageFileWriter.h>
 #include <itkImageFileReader.h>
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -36,14 +36,14 @@ int main(int, char*[])
     }
 
   // Write the image (and the data) to a file
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("test.mhd");
   writer->SetInput(image);
   writer->Update();
 
   // Read the image (and data) from the file
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName("test.mhd");
 

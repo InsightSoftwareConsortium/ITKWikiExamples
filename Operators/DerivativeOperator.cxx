@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::DerivativeOperator<float, 2> DerivativeOperatorType;
+  using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
   DerivativeOperatorType derivativeOperator;
   derivativeOperator.SetDirection(0); // Create the operator for the X axis derivative
   itk::Size<2> radius;

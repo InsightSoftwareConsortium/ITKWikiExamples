@@ -25,14 +25,13 @@ int main(int argc, char *argv[])
     upperThreshold = atoi(argv[3]);
     }
 
-  typedef itk::Image<unsigned char, 2>    ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::ThresholdImageFilter <ImageType>
-    ThresholdImageFilterType;
+  using ThresholdImageFilterType = itk::ThresholdImageFilter <ImageType>;
 
   ThresholdImageFilterType::Pointer thresholdFilter
     = ThresholdImageFilterType::New();

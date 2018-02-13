@@ -4,7 +4,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -13,15 +13,15 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef  itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer inputWriter = WriterType::New();
   inputWriter->SetFileName("input.png");
   inputWriter->SetInput(image);
   inputWriter->Update();
 
-  // typedef itk::ScaleTransform<float, 2> TransformType; // If you want to use float here, you must use:
-  // typedef itk::ResampleImageFilter<ImageType, ImageType, float> ResampleImageFilterType; later.
-  typedef itk::ScaleTransform<double, 2> TransformType;
+  // using TransformType = itk::ScaleTransform<float, 2>; // If you want to use float here, you must use:
+  // using ResampleImageFilterType = itk::ResampleImageFilter<ImageType, ImageType, float>; later.
+  using TransformType = itk::ScaleTransform<double, 2>;
   TransformType::Pointer scaleTransform = TransformType::New();
   itk::FixedArray<float, 2> scale;
   scale[0] = 1.5; // newWidth/oldWidth
@@ -34,7 +34,7 @@ int main(int, char *[])
 
   scaleTransform->SetCenter(center);
  
-  typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleImageFilterType;
+  using ResampleImageFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   ResampleImageFilterType::Pointer resampleFilter = ResampleImageFilterType::New();
   resampleFilter->SetTransform(scaleTransform);
   resampleFilter->SetInput(image);

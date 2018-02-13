@@ -12,9 +12,9 @@
 
 namespace
 {
-typedef itk::Image<unsigned char, 2> ImageType;
-typedef itk::Image<float, 2> FloatImageType;
-typedef itk::Image<unsigned char, 2> MaskType;
+using ImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
+using MaskType = itk::Image<unsigned char, 2>;
 }
 
 static void CreateMask(MaskType* const mask);
@@ -48,7 +48,7 @@ int main(int, char *[])
   WriteImage(movingImage.GetPointer(), "movingImage.png");
 
   // Perform normalized correlation
-  typedef itk::FFTNormalizedCorrelationImageFilter<ImageType, FloatImageType> CorrelationFilterType;
+  using CorrelationFilterType = itk::FFTNormalizedCorrelationImageFilter<ImageType, FloatImageType>;
   CorrelationFilterType::Pointer correlationFilter = CorrelationFilterType::New();
   correlationFilter->SetFixedImage(fixedImage);
   correlationFilter->SetMovingImage(movingImage);
@@ -58,7 +58,7 @@ int main(int, char *[])
 
   WriteImage(correlationFilter->GetOutput(), "correlation.mha");
 
-  typedef itk::RescaleIntensityImageFilter<FloatImageType, ImageType> RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<FloatImageType, ImageType>;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(correlationFilter->GetOutput());
   rescaleFilter->SetOutputMinimum(0);
@@ -66,7 +66,7 @@ int main(int, char *[])
   rescaleFilter->Update();
   WriteImage(rescaleFilter->GetOutput(), "correlation.png");
 
-  typedef itk::MinimumMaximumImageCalculator<FloatImageType> MinimumMaximumImageCalculatorType;
+  using MinimumMaximumImageCalculatorType = itk::MinimumMaximumImageCalculator<FloatImageType>;
   MinimumMaximumImageCalculatorType::Pointer minimumMaximumImageCalculatorFilter = MinimumMaximumImageCalculatorType::New ();
   minimumMaximumImageCalculatorFilter->SetImage(correlationFilter->GetOutput());
   minimumMaximumImageCalculatorFilter->Compute();
@@ -119,7 +119,7 @@ void CreateImage(ImageType::Pointer image, const itk::Index<2>& cornerOfSquare)
 template <typename TImage>
 void WriteImage(TImage* const image, const std::string& filename)
 {
-  typedef  itk::ImageFileWriter<TImage> WriterType;
+  using WriterType = itk::ImageFileWriter<TImage>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(filename);
   writer->SetInput(image);

@@ -6,7 +6,7 @@
 #include "itkLabelOverlayImageFilter.h"
 #include "itkRGBPixel.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -14,28 +14,27 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::BinaryImageToLabelMapFilter<ImageType> BinaryImageToLabelMapFilterType;
+  using BinaryImageToLabelMapFilterType = itk::BinaryImageToLabelMapFilter<ImageType>;
   BinaryImageToLabelMapFilterType::Pointer binaryImageToLabelMapFilter = BinaryImageToLabelMapFilterType::New();
   binaryImageToLabelMapFilter->SetInput(image);
   binaryImageToLabelMapFilter->Update();
   
-  typedef itk::LabelMapToLabelImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, ImageType> LabelMapToLabelImageFilterType;
+  using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, ImageType>;
   LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(binaryImageToLabelMapFilter->GetOutput());
   labelMapToLabelImageFilter->Update();
 
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType> RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType>;
   
-  typedef itk::LabelOverlayImageFilter<ImageType, ImageType, RGBImageType> 
-                                       LabelOverlayImageFilterType;
+  using LabelOverlayImageFilterType = itk::LabelOverlayImageFilter<ImageType, ImageType, RGBImageType>;
   LabelOverlayImageFilterType::Pointer labelOverlayImageFilter = LabelOverlayImageFilterType::New();
   labelOverlayImageFilter->SetInput(image);
   labelOverlayImageFilter->SetLabelImage(labelMapToLabelImageFilter->GetOutput());
   labelOverlayImageFilter->SetOpacity(.5);
   labelOverlayImageFilter->Update();
   
-  typedef  itk::ImageFileWriter< RGBImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(labelOverlayImageFilter->GetOutput());
@@ -79,7 +78,7 @@ void CreateImage(ImageType::Pointer image)
     ++imageIterator;
     }
     
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("image.png");
   writer->SetInput(image);

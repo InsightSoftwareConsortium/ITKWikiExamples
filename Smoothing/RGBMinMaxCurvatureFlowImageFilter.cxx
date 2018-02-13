@@ -30,14 +30,14 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef float                                                    ComponentType;
-  typedef itk::RGBPixel<ComponentType>                             PixelType;
-  typedef itk::Image<PixelType, 2 >                                RGBImageType;
-  typedef itk::Image<ComponentType, 2 >                            ImageType;
-  typedef itk::ImageFileReader<RGBImageType>                       ReaderType;
-  typedef itk::NthElementImageAdaptor<RGBImageType, unsigned char> ImageAdaptorType;
-  typedef itk::ComposeImageFilter<ImageType, RGBImageType>         ComposeType;
-  typedef itk::MinMaxCurvatureFlowImageFilter<ImageAdaptorType, ImageType>  CurvatureFlowType;
+  using ComponentType = float;
+  using PixelType = itk::RGBPixel<ComponentType>;
+  using RGBImageType = itk::Image<PixelType, 2 >;
+  using ImageType = itk::Image<ComponentType, 2 >;
+  using ReaderType = itk::ImageFileReader<RGBImageType>;
+  using ImageAdaptorType = itk::NthElementImageAdaptor<RGBImageType, unsigned char>;
+  using ComposeType = itk::ComposeImageFilter<ImageType, RGBImageType>;
+  using CurvatureFlowType = itk::MinMaxCurvatureFlowImageFilter<ImageAdaptorType, ImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

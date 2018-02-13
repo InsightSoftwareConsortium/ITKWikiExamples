@@ -7,14 +7,14 @@ int main(int, char* [] )
   const double height = 100;
   const double width = 100;
   
-  typedef itk::VoronoiDiagram2D<double> VoronoiDiagramType;
-  typedef itk::VoronoiDiagram2DGenerator<double> VoronoiGeneratorType;
+  using VoronoiDiagramType = itk::VoronoiDiagram2D<double>;
+  using VoronoiGeneratorType = itk::VoronoiDiagram2DGenerator<double>;
 
-  typedef VoronoiDiagramType::PointType PointType;
-  typedef VoronoiDiagramType::CellType CellType;
-  typedef VoronoiDiagramType::CellAutoPointer CellAutoPointer;
-  typedef CellType::PointIdIterator PointIdIterator;
-  typedef VoronoiDiagramType::NeighborIdIterator NeighborIdIterator;
+  using PointType = VoronoiDiagramType::PointType;
+  using CellType = VoronoiDiagramType::CellType;
+  using CellAutoPointer = VoronoiDiagramType::CellAutoPointer;
+  using PointIdIterator = CellType::PointIdIterator;
+  using NeighborIdIterator = VoronoiDiagramType::NeighborIdIterator;
 
   VoronoiDiagramType::Pointer voronoiDiagram = VoronoiDiagramType::New();
   VoronoiGeneratorType::Pointer voronoiGenerator = VoronoiGeneratorType::New();
@@ -96,7 +96,7 @@ int main(int, char* [] )
     }
 
   // Write the resulting mesh
-  typedef itk::VTKPolyDataWriter<VoronoiDiagramType::Superclass> WriterType;
+  using WriterType = itk::VTKPolyDataWriter<VoronoiDiagramType::Superclass>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(voronoiDiagram);
   writer->SetFileName("voronoi.vtk");
@@ -104,7 +104,7 @@ int main(int, char* [] )
 
   // Setup an image to visualize the input
   {
-  typedef itk::Image< unsigned char, 2>  ImageType;
+  using ImageType = itk::Image< unsigned char, 2>;
 
   ImageType::IndexType start;
   start.Fill(0);
@@ -140,7 +140,7 @@ int main(int, char* [] )
   ind[1] = 75;
   image->SetPixel(ind, 255);
 
-  typedef  itk::ImageFileWriter< ImageType  > ImageWriterType;
+  using ImageWriterType = itk::ImageFileWriter< ImageType  >;
   ImageWriterType::Pointer writer = ImageWriterType::New();
   writer->SetFileName("image.png");
   writer->SetInput(image);

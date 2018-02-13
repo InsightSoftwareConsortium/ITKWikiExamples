@@ -1,7 +1,7 @@
 #include "itkBinaryStatisticsOpeningImageFilter.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 void CreateImage(ImageType::Pointer image1, ImageType::Pointer image2);
 
 int main(int, char*[])
@@ -11,8 +11,7 @@ int main(int, char*[])
     
   CreateImage(binaryImage, featureImage);
  
-  typedef itk::BinaryStatisticsOpeningImageFilter<ImageType, ImageType> 
-    BinaryOpeningType;
+  using BinaryOpeningType = itk::BinaryStatisticsOpeningImageFilter<ImageType, ImageType>;
   BinaryOpeningType::Pointer opening = BinaryOpeningType::New();
   opening->SetInput(binaryImage);
   opening->SetFeatureImage(featureImage);
@@ -22,7 +21,7 @@ int main(int, char*[])
   opening->SetAttribute( BinaryOpeningType::LabelObjectType::MEAN);
   opening->Update();
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.mhd");
   writer->SetInput(featureImage);

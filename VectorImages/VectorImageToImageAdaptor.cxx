@@ -3,8 +3,8 @@
 #include "itkVectorImageToImageAdaptor.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<float, 2> ScalarImageType;
-typedef itk::VectorImage<float, 2> VectorImageType;
+using ScalarImageType = itk::Image<float, 2>;
+using VectorImageType = itk::VectorImage<float, 2>;
 
 void CreateImage(VectorImageType::Pointer image);
 
@@ -13,7 +13,7 @@ int main(int, char *[])
   VectorImageType::Pointer image = VectorImageType::New();
   CreateImage(image);
 
-  typedef itk::VectorImageToImageAdaptor<float, 2> ImageAdaptorType;
+  using ImageAdaptorType = itk::VectorImageToImageAdaptor<float, 2>;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   adaptor->SetExtractComponentIndex(0);
   adaptor->SetImage(image);
@@ -43,7 +43,7 @@ void CreateImage(VectorImageType::Pointer image)
   image->SetNumberOfComponentsPerPixel(2);
   image->Allocate();
   
-  typedef itk::VariableLengthVector<double> VariableVectorType;
+  using VariableVectorType = itk::VariableLengthVector<double>;
   VariableVectorType variableLengthVector;
   variableLengthVector.SetSize(2);
 

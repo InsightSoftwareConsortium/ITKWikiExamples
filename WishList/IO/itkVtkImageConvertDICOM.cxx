@@ -13,7 +13,7 @@
 #include <vtkMatrix4x4.h>
 #include <vtkAxesActor.h>
 
-typedef itk::Image<unsigned char, 3> VisualizingImageType;
+using VisualizingImageType = itk::Image<unsigned char, 3>;
 
 VisualizingImageType::Pointer createImage()
 {
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
   iren->SetRenderWindow(renWin);
   renWin->Render(); // make sure we have an OpenGL context.
  
-  typedef itk::ImageToVTKImageFilter<VisualizingImageType> itkVtkConverter;
+  using itkVtkConverter = itk::ImageToVTKImageFilter<VisualizingImageType>;
   itkVtkConverter::Pointer conv=itkVtkConverter::New();
   conv->SetInput(image);
  

@@ -18,9 +18,9 @@
 #include "QuickView.h"
 
 const    unsigned int    ImageDimension = 2;
-typedef  float           PixelType;
+using PixelType = float;
 
-typedef itk::Image< PixelType, ImageDimension >  ImageType;
+using ImageType = itk::Image< PixelType, ImageDimension >;
 
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
@@ -30,33 +30,33 @@ int main( int argc, char *argv[] )
 
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::BSplineDeformableTransform<
+  using TransformType = itk::BSplineDeformableTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            SplineOrder >     TransformType;
+                            SplineOrder >;
 #else
-  typedef itk::BSplineTransform<
+  using TransformType = itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            SplineOrder >     TransformType;
+                            SplineOrder >;
 #endif
-  typedef itk::LBFGSOptimizer       OptimizerType;
+  using OptimizerType = itk::LBFGSOptimizer;
 
 
-  typedef itk::MeanSquaresImageToImageMetric<
+  using MetricType = itk::MeanSquaresImageToImageMetric<
                                     ImageType,
-                                    ImageType >    MetricType;
+                                    ImageType >;
 
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     ImageType,
-                                    double          >    InterpolatorType;
+                                    double          >;
 
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     ImageType,
-                                    ImageType >    RegistrationType;
+                                    ImageType >;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
   //  grid node (1,1) coincides with the first pixel in the fixed image.
 
 #if ITK_VERSION_MAJOR < 4
-  typedef TransformType::RegionType RegionType;
+  using RegionType = TransformType::RegionType;
   RegionType bsplineRegion;
   RegionType::SizeType   gridSizeOnImage;
   RegionType::SizeType   gridBorderSize;
@@ -111,10 +111,10 @@ int main( int argc, char *argv[] )
 
   bsplineRegion.SetSize( totalGridSize );
 
-  typedef TransformType::SpacingType SpacingType;
+  using SpacingType = TransformType::SpacingType;
   SpacingType spacing = fixedImage->GetSpacing();
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin = fixedImage->GetOrigin();
 
   ImageType::SizeType fixedImageSize = fixedRegion.GetSize();
@@ -151,7 +151,7 @@ int main( int argc, char *argv[] )
   transform->SetTransformDomainDirection( fixedImage->GetDirection() );
 #endif
 
-  typedef TransformType::ParametersType     ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   const unsigned int numberOfParameters =
                transform->GetNumberOfParameters();
@@ -202,9 +202,9 @@ int main( int argc, char *argv[] )
 
   transform->SetParameters( finalParameters );
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             ImageType,
-                            ImageType >    ResampleFilterType;
+                            ImageType >;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -217,15 +217,15 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         ImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  OutputWriterType;
+  using OutputWriterType = itk::ImageFileWriter< OutputImageType >;
                         
   OutputWriterType::Pointer      writer =  OutputWriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -265,10 +265,10 @@ int main( int argc, char *argv[] )
 
 void CreateEllipseImage(ImageType::Pointer image)
 {
-  typedef itk::EllipseSpatialObject< ImageDimension >   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< ImageDimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -289,7 +289,7 @@ void CreateEllipseImage(ImageType::Pointer image)
   radiusArray[1] = 20;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
@@ -317,10 +317,10 @@ void CreateEllipseImage(ImageType::Pointer image)
 
 void CreateCircleImage(ImageType::Pointer image)
 {
- typedef itk::EllipseSpatialObject< ImageDimension >   EllipseType;
+ using EllipseType = itk::EllipseSpatialObject< ImageDimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -341,7 +341,7 @@ void CreateCircleImage(ImageType::Pointer image)
   radiusArray[1] = 10;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 

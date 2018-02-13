@@ -45,12 +45,12 @@ int main( int argc, char *argv[] )
     std::cout << "id: " << i << " arg: " << argv[i] << std::endl;
     }
   const   unsigned int        Dimension = 2;
-  typedef float    my_PixelType;
-  typedef itk::Image< my_PixelType, Dimension >    ImageType;
+  using my_PixelType = float;
+  using ImageType = itk::Image< my_PixelType, Dimension >;
 
-  typedef  itk::ImageFileReader< ImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  ImageType  > WriterType;
-  typedef itk::MultiplyImageFilter < ImageType , ImageType ,ImageType > ScaleType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
+  using ScaleType = itk::MultiplyImageFilter < ImageType , ImageType ,ImageType >;
 
   unsigned int nb_train=atoi(argv[1]);
 
@@ -72,7 +72,7 @@ int main( int argc, char *argv[] )
     trainingImages[k] = reader->GetOutput();
     }
 
-  typedef itk::ImagePCAShapeModelEstimator<ImageType,   ImageType >  my_Estimatortype;
+  using my_Estimatortype = itk::ImagePCAShapeModelEstimator<ImageType,   ImageType >;
   my_Estimatortype::Pointer filter = my_Estimatortype::New();
   filter->SetNumberOfTrainingImages(nb_train);
   filter->SetNumberOfPrincipalComponentsRequired(2);

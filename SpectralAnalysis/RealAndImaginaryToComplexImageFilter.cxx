@@ -10,16 +10,16 @@
 
 int main( int argc, char *argv[] )
 {
-  typedef itk::Image<unsigned char, 2> ImageType;
-  typedef itk::Image<std::complex<float>, 2> ComplexImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ComplexImageType = itk::Image<std::complex<float>, 2>;
 
   ImageType::Pointer realImage = ImageType::New();
   ImageType::Pointer imaginaryImage = ImageType::New();
     
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::RealAndImaginaryToComplexImageFilter<ImageType,ComplexImageType> RealAndImaginaryToComplexImageFilterType;
+  using RealAndImaginaryToComplexImageFilterType = itk::RealAndImaginaryToComplexImageFilter<ImageType,ComplexImageType>;
 #else
-  typedef itk::ComposeImageFilter<ImageType,ComplexImageType> RealAndImaginaryToComplexImageFilterType;
+  using RealAndImaginaryToComplexImageFilterType = itk::ComposeImageFilter<ImageType,ComplexImageType>;
 #endif
   RealAndImaginaryToComplexImageFilterType::Pointer realAndImaginaryToComplexImageFilter = RealAndImaginaryToComplexImageFilterType::New();
   realAndImaginaryToComplexImageFilter->SetInput1(realImage);

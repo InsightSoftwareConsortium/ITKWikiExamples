@@ -1,13 +1,13 @@
 #include <itkAbsImageFilter.h>
 #include <itkImage.h>
 
-typedef itk::Image<double, 2> ImageType;
+using ImageType = itk::Image<double, 2>;
 void CreateImage(ImageType::Pointer image);
 
 int main(int, char*[])
 {
 
-  typedef itk::AbsImageFilter<ImageType, ImageType> FilterType;
+  using FilterType = itk::AbsImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
   FilterType::Pointer filter2 = dynamic_cast<FilterType*>(filter->CreateAnother().GetPointer());
 
