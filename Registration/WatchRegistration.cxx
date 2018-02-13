@@ -22,10 +22,10 @@
 #include "vtkImageMapper3D.h"
 
 const    unsigned int    Dimension = 2;
-typedef  unsigned char   PixelType;
+using PixelType = unsigned char;
 
-typedef itk::Image< PixelType, Dimension >      InputImageType;
-typedef itk::Image< unsigned char, Dimension >  OutputImageType;
+using InputImageType = itk::Image< PixelType, Dimension >;
+using OutputImageType = itk::Image< unsigned char, Dimension >;
 
 //  Command observer to visualize the evolution of the registration process.
 //
@@ -34,24 +34,24 @@ template< typename TImage >
 class IterationUpdate : public itk::Command
 {
 public:
-  typedef IterationUpdate          Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = IterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   IterationUpdate() {};
 
 public:
-  typedef itk::Image< float, 2>                    InternalImageType;
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
-  typedef const OptimizerType *                    OptimizerPointer;
-  typedef itk::ResampleImageFilter<
+  using InternalImageType = itk::Image< float, 2>;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using OptimizerPointer = const OptimizerType *;
+  using ResampleFilterType = itk::ResampleImageFilter<
                             TImage,
-                            TImage >               ResampleFilterType;
-  typedef itk::AffineTransform< double, 2 >        TransformType;
-  typedef itk::ImageToVTKImageFilter<TImage >      ConnectorType;
-  typedef itk::FlipImageFilter<TImage>             FilterType;
+                            TImage >;
+  using TransformType = itk::AffineTransform< double, 2 >;
+  using ConnectorType = itk::ImageToVTKImageFilter<TImage >;
+  using FilterType = itk::FlipImageFilter<TImage>;
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
@@ -112,7 +112,7 @@ int main( int argc, char *argv[] )
 
   if (argc > 2)
     {
-    typedef itk::ImageFileReader<InputImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<InputImageType>;
     ReaderType::Pointer fixedReader = ReaderType::New();
     fixedReader->SetFileName( argv[1] );
     fixedReader->Update();
@@ -130,10 +130,10 @@ int main( int argc, char *argv[] )
     }
 
   // Use floats internally
-  typedef itk::Image< float, Dimension> InternalImageType;
+  using InternalImageType = itk::Image< float, Dimension>;
 
   // Normalize the images
-  typedef itk::NormalizeImageFilter<InputImageType, InternalImageType> NormalizeFilterType;
+  using NormalizeFilterType = itk::NormalizeImageFilter<InputImageType, InternalImageType>;
   NormalizeFilterType::Pointer fixedNormalizer =
     NormalizeFilterType::New();
   NormalizeFilterType::Pointer movingNormalizer =
@@ -143,7 +143,7 @@ int main( int argc, char *argv[] )
   movingNormalizer->SetInput( movingImage);
 
   // Smooth the normalized images
-  typedef itk::DiscreteGaussianImageFilter<InternalImageType,InternalImageType> GaussianFilterType;
+  using GaussianFilterType = itk::DiscreteGaussianImageFilter<InternalImageType,InternalImageType>;
   GaussianFilterType::Pointer fixedSmoother  =
     GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother =
@@ -155,22 +155,21 @@ int main( int argc, char *argv[] )
   movingSmoother->SetInput( movingNormalizer->GetOutput() );
 
   // Set up registration
-  typedef itk::AffineTransform< double, Dimension >           TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using TransformType = itk::AffineTransform< double, Dimension >;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     InternalImageType,
-                                    double             >      InterpolatorType;
-  typedef itk::MattesMutualInformationImageToImageMetric<
+                                    double             >;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                           InternalImageType,
-                                          InternalImageType >    MetricType;
-  typedef itk::ImageRegistrationMethod<
+                                          InternalImageType >;
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     InternalImageType,
-                                    InternalImageType >       RegistrationType;
-  typedef itk::CenteredTransformInitializer<
+                                    InternalImageType >;
+  using InitializerType = itk::CenteredTransformInitializer<
                                   TransformType,
                                   InputImageType,
-                                  InputImageType >
-                                            InitializerType;
+                                  InputImageType >;
 
   InitializerType::Pointer    initializer = InitializerType::New();
   TransformType::Pointer      transform     = TransformType::New();
@@ -203,7 +202,7 @@ int main( int argc, char *argv[] )
        fixedNormalizer->GetOutput()->GetBufferedRegion();
   registration->SetFixedImageRegion( fixedImageRegion );
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   // rotation matrix (identity)
@@ -230,7 +229,7 @@ int main( int argc, char *argv[] )
   optimizer->SetNumberOfIterations( 1000 );
 
   const unsigned int numberOfParameters =  transform->GetNumberOfParameters();
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( numberOfParameters );
   double translationScale = 1.0 / 1000.0;
   optimizerScales[0] =  1.0;
@@ -247,8 +246,7 @@ int main( int argc, char *argv[] )
   finalTransform->SetParameters( initialParameters );
   finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
-  typedef itk::ResampleImageFilter< InputImageType, InputImageType >
-    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter< InputImageType, InputImageType >;
   ResampleFilterType::Pointer resample =
     ResampleFilterType::New();
   resample->SetTransform( finalTransform );
@@ -261,7 +259,7 @@ int main( int argc, char *argv[] )
   resample->Update();
 
   // Set up the visualization pipeline
-  typedef itk::CheckerBoardImageFilter< InputImageType > CheckerBoardFilterType;
+  using CheckerBoardFilterType = itk::CheckerBoardImageFilter< InputImageType >;
   CheckerBoardFilterType::Pointer checkerboard =
     CheckerBoardFilterType::New();
   CheckerBoardFilterType::PatternArrayType pattern;
@@ -272,7 +270,7 @@ int main( int argc, char *argv[] )
   checkerboard->SetInput1( fixedImage);
   checkerboard->SetInput2( resample->GetOutput());
 
-  typedef itk::FlipImageFilter< InputImageType> FlipFilterType;
+  using FlipFilterType = itk::FlipImageFilter< InputImageType>;
   FlipFilterType::Pointer flip =
     FlipFilterType::New();
   bool flipAxes[3] = { false, true, false };
@@ -281,7 +279,7 @@ int main( int argc, char *argv[] )
   flip->Update();
 
   // VTK visualization pipeline
-  typedef itk::ImageToVTKImageFilter<InputImageType > ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<InputImageType >;
   ConnectorType::Pointer connector =
     ConnectorType::New();
   connector->SetInput(flip->GetOutput());

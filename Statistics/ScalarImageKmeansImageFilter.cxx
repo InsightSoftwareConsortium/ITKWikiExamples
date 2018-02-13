@@ -16,7 +16,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image<unsigned char, 2 > ImageType;
+using ImageType = itk::Image<unsigned char, 2 >;
   
 static void CreateImage(ImageType::Pointer image);
 
@@ -25,7 +25,7 @@ int main(int, char*[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
@@ -40,29 +40,29 @@ int main(int, char*[])
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 
-  for(unsigned int i = 0 ; i < numberOfClasses ; ++i)
+  for(unsigned int i = 0; i < numberOfClasses; ++i)
     {
     std::cout << "cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
     }
 
-  typedef KMeansFilterType::OutputImageType  OutputImageType;
+  using OutputImageType = KMeansFilterType::OutputImageType;
 
-  typedef itk::RelabelComponentImageFilter<
+  using RelabelFilterType = itk::RelabelComponentImageFilter<
                                 OutputImageType,
-                                OutputImageType > RelabelFilterType;
+                                OutputImageType >;
 
   RelabelFilterType::Pointer relabeler = RelabelFilterType::New();
 
   relabeler->SetInput( kmeansFilter->GetOutput() );
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(relabeler->GetOutput());
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
 
-  typedef RelabelFilterType::ObjectSizeInPixelsContainerType SizesType;
+  using SizesType = RelabelFilterType::ObjectSizeInPixelsContainerType;
 
   const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
 
@@ -79,7 +79,7 @@ int main(int, char*[])
     }
 
   // Visualize
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer originalConnector = ConnectorType::New();
   originalConnector->SetInput(image);
   vtkSmartPointer<vtkImageActor> originalActor =

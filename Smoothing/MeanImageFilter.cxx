@@ -15,12 +15,12 @@ int main(int argc, char * argv[])
     }
 
   // Setup types
-  typedef itk::Image< unsigned char, 2 >                UnsignedCharImageType;
-  typedef itk::Image< float, 2 >                        FloatImageType;
-  typedef itk::ImageFileReader< UnsignedCharImageType > ReaderType;
-  typedef itk::MeanImageFilter<
-    UnsignedCharImageType, UnsignedCharImageType > filterType;
-  typedef itk::SubtractImageFilter<UnsignedCharImageType, UnsignedCharImageType, FloatImageType>           SubtractType;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
+  using FloatImageType = itk::Image< float, 2 >;
+  using ReaderType = itk::ImageFileReader< UnsignedCharImageType >;
+  using filterType = itk::MeanImageFilter<
+    UnsignedCharImageType, UnsignedCharImageType >;
+  using SubtractType = itk::SubtractImageFilter<UnsignedCharImageType, UnsignedCharImageType, FloatImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

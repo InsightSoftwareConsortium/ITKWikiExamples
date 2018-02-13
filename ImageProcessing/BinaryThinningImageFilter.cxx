@@ -4,7 +4,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void WriteImage(const ImageType::Pointer image, const std::string& fileName);
 static void CreateImage(ImageType::Pointer image);
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   if( argc == 2)
     {
-    typedef itk::ImageFileReader<ImageType> ImageReader;
+    using ImageReader = itk::ImageFileReader<ImageType>;
     ImageReader::Pointer reader = ImageReader::New();
     std::string fileName = argv[1];
     reader->SetFileName(fileName);
@@ -27,13 +27,13 @@ int main(int argc, char *argv[])
     WriteImage(image, "input.png");
     }
 
-  typedef itk::BinaryThinningImageFilter <ImageType, ImageType> BinaryThinningImageFilterType;
+  using BinaryThinningImageFilterType = itk::BinaryThinningImageFilter <ImageType, ImageType>;
   BinaryThinningImageFilterType::Pointer binaryThinningImageFilter = BinaryThinningImageFilterType::New();
   binaryThinningImageFilter->SetInput(image);
   binaryThinningImageFilter->Update();
 
   // Rescale the image so that it can be seen (the output is 0 and 1, we want 0 and 255)
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleType;
+  using RescaleType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( binaryThinningImageFilter->GetOutput() );
   rescaler->SetOutputMinimum(0);
@@ -75,7 +75,7 @@ void CreateImage(ImageType::Pointer image)
 
 void WriteImage(const ImageType::Pointer image, const std::string& fileName)
 {
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(fileName);
   writer->SetInput(image);

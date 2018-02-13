@@ -6,8 +6,8 @@
 
 int main(int argc, char *argv[])
 {
- typedef itk::Image< double, 2 >         ImageType;
- typedef itk::ImageFileReader<ImageType> ReaderType;
+ using ImageType = itk::Image< double, 2 >;
+ using ReaderType = itk::ImageFileReader<ImageType>;
 
  if (argc < 3)
    {
@@ -25,11 +25,9 @@ int main(int argc, char *argv[])
  ImageType::Pointer fixedImage = fixedReader->GetOutput();
  ImageType::Pointer movingImage = movingReader->GetOutput();
 
- typedef itk::MeanSquaresImageToImageMetric < ImageType , ImageType > 
-                                                MetricType;
- typedef itk::LinearInterpolateImageFunction<ImageType, double >
-                                                InterpolatorType;
- typedef itk::TranslationTransform < double , 2 > TransformType;
+ using MetricType = itk::MeanSquaresImageToImageMetric < ImageType , ImageType >;
+ using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double >;
+ using TransformType = itk::TranslationTransform < double , 2 >;
 
  MetricType::Pointer metric = MetricType::New();
  TransformType::Pointer transform = TransformType::New();
@@ -53,7 +51,7 @@ int main(int argc, char *argv[])
    for (double y = -10.0; y <= 10.0; y+=5.0)
      {
      params(1) = y;
-     std::cout << params << ": " << metric->GetValue( params ) << std::endl ;
+     std::cout << params << ": " << metric->GetValue( params ) << std::endl;
      }
    }
 

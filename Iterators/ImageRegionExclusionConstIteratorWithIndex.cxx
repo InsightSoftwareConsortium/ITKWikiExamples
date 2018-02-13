@@ -4,7 +4,7 @@
 
 namespace
 {
-typedef itk::Image<int, 2>  ImageType;
+using ImageType = itk::Image<int, 2>;
 }
 
 static void CreateImage(ImageType::Pointer);

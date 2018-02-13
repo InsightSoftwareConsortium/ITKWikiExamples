@@ -3,7 +3,7 @@
 int main(int, char *[])
 {
   // Create an image
-  typedef itk::VectorImage<float, 2>  ImageType;
+  using ImageType = itk::VectorImage<float, 2>;
 
   ImageType::IndexType start;
   start.Fill(0);
@@ -26,7 +26,7 @@ int main(int, char *[])
 
   std::cout << "pixel (1,1) = " << pixelValue << std::endl;
 
-  typedef itk::VariableLengthVector<double> VariableVectorType;
+  using VariableVectorType = itk::VariableLengthVector<double>;
   VariableVectorType variableLengthVector;
   variableLengthVector.SetSize(2);
   variableLengthVector[0] = 1.1;

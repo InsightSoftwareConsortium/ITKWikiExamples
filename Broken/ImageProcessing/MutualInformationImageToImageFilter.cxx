@@ -3,8 +3,8 @@
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 
-//typedef itk::Image< unsigned char, 2>  ImageType;
-typedef itk::Image< float, 2> ImageType;
+//using ImageType = itk::Image< unsigned char, 2>;
+using ImageType = itk::Image< float, 2>;
 
 int main( int argc, char *argv[] )
 {
@@ -30,10 +30,10 @@ int main( int argc, char *argv[] )
   //ImageType::Pointer movingImage = randomImageSource2->GetOutput();
   ImageType::Pointer movingImage = randomImageSource1->GetOutput();
   
-  typedef itk::TranslationTransform<double, 2> TranslationTransformType; // This cannot be float for some reason?
+  using TranslationTransformType = itk::TranslationTransform<double, 2>; // This cannot be float for some reason?
   TranslationTransformType::Pointer transform = TranslationTransformType::New();
   
-  typedef itk::MutualInformationImageToImageMetric<ImageType, ImageType >    MetricType;
+  using MetricType = itk::MutualInformationImageToImageMetric<ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
   

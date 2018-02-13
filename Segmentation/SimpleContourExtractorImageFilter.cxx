@@ -3,7 +3,7 @@
 #include "itkSimpleContourExtractorImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -12,14 +12,13 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
 
-  typedef itk::SimpleContourExtractorImageFilter <UnsignedCharImageType, UnsignedCharImageType>
-          SimpleContourExtractorImageFilterType;
+  using SimpleContourExtractorImageFilterType = itk::SimpleContourExtractorImageFilter <UnsignedCharImageType, UnsignedCharImageType>;
   SimpleContourExtractorImageFilterType::Pointer contourFilter
           = SimpleContourExtractorImageFilterType::New();
   contourFilter->SetInput(image);
   contourFilter->Update();
    
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(contourFilter->GetOutput());
@@ -60,7 +59,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
     image->SetPixel(pixel, 255);
     }
  
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

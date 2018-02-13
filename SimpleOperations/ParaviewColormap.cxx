@@ -6,11 +6,11 @@
 #include "itkImageFileWriter.h"
 #include "itkRGBPixel.h"
 
-typedef itk::RGBPixel<unsigned char>    RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>  RGBImageType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
-typedef itk::Image<float, 2>  FloatImageType;
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using FloatImageType = itk::Image<float, 2>;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 int main( int argc, char *argv[])
 {
@@ -38,8 +38,8 @@ int main( int argc, char *argv[])
     }
 
   // Custom colormap
-  //typedef itk::Function::CustomColormapFunction<UnsignedCharImageType::PixelType, RGBImageType::PixelType> ColormapType;
-  typedef itk::Function::CustomColormapFunction<FloatImageType::PixelType, RGBImageType::PixelType> ColormapType;
+  //using ColormapType = itk::Function::CustomColormapFunction<UnsignedCharImageType::PixelType, RGBImageType::PixelType>;
+  using ColormapType = itk::Function::CustomColormapFunction<FloatImageType::PixelType, RGBImageType::PixelType>;
   ColormapType::ChannelType redChannel;
   ColormapType::ChannelType greenChannel;
   ColormapType::ChannelType blueChannel;
@@ -62,7 +62,7 @@ int main( int argc, char *argv[])
   colormap->SetBlueChannel(blueChannel);
 
   // Setup conversion
-  typedef itk::ScalarToRGBColormapImageFilter<FloatImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<FloatImageType, RGBImageType>;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
   rgbfilter->SetInput(image);
   
@@ -72,7 +72,7 @@ int main( int argc, char *argv[])
 //   rgbfilter->SetColormap( RGBFilterType::Hot );
 
   {
-  typedef  itk::ImageFileWriter< RGBImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("colormap.png");
   writer->SetInput(rgbfilter->GetOutput());

@@ -9,9 +9,9 @@ int main (void)
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 2;
 
-  typedef itk::Vector< float, DataDimension > DataType;
+  using DataType = itk::Vector< float, DataDimension >;
 
-  typedef itk::PointSet< DataType, ParametricDimension >   PointSetType;
+  using PointSetType = itk::PointSet< DataType, ParametricDimension >;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
@@ -36,8 +36,8 @@ int main (void)
   pointSet->SetPoint(2, param2);
   pointSet->SetPointData( 2, p2 );
 
-   typedef itk::Image<DataType, ParametricDimension> ImageType;
-  typedef itk::BSplineScatteredDataPointSetToImageFilter < PointSetType, ImageType > SplineFilterType;
+   using ImageType = itk::Image<DataType, ParametricDimension>;
+  using SplineFilterType = itk::BSplineScatteredDataPointSetToImageFilter < PointSetType, ImageType >;
   SplineFilterType::Pointer splineFilter = SplineFilterType::New();
 
   int splineorder=2; // complexity of the spline
@@ -68,7 +68,7 @@ int main (void)
 
   // The output will consist of a 1-D image where each voxel contains the
   // (x,y,z) locations of the points
-  typedef itk::Image<unsigned char, 2> OutputImageType;
+  using OutputImageType = itk::Image<unsigned char, 2>;
   OutputImageType::Pointer outputImage = OutputImageType::New();
   OutputImageType::SizeType size;
   size.Fill(200);
@@ -95,7 +95,7 @@ int main (void)
     outputImage->SetPixel(index, 255 );
     }
 
-  typedef  itk::ImageFileWriter< OutputImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("spline.png");
   writer->SetInput(outputImage);

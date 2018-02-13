@@ -5,11 +5,11 @@
 #include "itkImageFileWriter.h"
 #include "itkRGBPixel.h"
 
-typedef itk::RGBPixel<unsigned char>    RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>  RGBImageType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
-typedef itk::Image<float, 2>  FloatImageType;
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using FloatImageType = itk::Image<float, 2>;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 int main( int argc, char *argv[])
 {
@@ -37,7 +37,7 @@ int main( int argc, char *argv[])
       }
     }
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(image);
   rescaleFilter->SetOutputMinimum(0);
@@ -45,20 +45,20 @@ int main( int argc, char *argv[])
   rescaleFilter->Update();
 
   {
-  typedef  itk::ImageFileWriter< UnsignedCharImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("original.png");
   writer->SetInput(rescaleFilter->GetOutput());
   writer->Update();
   }
 
-  typedef itk::ScalarToRGBColormapImageFilter<FloatImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<FloatImageType, RGBImageType>;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
   rgbfilter->SetInput(image);
   rgbfilter->SetColormap( RGBFilterType::Hot );
 
   {
-  typedef  itk::ImageFileWriter< RGBImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("hot.png");
   writer->SetInput(rgbfilter->GetOutput());

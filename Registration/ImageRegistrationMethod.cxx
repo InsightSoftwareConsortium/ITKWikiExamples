@@ -13,9 +13,9 @@
 #include "itkTranslationTransform.h"
 
 const    unsigned int    Dimension = 2;
-typedef  unsigned char           PixelType;
+using PixelType = unsigned char;
 
-typedef itk::Image< PixelType, Dimension >  ImageType;
+using ImageType = itk::Image< PixelType, Dimension >;
 
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateSphereImage(ImageType::Pointer image);
@@ -23,31 +23,31 @@ static void CreateSphereImage(ImageType::Pointer image);
 int main(int, char *[] )
 {
   //  The transform that will map the fixed image into the moving image.
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
   
   //  An optimizer is required to explore the parameter space of the transform
   //  in search of optimal values of the metric.
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   
   //  The metric will compare how well the two images match each other. Metric
   //  types are usually parameterized by the image types as it can be seen in
   //  the following type declaration.
-  typedef itk::MeanSquaresImageToImageMetric< 
+  using MetricType = itk::MeanSquaresImageToImageMetric< 
       ImageType,
-      ImageType >    MetricType;
+      ImageType >;
   
   //  Finally, the type of the interpolator is declared. The interpolator will
   //  evaluate the intensities of the moving image at non-grid positions.
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
       ImageType,
-      double          >    InterpolatorType;
+      double          >;
   
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
   //  all the components that we have described so far.
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
       ImageType,
-      ImageType >    RegistrationType;
+      ImageType >;
 
   // Create components
   MetricType::Pointer         metric        = MetricType::New();
@@ -70,7 +70,7 @@ int main(int, char *[] )
   CreateEllipseImage(movingImage);
 
   // Write the two synthetic inputs
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   
   WriterType::Pointer      fixedWriter =  WriterType::New();
   fixedWriter->SetFileName("fixed.png");
@@ -90,7 +90,7 @@ int main(int, char *[] )
     fixedImage->GetLargestPossibleRegion() );
 
   //  Initialize the transform
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset along X
@@ -162,9 +162,9 @@ int main(int, char *[] )
   //  the output type since it is likely that the transformed moving image
   //  will be compared with the fixed image.
               
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
       ImageType,
-      ImageType >    ResampleFilterType;
+      ImageType >;
 
   //  A resampling filter is created and the moving image is connected as  its input.
 
@@ -198,9 +198,9 @@ int main(int, char *[] )
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
                   
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
       ImageType,
-      ImageType > CastFilterType;
+      ImageType >;
   
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -216,10 +216,10 @@ int main(int, char *[] )
   //  the difference between homologous pixels of its two input images.
                       
                       
-  typedef itk::SubtractImageFilter<
+  using DifferenceFilterType = itk::SubtractImageFilter<
       FixedImageType,
       FixedImageType,
-      FixedImageType > DifferenceFilterType;
+      FixedImageType >;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -233,10 +233,10 @@ int main(int, char *[] )
 
 void CreateEllipseImage(ImageType::Pointer image)
 {
-  typedef itk::EllipseSpatialObject< Dimension >   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -257,7 +257,7 @@ void CreateEllipseImage(ImageType::Pointer image)
   radiusArray[1] = 20;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
@@ -285,10 +285,10 @@ void CreateEllipseImage(ImageType::Pointer image)
 
 void CreateSphereImage(ImageType::Pointer image)
 {
- typedef itk::EllipseSpatialObject< Dimension >   EllipseType;
+ using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -309,7 +309,7 @@ void CreateSphereImage(ImageType::Pointer image)
   radiusArray[1] = 10;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 

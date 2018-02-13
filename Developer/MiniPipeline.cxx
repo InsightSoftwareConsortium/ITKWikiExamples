@@ -10,8 +10,8 @@ static void CreateImage(TImage* const image);
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::ImageFilter<ImageType>  FilterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::ImageFilter<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
   CreateImage(image.GetPointer());
@@ -26,7 +26,7 @@ int main(int, char*[])
   std::cout << "Input:" << std::endl;
   std::cout << filter->GetOutput()->GetLargestPossibleRegion() << std::endl;
   
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("Output.png");
   writer->SetInput(filter->GetOutput());

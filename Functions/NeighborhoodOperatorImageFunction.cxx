@@ -2,7 +2,7 @@
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkNeighborhoodOperator.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
@@ -18,7 +18,7 @@ int main(int, char*[])
     neighborhood[i] = 1;
     }
 
-  typedef itk::NeighborhoodOperatorImageFunction<UnsignedCharImageType, float> NeighborhoodOperatorImageFunctionType;
+  using NeighborhoodOperatorImageFunctionType = itk::NeighborhoodOperatorImageFunction<UnsignedCharImageType, float>;
   NeighborhoodOperatorImageFunctionType::Pointer neighborhoodOperatorImageFunction = NeighborhoodOperatorImageFunctionType::New();
   neighborhoodOperatorImageFunction->SetOperator(neighborhood);
   neighborhoodOperatorImageFunction->SetInputImage(image);

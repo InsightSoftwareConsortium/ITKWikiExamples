@@ -3,7 +3,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkLineConstIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 

@@ -2,7 +2,7 @@
 #include "itkRandomImageSource.h"
 #include "itkScalarImageToTextureFeaturesFilter.h"
 
-typedef itk::Image<float, 2> ImageType;
+using ImageType = itk::Image<float, 2>;
 
 static void CreateImage(ImageType::Pointer);
 
@@ -11,7 +11,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::Statistics::ScalarImageToTextureFeaturesFilter<ImageType> TextureFilterType;
+  using TextureFilterType = itk::Statistics::ScalarImageToTextureFeaturesFilter<ImageType>;
   TextureFilterType::Pointer textureFilter = TextureFilterType::New();
   textureFilter->SetInput(image);
   textureFilter->Update();

@@ -20,18 +20,18 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
   
   // Setup types
-  typedef itk::Image< float,  2 >   FloatImageType;
+  using FloatImageType = itk::Image< float,  2 >;
 
-  typedef itk::ImageFileReader< FloatImageType >  readerType;
+  using readerType = itk::ImageFileReader< FloatImageType >;
   readerType::Pointer reader = readerType::New();
   reader->SetFileName(inputFilename);
 
-  typedef itk::LaplacianSharpeningImageFilter<FloatImageType, FloatImageType >  LaplacianSharpeningImageFilterType;
+  using LaplacianSharpeningImageFilterType = itk::LaplacianSharpeningImageFilter<FloatImageType, FloatImageType >;
   LaplacianSharpeningImageFilterType::Pointer laplacianSharpeningImageFilter =
     LaplacianSharpeningImageFilterType::New();
   laplacianSharpeningImageFilter->SetInput( reader->GetOutput() );
 
-  typedef itk::SubtractImageFilter<FloatImageType>           SubtractType;
+  using SubtractType = itk::SubtractImageFilter<FloatImageType>;
   SubtractType::Pointer diff = SubtractType::New();
   diff->SetInput1(reader->GetOutput());
   diff->SetInput2(laplacianSharpeningImageFilter->GetOutput());

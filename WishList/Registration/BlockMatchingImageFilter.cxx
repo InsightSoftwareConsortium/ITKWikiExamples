@@ -4,7 +4,7 @@
 #include "itkPoint.h"
 #include "itkPointSet.h"
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image, const unsigned int x);
 
@@ -17,22 +17,22 @@ int main(int argc, char *argv[])
   ImageType::Pointer movingImage = ImageType::New();
   CreateImage(movingImage, 50);
 
-//  typedef  itk::ImageFileWriter<ImageType> WriterType;
+//  using WriterType = itk::ImageFileWriter<ImageType>;
 //  WriterType::Pointer writer = WriterType::New();
 //  writer->SetFileName("input.png");
 //  writer->SetInput(input);
 //  writer->Update();
 
-  //  typedef itk::BlockMatchingImageFilter<ImageType, ImageType, PointSetType> BlockMatchingImageFilterType;
-  typedef itk::BlockMatchingImageFilter<ImageType> BlockMatchingImageFilterType;
+  //  using BlockMatchingImageFilterType = itk::BlockMatchingImageFilter<ImageType, ImageType, PointSetType>;
+  using BlockMatchingImageFilterType = itk::BlockMatchingImageFilter<ImageType>;
   BlockMatchingImageFilterType::Pointer blockMatchingImageFilter =
         BlockMatchingImageFilterType::New();
 
   // Generate feature points
-//  typedef itk::PointSet< float, 2>   PointSetType;
-  typedef BlockMatchingImageFilterType::FeaturePointsType   PointSetType;
-  typedef PointSetType::PointType PointType;
-  typedef PointSetType::PointsContainerPointer PointsContainerPointer;
+//  using PointSetType = itk::PointSet< float, 2>;
+  using PointSetType = BlockMatchingImageFilterType::FeaturePointsType;
+  using PointType = PointSetType::PointType;
+  using PointsContainerPointer = PointSetType::PointsContainerPointer;
 
   PointSetType::Pointer   pointSet = PointSetType::New();
   PointsContainerPointer  points = pointSet->GetPoints();

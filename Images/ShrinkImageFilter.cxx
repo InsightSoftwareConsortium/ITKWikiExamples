@@ -3,7 +3,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkShrinkImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -14,8 +14,7 @@ int main(int, char *[])
 
   std::cout << "Original size: " << image->GetLargestPossibleRegion().GetSize() << std::endl;
 
-  typedef itk::ShrinkImageFilter <ImageType, ImageType>
-          ShrinkImageFilterType;
+  using ShrinkImageFilterType = itk::ShrinkImageFilter <ImageType, ImageType>;
 
   ShrinkImageFilterType::Pointer shrinkFilter
           = ShrinkImageFilterType::New();

@@ -4,7 +4,7 @@
 #include "itkJoinImageFilter.h"
 #include "itkVectorImageToImageAdaptor.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image, unsigned char value);
 
@@ -16,7 +16,7 @@ int main(int, char *[])
   ImageType::Pointer image2 = ImageType::New();
   CreateImage(image2, 10);
 
-  typedef itk::JoinImageFilter<ImageType, ImageType> JoinImageFilterType;
+  using JoinImageFilterType = itk::JoinImageFilter<ImageType, ImageType>;
 
   JoinImageFilterType::Pointer joinFilter = JoinImageFilterType::New();
   joinFilter->SetInput1(image1);

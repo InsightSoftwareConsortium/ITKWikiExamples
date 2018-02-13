@@ -2,7 +2,7 @@
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkAndImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -15,8 +15,8 @@ int main(int, char *[])
   CreateImage(image2);
   image2->FillBuffer(5);
 
-  typedef itk::BinaryFunctorImageFilter< ImageType, ImageType, ImageType,
-                            itk::Functor::AND<ImageType::PixelType> > FilterType;
+  using FilterType = itk::BinaryFunctorImageFilter< ImageType, ImageType, ImageType,
+                            itk::Functor::AND<ImageType::PixelType> >;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput1(image1);

@@ -13,22 +13,21 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  //typedef
-  typedef signed short          InputPixelType;
-  typedef float                 ComponentType;
+  using InputPixelType = signed short;
+  using ComponentType = float;
   const   unsigned int          Dimension = 2;
 
-  typedef itk::CovariantVector< ComponentType, 
-								Dimension  >      OutputPixelType;
+  using OutputPixelType = itk::CovariantVector< ComponentType, 
+								Dimension  >;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
  
   //Filter class is instantiated
-  typedef itk::GradientRecursiveGaussianImageFilter<InputImageType, OutputImageType> FilterType;
+  using FilterType = itk::GradientRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 	

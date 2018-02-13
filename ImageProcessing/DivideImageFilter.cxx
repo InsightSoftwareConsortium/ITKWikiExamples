@@ -2,7 +2,7 @@
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 void CreateImage1(ImageType::Pointer image);
 void CreateImage2(ImageType::Pointer image);
@@ -15,14 +15,14 @@ int main(int, char *[])
   ImageType::Pointer image2 = ImageType::New();
   CreateImage2(image2);
 
-  typedef itk::DivideImageFilter <ImageType, ImageType, ImageType > DivideImageFilterType;
+  using DivideImageFilterType = itk::DivideImageFilter <ImageType, ImageType, ImageType >;
 
   DivideImageFilterType::Pointer divideImageFilter = DivideImageFilterType::New ();
   divideImageFilter->SetInput1(image1);
   divideImageFilter->SetInput2(image2);
   divideImageFilter->Update();
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("test.png");
   writer->SetInput(divideImageFilter->GetOutput());

@@ -8,8 +8,8 @@
 // demonstration purposes it is best to use the int 
 // type, however in real applications iterators have 
 // no problems with char type images.
-//typedef itk::Image<unsigned char, 2>  ImageType;
-typedef itk::Image<unsigned int, 2>  ImageType;
+//using ImageType = itk::Image<unsigned char, 2>;
+using ImageType = itk::Image<unsigned int, 2>;
  
 void CreateImage(ImageType::Pointer image);
  
@@ -18,7 +18,7 @@ int main(int, char*[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
  
-  typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
+  using IteratorType = itk::ShapedNeighborhoodIterator<ImageType>;
 
   itk::Size<2> radius;
   radius.Fill(1);

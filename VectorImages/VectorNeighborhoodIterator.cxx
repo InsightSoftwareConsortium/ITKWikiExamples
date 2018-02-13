@@ -1,7 +1,7 @@
 #include "itkVectorImage.h"
 #include "itkNeighborhoodIterator.h"
 
-typedef itk::VectorImage<unsigned char, 2>  VectorImageType;
+using VectorImageType = itk::VectorImage<unsigned char, 2>;
  
 int main(int, char*[])
 {

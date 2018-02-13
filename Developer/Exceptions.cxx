@@ -7,11 +7,11 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
   ImageType::Pointer image = ImageType::New();
   
   // Create and the filter
-  typedef itk::ImageFilter<ImageType>  FilterType;
+  using FilterType = itk::ImageFilter<ImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(image);
   filter->Update();

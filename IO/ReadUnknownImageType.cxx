@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     }
   std::string inputFilename = argv[1];
 
-  typedef itk::ImageIOBase::IOComponentType ScalarPixelType;
+  using ScalarPixelType = itk::ImageIOBase::IOComponentType;
 
   itk::ImageIOBase::Pointer imageIO =
         itk::ImageIOFactory::CreateImageIO(
@@ -40,12 +40,12 @@ int main(int argc, char *argv[])
   switch (pixelType)
   {
     case itk::ImageIOBase::COVARIANTVECTOR:
-      typedef itk::Image<unsigned char, 2> ImageType;
+      using ImageType = itk::Image<unsigned char, 2>;
       ImageType::Pointer image = ImageType::New();
       ReadFile<ImageType>(inputFilename, image);
       break;
     
-      typedef itk::Image<unsigned char, 2> ImageType;
+      using ImageType = itk::Image<unsigned char, 2>;
       ImageType::Pointer image = ImageType::New();
       ReadFile<ImageType>(inputFilename, image);
       break;
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 template<typename TImageType>
 void ReadFile(std::string filename, typename TImageType::Pointer image)
 {
-  typedef itk::ImageFileReader<TImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<TImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName(filename);

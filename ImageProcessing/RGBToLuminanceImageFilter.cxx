@@ -4,8 +4,8 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<itk::RGBPixel<unsigned char>, 2> RGBImageType;
-typedef itk::Image<unsigned char, 2>  ScalarImageType;
+using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
+using ScalarImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(RGBImageType* const image);
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }
   else
   {
-    typedef itk::ImageFileReader<RGBImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<RGBImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     imageName = argv[1];
   }
 
-  typedef itk::RGBToLuminanceImageFilter<RGBImageType, ScalarImageType> LuminanceFilterType;
+  using LuminanceFilterType = itk::RGBToLuminanceImageFilter<RGBImageType, ScalarImageType>;
   LuminanceFilterType::Pointer luminanceFilter = LuminanceFilterType::New();
   luminanceFilter->SetInput(image);
   luminanceFilter->Update();

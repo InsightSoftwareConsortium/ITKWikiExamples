@@ -9,21 +9,21 @@ void MyFunction(const TImage* const image)
 
 int main(int, char*[])
 {
-  typedef itk::Image<float, 2> FloatImageType;
+  using FloatImageType = itk::Image<float, 2>;
   FloatImageType::Pointer floatImage = FloatImageType::New();
   MyFunction(floatImage.GetPointer());
 
-  typedef itk::Image<double, 2> DoubleImageType;
+  using DoubleImageType = itk::Image<double, 2>;
   DoubleImageType::Pointer doubleImage = DoubleImageType::New();
   MyFunction(doubleImage.GetPointer());
 
   // Fails the concept check
-//   typedef itk::Image<int, 2> IntImageType;
+//   using IntImageType = itk::Image<int, 2>;
 //   IntImageType::Pointer intImage = IntImageType::New();
 //   MyFunction(intImage.GetPointer());
 
   // Fails the concept check
-//   typedef itk::Image<unsigned char, 2> UCharImageType;
+//   using UCharImageType = itk::Image<unsigned char, 2>;
 //   UCharImageType::Pointer ucharImage = UCharImageType::New();
 //   MyFunction(ucharImage.GetPointer());
 

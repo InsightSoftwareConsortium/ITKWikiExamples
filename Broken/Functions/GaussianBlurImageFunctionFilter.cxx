@@ -29,10 +29,10 @@ int main( int argc, char * argv[] )
   ss >> maxKernelWidth;
   }
  
-  typedef itk::Image< float, 2 >             ImageType;
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageRegionIterator< ImageType > IteratorType;
-  typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
+  using ImageType = itk::Image< float, 2 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
  
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
@@ -65,7 +65,7 @@ int main( int argc, char * argv[] )
     }
   */
  
-  typedef itk::GaussianBlurImageFunction< ImageType > GaussianBlurImageFunctionType;
+  using GaussianBlurImageFunctionType = itk::GaussianBlurImageFunction< ImageType >;
   // SetFunctor seems to need an actual object (not a pointer), but we can't create one like this:
   //GaussianBlurImageFunctionType gaussianFunction;
  
@@ -73,8 +73,8 @@ int main( int argc, char * argv[] )
   //gaussianFunction->SetInputImage( reader->GetOutput() ); // Do we need to do this since we are going to do unaryFunctor->SetInput?
 
  
-  typedef itk::UnaryFunctorImageFilter<ImageType,ImageType,
-                                  GaussianBlurImageFunctionType> FilterType;
+  using FilterType = itk::UnaryFunctorImageFilter<ImageType,ImageType,
+                                  GaussianBlurImageFunctionType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   
@@ -86,7 +86,7 @@ int main( int argc, char * argv[] )
 
   filter->Update();
  
-  typedef itk::ImageFileWriter < ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter < ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(filter->GetOutput());

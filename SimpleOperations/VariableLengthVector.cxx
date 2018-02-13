@@ -6,7 +6,7 @@ void VariableLengthVectorToVector();
 
 int main(int, char*[])
 {
-  typedef itk::VariableLengthVector<double> VectorType;
+  using VectorType = itk::VariableLengthVector<double>;
   VectorType v;
   v.SetSize(2);
   v[0] = 1;
@@ -28,12 +28,12 @@ void VectorToVariableLengthVector()
 {
   std::cout << "VectorToVariableLengthVector()" << std::endl;
 
-  typedef itk::Vector<double, 2> FixedVectorType;
+  using FixedVectorType = itk::Vector<double, 2>;
   FixedVectorType fixedLengthVector;
   fixedLengthVector[0] = 1;
   fixedLengthVector[1] = 2;
 
-  typedef itk::VariableLengthVector<double> VariableVectorType;
+  using VariableVectorType = itk::VariableLengthVector<double>;
   VariableVectorType variableLengthVector;
 
   // This works
@@ -49,14 +49,14 @@ void VectorToVariableLengthVector()
 void VariableLengthVectorToVector()
 {
   std::cout << "VariableLengthVectorToVector()" << std::endl;
-  typedef itk::VariableLengthVector<double> VariableVectorType;
+  using VariableVectorType = itk::VariableLengthVector<double>;
   VariableVectorType variableLengthVector;
   variableLengthVector.SetSize(2);
 
   variableLengthVector[0] = 1;
   variableLengthVector[1] = 2;
 
-  typedef itk::Vector<double, 2> FixedVectorType;
+  using FixedVectorType = itk::Vector<double, 2>;
   FixedVectorType fixedLengthVector;
 
   for(unsigned int i = 0; i < FixedVectorType::GetVectorDimension(); i++)

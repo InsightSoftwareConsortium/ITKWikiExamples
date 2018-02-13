@@ -3,7 +3,7 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkImageFileReader.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -12,7 +12,7 @@ int main(int argc, char*argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::StatisticsImageFilter<ImageType> StatisticsImageFilterType;
+  using StatisticsImageFilterType = itk::StatisticsImageFilter<ImageType>;
   StatisticsImageFilterType::Pointer statisticsImageFilter
           = StatisticsImageFilterType::New ();
   statisticsImageFilter->SetInput(image);

@@ -12,7 +12,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image< PixelType, Dimension >  ImageType;
+using ImageType = itk::Image< PixelType, Dimension >;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -21,7 +21,7 @@ int main( int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::RegionGrowImageFilter<ImageType, ImageType> RegionGrowImageFilterType;
+  using RegionGrowImageFilterType = itk::RegionGrowImageFilter<ImageType, ImageType>;
   RegionGrowImageFilterType::Pointer regionGrow = RegionGrowImageFilterType::New();
   float lower = 95.0;
   float upper = 105.0;
@@ -47,7 +47,7 @@ int main( int argc, char *argv[])
   regionGrow->SetInput(image);
 
   // Visualize
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector2 = ConnectorType::New();
   connector2->SetInput(image2);
 

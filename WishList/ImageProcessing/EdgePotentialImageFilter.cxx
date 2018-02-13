@@ -5,42 +5,42 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
 
 int main(int argc, char * argv[])
 {
   // Setup types
-  typedef itk::Image< float,  2 >   FloatImageType;
-  typedef itk::Image< itk::CovariantVector<float, 2>, 2 >   VectorImageType;
+  using FloatImageType = itk::Image< float,  2 >;
+  using VectorImageType = itk::Image< itk::CovariantVector<float, 2>, 2 >;
 
   UnsignedCharImageType::Pointer image = UnsignedCharImageType::New();
   CreateImage(image);
   
   // Create and setup a gradient filter
-  typedef itk::GradientImageFilter<
-      UnsignedCharImageType, float>  GradientFilterType;
+  using GradientFilterType = itk::GradientImageFilter<
+      UnsignedCharImageType, float>;
   GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(image);
   gradientFilter->Update();
 
   // Create and setup an edge potential filter
-  typedef itk::EdgePotentialImageFilter<
-      VectorImageType, FloatImageType>  EdgePotentialImageFilterType;
+  using EdgePotentialImageFilterType = itk::EdgePotentialImageFilter<
+      VectorImageType, FloatImageType>;
   EdgePotentialImageFilterType::Pointer edgePotentialImageFilter = EdgePotentialImageFilterType::New();
   edgePotentialImageFilter->SetInput( gradientFilter->GetOutput() );
   edgePotentialImageFilter->Update();
 
   // Scale so we can write to a PNG
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(edgePotentialImageFilter->GetOutput());
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
   rescaleFilter->Update();
 
-  typedef itk::ImageFileWriter<UnsignedCharImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(rescaleFilter->GetOutput());

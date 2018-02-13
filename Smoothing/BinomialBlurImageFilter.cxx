@@ -23,12 +23,12 @@ int main(int argc, char * argv[])
     }
 
   // Setup types
-  typedef itk::Image< unsigned char, 2 >   UnsignedCharImageType;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
+  using readerType = itk::ImageFileReader< UnsignedCharImageType >;
 
-  typedef itk::BinomialBlurImageFilter<
-		  UnsignedCharImageType, UnsignedCharImageType >  filterType;
+  using filterType = itk::BinomialBlurImageFilter<
+		  UnsignedCharImageType, UnsignedCharImageType >;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();

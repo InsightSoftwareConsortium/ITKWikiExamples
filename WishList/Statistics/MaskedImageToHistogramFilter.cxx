@@ -6,10 +6,10 @@
 #include "itkImageRegionIterator.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-typedef itk::RGBPixel<unsigned char> RGBPixelType;
-typedef itk::Image< RGBPixelType, 2> RGBImageType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image< RGBPixelType, 2>;
 
-typedef itk::Image< unsigned char, 2> UnsignedCharImageType;
+using UnsignedCharImageType = itk::Image< unsigned char, 2>;
 
 static void CreateImage(RGBImageType::Pointer image);
 static void CreateHalfMask(itk::ImageRegion<2>, UnsignedCharImageType::Pointer mask);
@@ -24,10 +24,10 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer mask = UnsignedCharImageType::New();
   CreateHalfMask(image->GetLargestPossibleRegion(), mask);
   
-  typedef itk::Statistics::MaskedImageToHistogramFilter< RGBImageType, UnsignedCharImageType >   HistogramFilterType;
-  typedef HistogramFilterType::HistogramMeasurementVectorType             HistogramMeasurementVectorType;
-  typedef HistogramFilterType::HistogramSizeType                          HistogramSizeType;
-  typedef HistogramFilterType::HistogramType                              HistogramType;
+  using HistogramFilterType = itk::Statistics::MaskedImageToHistogramFilter< RGBImageType, UnsignedCharImageType >;
+  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
+  using HistogramSizeType = HistogramFilterType::HistogramSizeType;
+  using HistogramType = HistogramFilterType::HistogramType;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput(image);
@@ -56,7 +56,7 @@ int main(int, char *[])
     //std::cout << "Index = " << histogramIterator.GetMeasurementVector() << "Frequency = " << histogramIterator.GetFrequency() << std::endl;
     //std::cout << "Index = " << histogramIterator.GetIndex() << "Frequency = " << histogramIterator.GetFrequency() << std::endl;
     //fout << "Index = " << histogram->GetIndex(histogramItr.GetMeasurementVector()) << "Frequency = " << histogramItr.GetFrequency() << std::endl;
-    ++histogramIterator ;
+    ++histogramIterator;
     }
   //fout.close();
 
@@ -141,12 +141,12 @@ void CreateHalfMask(itk::ImageRegion<2> region, UnsignedCharImageType::Pointer m
     ++imageIterator;
   }
  
-  typedef itk::RescaleIntensityImageFilter< UnsignedCharImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< UnsignedCharImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(mask);
   rescaleFilter->Update();
  
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("mask.png");
   writer->SetInput(rescaleFilter->GetOutput());

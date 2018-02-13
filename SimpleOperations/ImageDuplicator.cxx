@@ -4,7 +4,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image< unsigned char, 2 >  ImageType;
+  using ImageType = itk::Image< unsigned char, 2 >;
 
   itk::RandomImageSource<ImageType>::Pointer randomImageSource =
     itk::RandomImageSource<ImageType>::New();
@@ -13,7 +13,7 @@ int main(int, char *[])
   randomImageSource->Update();
   ImageType::Pointer image = randomImageSource->GetOutput();
 
-  typedef itk::ImageDuplicator< ImageType > DuplicatorType;
+  using DuplicatorType = itk::ImageDuplicator< ImageType >;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage(image);
   duplicator->Update();

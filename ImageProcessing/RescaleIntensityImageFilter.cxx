@@ -26,13 +26,13 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
     
-  typedef itk::Image<unsigned char, 2>  ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer originalConnector = ConnectorType::New();
   originalConnector->SetInput(reader->GetOutput());
   vtkSmartPointer<vtkImageActor> originalActor =
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   originalActor->GetMapper()->SetInputData(originalConnector->GetOutput());
 #endif
    
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(reader->GetOutput());
   rescaleFilter->SetOutputMinimum(0);

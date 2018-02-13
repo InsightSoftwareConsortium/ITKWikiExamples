@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     fileName = argv[1];
   }
 
-  typedef itk::Rigid2DTransform< float > TransformType;
+  using TransformType = itk::Rigid2DTransform< float >;
   TransformType::Pointer transform = TransformType::New();
 
 #if (ITK_VERSION_MAJOR == 4 && ITK_VERSION_MINOR >= 5) || ITK_VERSION_MAJOR > 4

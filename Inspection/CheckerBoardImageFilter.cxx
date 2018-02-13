@@ -7,8 +7,8 @@
 
 namespace
 {
-typedef itk::RGBPixel<unsigned char> PixelType;
-typedef itk::Image<PixelType, 2> ImageType;
+using PixelType = itk::RGBPixel<unsigned char>;
+using ImageType = itk::Image<PixelType, 2>;
 }
 
 static void CreateImage(ImageType::Pointer image, PixelType);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     }
   CreateImage(image2, pixel2);
   
-  typedef itk::CheckerBoardImageFilter< ImageType > CheckerBoardFilterType;
+  using CheckerBoardFilterType = itk::CheckerBoardImageFilter< ImageType >;
   CheckerBoardFilterType::Pointer checkerBoardFilter = CheckerBoardFilterType::New();
   checkerBoardFilter->SetInput1(image1);
   checkerBoardFilter->SetInput2(image2);

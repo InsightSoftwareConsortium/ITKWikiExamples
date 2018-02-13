@@ -10,15 +10,13 @@ int main(int, char*[])
   const int xDimension = 200;
   const int yDimension = 100;
 
-  typedef unsigned char                  ComponentType;
-  typedef itk::RGBPixel<ComponentType>   RGBPixelType;
-  typedef itk::RGBAPixel<ComponentType>  RGBAPixelType;
-  typedef itk::Image< RGBPixelType, 2 >  RGBImageType;
-  typedef itk::Image< RGBAPixelType, 2 > RGBAImageType;
-  typedef itk::DefaultConvertPixelTraits< RGBPixelType >
-                                         TraitsType;
-  typedef itk::ConvertPixelBuffer< ComponentType, RGBPixelType, TraitsType >
-                                         RGBAConverterType;
+  using ComponentType = unsigned char;
+  using RGBPixelType = itk::RGBPixel<ComponentType>;
+  using RGBAPixelType = itk::RGBAPixel<ComponentType>;
+  using RGBImageType = itk::Image< RGBPixelType, 2 >;
+  using RGBAImageType = itk::Image< RGBAPixelType, 2 >;
+  using TraitsType = itk::DefaultConvertPixelTraits< RGBPixelType >;
+  using RGBAConverterType = itk::ConvertPixelBuffer< ComponentType, RGBPixelType, TraitsType >;
 
   RGBImageType::Pointer rgbImg   = RGBImageType::New();
   RGBAImageType::Pointer rgbaImg = RGBAImageType::New();

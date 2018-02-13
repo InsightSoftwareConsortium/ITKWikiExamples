@@ -3,7 +3,7 @@
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIterator.h"
  
-typedef itk::Image<unsigned int, 2>  ImageType;
+using ImageType = itk::Image<unsigned int, 2>;
  
 static void CreateImage(ImageType::Pointer image);
  
@@ -12,10 +12,8 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
  
-  typedef itk::Accessor::AddPixelAccessor <ImageType::PixelType>
-    AddPixelAccessorType;
-  typedef itk::ImageAdaptor<  ImageType, AddPixelAccessorType >
-    ImageAdaptorType;
+  using AddPixelAccessorType = itk::Accessor::AddPixelAccessor <ImageType::PixelType>;
+  using ImageAdaptorType = itk::ImageAdaptor<  ImageType, AddPixelAccessorType >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   AddPixelAccessorType addPixelAccessor;

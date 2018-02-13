@@ -7,8 +7,8 @@
 
 namespace
 {
-typedef itk::Image<int, 2>       ImageType;
-typedef ImageType::PixelType     PixelType;
+using ImageType = itk::Image<int, 2>;
+using PixelType = ImageType::PixelType;
 }
  
 static void CreateImage(ImageType::Pointer image);
@@ -18,8 +18,7 @@ int main(int, char*[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
    
-  typedef itk::BinaryBallStructuringElement<PixelType, 2>
-    StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, 2>;
   StructuringElementType::RadiusType elementRadius;
   elementRadius.Fill(2);
   
@@ -27,7 +26,7 @@ int main(int, char*[])
   structuringElement.SetRadius(elementRadius);
   structuringElement.CreateStructuringElement();
 
-  typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
+  using IteratorType = itk::ShapedNeighborhoodIterator<ImageType>;
   IteratorType siterator(structuringElement.GetRadius(),
                          image,
                          image->GetLargestPossibleRegion());
@@ -46,7 +45,7 @@ int main(int, char*[])
     }
   
   // Now show the results
-  typedef itk::ImageRegionConstIterator<ImageType> ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
   ImageIteratorType imit(image, image->GetLargestPossibleRegion());
   imit.GoToBegin();
   unsigned int col = 0;

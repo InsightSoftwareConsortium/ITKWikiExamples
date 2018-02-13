@@ -2,7 +2,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNthElementImageAdaptor.h"
 
-typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
+using VectorImageType = itk::Image<itk::CovariantVector< float, 3>, 2>;
 
 static void CreateImage(VectorImageType::Pointer image);
 
@@ -16,8 +16,8 @@ int main(int, char *[])
 
   std::cout << image->GetPixel(index) << std::endl;
 
-  typedef itk::NthElementImageAdaptor<VectorImageType,
-    float> ImageAdaptorType;
+  using ImageAdaptorType = itk::NthElementImageAdaptor<VectorImageType,
+    float>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 

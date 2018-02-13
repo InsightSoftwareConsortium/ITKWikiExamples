@@ -3,8 +3,8 @@
 #include "itkExampleCostFunction.h"
 
 // Typedef the optimizer and cost function, for convenience
-typedef itk::LevenbergMarquardtOptimizer OptimizerType;
-typedef itk::ExampleCostFunction         CostType;
+using OptimizerType = itk::LevenbergMarquardtOptimizer;
+using CostType = itk::ExampleCostFunction;
 
 int main(int, char *[])
 {

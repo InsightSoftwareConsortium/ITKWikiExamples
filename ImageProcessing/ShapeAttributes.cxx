@@ -9,12 +9,12 @@ static void CreateImage(TImage* const image);
 int main( int argc, char *argv[])
 {
   const unsigned int Dimension = 2;
-  typedef unsigned char                                 PixelType;
-  typedef unsigned short                                LabelType;
-  typedef itk::Image<PixelType, Dimension>              InputImageType;
-  typedef itk::Image< LabelType, Dimension >            OutputImageType;
-  typedef itk::ShapeLabelObject< LabelType, Dimension > ShapeLabelObjectType;
-  typedef itk::LabelMap< ShapeLabelObjectType >         LabelMapType;
+  using PixelType = unsigned char;
+  using LabelType = unsigned short;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image< LabelType, Dimension >;
+  using ShapeLabelObjectType = itk::ShapeLabelObject< LabelType, Dimension >;
+  using LabelMapType = itk::LabelMap< ShapeLabelObjectType >;
 
   std::string fileName;
   InputImageType::Pointer image;
@@ -27,7 +27,7 @@ int main( int argc, char *argv[])
   else
     {
     fileName = argv[1];
-    typedef itk::ImageFileReader<InputImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<InputImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(fileName);
     reader->Update();
@@ -36,17 +36,15 @@ int main( int argc, char *argv[])
     }
 
 
-  typedef itk::ConnectedComponentImageFilter <InputImageType, OutputImageType >
-    ConnectedComponentImageFilterType;
-  typedef itk::LabelImageToShapeLabelMapFilter< OutputImageType, LabelMapType>
-    I2LType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <InputImageType, OutputImageType >;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< OutputImageType, LabelMapType>;
 
   ConnectedComponentImageFilterType::Pointer connected =
     ConnectedComponentImageFilterType::New ();
   connected->SetInput(image);
   connected->Update();
 
-  typedef itk::LabelImageToShapeLabelMapFilter< OutputImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< OutputImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( connected->GetOutput() );
   i2l->SetComputePerimeter(true);

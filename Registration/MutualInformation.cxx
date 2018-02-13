@@ -12,9 +12,9 @@
 #include "itkImageFileWriter.h"
 
 const    unsigned int    Dimension = 2;
-typedef  unsigned char           PixelType;
+using PixelType = unsigned char;
 
-typedef itk::Image< PixelType, Dimension >  ImageType;
+using ImageType = itk::Image< PixelType, Dimension >;
 
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
@@ -28,7 +28,7 @@ int main( int argc, char *argv[] )
   CreateEllipseImage(movingImage);
 
   // Write the two synthetic inputs
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer      fixedWriter =  WriterType::New();
   fixedWriter->SetFileName("fixed.png");
@@ -41,10 +41,10 @@ int main( int argc, char *argv[] )
   movingWriter->Update();
 
   // We use floats internally
-  typedef itk::Image< float, 2> InternalImageType;
+  using InternalImageType = itk::Image< float, 2>;
 
   // Normalize the images
-  typedef itk::NormalizeImageFilter<ImageType, InternalImageType> NormalizeFilterType;
+  using NormalizeFilterType = itk::NormalizeImageFilter<ImageType, InternalImageType>;
 
   NormalizeFilterType::Pointer fixedNormalizer = NormalizeFilterType::New();
   NormalizeFilterType::Pointer movingNormalizer = NormalizeFilterType::New();
@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
   movingNormalizer->SetInput( movingImage);
 
   // Smooth the normalized images
-  typedef itk::DiscreteGaussianImageFilter<InternalImageType,InternalImageType> GaussianFilterType;
+  using GaussianFilterType = itk::DiscreteGaussianImageFilter<InternalImageType,InternalImageType>;
 
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
@@ -64,17 +64,17 @@ int main( int argc, char *argv[] )
   fixedSmoother->SetInput( fixedNormalizer->GetOutput() );
   movingSmoother->SetInput( movingNormalizer->GetOutput() );
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using OptimizerType = itk::GradientDescentOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     InternalImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+                                    double             >;
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     InternalImageType,
-                                    InternalImageType >  RegistrationType;
-  typedef itk::MutualInformationImageToImageMetric<
+                                    InternalImageType >;
+  using MetricType = itk::MutualInformationImageToImageMetric<
                                           InternalImageType,
-                                          InternalImageType >    MetricType;
+                                          InternalImageType >;
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -110,7 +110,7 @@ int main( int argc, char *argv[] )
        fixedNormalizer->GetOutput()->GetBufferedRegion();
   registration->SetFixedImageRegion( fixedImageRegion );
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset along X
@@ -213,9 +213,9 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
   std::cout << " Numb. Samples = " << numberOfSamples    << std::endl;
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             ImageType,
-                            ImageType >    ResampleFilterType;
+                            ImageType >;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -244,10 +244,10 @@ int main( int argc, char *argv[] )
 
 void CreateEllipseImage(ImageType::Pointer image)
 {
-  typedef itk::EllipseSpatialObject< Dimension >   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -268,7 +268,7 @@ void CreateEllipseImage(ImageType::Pointer image)
   radiusArray[1] = 20;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
@@ -296,10 +296,10 @@ void CreateEllipseImage(ImageType::Pointer image)
 
 void CreateCircleImage(ImageType::Pointer image)
 {
- typedef itk::EllipseSpatialObject< Dimension >   EllipseType;
+ using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    EllipseType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    EllipseType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -320,7 +320,7 @@ void CreateCircleImage(ImageType::Pointer image)
   radiusArray[1] = 10;
   ellipse->SetRadius(radiusArray);
 
-  typedef EllipseType::TransformType                 TransformType;
+  using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 

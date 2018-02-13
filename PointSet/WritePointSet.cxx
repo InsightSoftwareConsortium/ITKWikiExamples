@@ -13,7 +13,7 @@ int main( int argc, char* argv[] )
   std::string outputFilename = argv[1];
   
   // Store points
-  typedef itk::PointSet<double, 3 > PointSetType;
+  using PointSetType = itk::PointSet<double, 3 >;
   PointSetType::Pointer pointsSet = PointSetType::New();
   
       

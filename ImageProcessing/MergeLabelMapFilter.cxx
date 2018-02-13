@@ -3,14 +3,14 @@
 
 int main(int, char*[])
 {
-  typedef itk::Image<int, 3> ImageType;
+  using ImageType = itk::Image<int, 3>;
 
   //Binary Image to Shape Label Map. 
-  typedef itk::BinaryImageToShapeLabelMapFilter<ImageType> BI2SLMType;
-  typedef BI2SLMType::OutputImageType LabelMapType;
-  typedef BI2SLMType::LabelObjectType LabelObjectType;
+  using BI2SLMType = itk::BinaryImageToShapeLabelMapFilter<ImageType>;
+  using LabelMapType = BI2SLMType::OutputImageType;
+  using LabelObjectType = BI2SLMType::LabelObjectType;
 
-  typedef itk::MergeLabelMapFilter<LabelMapType> MergerType;
+  using MergerType = itk::MergeLabelMapFilter<LabelMapType>;
   MergerType::Pointer merger = MergerType::New();
   merger->SetMethod(MergerType::PACK);
 

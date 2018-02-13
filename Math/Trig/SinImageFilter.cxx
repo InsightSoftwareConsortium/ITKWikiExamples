@@ -1,7 +1,7 @@
 #include "itkImage.h"
 #include "itkSinImageFilter.h"
 
-typedef itk::Image<float, 2>  FloatImageType;
+using FloatImageType = itk::Image<float, 2>;
 
 static void CreateImage(FloatImageType::Pointer image);
 
@@ -11,8 +11,7 @@ int main(int, char *[])
   CreateImage(image);
 
   // Compute the sine of each pixel
-  typedef itk::SinImageFilter <FloatImageType, FloatImageType>
-          SinImageFilterType;
+  using SinImageFilterType = itk::SinImageFilter <FloatImageType, FloatImageType>;
 
   SinImageFilterType::Pointer sinImageFilter = SinImageFilterType::New ();
   sinImageFilter->SetInput(image);

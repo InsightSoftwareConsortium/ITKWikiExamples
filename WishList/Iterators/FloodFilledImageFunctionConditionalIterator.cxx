@@ -4,7 +4,7 @@
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image< unsigned char, 2 >  ImageType;
+using ImageType = itk::Image< unsigned char, 2 >;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -13,12 +13,12 @@ int main( int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::BinaryThresholdImageFunction< ImageType, double > FunctionType;
+  using FunctionType = itk::BinaryThresholdImageFunction< ImageType, double >;
   FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage(image);
   function->ThresholdAbove(100); // we are looking to capture 255
 
-  typedef itk::FloodFilledImageFunctionConditionalIterator< ImageType, FunctionType > IteratorType;
+  using IteratorType = itk::FloodFilledImageFunctionConditionalIterator< ImageType, FunctionType >;
 
   itk::Index<2> seed;
   seed[0] = 25;

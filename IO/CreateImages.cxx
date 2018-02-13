@@ -9,11 +9,11 @@ void WriteFile(typename TImageType::Pointer image, std::string filename);
 
 int main(int, char *[])
 {
-  typedef itk::Image< itk::CovariantVector<double, 4> , 2>  ImageType4;
+  using ImageType4 = itk::Image< itk::CovariantVector<double, 4> , 2>;
   ImageType4::Pointer image4 = ImageType4::New();
   WriteFile<ImageType4>(image4, std::string("image4.mhd"));
 
-  typedef itk::Image< itk::CovariantVector<double, 5> , 2>  ImageType5;
+  using ImageType5 = itk::Image< itk::CovariantVector<double, 5> , 2>;
   ImageType5::Pointer image5 = ImageType5::New();
   WriteFile<ImageType5>(image5, std::string("image5.mhd"));
 
@@ -39,7 +39,7 @@ void WriteFile(typename TImageType::Pointer image, std::string filename)
   image->SetRegions(region);
   image->Allocate();
   
-  typedef typename itk::ImageFileWriter<TImageType> WriterType;
+  using WriterType = typename itk::ImageFileWriter<TImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(image);
   writer->SetFileName(filename);

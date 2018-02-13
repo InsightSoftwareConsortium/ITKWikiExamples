@@ -10,10 +10,10 @@
 
 #include "QuickView.h"
 
-typedef unsigned char                  PixelType;
-typedef itk::Image<PixelType, 2>       ImageType;
-typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>    RGBImageType;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType, 2>;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
 
 static void CreateImage(ImageType::Pointer image);
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader =
       ReaderType::New();
     reader->SetFileName(argv[1]);
@@ -41,15 +41,14 @@ int main(int argc, char *argv[])
     image = reader->GetOutput();
     }
 
-  typedef itk::OtsuMultipleThresholdsImageFilter <ImageType, ImageType>
-          FilterType;
+  using FilterType = itk::OtsuMultipleThresholdsImageFilter <ImageType, ImageType>;
   FilterType::Pointer otsuFilter
           = FilterType::New();
   otsuFilter->SetInput(image);
   otsuFilter->SetNumberOfThresholds(numberOfThresholds);
   otsuFilter->Update(); // To compute threshold
 
-  typedef itk::LabelToRGBImageFilter<ImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::LabelToRGBImageFilter<ImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(otsuFilter->GetOutput());
 

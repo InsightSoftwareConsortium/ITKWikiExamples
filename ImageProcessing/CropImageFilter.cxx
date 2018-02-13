@@ -7,8 +7,8 @@
 
 #include "QuickView.h"
 
-typedef itk::RGBPixel<unsigned char> PixelType;
-typedef itk::Image<PixelType, 2>     ImageType;
+using PixelType = itk::RGBPixel<unsigned char>;
+using ImageType = itk::Image<PixelType, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
   if (argc > 1)
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( argv[1] );
     if (argc > 2)
@@ -40,8 +40,7 @@ int main(int argc, char *argv[])
     desc << "Synthetic image";
     }
 
-  typedef itk::CropImageFilter <ImageType, ImageType>
-    CropImageFilterType;
+  using CropImageFilterType = itk::CropImageFilter <ImageType, ImageType>;
 
   CropImageFilterType::Pointer cropFilter
     = CropImageFilterType::New();

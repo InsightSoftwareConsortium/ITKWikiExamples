@@ -7,15 +7,15 @@
 
 int main( int argc, char *argv[] )
 {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ContourSpatialObject< Dimension >   ContourType;
+  using ContourType = itk::ContourSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    ContourType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    ContourType, ImageType >;
 
 
   // Create a list of points
@@ -49,7 +49,7 @@ int main( int argc, char *argv[] )
   viewer.AddImage(imageFilter->GetOutput());
   viewer.Visualize();
   /*
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("contour.png");
   writer->SetInput( imageFilter->GetOutput() );

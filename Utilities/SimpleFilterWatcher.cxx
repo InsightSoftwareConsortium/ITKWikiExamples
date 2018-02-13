@@ -3,7 +3,7 @@
 #include "itkThresholdImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -11,8 +11,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::ThresholdImageFilter <ImageType>
-          ThresholdImageFilterType;
+  using ThresholdImageFilterType = itk::ThresholdImageFilter <ImageType>;
 
   ThresholdImageFilterType::Pointer thresholdFilter
           = ThresholdImageFilterType::New();

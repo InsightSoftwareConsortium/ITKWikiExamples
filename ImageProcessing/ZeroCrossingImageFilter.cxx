@@ -6,7 +6,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<float, 2>  ImageType;
+using ImageType = itk::Image<float, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -19,14 +19,14 @@ int main(int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
     image = reader->GetOutput();
     }
 
-  typedef  itk::ZeroCrossingImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::ZeroCrossingImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(image);
   filter->SetBackgroundValue(0);

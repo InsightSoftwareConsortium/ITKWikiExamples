@@ -5,8 +5,8 @@
 namespace
 {
 // Typedef the optimizer and cost function, for convenience
-typedef itk::AmoebaOptimizer       OptimizerType;
-typedef itk::ExampleCostFunction2  CostType;
+using OptimizerType = itk::AmoebaOptimizer;
+using CostType = itk::ExampleCostFunction2;
 }
 
 int main(int, char *[])

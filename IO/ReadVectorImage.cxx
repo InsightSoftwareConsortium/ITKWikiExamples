@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
     }
   std::string filename = argv[1];
   
-  typedef itk::VectorImage<float, 2>  ImageType;
+  using ImageType = itk::VectorImage<float, 2>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(filename);
   reader->Update();

@@ -6,7 +6,7 @@
 #endif
 #include "itkImageRegionConstIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void OutputImage(ImageType::Pointer image);
 
@@ -30,9 +30,9 @@ int main( int, char *[])
   OutputImage(image);
 
 #if ITK_VERSION_MAJOR >= 4
-  typedef itk::MultiplyImageFilter<ImageType, ImageType, ImageType> MultiplyImageFilterType;
+  using MultiplyImageFilterType = itk::MultiplyImageFilter<ImageType, ImageType, ImageType>;
 #else
-  typedef itk::MultiplyByConstantImageFilter<ImageType, unsigned char, ImageType> MultiplyImageFilterType;
+  using MultiplyImageFilterType = itk::MultiplyByConstantImageFilter<ImageType, unsigned char, ImageType>;
 #endif
   MultiplyImageFilterType::Pointer multiplyImageFilter = MultiplyImageFilterType::New();
   multiplyImageFilter->SetInput(image);

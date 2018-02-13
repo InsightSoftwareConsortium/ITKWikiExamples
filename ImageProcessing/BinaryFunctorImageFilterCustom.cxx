@@ -4,7 +4,7 @@
 #include "itkRigid2DTransform.h"
 #include "itkBinaryFunctorImageFilter.h"
 
-typedef itk::Image<float, 2>  ImageType;
+using ImageType = itk::Image<float, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 namespace Functor
@@ -47,8 +47,8 @@ int main(int, char *[])
   CreateImage(image2);
   image2->FillBuffer(5);
   
-  typedef itk::BinaryFunctorImageFilter< ImageType, ImageType, ImageType,
-                            Functor::MySquaredDifference<ImageType::PixelType> > FilterType;
+  using FilterType = itk::BinaryFunctorImageFilter< ImageType, ImageType, ImageType,
+                            Functor::MySquaredDifference<ImageType::PixelType> >;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput1(image1);

@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::BackwardDifferenceOperator<float, 2> BackwardDifferenceOperatorType;
+  using BackwardDifferenceOperatorType = itk::BackwardDifferenceOperator<float, 2>;
   BackwardDifferenceOperatorType backwardDifferenceOperator;
   backwardDifferenceOperator.SetDirection(0); // Create the operator for the X axis derivative
   itk::Size<2> radius;

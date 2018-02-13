@@ -6,10 +6,10 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>          FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
 
-typedef FloatImageType ImageType;
+using ImageType = FloatImageType;
 static void CreateImage(ImageType::Pointer);
 
 int main(int argc, char *argv[])
@@ -21,15 +21,14 @@ int main(int argc, char *argv[])
     }
   else
     {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName (argv[1]);
     reader->Update();
     image = reader->GetOutput();
     }
 
-  typedef itk::SobelEdgeDetectionImageFilter <ImageType, FloatImageType>
-          SobelEdgeDetectionImageFilterType;
+  using SobelEdgeDetectionImageFilterType = itk::SobelEdgeDetectionImageFilter <ImageType, FloatImageType>;
   SobelEdgeDetectionImageFilterType::Pointer sobelFilter
           = SobelEdgeDetectionImageFilterType::New();
   sobelFilter->SetInput(image);

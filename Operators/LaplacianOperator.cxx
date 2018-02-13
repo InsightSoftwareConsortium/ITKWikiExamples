@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::LaplacianOperator<float, 2> LaplacianOperatorType;
+  using LaplacianOperatorType = itk::LaplacianOperator<float, 2>;
   LaplacianOperatorType laplacianOperator;
   itk::Size<2> radius;
   radius.Fill(1);

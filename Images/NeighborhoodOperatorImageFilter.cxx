@@ -4,7 +4,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-typedef itk::Image<float, 2>  FloatImageType;
+using FloatImageType = itk::Image<float, 2>;
 
 void CreateImage(FloatImageType::Pointer image);
 void CastRescaleAndWrite(FloatImageType::Pointer image, const std::string& filename);
@@ -15,14 +15,14 @@ int main(int, char*[])
   CreateImage(image);
   CastRescaleAndWrite(image, "input.png");
   
-  typedef itk::SobelOperator<float, 2> SobelOperatorType;
+  using SobelOperatorType = itk::SobelOperator<float, 2>;
   SobelOperatorType sobelOperator;
   itk::Size<2> radius;
   radius.Fill(1); // a radius of 1x1 creates a 3x3 operator
   sobelOperator.SetDirection(0); // Create the operator for the X axis derivative
   sobelOperator.CreateToRadius(radius);
   
-  typedef itk::NeighborhoodOperatorImageFilter<FloatImageType, FloatImageType> NeighborhoodOperatorImageFilterType;
+  using NeighborhoodOperatorImageFilterType = itk::NeighborhoodOperatorImageFilter<FloatImageType, FloatImageType>;
   NeighborhoodOperatorImageFilterType::Pointer filter = NeighborhoodOperatorImageFilterType::New();
   filter->SetOperator(sobelOperator);
   filter->SetInput(image);
@@ -63,15 +63,15 @@ void CreateImage(FloatImageType::Pointer image)
 
 void CastRescaleAndWrite(FloatImageType::Pointer image, const std::string& filename)
 {
-  typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
-  typedef itk::RescaleIntensityImageFilter<FloatImageType, UnsignedCharImageType> RescaleFilterType;
+  using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<FloatImageType, UnsignedCharImageType>;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(image);
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
   rescaleFilter->Update();
   
-  typedef  itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(filename);
   writer->SetInput(rescaleFilter->GetOutput());

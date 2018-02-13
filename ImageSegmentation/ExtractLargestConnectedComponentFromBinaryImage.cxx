@@ -17,17 +17,16 @@ int main( int argc, char *argv[])
     std::cout << argv[0] << " InputFileName" << std::endl;
     }
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::Image< unsigned short, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< unsigned short, Dimension >;
 
-  typedef itk::ConnectedComponentImageFilter <ImageType, OutputImageType >
-    ConnectedComponentImageFilterType;
+  using ConnectedComponentImageFilterType = itk::ConnectedComponentImageFilter <ImageType, OutputImageType >;
 
   ConnectedComponentImageFilterType::Pointer connected = ConnectedComponentImageFilterType::New ();
   connected->SetInput(reader->GetOutput());
@@ -35,14 +34,14 @@ int main( int argc, char *argv[])
 
   std::cout << "Number of objects: " << connected->GetObjectCount() << std::endl;
 
-  typedef itk::LabelShapeKeepNObjectsImageFilter< OutputImageType > LabelShapeKeepNObjectsImageFilterType;
+  using LabelShapeKeepNObjectsImageFilterType = itk::LabelShapeKeepNObjectsImageFilter< OutputImageType >;
   LabelShapeKeepNObjectsImageFilterType::Pointer labelShapeKeepNObjectsImageFilter = LabelShapeKeepNObjectsImageFilterType::New();
   labelShapeKeepNObjectsImageFilter->SetInput( connected->GetOutput() );
   labelShapeKeepNObjectsImageFilter->SetBackgroundValue( 0 );
   labelShapeKeepNObjectsImageFilter->SetNumberOfObjects( 1 );
   labelShapeKeepNObjectsImageFilter->SetAttribute( LabelShapeKeepNObjectsImageFilterType::LabelObjectType::NUMBER_OF_PIXELS);
 
-  typedef itk::RescaleIntensityImageFilter< OutputImageType, ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< OutputImageType, ImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(itk::NumericTraits<PixelType>::max());

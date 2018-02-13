@@ -2,7 +2,7 @@
 
 int main(int, char*[])
 {
-  typedef itk::SobelOperator<float, 2> SobelOperatorType;
+  using SobelOperatorType = itk::SobelOperator<float, 2>;
   SobelOperatorType sobelOperator;
   sobelOperator.SetDirection(0); // Create the operator for the X axis derivative
   itk::Size<2> radius;

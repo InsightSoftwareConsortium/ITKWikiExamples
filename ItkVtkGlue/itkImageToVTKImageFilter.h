@@ -41,11 +41,11 @@ template <class TInputImage >
 class ImageToVTKImageFilter : public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToVTKImageFilter       Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type alias. */
+  using Self = ImageToVTKImageFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,12 +53,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToVTKImageFilter, ProcessObject);
 
-  /** Some typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::ConstPointer  InputImagePointer;
+  /** Some type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::ConstPointer;
 
-  typedef VTKImageExport< InputImageType>        ExporterFilterType;
-  typedef typename ExporterFilterType::Pointer   ExporterFilterPointer;
+  using ExporterFilterType = VTKImageExport< InputImageType>;
+  using ExporterFilterPointer = typename ExporterFilterType::Pointer;
 
   /** Get the output in the form of a vtkImage.
       This call is delegated to the internal vtkImageImporter filter  */

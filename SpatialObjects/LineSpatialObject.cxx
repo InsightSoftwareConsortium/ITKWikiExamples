@@ -5,15 +5,15 @@
 
 int main( int argc, char *argv[] )
 {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::LineSpatialObject< Dimension >   LineType;
+  using LineType = itk::LineSpatialObject< Dimension >;
 
-  typedef itk::SpatialObjectToImageFilter<
-    LineType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    LineType, ImageType >;
 
 
   // Create a list of points
@@ -43,7 +43,7 @@ int main( int argc, char *argv[] )
   imageFilter->SetInput(line);
   imageFilter->Update();
   
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("line.png");
   writer->SetInput( imageFilter->GetOutput() );

@@ -46,18 +46,18 @@ int main( int argc, char * argv [] )
   // Define the pixel type and dimension of the image that we intend to
   // classify. 
   
-  typedef signed short       PixelType;
+  using PixelType = signed short;
   const unsigned int          Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  using ImageType = itk::Image<PixelType, Dimension >;
 
   // create a reader  
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageFileName );
 
   // Instantiate the ScalarImageKmeansImageFilter  
-  typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
@@ -76,9 +76,9 @@ int main( int argc, char * argv [] )
 
   // Create and setup a writer
   
-  typedef KMeansFilterType::OutputImageType  OutputImageType;
+  using OutputImageType = KMeansFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   
@@ -105,7 +105,7 @@ int main( int argc, char * argv [] )
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; ++i )
+  for ( unsigned int i = 0; i < numberOfClasses; ++i )
     {
     std::cout << "cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;

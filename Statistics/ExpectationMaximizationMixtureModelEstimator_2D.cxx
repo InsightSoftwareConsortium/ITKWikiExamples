@@ -7,12 +7,12 @@
 int main(int, char *[])
 {
   unsigned int numberOfClasses = 2;
-  typedef itk::Vector< double, 2 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, 2 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   
 
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
   // Create the first set of 2D Gaussian samples
@@ -21,7 +21,7 @@ int main(int, char *[])
   MeasurementVectorType mv;
   double mean = 100;
   double standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     mv[1] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
@@ -32,14 +32,14 @@ int main(int, char *[])
   normalGenerator->Initialize( 3024 );
   mean = 200;
   standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     mv[1] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
     }
 
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   ParametersType params( 6 );
 
   // Create the first set of initial parameters
@@ -61,20 +61,19 @@ int main(int, char *[])
   params[5] = 855.0; // covariance(1,1)
   initialParameters[1] = params;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType >
-    ComponentType;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent< SampleType >;
 
   // Create the components
   std::vector< ComponentType::Pointer > components;
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     components.push_back( ComponentType::New() );
     (components[i])->SetSample( sample );
     (components[i])->SetParameters( initialParameters[i] );
     }
 
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
-    SampleType > EstimatorType;
+  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
+    SampleType >;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( sample );
@@ -86,7 +85,7 @@ int main(int, char *[])
 
   estimator->SetInitialProportions( initialProportions );
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++)
+  for ( unsigned int i = 0; i < numberOfClasses; i++)
     {
     estimator->AddComponent( (ComponentType::Superclass*)
                              (components[i]).GetPointer() );
@@ -95,7 +94,7 @@ int main(int, char *[])
   estimator->Update();
 
   // Output the results
-  for ( unsigned int i = 0 ; i < numberOfClasses ; i++ )
+  for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;

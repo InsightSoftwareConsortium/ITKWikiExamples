@@ -10,8 +10,8 @@ static void CreateImage(TImage* const image);
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<int, 2>   ImageType;
-  typedef itk::MyInPlaceImageFilter<ImageType>  FilterType;
+  using ImageType = itk::Image<int, 2>;
+  using FilterType = itk::MyInPlaceImageFilter<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
   CreateImage(image.GetPointer());

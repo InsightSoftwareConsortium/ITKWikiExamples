@@ -10,11 +10,11 @@
 
 #include "QuickView.h"
 
-typedef itk::RGBPixel<unsigned char> RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>  RGBImageType;
-typedef itk::Image<unsigned char, 2> ImageType;
-typedef itk::Function::CustomColormapFunction<
-  ImageType::PixelType, RGBImageType::PixelType> ColormapType;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
+using ImageType = itk::Image<unsigned char, 2>;
+using ColormapType = itk::Function::CustomColormapFunction<
+  ImageType::PixelType, RGBImageType::PixelType>;
 
 static void CreateRandomImage(
   ImageType::Pointer image, unsigned int width = 200, unsigned height = 300);
@@ -27,7 +27,7 @@ int main(int, char *[])
 
   CreateRandomImage(image);
   
-  typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> ColormapFilterType;
+  using ColormapFilterType = itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType>;
   ColormapFilterType::Pointer colormapFilter1 =
     ColormapFilterType::New();
 

@@ -12,11 +12,11 @@ class ExampleCostFunction :
 public MultipleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExampleCostFunction        Self;
-  typedef MultipleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  /** Standard class type alias. */
+  using Self = ExampleCostFunction;
+  using Superclass = MultipleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,8 +72,7 @@ protected:
     // Take the curve y = C*e^(K*x), add noise, and sample at 100 points on [0,1]
     // C and K are our parameters
     // In the actual data, these parameters are 5.5 and 0.5
-    typedef itk::Statistics::MersenneTwisterRandomVariateGenerator
-      GeneratorType;
+    using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
     GeneratorType::Pointer randomEngine = GeneratorType::New();
     double actualC = 5.5;
     double actualK = 0.5;

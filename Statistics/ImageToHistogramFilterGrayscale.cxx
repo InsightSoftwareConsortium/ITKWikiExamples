@@ -2,7 +2,7 @@
 #include "itkImageToHistogramFilter.h"
 #include "itkImageRandomIteratorWithIndex.h"
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 void CreateImage(ImageType::Pointer image);
 
@@ -14,13 +14,13 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::Statistics::ImageToHistogramFilter< ImageType > ImageToHistogramFilterType;
+  using ImageToHistogramFilterType = itk::Statistics::ImageToHistogramFilter< ImageType >;
   
   ImageToHistogramFilterType::HistogramType::MeasurementVectorType lowerBound(binsPerDimension);
   lowerBound.Fill(0);
   
   ImageToHistogramFilterType::HistogramType::MeasurementVectorType upperBound(binsPerDimension);
-  upperBound.Fill(255) ;
+  upperBound.Fill(255);
   
   ImageToHistogramFilterType::HistogramType::SizeType size(MeasurementVectorSize);
   size.Fill(binsPerDimension);

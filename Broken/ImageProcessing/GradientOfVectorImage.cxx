@@ -6,8 +6,8 @@
 int main(int argc, char * argv[])
 {
   // Setup types
-  typedef itk::CovariantVector<float, 2> VectorType;
-  typedef itk::Image<VectorType, 2>   VectorImageType;
+  using VectorType = itk::CovariantVector<float, 2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
   VectorImageType::Pointer image = VectorImageType::New();
 
   itk::Size<2> size;
@@ -32,8 +32,8 @@ int main(int argc, char * argv[])
     }
     
   // Create and setup a gradient filter
-  typedef itk::GradientImageFilter<
-      VectorImageType, VectorType>  GradientFilterType;
+  using GradientFilterType = itk::GradientImageFilter<
+      VectorImageType, VectorType>;
   GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(image);
   gradientFilter->Update();

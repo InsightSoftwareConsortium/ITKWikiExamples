@@ -11,7 +11,7 @@
 #include <vtkUnstructuredGrid.h>
 #include <vtkXMLUnstructuredGridWriter.h>
 
-typedef itk::Mesh< float, 3 >   MeshType;
+using MeshType = itk::Mesh< float, 3 >;
 
 // Functions
 static MeshType::Pointer CreateMeshWithEdges();
@@ -23,14 +23,13 @@ class VisitVTKCellsClass
   int* m_LastCell;
   int* m_TypeArray;
 public:
-  // typedef the itk cells we are interested in
-  typedef itk::CellInterface<
+  using CellInterfaceType = itk::CellInterface<
   MeshType::PixelType,
-  MeshType::CellTraits >  CellInterfaceType;
+  MeshType::CellTraits >;
 
-  typedef itk::LineCell<CellInterfaceType> floatLineCell;
-  typedef itk::TriangleCell<CellInterfaceType>      floatTriangleCell;
-  typedef itk::QuadrilateralCell<CellInterfaceType> floatQuadrilateralCell;
+  using floatLineCell = itk::LineCell<CellInterfaceType>;
+  using floatTriangleCell = itk::TriangleCell<CellInterfaceType>;
+  using floatQuadrilateralCell = itk::QuadrilateralCell<CellInterfaceType>;
 
   // Set the vtkCellArray that will be constructed
   void SetCellArray(vtkCellArray* a)
@@ -115,8 +114,8 @@ MeshType::Pointer CreateMeshWithEdges()
   mesh->SetPoint( 3, p3 );
 
   // Create three lines and add them to the mesh
-  typedef MeshType::CellType::CellAutoPointer         CellAutoPointer;
-  typedef itk::LineCell< MeshType::CellType >         LineType;
+  using CellAutoPointer = MeshType::CellType::CellAutoPointer;
+  using LineType = itk::LineCell< MeshType::CellType >;
 
   CellAutoPointer line0;
   line0.TakeOwnership(  new LineType  );
@@ -185,30 +184,30 @@ void ConvertMeshToUnstructuredGrid(MeshType::Pointer mesh, vtkUnstructuredGrid* 
   cells->EstimateSize(numCells, 4);
   
   // Setup the line visitor
-  typedef itk::CellInterfaceVisitorImplementation<
+  using LineVisitor = itk::CellInterfaceVisitorImplementation<
     float, MeshType::CellTraits,
     itk::LineCell< itk::CellInterface<MeshType::PixelType, MeshType::CellTraits > >,
-    VisitVTKCellsClass> LineVisitor;
+    VisitVTKCellsClass>;
   LineVisitor::Pointer lv =  LineVisitor::New();
   lv->SetTypeArray(types);
   lv->SetCellCounter(&vtkCellCount);
   lv->SetCellArray(cells);
 
   // Setup the triangle visitor
-  typedef itk::CellInterfaceVisitorImplementation<
+  using TriangleVisitor = itk::CellInterfaceVisitorImplementation<
     float, MeshType::CellTraits,
     itk::TriangleCell< itk::CellInterface<MeshType::PixelType, MeshType::CellTraits > >,
-    VisitVTKCellsClass> TriangleVisitor;
+    VisitVTKCellsClass>;
   TriangleVisitor::Pointer tv = TriangleVisitor::New();
   tv->SetTypeArray(types);
   tv->SetCellCounter(&vtkCellCount);
   tv->SetCellArray(cells);
 
   // Setup the quadrilateral visitor
-  typedef itk::CellInterfaceVisitorImplementation<
+  using QuadrilateralVisitor = itk::CellInterfaceVisitorImplementation<
     float, MeshType::CellTraits,
     itk::QuadrilateralCell< itk::CellInterface<MeshType::PixelType, MeshType::CellTraits > >,
-    VisitVTKCellsClass> QuadrilateralVisitor;
+    VisitVTKCellsClass>;
   QuadrilateralVisitor::Pointer qv =  QuadrilateralVisitor::New();
   qv->SetTypeArray(types);
   qv->SetCellCounter(&vtkCellCount);

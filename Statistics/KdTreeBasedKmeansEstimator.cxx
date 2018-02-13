@@ -13,8 +13,8 @@
 
 int main(int, char *[])
 {
-  typedef itk::Vector< double, 3 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, 3 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( 3 );
   
@@ -61,7 +61,7 @@ int main(int, char *[])
   mv[0] = 165.472; mv[1] = 165.944; mv[2] = 158.888;
   sample->PushBack(mv);
 
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( sample );
@@ -69,8 +69,8 @@ int main(int, char *[])
   std::cout << "Tree measurement vector size: " << treeGenerator->GetMeasurementVectorSize() << std::endl;
   treeGenerator->Update();
 
-  typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
+  using TreeType = TreeGeneratorType::KdTreeType;
+  using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<TreeType>;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   EstimatorType::ParametersType initialMeans(2*3);

@@ -24,8 +24,8 @@ template< typename TComponent, unsigned int NVectorDimension = 3 >
 class myVectorPixel : public Vector<TComponent,NVectorDimension>
 {
 public:
-  typedef myVectorPixel                       Self;
-  typedef Vector<TComponent,NVectorDimension> Superclass;
+  using Self = myVectorPixel;
+  using Superclass = Vector<TComponent,NVectorDimension>;
 
   bool operator<=(const Self & r) const
   {
@@ -64,14 +64,14 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::myVectorPixel<unsigned char,3>                 PixelType;
-  typedef itk::Image<PixelType, 2 >                           ImageType;
-  typedef itk::RGBPixel<unsigned char>                        RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2 >                        RGBImageType;
+  using PixelType = itk::myVectorPixel<unsigned char,3>;
+  using ImageType = itk::Image<PixelType, 2 >;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2 >;
 
-  typedef itk::ImageFileReader<ImageType>                     ReaderType;
-  typedef itk::MedianImageFilter<ImageType, ImageType >       FilterType;
-  typedef itk::VectorCastImageFilter<ImageType, RGBImageType> CastType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using FilterType = itk::MedianImageFilter<ImageType, ImageType >;
+  using CastType = itk::VectorCastImageFilter<ImageType, RGBImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

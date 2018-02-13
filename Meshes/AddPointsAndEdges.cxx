@@ -2,7 +2,7 @@
 #include "itkLineCell.h"
 
 const unsigned int Dimension = 3;
-typedef itk::Mesh< float, Dimension >   MeshType;
+using MeshType = itk::Mesh< float, Dimension >;
 	
 MeshType::Pointer CreatePointOnlyMesh();
 void CreateMeshWithEdges();
@@ -36,7 +36,7 @@ MeshType::Pointer CreatePointOnlyMesh()
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
 
   // Access points
-  typedef MeshType::PointsContainer::Iterator     PointsIterator;
+  using PointsIterator = MeshType::PointsContainer::Iterator;
 
   PointsIterator  pointIterator = mesh->GetPoints()->Begin();  
 
@@ -55,8 +55,8 @@ void CreateMeshWithEdges()
 {
   MeshType::Pointer mesh = CreatePointOnlyMesh();
 	
-  typedef MeshType::CellType::CellAutoPointer         CellAutoPointer;
-  typedef itk::LineCell< MeshType::CellType >         LineType;
+  using CellAutoPointer = MeshType::CellType::CellAutoPointer;
+  using LineType = itk::LineCell< MeshType::CellType >;
   
   // Create a link to the previous point in the column (below the current point)
   CellAutoPointer colline;
@@ -73,7 +73,7 @@ void CreateMeshWithEdges()
   //std::cout << "Linked point: " << MeshIndex << " and " << MeshIndex - 1 << std::endl;
   mesh->SetCell( 0, colline );
 
-  typedef MeshType::CellsContainer::Iterator  CellIterator;
+  using CellIterator = MeshType::CellsContainer::Iterator;
   CellIterator  cellIterator = mesh->GetCells()->Begin();
   CellIterator  CellsEnd          = mesh->GetCells()->End();
 	

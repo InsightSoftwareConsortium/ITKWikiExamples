@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     fileName = argv[1];
   }
 
-  typedef itk::MatrixOffsetTransformBase< double, 3, 3 > MatrixOffsetTransformType;
+  using MatrixOffsetTransformType = itk::MatrixOffsetTransformBase< double, 3, 3 >;
   itk::TransformFactory<MatrixOffsetTransformType>::RegisterTransform();
 
 #if (ITK_VERSION_MAJOR == 4 && ITK_VERSION_MINOR >= 5) || ITK_VERSION_MAJOR > 4

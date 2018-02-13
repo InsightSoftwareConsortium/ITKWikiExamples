@@ -29,7 +29,7 @@ void OilPaintingImageFilter<TImage>::SetRadius(unsigned int radius)
 template<class TImage>
 void OilPaintingImageFilter<TImage>::BeforeThreadedGenerateData()
 {
-    typedef itk::MinimumMaximumImageCalculator< TImage >  CalculatorType;
+    using CalculatorType = itk::MinimumMaximumImageCalculator< TImage >;
     typename CalculatorType::Pointer calculatorI = CalculatorType::New();
     calculatorI->SetImage( this->GetInput() );
     calculatorI->Compute();

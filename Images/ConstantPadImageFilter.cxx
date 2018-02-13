@@ -4,7 +4,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 static void WriteImage(ImageType::Pointer image, std::string filename);
@@ -16,8 +16,7 @@ int main(int, char *[])
   WriteImage(image, "input.png");
 
 
-  typedef itk::ConstantPadImageFilter <ImageType, ImageType>
-    ConstantPadImageFilterType;
+  using ConstantPadImageFilterType = itk::ConstantPadImageFilter <ImageType, ImageType>;
 
   ImageType::SizeType lowerExtendRegion;
   lowerExtendRegion[0] = 10;
@@ -62,7 +61,7 @@ void CreateImage(ImageType::Pointer image)
 
 void WriteImage(ImageType::Pointer image, std::string filename)
 {
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(filename);
   writer->SetInput(image);

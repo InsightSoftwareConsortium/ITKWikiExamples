@@ -5,12 +5,12 @@
 
 // We define the dimension and coordinate type...
 const unsigned int Dimension = 3;
-typedef float      TCoordinate;
+using TCoordinate = float;
 
-// ...and then typedef the mesh, sphere, and writer.
-typedef itk::Mesh< TCoordinate, Dimension >   TMesh;
-typedef itk::RegularSphereMeshSource< TMesh > TSphere;
-typedef itk::MeshFileWriter< TMesh >          TMeshWriter;
+// ...and then type alias the mesh, sphere, and writer.
+using TMesh = itk::Mesh< TCoordinate, Dimension >;
+using TSphere = itk::RegularSphereMeshSource< TMesh >;
+using TMeshWriter = itk::MeshFileWriter< TMesh >;
  
 int main(int, char *[])
 {

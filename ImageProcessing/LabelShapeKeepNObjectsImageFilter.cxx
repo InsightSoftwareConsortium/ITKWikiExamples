@@ -6,8 +6,8 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkScalarToRGBColormapImageFilter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
-typedef itk::Image<unsigned char, 2>  LabelImageType;
+using ImageType = itk::Image<unsigned char, 2>;
+using LabelImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -15,17 +15,17 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::BinaryImageToLabelMapFilter<ImageType> BinaryImageToLabelMapFilterType;
+  using BinaryImageToLabelMapFilterType = itk::BinaryImageToLabelMapFilter<ImageType>;
   BinaryImageToLabelMapFilterType::Pointer binaryImageToLabelMapFilter = BinaryImageToLabelMapFilterType::New();
   binaryImageToLabelMapFilter->SetInput(image);
   binaryImageToLabelMapFilter->Update();
   
-  typedef itk::LabelMapToLabelImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, LabelImageType> LabelMapToLabelImageFilterType;
+  using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<BinaryImageToLabelMapFilterType::OutputImageType, LabelImageType>;
   LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(binaryImageToLabelMapFilter->GetOutput());
   labelMapToLabelImageFilter->Update();
 
-  typedef itk::LabelShapeKeepNObjectsImageFilter< LabelImageType > LabelShapeKeepNObjectsImageFilterType;
+  using LabelShapeKeepNObjectsImageFilterType = itk::LabelShapeKeepNObjectsImageFilter< LabelImageType >;
   LabelShapeKeepNObjectsImageFilterType::Pointer labelShapeKeepNObjectsImageFilter = LabelShapeKeepNObjectsImageFilterType::New();
   labelShapeKeepNObjectsImageFilter->SetInput( labelMapToLabelImageFilter->GetOutput() );
   labelShapeKeepNObjectsImageFilter->SetBackgroundValue( 0 );
@@ -35,17 +35,17 @@ int main(int, char *[])
   labelShapeKeepNObjectsImageFilter->SetAttribute( LabelShapeKeepNObjectsImageFilterType::LabelObjectType::PERIMETER);
   labelShapeKeepNObjectsImageFilter->Update();
  
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2>    RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2>;
 
   // Color each label/object a different color
-  typedef itk::ScalarToRGBColormapImageFilter<LabelImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::ScalarToRGBColormapImageFilter<LabelImageType, RGBImageType>;
   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
   colormapImageFilter->SetInput(labelShapeKeepNObjectsImageFilter->GetOutput());
   colormapImageFilter->SetColormap( RGBFilterType::Jet );
   colormapImageFilter->Update();
   
-  typedef itk::ImageFileWriter< RGBImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RGBImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( colormapImageFilter->GetOutput() );
   writer->SetFileName("output.png");
@@ -91,7 +91,7 @@ void CreateImage(ImageType::Pointer image)
     ++imageIterator;
     }
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

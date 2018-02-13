@@ -1,7 +1,7 @@
 #include "itkMovingHistogramImageFilter.h"
 #include "itkFlatStructuringElement.h"
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
   
 void CreateImage(ImageType::Pointer image);
 
@@ -59,17 +59,17 @@ private:
 
 int main(int argc, char*argv[])
 {
-  typedef itk::FlatStructuringElement<2> StructuringElementType;
+  using StructuringElementType = itk::FlatStructuringElement<2>;
   StructuringElementType::RadiusType elementRadius;
   elementRadius.Fill(3); // a 7x7 kernel
   StructuringElementType structuringElement = StructuringElementType::Box(elementRadius);
   
-  typedef MyHistogram<unsigned char> HistogramType;
+  using HistogramType = MyHistogram<unsigned char>;
 
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::MovingHistogramImageFilter< ImageType, ImageType, StructuringElementType, HistogramType > MovingHistogramImageFilterType;
+  using MovingHistogramImageFilterType = itk::MovingHistogramImageFilter< ImageType, ImageType, StructuringElementType, HistogramType >;
   MovingHistogramImageFilterType::Pointer movingHistogramImageFilter = MovingHistogramImageFilterType::New();
 
   movingHistogramImageFilter->SetInput(image);

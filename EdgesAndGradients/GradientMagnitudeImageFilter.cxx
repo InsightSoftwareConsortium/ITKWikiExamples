@@ -20,12 +20,12 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< unsigned char,  2 >  UnsignedCharImageType;
-  typedef itk::Image< float,  2 >   FloatImageType;
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
+  using UnsignedCharImageType = itk::Image< unsigned char,  2 >;
+  using FloatImageType = itk::Image< float,  2 >;
+  using readerType = itk::ImageFileReader< UnsignedCharImageType >;
 
-  typedef itk::GradientMagnitudeImageFilter<
-		  UnsignedCharImageType, FloatImageType >  filterType;
+  using filterType = itk::GradientMagnitudeImageFilter<
+		  UnsignedCharImageType, FloatImageType >;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();

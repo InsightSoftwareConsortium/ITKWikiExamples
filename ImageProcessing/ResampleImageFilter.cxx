@@ -4,7 +4,7 @@
 #include "itkResampleImageFilter.h"
 
 
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -17,7 +17,7 @@ int main(int, char *[])
 
   std::cout << "Input size: " << inputSize << std::endl;
 
-  typedef  itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(input);
@@ -30,8 +30,8 @@ int main(int, char *[])
   outputSpacing[0] = input->GetSpacing()[0] * (static_cast<double>(inputSize[0]) / static_cast<double>(outputSize[0]));
   outputSpacing[1] = input->GetSpacing()[1] * (static_cast<double>(inputSize[1]) / static_cast<double>(outputSize[1]));
   
-  typedef itk::IdentityTransform<double, 2> TransformType;
-  typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleImageFilterType;
+  using TransformType = itk::IdentityTransform<double, 2>;
+  using ResampleImageFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
   ResampleImageFilterType::Pointer resample = ResampleImageFilterType::New();
   resample->SetInput(input);
   resample->SetSize(outputSize);

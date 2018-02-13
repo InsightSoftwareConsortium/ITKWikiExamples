@@ -18,7 +18,7 @@
 #include "vtkActor.h"
 #include "vtkProperty.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 int main(int argc, char*argv[])
 {
@@ -30,21 +30,20 @@ int main(int argc, char*argv[])
     }
   std::string inputFilename = argv[1];
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName(inputFilename.c_str());
   reader->Update();
 
-  typedef itk::MinimumMaximumImageCalculator <ImageType>
-          ImageCalculatorFilterType;
+  using ImageCalculatorFilterType = itk::MinimumMaximumImageCalculator <ImageType>;
 
   ImageCalculatorFilterType::Pointer imageCalculatorFilter
           = ImageCalculatorFilterType::New ();
   imageCalculatorFilter->SetImage(reader->GetOutput());
   imageCalculatorFilter->Compute();
 
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer originalConnector = ConnectorType::New();
 
   originalConnector->SetInput(reader->GetOutput());

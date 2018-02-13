@@ -10,7 +10,7 @@ int main(int, char *[])
   itk::Index<2> index;
   index.Fill(1);
   
-  typedef itk::ImageRegion<2> RegionType;
+  using RegionType = itk::ImageRegion<2>;
   RegionType region(index,size);
 
   std::cout << region << std::endl;

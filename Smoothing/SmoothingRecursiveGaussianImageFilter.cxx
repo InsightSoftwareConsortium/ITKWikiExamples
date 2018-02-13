@@ -25,20 +25,19 @@ int main(int argc, char * argv[])
 
 
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::Image<itk::RGBPixel< PixelComponentType>,
-    Dimension > ColorImageType;
+  using ColorImageType = itk::Image<itk::RGBPixel< PixelComponentType>,
+    Dimension >;
 
-  typedef itk::ImageFileReader< ColorImageType >
-    ReaderType;
+  using ReaderType = itk::ImageFileReader< ColorImageType >;
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
 
-  typedef itk::SmoothingRecursiveGaussianImageFilter<
-    ColorImageType, ColorImageType >  FilterType;
+  using FilterType = itk::SmoothingRecursiveGaussianImageFilter<
+    ColorImageType, ColorImageType >;
 
   FilterType::Pointer smoothingRecursiveGaussianImageFilter = FilterType::New();
   smoothingRecursiveGaussianImageFilter->SetInput(reader->GetOutput());

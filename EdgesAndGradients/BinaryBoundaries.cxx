@@ -6,7 +6,7 @@
 
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -15,8 +15,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::BinaryContourImageFilter <ImageType, ImageType >
-          binaryContourImageFilterType;
+  using binaryContourImageFilterType = itk::BinaryContourImageFilter <ImageType, ImageType >;
 
   // Outer boundary
   binaryContourImageFilterType::Pointer binaryContourFilter
@@ -27,8 +26,7 @@ int main(int, char *[])
   binaryContourFilter->Update();
 
   // Invert the result
-  typedef itk::InvertIntensityImageFilter <ImageType>
-          InvertIntensityImageFilterType;
+  using InvertIntensityImageFilterType = itk::InvertIntensityImageFilter <ImageType>;
 
   InvertIntensityImageFilterType::Pointer invertIntensityFilter
           = InvertIntensityImageFilterType::New();

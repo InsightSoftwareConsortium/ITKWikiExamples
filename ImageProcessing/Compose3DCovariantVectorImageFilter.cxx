@@ -6,8 +6,8 @@
 #include "itkComposeImageFilter.h"
 #endif
 
-typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
-typedef itk::Image<float, 2> ScalarImageType;
+using VectorImageType = itk::Image<itk::CovariantVector< float, 3>, 2>;
+using ScalarImageType = itk::Image<float, 2>;
 
 static void CreateImage(ScalarImageType::Pointer image);
 
@@ -17,11 +17,11 @@ int main(int, char *[])
   CreateImage(image);
 
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::Compose3DCovariantVectorImageFilter<ScalarImageType,
-                              VectorImageType> ComposeCovariantVectorImageFilterType;
+  using ComposeCovariantVectorImageFilterType = itk::Compose3DCovariantVectorImageFilter<ScalarImageType,
+                              VectorImageType>;
 #else
-  typedef itk::ComposeImageFilter<ScalarImageType,
-                              VectorImageType> ComposeCovariantVectorImageFilterType;
+  using ComposeCovariantVectorImageFilterType = itk::ComposeImageFilter<ScalarImageType,
+                              VectorImageType>;
 #endif
   ComposeCovariantVectorImageFilterType::Pointer composeFilter = ComposeCovariantVectorImageFilterType::New();
 

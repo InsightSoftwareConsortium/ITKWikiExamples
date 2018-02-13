@@ -7,8 +7,8 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::ImageFilterMultipleInputs<ImageType>  FilterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::ImageFilterMultipleInputs<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::Pointer mask = ImageType::New();

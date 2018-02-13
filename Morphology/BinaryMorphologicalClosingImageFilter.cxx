@@ -8,7 +8,7 @@
 
 namespace
 {
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 }
 
 static void CreateImage(ImageType* const image);
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     }
   else
   {
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
@@ -38,21 +38,19 @@ int main(int argc, char *argv[])
     ss >> radius;
     }
   std::cout << "Radius: " << radius << std::endl;
-  typedef itk::BinaryBallStructuringElement<ImageType::PixelType, ImageType::ImageDimension>
-              StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<ImageType::PixelType, ImageType::ImageDimension>;
   StructuringElementType structuringElement;
   structuringElement.SetRadius(radius);
   structuringElement.CreateStructuringElement();
 
-  typedef itk::BinaryMorphologicalClosingImageFilter <ImageType, ImageType, StructuringElementType>
-          BinaryMorphologicalClosingImageFilterType;
+  using BinaryMorphologicalClosingImageFilterType = itk::BinaryMorphologicalClosingImageFilter <ImageType, ImageType, StructuringElementType>;
   BinaryMorphologicalClosingImageFilterType::Pointer closingFilter
           = BinaryMorphologicalClosingImageFilterType::New();
   closingFilter->SetInput(image);
   closingFilter->SetKernel(structuringElement);
   closingFilter->Update();
 
-  typedef itk::SubtractImageFilter<ImageType> SubtractType;
+  using SubtractType = itk::SubtractImageFilter<ImageType>;
   SubtractType::Pointer diff = SubtractType::New();
   diff->SetInput1(closingFilter->GetOutput());
   diff->SetInput2(image);

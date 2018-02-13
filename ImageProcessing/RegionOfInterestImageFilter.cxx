@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
   std::string filename = argv[1];
 
-  typedef itk::Image<itk::RGBPixel<unsigned char>, 2> ImageType;
-  typedef itk::ImageFileReader<ImageType>             ReaderType;
+  using ImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(filename.c_str());
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
   ImageType::SizeType inSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  typedef itk::RegionOfInterestImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::RegionOfInterestImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   ImageType::IndexType start;

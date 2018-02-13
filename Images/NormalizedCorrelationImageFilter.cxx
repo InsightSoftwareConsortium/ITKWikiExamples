@@ -11,8 +11,8 @@
 #include <iostream>
 #include <string>
 
-typedef itk::Image<float, 2> FloatImageType;
-typedef itk::Image<unsigned char, 2> UnsignedCharImageType;
+using FloatImageType = itk::Image<float, 2>;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
   std::string filename = argv[1];
 
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
 
   // Read the image
   ReaderType::Pointer reader = ReaderType::New();
@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
   reader->Update();
 
   // Extract a small region
-  typedef itk::RegionOfInterestImageFilter< FloatImageType,
-                                            FloatImageType > ExtractFilterType;
+  using ExtractFilterType = itk::RegionOfInterestImageFilter< FloatImageType,
+                                            FloatImageType >;
 
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
   // Perform normalized correlation
   // <input type, mask type (not used), output type>
-  typedef itk::NormalizedCorrelationImageFilter<FloatImageType, FloatImageType, FloatImageType> CorrelationFilterType;
+  using CorrelationFilterType = itk::NormalizedCorrelationImageFilter<FloatImageType, FloatImageType, FloatImageType>;
 
   itk::ImageKernelOperator<float> kernelOperator;
   kernelOperator.SetImageKernel(extractFilter->GetOutput());
@@ -68,8 +68,7 @@ int main(int argc, char *argv[])
   correlationFilter->SetTemplate(kernelOperator);
   correlationFilter->Update();
 
-  typedef itk::MinimumMaximumImageCalculator <FloatImageType>
-          MinimumMaximumImageCalculatorType;
+  using MinimumMaximumImageCalculatorType = itk::MinimumMaximumImageCalculator <FloatImageType>;
 
   MinimumMaximumImageCalculatorType::Pointer minimumMaximumImageCalculatorFilter
           = MinimumMaximumImageCalculatorType::New ();
@@ -81,8 +80,8 @@ int main(int argc, char *argv[])
 
   // Note that the best correlation is at the center of the patch we extracted (ie. (75, 75) rather than the corner (50,50)
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
-  typedef itk::ImageFileWriter<UnsignedCharImageType> WriterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
+  using WriterType = itk::ImageFileWriter<UnsignedCharImageType>;
   {
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(correlationFilter->GetOutput());

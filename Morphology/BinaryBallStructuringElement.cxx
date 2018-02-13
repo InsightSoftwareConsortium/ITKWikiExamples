@@ -3,7 +3,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::BinaryBallStructuringElement<float, 2> StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<float, 2>;
   StructuringElementType structuringElement;
   structuringElement.SetRadius(5);
   structuringElement.CreateStructuringElement();

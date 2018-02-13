@@ -13,7 +13,7 @@
 #include "vtkInteractorStyleImage.h"
 #include "vtkRenderer.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage1(ImageType::Pointer image);
 static void CreateImage2(ImageType::Pointer image);
@@ -26,8 +26,7 @@ int main(int, char *[])
   ImageType::Pointer image2 = ImageType::New();
   CreateImage2(image2);
 
-  typedef itk::AddImageFilter <ImageType, ImageType >
-    AddImageFilterType;
+  using AddImageFilterType = itk::AddImageFilter <ImageType, ImageType >;
 
   AddImageFilterType::Pointer addFilter
     = AddImageFilterType::New ();
@@ -36,7 +35,7 @@ int main(int, char *[])
   addFilter->Update();
 
   // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector1 = ConnectorType::New();
   connector1->SetInput(image1);
 
@@ -49,7 +48,7 @@ int main(int, char *[])
   actor1->GetMapper()->SetInputData(connector1->GetOutput());
 #endif
   // Visualize first image
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector2 = ConnectorType::New();
   connector2->SetInput(image2);
 

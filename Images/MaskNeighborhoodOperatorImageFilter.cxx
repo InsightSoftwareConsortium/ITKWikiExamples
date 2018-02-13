@@ -7,8 +7,8 @@
 
 namespace
 {
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
 }
 
 static void CreateImage(UnsignedCharImageType::Pointer image);
@@ -22,7 +22,7 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer mask = UnsignedCharImageType::New();
   CreateHalfMask(image, mask);
 
-  typedef itk::SobelOperator<float, 2> SobelOperatorType;
+  using SobelOperatorType = itk::SobelOperator<float, 2>;
   SobelOperatorType sobelOperator;
   itk::Size<2> radius;
   radius.Fill(1); // a radius of 1x1 creates a 3x3 operator
@@ -30,7 +30,7 @@ int main(int, char *[])
   sobelOperator.CreateToRadius(radius);
 
   // Visualize mask image
-  typedef itk::MaskNeighborhoodOperatorImageFilter< UnsignedCharImageType, UnsignedCharImageType, FloatImageType, float> MaskNeighborhoodOperatorImageFilterType;
+  using MaskNeighborhoodOperatorImageFilterType = itk::MaskNeighborhoodOperatorImageFilter< UnsignedCharImageType, UnsignedCharImageType, FloatImageType, float>;
   MaskNeighborhoodOperatorImageFilterType::Pointer maskNeighborhoodOperatorImageFilter = 
     MaskNeighborhoodOperatorImageFilterType::New();
   maskNeighborhoodOperatorImageFilter->SetInput(image);
@@ -38,12 +38,12 @@ int main(int, char *[])
   maskNeighborhoodOperatorImageFilter->SetOperator(sobelOperator);
   maskNeighborhoodOperatorImageFilter->Update();
   
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< FloatImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(maskNeighborhoodOperatorImageFilter->GetOutput());
   rescaleFilter->Update();
 
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.png");
   writer->SetInput(rescaleFilter->GetOutput());
@@ -80,12 +80,12 @@ void CreateHalfMask(UnsignedCharImageType::Pointer image, UnsignedCharImageType:
     ++imageIterator;
   }
 
-  typedef itk::RescaleIntensityImageFilter< UnsignedCharImageType, UnsignedCharImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< UnsignedCharImageType, UnsignedCharImageType >;
   RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetInput(mask);
   rescaleFilter->Update();
   
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("mask.png");
   writer->SetInput(rescaleFilter->GetOutput());
@@ -121,7 +121,7 @@ void CreateImage(UnsignedCharImageType::Pointer image)
       }
     }
     
-  typedef  itk::ImageFileWriter< UnsignedCharImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< UnsignedCharImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);

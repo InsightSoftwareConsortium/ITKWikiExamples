@@ -15,20 +15,17 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<double, 2>  FloatImageType;
+  using FloatImageType = itk::Image<double, 2>;
 
-  typedef itk::ImageFileReader<FloatImageType>
-    ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::NormalizeImageFilter< FloatImageType, FloatImageType >
-    NormalizeFilterType;
+  using NormalizeFilterType = itk::NormalizeImageFilter< FloatImageType, FloatImageType >;
   NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
   normalizeFilter->SetInput(reader->GetOutput());
 
-  typedef itk::StatisticsImageFilter< FloatImageType >
-    StatisticsFilterType;
+  using StatisticsFilterType = itk::StatisticsImageFilter< FloatImageType >;
   StatisticsFilterType::Pointer statistics1 = StatisticsFilterType::New();
   statistics1->SetInput(reader->GetOutput());
 

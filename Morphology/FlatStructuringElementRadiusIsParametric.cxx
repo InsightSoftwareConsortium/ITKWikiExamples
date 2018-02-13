@@ -10,7 +10,7 @@ int main(int, char *[])
   int scalarThickness = 2;
   bool radiusIsParametric = true;
 
-  typedef itk::FlatStructuringElement< 2 > SE2Type;
+  using SE2Type = itk::FlatStructuringElement< 2 >;
   SE2Type::RadiusType r2;
   r2.Fill( scalarRadius );
   SE2Type k2;
@@ -39,7 +39,7 @@ int main(int, char *[])
   k2 = SE2Type::Annulus(r2,scalarThickness,false,radiusIsParametric);
   ComputeAreaError(k2,scalarThickness);
 
-  typedef itk::FlatStructuringElement< 3 > SE3Type;
+  using SE3Type = itk::FlatStructuringElement< 3 >;
   SE3Type::RadiusType r3;
   r3.Fill( scalarRadius );
   SE3Type k3;
@@ -68,7 +68,7 @@ int main(int, char *[])
   k3 = SE3Type::Annulus(r3,scalarThickness,false,radiusIsParametric);
   ComputeAreaError(k3,scalarThickness);
 
-  typedef itk::FlatStructuringElement< 4 > SE4Type;
+  using SE4Type = itk::FlatStructuringElement< 4 >;
   SE4Type::RadiusType r4;
   r4.Fill( scalarRadius );
   SE4Type k4;

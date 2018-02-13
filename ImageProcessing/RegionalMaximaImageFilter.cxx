@@ -3,7 +3,7 @@
 #include "itkRegionalMaximaImageFilter.h"
 
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -12,14 +12,13 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef itk::RegionalMaximaImageFilter <ImageType, ImageType >
-    RegionalMaximaImageFilter;
+  using RegionalMaximaImageFilter = itk::RegionalMaximaImageFilter <ImageType, ImageType >;
 
   RegionalMaximaImageFilter::Pointer filter
     = RegionalMaximaImageFilter::New ();
   filter->SetInput(image);
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName("intensityblobs.png");

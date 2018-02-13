@@ -13,8 +13,8 @@
 #include "itkResampleImageFilter.h"
 
 const     unsigned int   Dimension = 2;
-typedef   unsigned char  PixelType;
-typedef   itk::Image< PixelType, Dimension > ImageType;
+using PixelType = unsigned char;
+using ImageType = itk::Image< PixelType, Dimension >;
 
 static void CreateFixedImage(ImageType::Pointer image);
 static void CreateMovingImage(ImageType::Pointer image);
@@ -22,12 +22,12 @@ static void CreateMovingImage(ImageType::Pointer image);
 int main(int argc, char * argv[])
 {
 #if ITK_VERSION_MAJOR < 4
-  typedef   float           VectorComponentType;
+  using VectorComponentType = float;
 #else
-  typedef   double          VectorComponentType;
+  using VectorComponentType = double;
 #endif
-  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
-  typedef   itk::Image< VectorType,  Dimension >   DeformationFieldType;
+  using VectorType = itk::Vector< VectorComponentType, Dimension >;
+  using DeformationFieldType = itk::Image< VectorType,  Dimension >;
 
   ImageType::Pointer fixedImage = ImageType::New();
   CreateFixedImage(fixedImage);
@@ -36,9 +36,9 @@ int main(int argc, char * argv[])
   CreateMovingImage(movingImage);
   
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::DeformationFieldSource<DeformationFieldType>  DeformationFieldSourceType;
+  using DeformationFieldSourceType = itk::DeformationFieldSource<DeformationFieldType>;
 #else
-  typedef itk::LandmarkDisplacementFieldSource<DeformationFieldType>  DeformationFieldSourceType;
+  using DeformationFieldSourceType = itk::LandmarkDisplacementFieldSource<DeformationFieldType>;
 #endif
   DeformationFieldSourceType::Pointer deformationFieldSource = DeformationFieldSourceType::New();
   deformationFieldSource->SetOutputSpacing( fixedImage->GetSpacing() );
@@ -47,8 +47,8 @@ int main(int argc, char * argv[])
   deformationFieldSource->SetOutputDirection( fixedImage->GetDirection() );
 
   //  Create source and target landmarks.
-  typedef DeformationFieldSourceType::LandmarkContainer          LandmarkContainerType;
-  typedef DeformationFieldSourceType::LandmarkPointType          LandmarkPointType;
+  using LandmarkContainerType = DeformationFieldSourceType::LandmarkContainer;
+  using LandmarkPointType = DeformationFieldSourceType::LandmarkPointType;
 
   LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
   LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
@@ -90,7 +90,7 @@ int main(int argc, char * argv[])
 
   // Write the deformation field
   {
-  typedef itk::ImageFileWriter<  DeformationFieldType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  DeformationFieldType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  deformationFieldSource->GetOutput() );
   writer->SetFileName( "deformation.mhd" );
@@ -98,9 +98,9 @@ int main(int argc, char * argv[])
   }
   
 #if ITK_VERSION_MAJOR < 4
-  typedef itk::DeformationFieldTransform<VectorComponentType, 2>  DeformationFieldTransformType;
+  using DeformationFieldTransformType = itk::DeformationFieldTransform<VectorComponentType, 2>;
 #else
-  typedef itk::DisplacementFieldTransform<VectorComponentType, 2>  DeformationFieldTransformType;
+  using DeformationFieldTransformType = itk::DisplacementFieldTransform<VectorComponentType, 2>;
 #endif
   DeformationFieldTransformType::Pointer deformationFieldTransform = DeformationFieldTransformType::New();
 
@@ -109,7 +109,7 @@ int main(int argc, char * argv[])
 #else
   deformationFieldTransform->SetDisplacementField( deformationFieldSource->GetOutput() );
 #endif  
-  typedef itk::ResampleImageFilter<ImageType, ImageType, VectorComponentType >    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType, VectorComponentType >;
   ResampleFilterType::Pointer resampleFilter = ResampleFilterType::New();
   resampleFilter->SetInput( movingImage );
   resampleFilter->SetTransform( deformationFieldTransform );
@@ -121,7 +121,7 @@ int main(int argc, char * argv[])
   resampleFilter->GetOutput();
 
   // Write the output
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  resampleFilter->GetOutput() );
   writer->SetFileName( "output.png" );
@@ -160,7 +160,7 @@ void CreateFixedImage(ImageType::Pointer image)
     }
 
   // Write the deformation field
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  image );
   writer->SetFileName( "fixed.png" );
@@ -198,7 +198,7 @@ void CreateMovingImage(ImageType::Pointer image)
     }
 
   // Write the deformation field
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  image );
   writer->SetFileName( "moving.png" );

@@ -24,13 +24,13 @@ int main(int argc, char * argv[])
     }
 
   // Setup types
-  typedef itk::Image< unsigned char, 2 > UnsignedCharImageType;
-  typedef itk::Image< float, 2 >         FloatImageType;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
+  using FloatImageType = itk::Image< float, 2 >;
 
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
+  using readerType = itk::ImageFileReader< UnsignedCharImageType >;
 
-  typedef itk::DiscreteGaussianImageFilter<
-    UnsignedCharImageType, FloatImageType >  filterType;
+  using filterType = itk::DiscreteGaussianImageFilter<
+    UnsignedCharImageType, FloatImageType >;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();

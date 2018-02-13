@@ -9,10 +9,10 @@ template< typename TImage, typename TMask>
 class ImageFilterMultipleInputsDifferentType : public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageFilterMultipleInputsDifferentType             Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type alias. */
+  using Self = ImageFilterMultipleInputsDifferentType;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

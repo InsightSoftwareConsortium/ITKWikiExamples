@@ -2,7 +2,7 @@
 #include "itkNoiseImageFilter.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<float, 2> ImageType;
+using ImageType = itk::Image<float, 2>;
 
 void CreateImage(ImageType::Pointer image);
 
@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef  itk::NoiseImageFilter< ImageType, ImageType > NoiseImageFilterType;
+  using NoiseImageFilterType = itk::NoiseImageFilter< ImageType, ImageType >;
   NoiseImageFilterType::Pointer noiseImageFilter = NoiseImageFilterType::New();
   noiseImageFilter->SetInput(image);
   noiseImageFilter->SetRadius(1);
   noiseImageFilter->Update();
  
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("output.mhd");
   writer->SetInput(noiseImageFilter->GetOutput());
@@ -60,7 +60,7 @@ void CreateImage(ImageType::Pointer image)
   pixel.Fill(20);
   image->SetPixel(pixel, 255);
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.mhd");
   writer->SetInput(image);

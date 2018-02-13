@@ -6,18 +6,18 @@
 int main(int argc, char *argv[] )
 {
 
-  typedef unsigned char  PixelType;
+  using PixelType = unsigned char;
   const unsigned int InputImageDimension = 2;
   const unsigned int OutputImageDimension = 3;
 
-  typedef itk::Image< PixelType, InputImageDimension  >   InputImageType;
-  typedef itk::Image< PixelType, OutputImageDimension >   OutputImageType;
+  using InputImageType = itk::Image< PixelType, InputImageDimension  >;
+  using OutputImageType = itk::Image< PixelType, OutputImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType > ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::TileImageFilter< InputImageType, OutputImageType > TilerType;
+  using TilerType = itk::TileImageFilter< InputImageType, OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   if (argc < 4)
     {

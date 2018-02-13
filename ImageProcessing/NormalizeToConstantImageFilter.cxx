@@ -2,7 +2,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNormalizeToConstantImageFilter.h"
 
-typedef itk::Image<float, 2>  ImageType;
+using ImageType = itk::Image<float, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
@@ -12,7 +12,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::NormalizeToConstantImageFilter <ImageType, ImageType> NormalizeToConstantImageFilterType;
+  using NormalizeToConstantImageFilterType = itk::NormalizeToConstantImageFilter <ImageType, ImageType>;
   NormalizeToConstantImageFilterType::Pointer normalizeToConstantImageFilter = NormalizeToConstantImageFilterType::New();
   normalizeToConstantImageFilter->SetInput(image);
   normalizeToConstantImageFilter->SetConstant(1);

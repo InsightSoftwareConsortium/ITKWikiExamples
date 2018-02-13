@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 #include "itkImageRegionIterator.h"
 #include "QuickView.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 
 void CreateHalfMask(ImageType::Pointer image, ImageType::Pointer &mask);
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   ImageType::Pointer mask = ImageType::New();
   CreateHalfMask(reader->GetOutput(), mask);
   
-  typedef itk::MaskImageFilter< ImageType, ImageType > MaskFilterType;
+  using MaskFilterType = itk::MaskImageFilter< ImageType, ImageType >;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
   maskFilter->SetInput(reader->GetOutput());
   maskFilter->SetMaskImage(mask);

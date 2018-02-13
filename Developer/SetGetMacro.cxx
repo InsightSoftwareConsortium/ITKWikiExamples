@@ -7,8 +7,8 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::ImageFilter<ImageType>  FilterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::ImageFilter<ImageType>;
 
   // Create and the filter
   FilterType::Pointer filter = FilterType::New();

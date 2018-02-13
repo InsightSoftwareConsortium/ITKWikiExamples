@@ -31,19 +31,19 @@ int main( int argc, char * argv[] )
   }
  
   // Typedef's for pixel, image, reader and writer types
-  typedef unsigned char T_InputPixel;
+  using T_InputPixel = unsigned char;
   
   // Doesn't work for RGB pixels
-  //typedef unsigned char T_OutputPixel;
-  //typedef itk::CovariantVector<unsigned char, 3> T_InputPixel;
-  //typedef itk::CovariantVector<unsigned char, 3> T_OutputPixel;
+  //using T_OutputPixel = unsigned char;
+  //using T_InputPixel = itk::CovariantVector<unsigned char, 3>;
+  //using T_OutputPixel = itk::CovariantVector<unsigned char, 3>;
  
-  typedef itk::Image<T_InputPixel, 2> T_Image;
-  typedef itk::ImageFileReader<T_Image> T_Reader;
+  using T_Image = itk::Image<T_InputPixel, 2>;
+  using T_Reader = itk::ImageFileReader<T_Image>;
  
-  typedef unsigned char T_WritePixel;
-  typedef itk::Image<T_WritePixel, 2> T_WriteImage;
-  typedef itk::ImageFileWriter<T_WriteImage> T_Writer;
+  using T_WritePixel = unsigned char;
+  using T_WriteImage = itk::Image<T_WritePixel, 2>;
+  using T_Writer = itk::ImageFileWriter<T_WriteImage>;
  
   // Typedefs for the different (numerous!) elements of the "resampling"
  
@@ -52,20 +52,17 @@ int main( int argc, char * argv[] )
   // specified by a transform but by the input/output spacing as we will see
   // later.
   // So no transform will be specified.
-  typedef itk::IdentityTransform<double, 2>
-               T_Transform;
+  using T_Transform = itk::IdentityTransform<double, 2>;
  
   // If ITK resampler determines there is something to interpolate which is
   // usually the case when upscaling (!) then we must specify the interpolation
   // algorithm. In our case, we want bicubic interpolation. One way to implement
   // it is with a third order b-spline. So the type is specified here and the
   // order will be specified with a method call later on.
-  typedef itk::BSplineInterpolateImageFunction<T_Image, double, double>
-               T_Interpolator;
+  using T_Interpolator = itk::BSplineInterpolateImageFunction<T_Image, double, double>;
  
   // The resampler type itself.
-  typedef itk::ResampleImageFilter<T_Image, T_Image>
-               T_ResampleFilter;
+  using T_ResampleFilter = itk::ResampleImageFilter<T_Image, T_Image>;
  
 
   // Prepare the reader and update it right away to know the sizes beforehand.

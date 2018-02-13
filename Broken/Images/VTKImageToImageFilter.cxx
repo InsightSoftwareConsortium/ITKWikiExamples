@@ -29,9 +29,9 @@ int main(int argc, char*argv[])
   luminanceFilter->SetInputConnection(reader->GetOutputPort());
   luminanceFilter->Update();
   
-  typedef itk::Image<unsigned char, 2> ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
 
-  typedef itk::VTKImageToImageFilter<ImageType> VTKImageToImageType;
+  using VTKImageToImageType = itk::VTKImageToImageFilter<ImageType>;
 
   VTKImageToImageType::Pointer vtkImageToImageFilter = VTKImageToImageType::New();
   vtkImageToImageFilter->SetInput(luminanceFilter->GetOutput());

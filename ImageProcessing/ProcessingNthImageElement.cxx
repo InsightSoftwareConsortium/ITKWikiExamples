@@ -3,7 +3,7 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkBinomialBlurImageFilter.h"
 
-typedef itk::Image<itk::CovariantVector< float, 3>, 2> VectorImageType;
+using VectorImageType = itk::Image<itk::CovariantVector< float, 3>, 2>;
 
 static void CreateImage(VectorImageType::Pointer image);
 
@@ -12,15 +12,15 @@ int main(int, char *[])
   VectorImageType::Pointer image = VectorImageType::New();
   CreateImage(image);
 
-  typedef itk::NthElementImageAdaptor<VectorImageType,
-    float> ImageAdaptorType;
+  using ImageAdaptorType = itk::NthElementImageAdaptor<VectorImageType,
+    float>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 
   adaptor->SelectNthElement(0);
   adaptor->SetImage(image);
 
-  typedef itk::BinomialBlurImageFilter<ImageAdaptorType, itk::Image<float,2> >  BlurFilterType;
+  using BlurFilterType = itk::BinomialBlurImageFilter<ImageAdaptorType, itk::Image<float,2> >;
   BlurFilterType::Pointer blurFilter = BlurFilterType::New();
   blurFilter->SetInput(adaptor);
   blurFilter->Update();

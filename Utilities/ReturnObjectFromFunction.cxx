@@ -2,7 +2,7 @@
 
 namespace
 {
-typedef itk::Image<unsigned char, 2> ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 }
 
 ImageType::Pointer ReturnSmartPointer()

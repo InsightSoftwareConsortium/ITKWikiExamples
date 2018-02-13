@@ -13,7 +13,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::Image< unsigned char, 2 >  ImageType;
+  using ImageType = itk::Image< unsigned char, 2 >;
 
   ImageType::RegionType region;
   ImageType::IndexType start;
@@ -57,7 +57,7 @@ int main(int, char *[])
       }
   }
 
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
   ConnectorType::Pointer connector = ConnectorType::New();
   connector->SetInput(image);
   

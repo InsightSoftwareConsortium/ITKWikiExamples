@@ -2,8 +2,8 @@
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-typedef itk::Image<float, 2>  FloatImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using FloatImageType = itk::Image<float, 2>;
 
 static void CreateImage1(UnsignedCharImageType::Pointer image);
 static void CreateImage2(UnsignedCharImageType::Pointer image);
@@ -16,9 +16,8 @@ int main(int, char *[])
   UnsignedCharImageType::Pointer image2 = UnsignedCharImageType::New();
   CreateImage2(image2);
 
-  typedef itk::AbsoluteValueDifferenceImageFilter <UnsignedCharImageType, UnsignedCharImageType,
-                                             FloatImageType>
-          AbsoluteValueDifferenceImageFilterType;
+  using AbsoluteValueDifferenceImageFilterType = itk::AbsoluteValueDifferenceImageFilter <UnsignedCharImageType, UnsignedCharImageType,
+                                             FloatImageType>;
 
   AbsoluteValueDifferenceImageFilterType::Pointer absoluteValueDifferenceFilter
           = AbsoluteValueDifferenceImageFilterType::New ();

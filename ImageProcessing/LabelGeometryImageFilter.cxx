@@ -9,9 +9,9 @@
 
 #include <sstream>
 
-typedef itk::Image<unsigned int, 2>  ImageType;
-typedef itk::RGBPixel<unsigned char> RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>  RGBImageType;
+using ImageType = itk::Image<unsigned int, 2>;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBImageType = itk::Image<RGBPixelType, 2>;
 
 static void CreateIntensityImage(ImageType::Pointer image);
 static void CreateLabelImage(ImageType::Pointer image);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     }
   else if (argc > 3)
     {
-    typedef itk::ImageFileReader< ImageType  > ImageReaderType;
+    using ImageReaderType = itk::ImageFileReader< ImageType  >;
     ImageReaderType::Pointer labelReader =
       ImageReaderType::New();
     labelReader->SetFileName(argv[1]);
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
   labelImage->SetOrigin(origin);
   intensityImage->SetOrigin(origin);
 
-  typedef itk::LabelGeometryImageFilter< ImageType > LabelGeometryImageFilterType;
+  using LabelGeometryImageFilterType = itk::LabelGeometryImageFilter< ImageType >;
   LabelGeometryImageFilterType::Pointer labelGeometryImageFilter = LabelGeometryImageFilterType::New();
   labelGeometryImageFilter->SetInput( labelImage );
   labelGeometryImageFilter->SetIntensityInput( intensityImage );
@@ -74,12 +74,12 @@ int main(int argc, char *argv[])
   LabelGeometryImageFilterType::LabelsType allLabels =
     labelGeometryImageFilter->GetLabels();
   
-  typedef itk::LabelToRGBImageFilter<ImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::LabelToRGBImageFilter<ImageType, RGBImageType>;
   RGBFilterType::Pointer rgbLabelImage =
     RGBFilterType::New();
   rgbLabelImage->SetInput(labelImage);
 
-  typedef itk::LabelToRGBImageFilter<ImageType, RGBImageType> RGBFilterType;
+  using RGBFilterType = itk::LabelToRGBImageFilter<ImageType, RGBImageType>;
   RGBFilterType::Pointer rgbOrientedImage =
     RGBFilterType::New();
   rgbOrientedImage->SetInput(labelGeometryImageFilter->GetOrientedLabelImage(allLabels[label]));

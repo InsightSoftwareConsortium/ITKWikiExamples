@@ -2,7 +2,7 @@
 #include "itkImageToHistogramFilter.h"
 #include "itkImageRandomIteratorWithIndex.h"
 
-typedef itk::VectorImage< float, 2> ImageType;
+using ImageType = itk::VectorImage< float, 2>;
 
 const unsigned int MeasurementVectorSize = 3; // 3D vectors
 
@@ -16,7 +16,7 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
   
-  typedef itk::Statistics::ImageToHistogramFilter< ImageType > ImageToHistogramFilterType;
+  using ImageToHistogramFilterType = itk::Statistics::ImageToHistogramFilter< ImageType >;
   
   ImageToHistogramFilterType::HistogramType::MeasurementVectorType lowerBound(MeasurementVectorSize);
   lowerBound.Fill(0);
@@ -24,7 +24,7 @@ int main(int, char *[])
   std::cout << "lowerBound: " << lowerBound << std::endl;
   
   ImageToHistogramFilterType::HistogramType::MeasurementVectorType upperBound(MeasurementVectorSize);
-  upperBound.Fill(255) ;
+  upperBound.Fill(255);
   
   std::cout << "upperBound: " << upperBound << std::endl;
   

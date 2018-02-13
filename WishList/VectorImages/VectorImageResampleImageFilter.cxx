@@ -4,7 +4,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::VectorImage<double, 2> VectorImageType;
+  using VectorImageType = itk::VectorImage<double, 2>;
 
   VectorImageType::Pointer image = VectorImageType::New();
   itk::Index<2> start;
@@ -19,7 +19,7 @@ int main(int, char *[])
   image->Allocate();
   image->FillBuffer(itk::NumericTraits<VectorImageType::InternalPixelType>::Zero);
 
-  typedef itk::VectorResampleImageFilter< VectorImageType, VectorImageType > VectorResampleFilterType;
+  using VectorResampleFilterType = itk::VectorResampleImageFilter< VectorImageType, VectorImageType >;
   VectorResampleFilterType::Pointer vectorResampleFilter = VectorResampleFilterType::New();
   vectorResampleFilter->SetInput(image);
   vectorResampleFilter->Update();

@@ -5,10 +5,10 @@
 
 int main(int, char * [])
 {
-  typedef unsigned char   PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::ImportImageFilter< PixelType, Dimension >   ImportFilterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImportFilterType = itk::ImportImageFilter< PixelType, Dimension >;
 
   ImportFilterType::Pointer importFilter = ImportFilterType::New();
 
@@ -68,7 +68,7 @@ int main(int, char * [])
   importFilter->SetImportPointer( localBuffer, numberOfPixels,
                                   importImageFilterWillOwnTheBuffer );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName("test.png");

@@ -29,15 +29,12 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
  
   // Setup types
-  typedef itk::Image< float, 2 >   ImageType;
+  using ImageType = itk::Image< float, 2 >;
  
-  typedef itk::ImageFileReader< ImageType >
-    ReaderType;
-  typedef itk::BilateralImageFilter<
-    ImageType, ImageType >
-    FilterType;
-  typedef itk::SubtractImageFilter< ImageType >
-    SubtractImageFilterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using FilterType = itk::BilateralImageFilter<
+    ImageType, ImageType >;
+  using SubtractImageFilterType = itk::SubtractImageFilter< ImageType >;
  
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

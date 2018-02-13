@@ -26,15 +26,15 @@ int main( int argc, char* argv[] )
 
 
   // ** TYPEDEF **
-  typedef double Coord;
+  using Coord = double;
 
-  typedef itk::QuadEdgeMesh< Coord, 3 >                           MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >                      ReaderType;
-  typedef itk::VTKPolyDataWriter< MeshType >                      WriterType;
-  typedef itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >     BorderTransformType;
-  typedef VNLIterativeSparseSolverTraits< Coord >                 SolverTraits;
+  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
+  using ReaderType = itk::VTKPolyDataReader< MeshType >;
+  using WriterType = itk::VTKPolyDataWriter< MeshType >;
+  using BorderTransformType = itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >;
+  using SolverTraits = VNLIterativeSparseSolverTraits< Coord >;
 
-  typedef itk::ParameterizationQuadEdgeMeshFilter< MeshType, MeshType, SolverTraits >   ParametrizationType;
+  using ParametrizationType = itk::ParameterizationQuadEdgeMeshFilter< MeshType, MeshType, SolverTraits >;
 
 
   // ** READ THE FILE IN **

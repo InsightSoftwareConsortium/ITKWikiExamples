@@ -15,14 +15,14 @@ int main(int argc, char *argv[])
 
   std::cout << "FileName: " << fileName << std::endl;
 
-  typedef itk::Image<unsigned char, 2>  UnsignedCharImageType;
-  typedef itk::Image<float, 2>  FloatImageType;
+  using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+  using FloatImageType = itk::Image<float, 2>;
 
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(fileName);
 
-  typedef itk::CastImageFilter< FloatImageType, UnsignedCharImageType > CastFilterType;
+  using CastFilterType = itk::CastImageFilter< FloatImageType, UnsignedCharImageType >;
   CastFilterType::Pointer castFilter = CastFilterType::New();
   castFilter->SetInput(reader->GetOutput());
 

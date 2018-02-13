@@ -5,7 +5,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageFileWriter.h"
 
-typedef itk::Image<unsigned char, 2>  ImageType;
+using ImageType = itk::Image<unsigned char, 2>;
 static void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
@@ -14,14 +14,13 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("input.png");
   writer->SetInput(image);
   writer->Update();
   
-  typedef itk::BinaryNotImageFilter <ImageType>
-          BinaryNotImageFilterType;
+  using BinaryNotImageFilterType = itk::BinaryNotImageFilter <ImageType>;
 
   BinaryNotImageFilterType::Pointer binaryNotFilter
           = BinaryNotImageFilterType::New();

@@ -6,15 +6,15 @@
 #include "itkRigid2DTransform.h"
 
 const     unsigned int   Dimension = 2;
-typedef   unsigned char  PixelType;
-typedef   itk::Image< PixelType, Dimension > ImageType;
+using PixelType = unsigned char;
+using ImageType = itk::Image< PixelType, Dimension >;
 
 static void CreateFixedImage(ImageType::Pointer image);
 static void CreateMovingImage(ImageType::Pointer image);
   
 int main(int argc, char * argv[])
 {
-  typedef   float          VectorComponentType;
+  using VectorComponentType = float;
 
   ImageType::Pointer fixedImage = ImageType::New();
   CreateFixedImage(fixedImage);
@@ -22,15 +22,14 @@ int main(int argc, char * argv[])
   ImageType::Pointer movingImage = ImageType::New();
   CreateMovingImage(movingImage);
 
-  typedef itk::Rigid2DTransform< double > Rigid2DTransformType;
-  typedef itk::LandmarkBasedTransformInitializer< Rigid2DTransformType, ImageType, ImageType > 
-      LandmarkBasedTransformInitializerType;
+  using Rigid2DTransformType = itk::Rigid2DTransform< double >;
+  using LandmarkBasedTransformInitializerType = itk::LandmarkBasedTransformInitializer< Rigid2DTransformType, ImageType, ImageType >;
       
   LandmarkBasedTransformInitializerType::Pointer landmarkBasedTransformInitializer =
     LandmarkBasedTransformInitializerType::New();
   //  Create source and target landmarks.
-  typedef LandmarkBasedTransformInitializerType::LandmarkPointContainer     LandmarkContainerType;
-  typedef LandmarkBasedTransformInitializerType::LandmarkPointType          LandmarkPointType;
+  using LandmarkContainerType = LandmarkBasedTransformInitializerType::LandmarkPointContainer;
+  using LandmarkPointType = LandmarkBasedTransformInitializerType::LandmarkPointType;
 
   LandmarkContainerType fixedLandmarks;
   LandmarkContainerType movingLandmarks;
@@ -75,7 +74,7 @@ int main(int argc, char * argv[])
   landmarkBasedTransformInitializer->SetTransform(transform);
   landmarkBasedTransformInitializer->InitializeTransform();
   
-  typedef itk::ResampleImageFilter<ImageType, ImageType, double >    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType, double >;
   ResampleFilterType::Pointer resampleFilter = ResampleFilterType::New();
   resampleFilter->SetInput( movingImage );
   resampleFilter->SetTransform( transform );
@@ -87,7 +86,7 @@ int main(int argc, char * argv[])
   resampleFilter->GetOutput();
 
   // Write the output
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  resampleFilter->GetOutput() );
   writer->SetFileName( "output.png" );
@@ -126,7 +125,7 @@ void CreateFixedImage(ImageType::Pointer image)
     }
 
   // Write the deformation field
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  image );
   writer->SetFileName( "fixed.png" );
@@ -164,7 +163,7 @@ void CreateMovingImage(ImageType::Pointer image)
     }
 
   // Write the deformation field
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  image );
   writer->SetFileName( "moving.png" );

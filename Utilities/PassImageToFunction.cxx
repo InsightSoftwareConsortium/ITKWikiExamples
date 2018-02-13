@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-typedef itk::Image<float, 2> ImageType;
+using ImageType = itk::Image<float, 2>;
 static void myStandardPointer(const ImageType*)
 {
 }

@@ -6,15 +6,15 @@
 int main(int, char*[])
 {
   // Setup types
-  typedef itk::Image<unsigned char, 2>   ImageType;
-  typedef itk::MyImageSource<ImageType>  FilterType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using FilterType = itk::MyImageSource<ImageType>;
 
   // Create and the filter
   FilterType::Pointer filter = FilterType::New();
   filter->Update();
   filter->GetOutput()->Print(std::cout);
 
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName("Test.jpg");
   writer->SetInput(filter->GetOutput());

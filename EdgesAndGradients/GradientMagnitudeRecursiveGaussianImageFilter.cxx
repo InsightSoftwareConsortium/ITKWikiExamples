@@ -19,13 +19,13 @@ int main(int argc, char * argv[])
   std::string inputFilename = argv[1];
 
   // Setup types
-  typedef itk::Image< float,  2 >        FloatImageType;
-  typedef itk::Image< unsigned char, 2 > UnsignedCharImageType;
+  using FloatImageType = itk::Image< float,  2 >;
+  using UnsignedCharImageType = itk::Image< unsigned char, 2 >;
 
-  typedef itk::ImageFileReader< UnsignedCharImageType >  readerType;
+  using readerType = itk::ImageFileReader< UnsignedCharImageType >;
 
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<
-		  UnsignedCharImageType, FloatImageType >  filterType;
+  using filterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
+		  UnsignedCharImageType, FloatImageType >;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
