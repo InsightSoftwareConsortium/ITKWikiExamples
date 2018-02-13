@@ -52,7 +52,7 @@ public:
 #endif
   static vtkTestingObjectFactory* New();
   vtkTypeMacro(vtkTestingObjectFactory,vtkObjectFactory);
-  virtual const char* GetVTKSourceVersion() VTK_OVERRIDE;
+  const char* GetVTKSourceVersion() VTK_OVERRIDE;
   const char* GetDescription() VTK_OVERRIDE { return "Factory for overrides during testing"; }
   void PrintSelf(ostream& os, vtkIndent indent) VTK_OVERRIDE;
 
