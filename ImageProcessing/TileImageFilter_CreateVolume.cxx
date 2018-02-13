@@ -7,8 +7,8 @@ int main(int argc, char *argv[] )
 {
 
   using PixelType = unsigned char;
-  const unsigned int InputImageDimension = 2;
-  const unsigned int OutputImageDimension = 3;
+  constexpr unsigned int InputImageDimension = 2;
+  constexpr unsigned int OutputImageDimension = 3;
 
   using InputImageType = itk::Image< PixelType, InputImageDimension  >;
   using OutputImageType = itk::Image< PixelType, OutputImageDimension >;

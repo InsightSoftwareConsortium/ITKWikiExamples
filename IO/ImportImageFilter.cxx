@@ -6,7 +6,7 @@
 int main(int, char * [])
 {
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image< PixelType, Dimension >;
   using ImportFilterType = itk::ImportImageFilter< PixelType, Dimension >;
 
@@ -44,7 +44,7 @@ int main(int, char * [])
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
   auto * localBuffer = new PixelType[ numberOfPixels ];
 
-  const double radius = 80.0;
+  constexpr double radius = 80.0;
 
   const double radius2 = radius * radius;
   PixelType * it = localBuffer;

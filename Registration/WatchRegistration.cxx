@@ -21,7 +21,7 @@
 #include "vtkImageActor.h"
 #include "vtkImageMapper3D.h"
 
-const    unsigned int    Dimension = 2;
+constexpr unsigned int Dimension = 2;
 using PixelType = unsigned char;
 
 using InputImageType = itk::Image< PixelType, Dimension >;

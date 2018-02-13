@@ -27,7 +27,7 @@ int main( int argc, char *argv[])
   std::string inputFilename = argv[1];
 
   using PixelType = float;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< ImageType >;

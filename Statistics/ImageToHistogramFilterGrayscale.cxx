@@ -8,8 +8,8 @@ void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
-  const unsigned int MeasurementVectorSize = 1; // Grayscale
-  const unsigned int binsPerDimension = 30;
+  constexpr unsigned int MeasurementVectorSize = 1; // Grayscale
+  constexpr unsigned int binsPerDimension = 30;
   
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);

@@ -4,14 +4,14 @@
 
 using ImageType = itk::VectorImage< float, 2>;
 
-const unsigned int MeasurementVectorSize = 3; // 3D vectors
+constexpr unsigned int MeasurementVectorSize = 3; // 3D vectors
 
 void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
   
-  const unsigned int binsPerDimension = 4;
+  constexpr unsigned int binsPerDimension = 4;
   
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);

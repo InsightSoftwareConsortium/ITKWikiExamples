@@ -16,7 +16,7 @@ int main( int argc, char *argv[])
     std::cout << "Usage:" << std::endl;
     std::cout << argv[0] << " InputFileName" << std::endl;
     }
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
   using ImageType = itk::Image< PixelType, Dimension >;
 

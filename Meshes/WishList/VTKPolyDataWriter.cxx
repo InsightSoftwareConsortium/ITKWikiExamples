@@ -2,7 +2,7 @@
 #include "itkLineCell.h"
 #include "itkVTKPolyDataWriter.h"
 
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using MeshType = itk::Mesh< float, Dimension >;
 	
 MeshType::Pointer CreateMeshWithEdges();

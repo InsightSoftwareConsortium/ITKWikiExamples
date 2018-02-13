@@ -7,8 +7,8 @@
 
 int main(int, char*[])
 {
-  const int xDimension = 200;
-  const int yDimension = 100;
+  constexpr int xDimension = 200;
+  constexpr int yDimension = 100;
 
   using ComponentType = unsigned char;
   using RGBPixelType = itk::RGBPixel<ComponentType>;

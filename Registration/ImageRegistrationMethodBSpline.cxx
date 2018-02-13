@@ -17,7 +17,7 @@
 
 #include "QuickView.h"
 
-const    unsigned int    ImageDimension = 2;
+constexpr unsigned int ImageDimension = 2;
 using PixelType = float;
 
 using ImageType = itk::Image< PixelType, ImageDimension >;
@@ -29,7 +29,7 @@ int main( int argc, char *argv[] )
 {
 
   const unsigned int SpaceDimension = ImageDimension;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
 #if ITK_VERSION_MAJOR < 4

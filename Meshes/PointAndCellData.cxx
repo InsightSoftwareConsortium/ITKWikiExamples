@@ -4,7 +4,7 @@
 #include "itkMeshFileWriter.h"
 
 // We define the dimension and coordinate type...
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using TCoordinate = float;
 
 // ...and then type alias the mesh, sphere, and writer.
