@@ -24,7 +24,7 @@ int main( int argc, char * argv [] )
   const unsigned int useNonContiguousLabels = atoi( argv[3] );
   const unsigned int numberOfInitialClasses = atoi( argv[4] );
   
-  const unsigned int argoffset = 5;
+  constexpr unsigned int argoffset = 5;
 
   if( static_cast<unsigned int>(argc) <
       numberOfInitialClasses + argoffset )
@@ -47,7 +47,7 @@ int main( int argc, char * argv [] )
   // classify. 
   
   using PixelType = signed short;
-  const unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
 

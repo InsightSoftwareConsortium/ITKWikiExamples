@@ -22,7 +22,7 @@ int main( int argc, char *argv[])
     }
 
   using InternalPixelType = float;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
   using ReaderType = itk::ImageFileReader< InternalImageType >;

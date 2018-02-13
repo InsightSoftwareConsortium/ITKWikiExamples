@@ -4,8 +4,8 @@
 
 int main(int, char* [] )
 {
-  const double height = 100;
-  const double width = 100;
+  constexpr double height = 100;
+  constexpr double width = 100;
   
   using VoronoiDiagramType = itk::VoronoiDiagram2D<double>;
   using VoronoiGeneratorType = itk::VoronoiDiagram2DGenerator<double>;

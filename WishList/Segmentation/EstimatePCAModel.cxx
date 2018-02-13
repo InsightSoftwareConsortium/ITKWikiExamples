@@ -44,7 +44,7 @@ int main( int argc, char *argv[] )
     {
     std::cout << "id: " << i << " arg: " << argv[i] << std::endl;
     }
-  const   unsigned int        Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using my_PixelType = float;
   using ImageType = itk::Image< my_PixelType, Dimension >;
 

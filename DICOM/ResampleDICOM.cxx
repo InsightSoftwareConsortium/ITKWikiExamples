@@ -76,8 +76,8 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int InputDimension = 3;
-  const unsigned int OutputDimension = 2;
+  constexpr unsigned int InputDimension = 3;
+  constexpr unsigned int OutputDimension = 2;
 
   using PixelType = signed short;
 

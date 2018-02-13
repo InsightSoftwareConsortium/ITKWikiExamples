@@ -1,7 +1,7 @@
 #include "itkMesh.h"
 #include "itkLineCell.h"
 
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using MeshType = itk::Mesh< float, Dimension >;
 	
 MeshType::Pointer CreatePointOnlyMesh();

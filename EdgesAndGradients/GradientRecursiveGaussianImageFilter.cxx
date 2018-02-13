@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
   using InputPixelType = signed short;
   using ComponentType = float;
-  const   unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using OutputPixelType = itk::CovariantVector< ComponentType, 
 								Dimension  >;

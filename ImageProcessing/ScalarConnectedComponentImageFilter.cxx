@@ -20,7 +20,7 @@ static void SummarizeLabelStatistics (TImage* image,
 
 int main( int argc, char *argv[])
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
 

@@ -10,8 +10,8 @@ void CreateImage(ImageType::Pointer image);
 
 int main(int, char *[])
 {
-  const unsigned int MeasurementVectorSize = 3; // RGB
-  const unsigned int binsPerDimension = 4;
+  constexpr unsigned int MeasurementVectorSize = 3; // RGB
+  constexpr unsigned int binsPerDimension = 4;
   
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);

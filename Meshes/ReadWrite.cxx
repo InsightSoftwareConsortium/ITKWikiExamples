@@ -5,7 +5,7 @@
 #include "itkMeshFileReader.h"
 
 // Create convenience type alias
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using TCoordinate = float;
 
 using TMesh = itk::Mesh< TCoordinate, Dimension >;

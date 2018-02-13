@@ -54,7 +54,7 @@ int main(int argc, char**argv)
   //  dimension. In this case the \code{float} type is used for the pixels
   //  due to the requirements of the smoothing filter.
   //
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ScalarPixelType = float;
   using InternalImageType = itk::Image< ScalarPixelType, Dimension >;
 

@@ -4,7 +4,7 @@
 #include "itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter.h"
  
 // Dimension and coordinate type
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 using TCoordinate = float;
  
 // Typedefs
@@ -17,7 +17,7 @@ int main(int , char * [] )
 {
 
   // Specify the number of times the loop subdivision should be applied
-  const unsigned int NumberOfSubdivisions = 2;
+  constexpr unsigned int NumberOfSubdivisions = 2;
  
   // Create a sphere and assign it to a TQEMesh variable
   TSphere::Pointer sphereSource = TSphere::New();

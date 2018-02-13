@@ -6,8 +6,8 @@
 
 int main (void)
 {
-  const unsigned int ParametricDimension = 1;
-  const unsigned int DataDimension = 2;
+  constexpr unsigned int ParametricDimension = 1;
+  constexpr unsigned int DataDimension = 2;
 
   using DataType = itk::Vector< float, DataDimension >;
 
