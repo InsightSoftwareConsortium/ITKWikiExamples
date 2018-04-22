@@ -31,7 +31,7 @@ vnl_vector<double> generateCircle(double cx, double cy,
 void createImage(ImageType::Pointer image,
                  int w, int h, double cx, double cy, double rx, double ry);
 vnl_matrix<double> computeP(double alpha, double beta, double gamma,
-                            double N) throw (int);
+                            double N) throw (...);
 vnl_vector<double> sampleImage(vnl_vector<double> x, vnl_vector<double> y,
                                OutputImageType::Pointer gradient,
                                int position);
@@ -47,7 +47,7 @@ int main( int argc, char* argv[] )
     std::cout << "Usage " << argv[0]
               << " points alpha beta gamma sigma iterations [image]"
               << std::endl;
-    return EXIT_SUCCESS;
+    return EXIT_FAILURE;
     }
   else if( argc < 8 )
     {
@@ -210,7 +210,7 @@ void createImage(ImageType::Pointer image,
     }
 }
 
-vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) throw (int)
+vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) throw (...)
 {
 
   double a = gamma*(2*alpha + 6*beta)+1;
@@ -249,7 +249,7 @@ vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) t
   if( vnl_determinant(P) == 0.0 )
     {
     std::cerr << "Singular matrix. Determinant is 0." << std::endl;
-    throw 2;
+    throw;
     }
 
   // Compute the inverse of the matrix P
