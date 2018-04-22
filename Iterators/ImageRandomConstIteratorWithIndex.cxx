@@ -2,7 +2,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 
-int main(int argc, char*argv[])
+int main(int, char *[])
 {
   using ImageType = itk::Image<unsigned char, 2>;
   ImageType::Pointer image = ImageType::New();
