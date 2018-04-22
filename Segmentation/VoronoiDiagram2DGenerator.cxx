@@ -2,11 +2,11 @@
 #include "itkImageFileWriter.h"
 #include "itkVTKPolyDataWriter.h"
 
-int main(int, char* [] )
+int main( int, char* [] )
 {
   constexpr double height = 100;
   constexpr double width = 100;
-  
+
   using VoronoiDiagramType = itk::VoronoiDiagram2D<double>;
   using VoronoiGeneratorType = itk::VoronoiDiagram2DGenerator<double>;
 
@@ -30,32 +30,32 @@ int main(int, char* [] )
   seed0[0] = 50;
   seed0[1] = 50;
   seeds.push_back(seed0);
-  
+
   PointType seed1;
   seed1[0] = 25;
   seed1[1] = 25;
   seeds.push_back(seed1);
-  
+
   PointType seed2;
   seed2[0] = 75;
   seed2[1] = 25;
   seeds.push_back(seed2);
-  
+
   PointType seed3;
   seed3[0] = 25;
   seed3[1] = 75;
   seeds.push_back(seed3);
-  
+
   PointType seed4;
   seed4[0] = 75;
   seed4[1] = 75;
   seeds.push_back(seed4);
-  
+
   for(const auto & seed : seeds)
     {
     voronoiGenerator->AddOneSeed(seed);
     }
-  
+
   voronoiGenerator->Update();
   voronoiDiagram = voronoiGenerator->GetOutput();
 
@@ -97,10 +97,10 @@ int main(int, char* [] )
 
   // Write the resulting mesh
   using WriterType = itk::VTKPolyDataWriter<VoronoiDiagramType::Superclass>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(voronoiDiagram);
-  writer->SetFileName("voronoi.vtk");
-  writer->Update();
+  WriterType::Pointer vtkPolyDataWriter = WriterType::New();
+  vtkPolyDataWriter->SetInput(voronoiDiagram);
+  vtkPolyDataWriter->SetFileName("voronoi.vtk");
+  vtkPolyDataWriter->Update();
 
   // Setup an image to visualize the input
   {
@@ -135,16 +135,16 @@ int main(int, char* [] )
   ind[0] = 25;
   ind[1] = 75;
   image->SetPixel(ind, 255);
-  
+
   ind[0] = 75;
   ind[1] = 75;
   image->SetPixel(ind, 255);
 
   using ImageWriterType = itk::ImageFileWriter< ImageType  >;
-  ImageWriterType::Pointer writer = ImageWriterType::New();
-  writer->SetFileName("image.png");
-  writer->SetInput(image);
-  writer->Update();
+  ImageWriterType::Pointer imageFileWriter = ImageWriterType::New();
+  imageFileWriter->SetFileName("image.png");
+  imageFileWriter->SetInput(image);
+  imageFileWriter->Update();
   }
 
   return EXIT_SUCCESS;
