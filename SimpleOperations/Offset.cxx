@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-int main(int argc, char *argv[])
+int main( int, char* [] )
 {
   itk::Index<2> index;
   index[0] = 5;
