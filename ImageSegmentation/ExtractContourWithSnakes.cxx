@@ -179,7 +179,7 @@ void createImage(ImageType::Pointer image,
   size[1] = h;
 
   itk::RandomImageSource<ImageType>::Pointer randomImageSource = itk::RandomImageSource<ImageType>::New();
-  randomImageSource->SetNumberOfThreads(1); // to produce non-random results
+  randomImageSource->SetNumberOfWorkUnits(1); // to produce non-random results
   randomImageSource->SetSize(size);
   randomImageSource->SetMin(200);
   randomImageSource->SetMax(255);
