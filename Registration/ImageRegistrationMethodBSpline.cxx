@@ -66,8 +66,8 @@ int main( int argc, char *argv[] )
 
 
   // The old registration framework has problems with multi-threading
-  // For now, we set the number of threads to 1
-  registration->SetNumberOfThreads(1);
+  // For now, we set the number of work units to 1
+  registration->SetNumberOfWorkUnits(1);
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );

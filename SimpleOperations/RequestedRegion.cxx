@@ -18,7 +18,7 @@ int main(int, char *[])
   bigSize.Fill(10000);
   
   itk::RandomImageSource<ImageType>::Pointer randomImageSource = itk::RandomImageSource<ImageType>::New();
-  randomImageSource->SetNumberOfThreads(1); // to produce non-random results
+  randomImageSource->SetNumberOfWorkUnits(1); // to produce non-random results
   randomImageSource->SetSize(bigSize);
   randomImageSource->GetOutput()->SetRequestedRegion(smallSize);
   randomImageSource->Update();
