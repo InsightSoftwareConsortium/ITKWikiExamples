@@ -4,7 +4,7 @@
 #include "itkVectorImage.h"
 #include "itkImageFileWriter.h"
 
-int main (void)
+int main ()
 {
   constexpr unsigned int ParametricDimension = 1;
   constexpr unsigned int DataDimension = 2;

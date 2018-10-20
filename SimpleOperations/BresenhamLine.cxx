@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 
 #include <iostream>
 
-static void Vector(void);
-static void Line(void);
+static void Vector();
+static void Line();
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-void Vector(void)
+void Vector()
 {
 
   itk::BresenhamLine<2> line;
@@ -41,7 +41,7 @@ void Vector(void)
 
 }
 
-void Line(void)
+void Line()
 {
 
   itk::BresenhamLine<2> line;
