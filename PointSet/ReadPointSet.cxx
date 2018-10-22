@@ -48,8 +48,6 @@ int main( int argc, char *argv[] )
 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 
-  PointType  point;
-
   std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
 
   unsigned int numberOfPoints = mesh->GetNumberOfPoints();
@@ -70,13 +68,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  /*
-  for(unsigned int i=0; i<numberOfPoints; i++)
-    {
-    mesh->GetPoint(i, &point);
-    }
-  */
-  
   // Retrieve points
   for(unsigned int i = 0; i < numberOfPoints; i++)
     {

@@ -270,8 +270,6 @@ void CreateEllipseImage(ImageType::Pointer image)
   transform->SetIdentity();
 
   TransformType::OutputVectorType  translation;
-  TransformType::CenterType        center;
-
   translation[ 0 ] =  65;
   translation[ 1 ] =  45;
   transform->Translate( translation, false );
@@ -322,8 +320,6 @@ void CreateCircleImage(ImageType::Pointer image)
   transform->SetIdentity();
 
   TransformType::OutputVectorType  translation;
-  TransformType::CenterType        center;
-
   translation[ 0 ] =  50;
   translation[ 1 ] =  50;
   transform->Translate( translation, false );

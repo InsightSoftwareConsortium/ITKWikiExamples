@@ -55,8 +55,6 @@ int main( int argc, char *argv[] )
   transform->SetIdentity();
 
   TransformType::OutputVectorType  translation;
-  TransformType::CenterType        center;
-
   translation[ 0 ] =  size[0] * spacing[0] / 2.0;
   translation[ 1 ] =  size[1] * spacing[1] / 4.0;
   transform->Translate( translation, false );

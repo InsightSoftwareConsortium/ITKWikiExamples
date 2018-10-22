@@ -107,7 +107,7 @@ static PyObject *
 ascii_escape_str(PyObject *pystr);
 static PyObject *
 py_encode_basestring_ascii(PyObject* self UNUSED, PyObject *pystr);
-void init_speedups(void);
+void init_speedups();
 static PyObject *
 scan_once_str(PyScannerObject *s, PyObject *pystr, Py_ssize_t idx, Py_ssize_t *next_idx_ptr);
 static PyObject *
@@ -2535,7 +2535,7 @@ PyDoc_STRVAR(module_doc,
 "simplejson speedups\n");
 
 void
-init_speedups(void)
+init_speedups()
 {
     PyObject *m, *decimal;
     PyScannerType.tp_new = PyType_GenericNew;
