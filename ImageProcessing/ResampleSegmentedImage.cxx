@@ -34,7 +34,7 @@ int main( int argc, char * argv[] )
     
     return EXIT_FAILURE;
     }
-  double spacing = atof(argv[2]);
+  double spacing = std::stod(argv[2]);
  
   using ReaderType = itk::ImageFileReader<ImageType>;
  

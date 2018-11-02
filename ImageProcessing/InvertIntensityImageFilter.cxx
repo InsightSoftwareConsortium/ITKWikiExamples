@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     desc << itksys::SystemTools::GetFilenameName(argv[1]);
     if (argc > 2)
       {
-      maximum = atoi(argv[2]);
+      maximum = std::stoi(argv[2]);
       }
     }
   else

@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   unsigned int radius = 2;
   if (argc > 2)
     {
-    radius = atoi(argv[2]);
+    radius = std::stoi(argv[2]);
     }
 
   using ImageType = itk::Image<unsigned char, 2>;

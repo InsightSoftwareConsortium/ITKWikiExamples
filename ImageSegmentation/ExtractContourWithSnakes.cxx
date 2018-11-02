@@ -82,12 +82,12 @@ int main( int argc, char* argv[] )
   int nPoints = 20;
   double sigma;
 
-  nPoints = atoi(argv[1]);
-  alpha = atof(argv[2]);
-  beta = atof(argv[3]);
-  gamma = atof(argv[4]);
-  sigma = atof(argv[5]);
-  iterations = atoi(argv[6]);
+  nPoints = std::stoi(argv[1]);
+  alpha = std::stod(argv[2]);
+  beta = std::stod(argv[3]);
+  gamma = std::stod(argv[4]);
+  sigma = std::stod(argv[5]);
+  iterations = std::stoi(argv[6]);
 
   // Temporal variables
   vnl_matrix<double> P;

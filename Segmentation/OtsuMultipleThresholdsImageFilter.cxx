@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     reader->Update();
     if (argc > 2)
       {
-      numberOfThresholds = atoi(argv[2]);
+      numberOfThresholds = std::stoi(argv[2]);
       }
     image = reader->GetOutput();
     }

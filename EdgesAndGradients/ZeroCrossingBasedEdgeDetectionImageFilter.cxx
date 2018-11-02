@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
   double var = 5.0;
   if (argc > 2)
     {
-    var = atof(argv[2]);
+    var = std::stod(argv[2]);
     }
 
     // Parse command line arguments

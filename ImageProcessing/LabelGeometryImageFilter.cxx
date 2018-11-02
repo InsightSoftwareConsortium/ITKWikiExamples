@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
     intensityImage = intensityReader->GetOutput();
 
-    label = atoi(argv[3]);
+    label = std::stoi(argv[3]);
     }
 
   // NOTE: As of April 8, 2015 the filter does not work with non-zero

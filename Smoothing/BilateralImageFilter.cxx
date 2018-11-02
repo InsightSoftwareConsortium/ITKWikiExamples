@@ -18,11 +18,11 @@ int main(int argc, char * argv[])
   double domainSigma = 2.0;
   if (argc > 2)
     {
-    domainSigma = atof(argv[2]);
+    domainSigma = std::stod(argv[2]);
     }
   if (argc > 3)
     {
-    rangeSigma = atof(argv[3]);
+    rangeSigma = std::stod(argv[3]);
     }
 
   // Parse command line arguments

@@ -21,8 +21,8 @@ int main( int argc, char * argv [] )
   //parse command line arguments
   const char * inputImageFileName = argv[1];
   const char * outputImageFileName = argv[2];
-  const unsigned int useNonContiguousLabels = atoi( argv[3] );
-  const unsigned int numberOfInitialClasses = atoi( argv[4] );
+  const unsigned int useNonContiguousLabels = std::stoi( argv[3] );
+  const unsigned int numberOfInitialClasses = std::stoi( argv[4] );
   
   constexpr unsigned int argoffset = 5;
 
@@ -39,7 +39,7 @@ int main( int argc, char * argv [] )
   std::vector<double> userMeans;
   for( unsigned k = 0; k < numberOfInitialClasses; k++ )
     {
-    const double userProvidedInitialMean = atof( argv[k+argoffset] );
+    const double userProvidedInitialMean = std::stod( argv[k+argoffset] );
     userMeans.push_back(userProvidedInitialMean);
     }
     

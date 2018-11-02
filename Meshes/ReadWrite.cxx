@@ -23,7 +23,7 @@ int main(int argc, char * argv[] )
   // If the integer is less than zero, zero will be used.
   // If the integer is greater than seven, seven will be used.
   int i = 0;
-  if (argc == 2) i = atoi(argv[1]);
+  if (argc == 2) i = std::stoi(argv[1]);
   i = std::max(std::min(i,8),0);
 
   // Create a string using the appropriate file extension.

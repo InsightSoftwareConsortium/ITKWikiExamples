@@ -33,8 +33,8 @@ int main( int argc, char *argv[])
 
   // Set seed
   ImageType::IndexType seed;
-  seed[0] = atoi(argv[2]);
-  seed[1] = atoi(argv[3]);
+  seed[0] = std::stoi(argv[2]);
+  seed[1] = std::stoi(argv[3]);
   confidenceConnectedFilter->SetSeed(seed);
   confidenceConnectedFilter->SetInput(reader->GetOutput());
 

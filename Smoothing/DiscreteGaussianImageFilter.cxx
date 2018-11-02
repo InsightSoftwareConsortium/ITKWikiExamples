@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
   double variance = 4.0;
   if (argc > 2)
     {
-    variance = atof(argv[2]);
+    variance = std::stod(argv[2]);
     }
 
   // Setup types

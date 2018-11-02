@@ -144,9 +144,9 @@ int main( int argc, char* argv[] )
   // used. The size (# of pixels) in the output is recomputed using
   // the ratio of the input and output sizes.
   InputImageType::SpacingType outputSpacing;
-  outputSpacing[0] = atof(argv[3]);
-  outputSpacing[1] = atof(argv[4]);
-  outputSpacing[2] = atof(argv[5]);
+  outputSpacing[0] = std::stod(argv[3]);
+  outputSpacing[1] = std::stod(argv[4]);
+  outputSpacing[2] = std::stod(argv[5]);
 
   bool changeInSpacing = false;
   for (unsigned int i = 0; i < 3; i++)

@@ -65,7 +65,7 @@ int main( int argc, char *argv[])
   RelabelFilterType::ObjectSizeType minSize = 20;
   if (argc > 3)
     {
-    minSize = atoi(argv[3]);
+    minSize = std::stoi(argv[3]);
     }
   relabel->SetInput(connected->GetOutput());
   relabel->SetMinimumObjectSize(minSize);

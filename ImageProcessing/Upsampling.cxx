@@ -113,8 +113,8 @@ int main( int argc, char * argv[] )
   //     done at step 2 there:
   //       http://itk.org/Wiki/ITK/Examples/DICOM/ResampleDICOM)
   //
-  unsigned int nNewWidth = atoi(argv[3]);
-  unsigned int nNewHeight = atoi(argv[4]);
+  unsigned int nNewWidth = std::stoi(argv[3]);
+  unsigned int nNewHeight = std::stoi(argv[4]);
  
   // Fetch original image size.
   const T_Image::RegionType& inputRegion = 

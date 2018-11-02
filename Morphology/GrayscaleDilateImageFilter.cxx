@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   unsigned int radius = 2;
   if (argc > 2)
     {
-    radius = atoi(argv[2]);
+    radius = std::stoi(argv[2]);
     }
 
   std::string inputFilename = argv[1];
