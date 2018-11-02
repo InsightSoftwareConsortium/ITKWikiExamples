@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
   double sigma = 4.0;
   if (argc > 2)
     {
-    sigma = atof(argv[2]);
+    sigma = std::stod(argv[2]);
     }
 
 

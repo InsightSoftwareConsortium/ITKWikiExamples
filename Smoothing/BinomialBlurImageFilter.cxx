@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
   int repetitions = 2;
   if (argc > 2)
     {
-    repetitions = atoi(argv[2]);
+    repetitions = std::stoi(argv[2]);
     }
 
   // Setup types

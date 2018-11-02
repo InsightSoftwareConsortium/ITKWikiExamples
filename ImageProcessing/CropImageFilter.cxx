@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
     reader->SetFileName( argv[1] );
     if (argc > 2)
       {
-      cropSize[0] = atoi(argv[2]);
-      cropSize[1] = atoi(argv[3]);
+      cropSize[0] = std::stoi(argv[2]);
+      cropSize[1] = std::stoi(argv[3]);
       }
     reader->Update();
     image = reader->GetOutput();

@@ -18,7 +18,7 @@ int main( int argc, char *argv[])
   int iterations = 5;
   if (argc > 2)
     {
-    iterations = atoi(argv[2]);
+    iterations = std::stoi(argv[2]);
     }
 
   using InternalPixelType = float;

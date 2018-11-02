@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
   double beta = 10.0;
   if (argc > 2)
     {
-    alpha = atof(argv[2]);
+    alpha = std::stod(argv[2]);
     }
   if (argc > 3)
     {
-    beta = atof(argv[3]);
+    beta = std::stod(argv[3]);
     }
 
   using ImageType = itk::Image<unsigned char, 2>;

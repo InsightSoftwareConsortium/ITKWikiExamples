@@ -15,13 +15,13 @@ int main(int argc, char*argv[])
   unsigned int numberOfBins = 50;
   if (argc > 3)
     {
-    numberOfBins = atoi(argv[2]);
+    numberOfBins = std::stoi(argv[2]);
     }
 
   unsigned int radius = 2;
   if (argc > 4)
     {
-    radius = atoi(argv[3]);
+    radius = std::stoi(argv[3]);
     }
 
   using ImageType = itk::Image<unsigned char, 2>;

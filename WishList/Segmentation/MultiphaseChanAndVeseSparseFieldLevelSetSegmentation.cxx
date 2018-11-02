@@ -24,11 +24,11 @@ int main(int argc, char**argv)
   unsigned int nb_iteration = 50;
   double rms = 0.;
   double epsilon = 1.5;
-  double curvature_weight = atof( argv[6] );
-  double area_weight = atof( argv[7] );
-  double volume_weight = atof( argv[8] );
-  double volume = atof( argv[9] );
-  double overlap_weight = atof( argv[10] );
+  double curvature_weight = std::stod( argv[6] );
+  double area_weight = std::stod( argv[7] );
+  double volume_weight = std::stod( argv[8] );
+  double volume = std::stod( argv[9] );
+  double overlap_weight = std::stod( argv[10] );
   double l1 = 1.;
   double l2 = 1.;
 

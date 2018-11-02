@@ -121,10 +121,10 @@ int main(int argc, char**argv)
 
   InternalImageType::IndexType  seedPosition;
 
-  seedPosition[0] = atoi( argv[3] );
-  seedPosition[1] = atoi( argv[4] );
+  seedPosition[0] = std::stoi( argv[3] );
+  seedPosition[1] = std::stoi( argv[4] );
 
-  const double initialDistance = atof( argv[5] );
+  const double initialDistance = std::stod( argv[5] );
 
   NodeType node;
 

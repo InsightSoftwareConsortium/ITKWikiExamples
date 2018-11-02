@@ -21,15 +21,15 @@ int main(int argc, char *argv[])
   double lowerThreshold = 0.0;
   if (argc > 2)
     {
-    variance = atof(argv[2]);
+    variance = std::stod(argv[2]);
     }
   if (argc > 3)
     {
-    lowerThreshold = atof(argv[3]);
+    lowerThreshold = std::stod(argv[3]);
     }
   if (argc > 4)
     {
-    upperThreshold = atof(argv[4]);
+    upperThreshold = std::stod(argv[4]);
     }
 
   using DoubleImageType = itk::Image<double, 2>;

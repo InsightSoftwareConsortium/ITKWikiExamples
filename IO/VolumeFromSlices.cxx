@@ -25,8 +25,8 @@ int main( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  const unsigned int first = atoi( argv[2] );
-  const unsigned int last  = atoi( argv[3] );
+  const unsigned int first = std::stoi( argv[2] );
+  const unsigned int last  = std::stoi( argv[3] );
 
   const char * outputFilename = argv[4];
 

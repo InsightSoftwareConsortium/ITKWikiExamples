@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
   int upperThreshold = 30;
   if (argc > 2)
     {
-    lowerThreshold = atoi(argv[2]);
+    lowerThreshold = std::stoi(argv[2]);
     }
   if (argc > 3)
     {
-    upperThreshold = atoi(argv[3]);
+    upperThreshold = std::stoi(argv[3]);
     }
 
   using ImageType = itk::Image<unsigned char, 2>;

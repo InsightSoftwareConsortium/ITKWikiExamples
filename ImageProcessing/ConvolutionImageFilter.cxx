@@ -23,7 +23,7 @@ int main(int argc, char * argv[])
   unsigned int width = 3;
   if (argc > 2)
     {
-    width = atoi(argv[2]);
+    width = std::stoi(argv[2]);
     }
 
   ImageType::Pointer kernel = ImageType::New();

@@ -15,7 +15,7 @@ int main (int argc, char *argv[])
   double percent = .1;
   if (argc > 3)
     {
-    percent = atof(argv[3]);
+    percent = std::stod(argv[3]);
     if (percent >= 1.0)
       {
       percent /= 100.0;

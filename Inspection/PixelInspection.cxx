@@ -34,8 +34,8 @@ int main( int argc, char * argv [] )
 
   ImageType::IndexType index;
 
-  index[0] = atoi( argv[2] );
-  index[1] = atoi( argv[3] );
+  index[0] = std::stoi( argv[2] );
+  index[1] = std::stoi( argv[3] );
 
   const PixelType value = inputImage->GetPixel( index );
 
