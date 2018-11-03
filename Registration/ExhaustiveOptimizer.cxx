@@ -96,7 +96,7 @@ int main (int argc, char *argv[])
   optimizer->SetNumberOfSteps( steps );
 
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
-  scales[0] = 2.0 * vnl_math::pi / angles;
+  scales[0] = 2.0 * itk::Math::pi / angles;
   scales[1] = 1.0;
   scales[2] = 1.0; 
 

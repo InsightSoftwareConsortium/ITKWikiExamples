@@ -67,8 +67,8 @@ void CreateImage(ImageType::Pointer image)
 
           double rr = r - 100.0;
 
-          double v1 = 200.0 - vcl_sqrt( rr*rr + c1*c1 );
-          double v2 = 150.0 - vcl_sqrt( rr*rr + c2*c2 );
+          double v1 = 200.0 - std::sqrt( rr*rr + c1*c1 );
+          double v2 = 150.0 - std::sqrt( rr*rr + c2*c2 );
 
           if( v1 > 190.0 ) v1 = 190.0;
           if( v2 > 140.0 ) v2 = 140.0;

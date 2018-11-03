@@ -3,7 +3,7 @@
 #include "itkVariableLengthVector.h"
 #include "itkRigid2DTransform.h"
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 template< class TInput, class TOutput>
 class RotateVectors
@@ -29,7 +29,7 @@ public:
       typedef itk::Rigid2DTransform< float > TransformType;
 
       TransformType::Pointer transform = TransformType::New();
-      transform->SetAngle(vnl_math::pi/2.0);
+      transform->SetAngle(itk::Math::pi/2.0);
 
       VectorType outputV = transform->TransformVector(v);
       TOutput transformedVector;
