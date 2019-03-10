@@ -25,7 +25,7 @@ using ImageType = itk::Image< PixelType, ImageDimension >;
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
 
-int main( int argc, char *argv[] )
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
 
   const unsigned int SpaceDimension = ImageDimension;

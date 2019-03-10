@@ -12,7 +12,7 @@ using ImageType = itk::Image< PixelType, Dimension >;
 static void CreateFixedImage(ImageType::Pointer image);
 static void CreateMovingImage(ImageType::Pointer image);
   
-int main(int argc, char * argv[])
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   using VectorComponentType = float;
 

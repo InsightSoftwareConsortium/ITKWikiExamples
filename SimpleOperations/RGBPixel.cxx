@@ -1,7 +1,7 @@
 #include <itkImage.h>
 #include <itkRGBPixel.h>
 
-int main(int argc, char *argv[])
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGBImageType = itk::Image<RGBPixelType>;

@@ -12,7 +12,7 @@ using RGBImageType = itk::Image<RGBPixelType, 2>;
 using FloatImageType = itk::Image<float, 2>;
 using UnsignedCharImageType = itk::Image<unsigned char, 2>;
 
-int main( int argc, char *argv[])
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   FloatImageType::Pointer image = FloatImageType::New();
 
