@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 static void Vector();
 static void Line();
 
-int main(int argc, char *argv[])
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   Vector();
   Line();

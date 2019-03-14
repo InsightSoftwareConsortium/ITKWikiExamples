@@ -8,7 +8,7 @@
 
 #include <complex>
 
-int main( int argc, char *argv[] )
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   using ImageType = itk::Image<unsigned char, 2>;
   using ComplexImageType = itk::Image<std::complex<float>, 2>;

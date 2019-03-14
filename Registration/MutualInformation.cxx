@@ -19,7 +19,7 @@ using ImageType = itk::Image< PixelType, Dimension >;
 static void CreateEllipseImage(ImageType::Pointer image);
 static void CreateCircleImage(ImageType::Pointer image);
 
-int main( int argc, char *argv[] )
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   // Generate synthetic fixed and moving images
   ImageType::Pointer  fixedImage = ImageType::New();

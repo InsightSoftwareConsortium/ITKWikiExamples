@@ -1,6 +1,6 @@
 #include "itkBlobSpatialObject.h"
 
-int main( int argc, char *argv[] )
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   using BlobType = itk::BlobSpatialObject<2>;
 

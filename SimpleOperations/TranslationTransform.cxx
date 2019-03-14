@@ -11,7 +11,7 @@ using ImageType = itk::Image<unsigned char, 2>;
 
 static void CreateImage(ImageType::Pointer image);
 
-int main(int argc, char *argv[])
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   ImageType::Pointer image = ImageType::New();
   CreateImage(image);

@@ -3,7 +3,7 @@
 #include "itkLineSpatialObjectPoint.h"
 #include "itkImageFileWriter.h"
 
-int main( int argc, char *argv[] )
+int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
   using PixelType = unsigned char;
   constexpr unsigned int Dimension = 2;
