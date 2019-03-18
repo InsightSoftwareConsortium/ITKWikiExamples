@@ -14,8 +14,6 @@ static void CreateMovingImage(ImageType::Pointer image);
   
 int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
-  using VectorComponentType = float;
-
   ImageType::Pointer fixedImage = ImageType::New();
   CreateFixedImage(fixedImage);
   
