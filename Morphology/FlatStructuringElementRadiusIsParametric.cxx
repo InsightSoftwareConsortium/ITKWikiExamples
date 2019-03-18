@@ -169,7 +169,7 @@ bool ComputeAreaError(SEType k, unsigned int thickness)
   std::cout << "Expected foreground area: " << expectedForegroundArea << std::endl;
   std::cout << "Computed foreground area: " << computedForegroundArea << std::endl;
   std::cout << "Foreground area error: "
-  << 100 * vnl_math_abs(expectedForegroundArea-computedForegroundArea)/expectedForegroundArea
+  << 100 * std::abs(expectedForegroundArea-computedForegroundArea)/expectedForegroundArea
   << "%" << "\n\n";
   
   return EXIT_FAILURE;
