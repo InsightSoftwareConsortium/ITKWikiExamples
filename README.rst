@@ -1,3 +1,13 @@
+ITKWikiExamples
+===============
+
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKWikiExamples?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=8&branchName=master
+    :alt:    Build Status
+
+Overview
+--------
+
 The ITK WikiExamples can be built in several ways:
 
 1) A single example - go to the example page and follow instrutions
