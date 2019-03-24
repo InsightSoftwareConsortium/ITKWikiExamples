@@ -2,7 +2,7 @@ ITKWikiExamples
 ===============
 
 .. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKWikiExamples?branchName=master
-    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=8&branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=18&branchName=master
     :alt:    Build Status
 
 Overview
