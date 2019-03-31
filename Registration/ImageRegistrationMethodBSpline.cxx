@@ -287,7 +287,7 @@ void CreateEllipseImage(ImageType::Pointer image)
   EllipseType::ArrayType radiusArray;
   radiusArray[0] = 10;
   radiusArray[1] = 20;
-  ellipse->SetRadius(radiusArray);
+  ellipse->SetRadiusInObjectSpace(radiusArray);
 
   using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();
@@ -337,7 +337,7 @@ void CreateCircleImage(ImageType::Pointer image)
   EllipseType::ArrayType radiusArray;
   radiusArray[0] = 10;
   radiusArray[1] = 10;
-  ellipse->SetRadius(radiusArray);
+  ellipse->SetRadiusInObjectSpace(radiusArray);
 
   using TransformType = EllipseType::TransformType;
   TransformType::Pointer transform = TransformType::New();

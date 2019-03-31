@@ -43,8 +43,8 @@ int main( int argc, char *argv[] )
   EllipseType::ArrayType radiusArray;
   radiusArray[0] = 10;
   radiusArray[1] = 20;
-  //ellipse->SetRadius(  size[0] * 0.2 * spacing[0] );
-  ellipse->SetRadius(radiusArray);
+  //ellipse->SetRadiusInObjectSpace(  size[0] * 0.2 * spacing[0] );
+  ellipse->SetRadiusInObjectSpace(radiusArray);
 
   // Position the ellipse
 
