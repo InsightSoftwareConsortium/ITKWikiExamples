@@ -31,7 +31,7 @@ vnl_vector<double> generateCircle(double cx, double cy,
 void createImage(ImageType::Pointer image,
                  int w, int h, double cx, double cy, double rx, double ry);
 vnl_matrix<double> computeP(double alpha, double beta, double gamma,
-                            double N) throw (...);
+                            double N) throw();
 vnl_vector<double> sampleImage(vnl_vector<double> x, vnl_vector<double> y,
                                OutputImageType::Pointer gradient,
                                int position);
@@ -210,7 +210,7 @@ void createImage(ImageType::Pointer image,
     }
 }
 
-vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) throw (...)
+vnl_matrix<double> computeP(double alpha, double beta, double gamma, double N) throw ()
 {
 
   double a = gamma*(2*alpha + 6*beta)+1;

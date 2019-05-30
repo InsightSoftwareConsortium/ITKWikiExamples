@@ -21,12 +21,12 @@ int main( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
   for(unsigned int i = 0; i < 20; i++)
     {
     LineType::LinePointType point;
-    point.SetPosition(10,i);
+    point.SetPositionInObjectSpace(10,i);
 
-    LineType::LinePointType::VectorType normal;
+    LineType::LinePointType::CovariantVectorType normal;
     normal[0] = 0;
     normal[1] = 1;
-    point.SetNormal(normal,0);
+    point.SetNormalInObjectSpace(normal,0);
     points.push_back(point);
     }
 
