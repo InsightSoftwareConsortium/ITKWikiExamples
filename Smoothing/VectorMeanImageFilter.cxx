@@ -4,7 +4,7 @@
 #include "itkImageFileReader.h"
 #include "itkRGBPixel.h"
 #include "itkVector.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 
 #include "itksys/SystemTools.hxx"
 
@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   using FilterType = itk::MeanImageFilter<ImageType, ImageType >;
-  using CastType = itk::VectorCastImageFilter<ImageType, RGBImageType>;
+  using CastType = itk::CastImageFilter<ImageType, RGBImageType>;
 
   // Create and setup a reader
   ReaderType::Pointer reader = ReaderType::New();

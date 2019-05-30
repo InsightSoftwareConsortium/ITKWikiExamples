@@ -58,7 +58,6 @@ set(NEEDS_ARGS
   ResampleSegmentedImage
   RescaleIntensityImageFilter
   RGBToLuminanceImageFilter
-  RGBResampleImageFilter
   ScalarConnectedComponentImageFilter
   ShapeAttributes
   SigmoidImageFilter
@@ -129,9 +128,6 @@ add_test(${KIT}-RGBToLuminanceImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KI
 
 add_test(${KIT}-ResampleSegmentedImage ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestResampleSegmentedImage ${DATA}/BinaryImageWithVariousShapes01.png 2)
-
-add_test(${KIT}-RGBResampleImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
-  TestRGBResampleImageFilter ${DATA}/VHF001.png 10)
 
 add_test(${KIT}-ScalarConnectedComponentImageFilter ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${KIT}CxxTests
   TestScalarConnectedComponentImageFilter ${DATA}/cthead1.png 4 100)
